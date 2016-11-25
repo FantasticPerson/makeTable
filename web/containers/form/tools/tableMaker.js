@@ -28,6 +28,7 @@ export default class tableMaker2 extends Object{
         this.mergeTr = mergeTr;
         this.getRelatedItemsSplitTd = getRelatedItemsSplitTd;
         this.getMaxCommonDivisor = getMaxCommonDivisor;
+        this.getRelatedItemSplitTr = getRelatedItemSplitTr;
     }
 }
 export function setContent(){}
@@ -69,6 +70,13 @@ export function getRelatedItemsSplitTd(item){
     });
 }
 
+export function getRelatedItemSplitTr(item){
+    const {x,y,cols,rows} = item.posInfo;
+    return this.tds.filter((item1)=>{
+        return item1 != item && item1.posInfo.y == y;
+    })
+}
+
 export function mergeTd(id,id2){
     let item1 = this.tds.find((item)=>{
         return item.id == id;
@@ -103,7 +111,7 @@ export function splitTr(id){
         let itemsRow = this.tds.filter((item)=>{
             return item.y > y;
         });
-        let itemsTpExpand = this.getRelatedItemsSplitTd(tdItem);
+        let itemsTpExpand = this.getRelatedItemSplitTr(tdItem);
         for(let i=0;i<itemsTpExpand.length;i++){
             itemsTpExpand[i].posInfo.rows *= 2;
         }
@@ -123,8 +131,20 @@ export function splitTr(id){
     }
 }
 
-export function mergeTr(){
-
+export function mergeTr(id1,id2){
+    let item1 = this.tds.find((item)=>{
+        return item.id == id1;
+    });
+    let item2 = this.tds.find((item)=>{
+        return item.id == id2;
+    });
+    let beforeItem = item1.posInfo.y > item2.posInfo.y ? item2 : item1;
+    let afterItem = beforeItem == item1 ? item2 : item1;
+    let relatedItem = this.getRelatedItemSplitTr(beforeItem);
+    this.tds.splice(this.tds.indexOf(afterItem),1);
+    for(let i=0;i<relatedItem.length;i++){
+        relatedItem[i].posInfo.rows = 1;
+    }
 }
 
 export function getNode(){

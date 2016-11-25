@@ -46,11 +46,11 @@ class FormPage extends Component{
     }
 
     clickMergeTr(){
-        // const {tableObj} = this.state;
-        // if(tableObj){
-        //     tableObj.mergeTd(21,22);
-        //     this.setState({tableObj:tableObj});
-        // }
+        const {tableObj} = this.state;
+        if(tableObj){
+            tableObj.mergeTr(21,22);
+            this.setState({tableObj:tableObj});
+        }
     }
 
     render(){
