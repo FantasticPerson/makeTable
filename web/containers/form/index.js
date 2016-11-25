@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import ToolBar from './components/toolbar'
 import NumberPicker from '../../components/numberPicker'
 import reactElementToJSXString  from 'react-element-to-jsx-string'
-import tableMaker from './tools/tableMaker'
+import tableMaker from './utils/tableMaker'
 import jsxToString from 'jsx-to-string'
 
 class FormPage extends Component{
@@ -27,7 +27,7 @@ class FormPage extends Component{
     clickMerge(){
         const {tableObj} = this.state;
         if(tableObj){
-            tableObj.mergeTd(21,22);
+            tableObj.mergeTd(27,28);
             this.setState({tableObj:tableObj});
         }
     }
@@ -40,6 +40,7 @@ class FormPage extends Component{
     clickSplitTr(){
         const {tableObj} = this.state;
         if(tableObj){
+            console.log('is click splictTr');
             tableObj.splitTr(6);
             this.setState({tableObj:tableObj})
         }
@@ -48,7 +49,7 @@ class FormPage extends Component{
     clickMergeTr(){
         const {tableObj} = this.state;
         if(tableObj){
-            tableObj.mergeTr(21,22);
+            tableObj.mergeTr(6,21);
             this.setState({tableObj:tableObj});
         }
     }
