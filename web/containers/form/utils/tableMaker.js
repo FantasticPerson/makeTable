@@ -16,6 +16,8 @@ export default class tableMaker2 extends Object{
         this.getItemById = getItemById;
         this.getRowAndCol = getRowAndCol;
         this.getCols = getCols;
+        this.setTdSize = setTdSize;
+        this.setMockType = setMockType;
         this.onTdClick = onTdClick;
         this.id = 0;
         let tdArr = [];
@@ -24,114 +26,191 @@ export default class tableMaker2 extends Object{
         for(let i=0;i<num1;i++){
             tdArr[i] = [];
             for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i},this.id++,{width,height},0,this.onTdClick,null)
+                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,{width,height},0,this.onTdClick,null)
             }
         }
-        // this.tableHead = new tableHeadMaker(null,'sdf sdfsd sdf ');
         this.tds = tdArr;
     }
 }
 
 export function splitTd(id){
-    console.log('splitTd',id);
     let tdItem = this.getItemById(id);
     if(tdItem){
         const {x,y} = tdItem.posInfo;
-        this.tds = this.tds.map((item,index)=>{
-            let y1 = item[0].posInfo.y;
-            if(index != y) {
-                item.splice(x+1, 0, new tdMaker({x: x + 1, y:y1}, this.id++, {}, 1,this.onTdClick, null));
+        if(this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >=0){
+            for(let i = x+1;i<this.tds[y].length;i++){
+                if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
+                    this.setMockType(this.tds[y][i],false,true);
+                } else {
+                    break;
+                }
             }
-            return item.map((item1,index2)=>{
-                if(item1 == tdItem) {
-                    return;
-                }
-                if(index2 > x+1){
-                    item1.posInfo.x += 1;
-                }
-                if(x == item1.posInfo.x){
-                    item1.posInfo.cols += 1;
-                }
-                return item1;
-            });
-        });
-        const {width,height} = tdItem.style;
-        let width2 = Number(width.slice(0,-1))/2 + '%';
-        let tdObj1 = new tdMaker({x:x,y:y},this.id++,{width:width2,height},0,this.onTdClick,null);
-        let tdObj2 = new tdMaker({x:x+1,y:y},this.id++,{width:width2,height},0,this.onTdClick,null);
-        this.tds[tdItem.posInfo.y].splice(tdItem.posInfo.x,1,tdObj1,tdObj2);
+        } else {
+            return false;
+        }
+        this.setTdSize();
+        return true;
     }
 }
 
-export function mergeTd(id,id2){
-    let item1 = this.getItemById(id);
-    let item2 = this.getItemById(id2);
-    let previousItem = item1.posInfo.x > item2.posInfo.x ? item2 : item1;
-    let afterItem = item2 == previousItem ? item1 : item2;
-    const {x,y} = afterItem.posInfo;
-    afterItem.mockType = 1;
-    let mockNum = 0;
-    for(let i=0;i<this.tds.length;i++){
-        if(this.tds[i][x].mockType > 0){
-            mockNum++;
+export function mergeTd(tdArr){
+    let itemArr = tdArr.map(id=>{
+        return this.getItemById(id);
+    });
+    let isValid = true;
+    itemArr.sort(function (item1,item2) {//check选择的td是否在同一行
+        if(isValid && item1.posInfo.y != item2.posInfo.y){
+            isValid = false;
+        }
+        return item1.posInfo.x - item2.posInfo.x;
+    });
+    if(!isValid) {
+        return false;
+    }
+
+    if(isValid) {
+        const {y} = itemArr[0].posInfo;
+        let startX = itemArr[0].posInfo.x;
+        let endX = itemArr[itemArr.length-1].posInfo.x;
+        for (let i = startX+1; i < endX; i++) {//检查选择的td是否连续
+            if((this.tds[y][i].mockType == 0 && itemArr.indexOf(this.tds[y][i]) < 0) || this.tds[y][i].mockType == 2){
+                return false;
+            }
+        }
+        let cRow=0,cRow2=0;
+        for(let k=0;k<itemArr.length;k++){
+            let startX = itemArr[k].posInfo.x;
+            for(let j=itemArr[k].posInfo.y+1;j<this.tds.length;j++){
+                if(this.tds[j][startX].mockType >= 2){
+                    k == 0 ? cRow += 1 : cRow2+=1;
+                } else {
+                    break;
+                }
+            }
+            if( k != 0 && cRow != cRow2){
+                return false;
+            }
+        }
+        for(let i=startX+1;i<endX;i++){
+            this.setMockType(this.tds[y][i],true,true);
+        }
+        this.setMockType(itemArr[itemArr.length-1],true,true);
+    }
+    this.setTdSize();
+    return true;
+}
+
+export function setMockType(item,isAdd,isTd){
+    let cType = item.mockType;
+    if(isAdd){
+        if(isTd && (cType == 0 || cType == 2)){
+            item.mockType += 1;
+        } else if(!isTd && (cType == 0 || cType ==1)){
+            item.mockType += 2;
+        }
+    } else{
+        if(isTd && (cType == 1 || cType == 3)){
+            item.mockType -= 1;
+        } else if(!isTd && (cType == 2 || cType == 3)){
+            item.mockType -= 2;
         }
     }
-    if(mockNum == this.tds.length) {
-        for (let i = 0; i < this.tds.length; i++) {
-            this.tds[i].splice(x,1);
-            for(let j=x;j<this.tds[i].length;j++){
-                this.tds[i][j].posInfo.x -= 1;
+}
+
+export function setTdSize(){
+    let xLength = this.tds[0].length;
+    let yLength = this.tds.length;
+    for(let i = 0;i<yLength;i++){
+        for(let j=0;j<xLength;j++){
+            if(this.tds[i][j].mockType == 0) {
+                let cWidth = 1, cHeight = 1;
+                for(let k=j+1;k<xLength;k++){
+                    if([1,3].indexOf(this.tds[i][k].mockType) >= 0){
+                        cWidth += 1;
+                    } else {
+                        break;
+                    }
+                }
+                for(let l=i+1;l<yLength;l++){
+                    if([2,4].indexOf(this.tds[l][j].mockType) >= 0){
+                        cHeight += 1;
+                    } else {
+                        break;
+                    }
+                }
+                this.tds[i][j].posInfo.cCol = cWidth;
+                this.tds[i][j].posInfo.tCol = xLength;
+                this.tds[i][j].posInfo.cRow = cHeight;
+                this.tds[i][j].posInfo.tRow = yLength;
             }
         }
     }
-    let width1 = item1.style.width,width2 = item2.style.width;
-    previousItem.style.width = width1.slice(0,-1)+width2.slice(0,-1);
 }
 
 export function splitTr(id){
     let tdItem = this.getItemById(id);
     if(tdItem){
         const {x,y} = tdItem.posInfo;
-        const {width,height} = tdItem.style;
-        for(let i=y+1;i<this.tds.length;i++){
-            let arr = this.tds[i];
-            for(let j=0;j<arr.length;j++){
-                arr[j].posInfo.y += 1;
+        if(this.tds[y+1][x] && this.tds[y+1][x].mockType >= 2){
+            for(let i = y+1;i<this.tds.length;i++){
+                if(this.tds[i][x].mockType >= 2){
+                    this.setMockType(this.tds[i][x],false,false);
+                } else {
+                    break;
+                }
             }
+        } else {
+            return false;
         }
-        this.tds.splice(y+1,0,[]);
-        let height2 = Number(height.slice(0,-1))/2 + '%';
-        tdItem.style.height = height2;
-        let colNum = this.getCols();
-        for(let i = 0;i<colNum;i++){
-            let mockType = i == x ? 0 : 2;
-            this.tds[y+1].push(new tdMaker({x:i,y:y+1},this.id++,{width,height:height2},mockType,this.onTdClick,null));
-        }
+        this.setTdSize();
+        return true;
     }
 }
 
-export function mergeTr(id1,id2){
-    let item1 = this.getItemById(id1);
-    let item2 = this.getItemById(id2);
-    let beforeItem = item1.posInfo.y > item2.posInfo.y ? item2 : item1;
-    let afterItem = beforeItem == item1 ? item2 : item1;
-    afterItem.mockType = 2;
-    let colNum = this.getCols();
-    const {y} = afterItem.posInfo;
-    let rowNum = 0;
-    for(let i=0;i<colNum;i++){
-        if(this.tds[y][i].mockType > 0){
-            rowNum++;
+export function mergeTr(tdArr){
+    let itemArr = tdArr.map(id=>{
+        return this.getItemById(id);
+    });
+    let isValid = true;
+    itemArr.sort(function (item1,item2) {//check选择的td是否在同一行
+        if(isValid && item1.posInfo.x != item2.posInfo.x){
+            isValid = false;
         }
+        return item1.posInfo.x - item2.posInfo.x;
+    });
+    if(!isValid) {
+        return false;
     }
-    if(rowNum == colNum){
-        for(let i=y+1;i< this.tds.length;i++){
-            for(let j = 0;j<this.tds[i].length;j++){
-                this.tds[i][j].posInfo.y -= 1;
+    if(isValid) {
+        const {x} = itemArr[0].posInfo;
+        let startY = itemArr[0].posInfo.y;
+        let endY = itemArr[itemArr.length-1].posInfo.y;
+        for (let i = startY+1; i < endY; i++) {//检查选择的td是否连续
+            if(this.tds[i][x].mockType == 0 && itemArr.indexOf(this.tds[i][x]) < 0 || this.tds[i][x].mockType == 1){
+                return false;
             }
         }
-        this.tds.splice(y,1);
+        let cCol=0,cCol2=0;
+        for(let k=0;k<itemArr.length;k++){
+            let startY = itemArr[k].posInfo.y;
+            for(let j=itemArr[k].posInfo.x+1;j<this.tds[0].length;j++){
+                if([1,3].indexOf(this.tds[startY][j].mockType) >= 0){
+                    k == 0 ? cCol += 1 : cCol2+=1;
+                } else {
+                    break;
+                }
+            }
+            if( k != 0 && cCol != cCol2){
+                return false;
+            }
+        }
+        for(let i=startY+1;i<endY;i++){
+            this.setMockType(this.tds[i][x],true,false);
+        }
+        this.setMockType(itemArr[itemArr.length-1],true,false);
     }
+    this.setTdSize();
+    return true;
 }
 
 export function getItemById(id){

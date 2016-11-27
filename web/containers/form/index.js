@@ -17,11 +17,10 @@ class FormPage extends Component{
         this.tdIds = [];
     }
 
-    onTdItemClick(id,bool){
-        console.log(id,bool);
-        if(this.tdIds.indexOf(id) >= 0 && !bool){
+    onTdItemClick(id){
+        if(this.tdIds.indexOf(id) >= 0){
             this.tdIds.splice(this.tdIds.indexOf(id),1);
-        } else if(this.tdIds.indexOf(id) < 0 && bool){
+        } else if(this.tdIds.indexOf(id) < 0){
             this.tdIds.push(id);
         }
         console.log(this.tdIds);
@@ -29,7 +28,6 @@ class FormPage extends Component{
 
     clickSplitTd(){
         if(this.tdIds.length == 1) {
-
             console.log('clickSplite');
             const {tableObj} = this.state;
             if (tableObj) {
@@ -46,8 +44,14 @@ class FormPage extends Component{
         if(this.tdIds.length > 1) {
             const {tableObj} = this.state;
             if (tableObj) {
-                tableObj.mergeTd(27, 28);
-                this.setState({tableObj: tableObj});
+                let isSuccess = tableObj.mergeTd(this.tdIds);
+                console.log('isSuccess',isSuccess);
+                if(isSuccess) {
+                    this.setState({tableObj: tableObj});
+                } else {
+
+                }
+                this.tdIds = [];
             }
         } else {
 
@@ -76,8 +80,14 @@ class FormPage extends Component{
         if(this.tdIds.length > 1) {
             const {tableObj} = this.state;
             if (tableObj) {
-                tableObj.mergeTr(6, 21);
-                this.setState({tableObj: tableObj});
+                let isSuccess = tableObj.mergeTr(this.tdIds);
+                console.log('isSuccess',isSuccess);
+                if(isSuccess) {
+                    this.setState({tableObj: tableObj});
+                } else {
+
+                }
+                this.tdIds = [];
             }
         } else {
 
