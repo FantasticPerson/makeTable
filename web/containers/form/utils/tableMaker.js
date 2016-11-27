@@ -6,20 +6,8 @@ import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
 export default class tableMaker2 extends Object{
-    constructor(num1,num2,style){
+    constructor(num1,num2,onTdClick,style){
         super();
-        this.id = 0;
-        let tdArr = [];
-        let width = 1/num2 * 100 + '%';
-        let height = 1/num1 * 100 + '%';
-        for(let i=0;i<num1;i++){
-            tdArr[i] = [];
-            for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i},this.id++,{width,height},0,null)
-            }
-        }
-        // this.tableHead = new tableHeadMaker(null,'sdf sdfsd sdf ');
-        this.tds = tdArr;
         this.getNode = getNode;
         this.splitTd = splitTd;
         this.mergeTd = mergeTd;
@@ -28,17 +16,31 @@ export default class tableMaker2 extends Object{
         this.getItemById = getItemById;
         this.getRowAndCol = getRowAndCol;
         this.getCols = getCols;
+        this.onTdClick = onTdClick;
+        this.id = 0;
+        let tdArr = [];
+        let width = 1/num2 * 100 + '%';
+        let height = 1/num1 * 100 + '%';
+        for(let i=0;i<num1;i++){
+            tdArr[i] = [];
+            for(let j=0;j<num2;j++){
+                tdArr[i][j] = new tdMaker({x:j,y:i},this.id++,{width,height},0,this.onTdClick,null)
+            }
+        }
+        // this.tableHead = new tableHeadMaker(null,'sdf sdfsd sdf ');
+        this.tds = tdArr;
     }
 }
 
 export function splitTd(id){
+    console.log('splitTd',id);
     let tdItem = this.getItemById(id);
     if(tdItem){
         const {x,y} = tdItem.posInfo;
         this.tds = this.tds.map((item,index)=>{
             let y1 = item[0].posInfo.y;
             if(index != y) {
-                item.splice(x+1, 0, new tdMaker({x: x + 1, y:y1}, this.id++, {}, 1, null));
+                item.splice(x+1, 0, new tdMaker({x: x + 1, y:y1}, this.id++, {}, 1,this.onTdClick, null));
             }
             return item.map((item1,index2)=>{
                 if(item1 == tdItem) {
@@ -55,8 +57,8 @@ export function splitTd(id){
         });
         const {width,height} = tdItem.style;
         let width2 = Number(width.slice(0,-1))/2 + '%';
-        let tdObj1 = new tdMaker({x:x,y:y},this.id++,{width:width2,height},0,null);
-        let tdObj2 = new tdMaker({x:x+1,y:y},this.id++,{width:width2,height},0,null);
+        let tdObj1 = new tdMaker({x:x,y:y},this.id++,{width:width2,height},0,this.onTdClick,null);
+        let tdObj2 = new tdMaker({x:x+1,y:y},this.id++,{width:width2,height},0,this.onTdClick,null);
         this.tds[tdItem.posInfo.y].splice(tdItem.posInfo.x,1,tdObj1,tdObj2);
     }
 }
@@ -103,7 +105,7 @@ export function splitTr(id){
         let colNum = this.getCols();
         for(let i = 0;i<colNum;i++){
             let mockType = i == x ? 0 : 2;
-            this.tds[y+1].push(new tdMaker({x:i,y:y+1},this.id++,{width,height:height2},mockType,null));
+            this.tds[y+1].push(new tdMaker({x:i,y:y+1},this.id++,{width,height:height2},mockType,this.onTdClick,null));
         }
     }
 }

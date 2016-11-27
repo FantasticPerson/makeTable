@@ -14,43 +14,73 @@ class FormPage extends Component{
         super();
         this.state = {col:7,row:3,tableObj:null};
         this.tableObj = null;
+        this.tdIds = [];
     }
 
-    clickSplit(){
-        const {tableObj} = this.state;
-        if(tableObj){
-            tableObj.splitTd(6);
-            this.setState({tableObj:tableObj})
+    onTdItemClick(id,bool){
+        console.log(id,bool);
+        if(this.tdIds.indexOf(id) >= 0 && !bool){
+            this.tdIds.splice(this.tdIds.indexOf(id),1);
+        } else if(this.tdIds.indexOf(id) < 0 && bool){
+            this.tdIds.push(id);
+        }
+        console.log(this.tdIds);
+    }
+
+    clickSplitTd(){
+        if(this.tdIds.length == 1) {
+
+            console.log('clickSplite');
+            const {tableObj} = this.state;
+            if (tableObj) {
+                tableObj.splitTd(this.tdIds[0]);
+                this.setState({tableObj: tableObj})
+            }
+            this.tdIds = [];
+        } else {
+
         }
     }
 
-    clickMerge(){
-        const {tableObj} = this.state;
-        if(tableObj){
-            tableObj.mergeTd(27,28);
-            this.setState({tableObj:tableObj});
+    clickMergeTd(){
+        if(this.tdIds.length > 1) {
+            const {tableObj} = this.state;
+            if (tableObj) {
+                tableObj.mergeTd(27, 28);
+                this.setState({tableObj: tableObj});
+            }
+        } else {
+
         }
     }
 
     clickGenerate(){
-        let tableObj2 = new tableMaker(7,3,null);
+        let tableObj2 = new tableMaker(7,3,this.onTdItemClick.bind(this),null);
         this.setState({tableObj:tableObj2});
     }
 
     clickSplitTr(){
-        const {tableObj} = this.state;
-        if(tableObj){
-            console.log('is click splictTr');
-            tableObj.splitTr(6);
-            this.setState({tableObj:tableObj})
+        if(this.tdIds.length == 1) {
+            const {tableObj} = this.state;
+            if (tableObj) {
+                tableObj.splitTr(this.tdIds[0]);
+                this.setState({tableObj: tableObj})
+            }
+            this.tdIds = [];
+        } else {
+
         }
     }
 
     clickMergeTr(){
-        const {tableObj} = this.state;
-        if(tableObj){
-            tableObj.mergeTr(6,21);
-            this.setState({tableObj:tableObj});
+        if(this.tdIds.length > 1) {
+            const {tableObj} = this.state;
+            if (tableObj) {
+                tableObj.mergeTr(6, 21);
+                this.setState({tableObj: tableObj});
+            }
+        } else {
+
         }
     }
 
@@ -62,8 +92,8 @@ class FormPage extends Component{
                 <ToolBar>
                     <div style={{display:'flex',flexDirection:'row'}}>
                         <div onClick={()=>{this.clickGenerate()}}>生成</div>
-                        <div onClick={()=>{this.clickSplit()}}>td分离</div>
-                        <div onClick={()=>{this.clickMerge()}}>td组合</div>
+                        <div onClick={()=>{this.clickSplitTd()}}>td分离</div>
+                        <div onClick={()=>{this.clickMergeTd()}}>td组合</div>
                         <div onClick={()=>{this.clickSplitTr()}}>tr分离</div>
                         <div onClick={()=>{this.clickMergeTr()}}>tr组合</div>
                     </div>
