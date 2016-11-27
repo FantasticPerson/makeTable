@@ -98,6 +98,7 @@ export function mergeTd(tdArr){
         }
         let cRow=0,cRow2=0;
         for(let k=0;k<itemArr.length;k++){
+            cRow2 = 0;
             let startX = itemArr[k].posInfo.x;
             for(let j=itemArr[k].posInfo.y+1;j<this.tds.length;j++){
                 if(this.tds[j][startX].mockType >= 2){
@@ -167,23 +168,24 @@ export function setTdSize(){
 }
 
 export function splitTr(id){
-    let tdItem = this.getItemById(id);
-    if(tdItem){
-        const {x,y} = tdItem.posInfo;
-        if(this.tds[y+1][x] && this.tds[y+1][x].mockType >= 2){
-            for(let i = y+1;i<this.tds.length;i++){
-                if(this.tds[i][x].mockType >= 2){
-                    this.setMockType(this.tds[i][x],false,false);
-                } else {
-                    break;
-                }
-            }
-        } else {
-            return false;
-        }
-        this.setTdSize();
-        return true;
-    }
+    return this.splitTd(id);
+    // let tdItem = this.getItemById(id);
+    // if(tdItem){
+    //     const {x,y} = tdItem.posInfo;
+    //     if(this.tds[y+1][x] && this.tds[y+1][x].mockType >= 2){
+    //         for(let i = y+1;i<this.tds.length;i++){
+    //             if(this.tds[i][x].mockType >= 2){
+    //                 this.setMockType(this.tds[i][x],false,false);
+    //             } else {
+    //                 break;
+    //             }
+    //         }
+    //     } else {
+    //         return false;
+    //     }
+    //     this.setTdSize();
+    //     return true;
+    // }
 }
 
 export function mergeTr(tdArr){
@@ -212,6 +214,7 @@ export function mergeTr(tdArr){
         let cCol=0,cCol2=0;
         for(let k=0;k<itemArr.length;k++){
             let startY = itemArr[k].posInfo.y;
+            cCol2 = 0;
             for(let j=itemArr[k].posInfo.x+1;j<this.tds[0].length;j++){
                 if([1,3].indexOf(this.tds[startY][j].mockType) >= 0){
                     k == 0 ? cCol += 1 : cCol2+=1;
