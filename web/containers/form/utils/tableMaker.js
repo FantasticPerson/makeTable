@@ -37,12 +37,31 @@ export function splitTd(id){
     let tdItem = this.getItemById(id);
     if(tdItem){
         const {x,y} = tdItem.posInfo;
-        if(this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >=0){
-            for(let i = x+1;i<this.tds[y].length;i++){
-                if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
-                    this.setMockType(this.tds[y][i],false,true);
-                } else {
-                    break;
+        if((this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >= 0) || (this.tds[y+1][x] && this.tds[y+1][x].mockType >=2)){
+            let xLength = 0,yLength =0;
+            if([1,3].indexOf(this.tds[y][x+1].mockType) >=0){
+                for(let i = x+1;i<this.tds[y].length;i++){
+                    if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
+                        this.tds[y][i].mockType = 0;
+                        xLength++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if(this.tds[y+1][x].mockType >=2){
+                for(let i = y+1;i<this.tds.length;i++){
+                    if(this.tds[i][x].mockType >=2 ){
+                        this.tds[i][x].mockType = 0;
+                        yLength++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            for(let i=0;i<xLength;i++){
+                for(let j=0;j<yLength;j++){
+                    this.tds[y+j+1][x+i+1].mockType = 0;
                 }
             }
         } else {
