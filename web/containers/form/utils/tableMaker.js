@@ -9,10 +9,9 @@ export default class tableMaker2 extends Object{
     constructor(num1,num2,onTdClick,style){
         super();
         this.getNode = getNode;
-        this.splitTd = splitTd;
         this.mergeTd = mergeTd;
-        this.splitTr = splitTr;
         this.mergeTr = mergeTr;
+        this.split = split;
         this.getItemById = getItemById;
         this.getRowAndCol = getRowAndCol;
         this.getCols = getCols;
@@ -30,45 +29,6 @@ export default class tableMaker2 extends Object{
             }
         }
         this.tds = tdArr;
-    }
-}
-
-export function splitTd(id){
-    let tdItem = this.getItemById(id);
-    if(tdItem){
-        const {x,y} = tdItem.posInfo;
-        if((this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >= 0) || (this.tds[y+1][x] && this.tds[y+1][x].mockType >=2)){
-            let xLength = 0,yLength =0;
-            if([1,3].indexOf(this.tds[y][x+1].mockType) >=0){
-                for(let i = x+1;i<this.tds[y].length;i++){
-                    if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
-                        this.tds[y][i].mockType = 0;
-                        xLength++;
-                    } else {
-                        break;
-                    }
-                }
-            }
-            if(this.tds[y+1][x].mockType >=2){
-                for(let i = y+1;i<this.tds.length;i++){
-                    if(this.tds[i][x].mockType >=2 ){
-                        this.tds[i][x].mockType = 0;
-                        yLength++;
-                    } else {
-                        break;
-                    }
-                }
-            }
-            for(let i=0;i<xLength;i++){
-                for(let j=0;j<yLength;j++){
-                    this.tds[y+j+1][x+i+1].mockType = 0;
-                }
-            }
-        } else {
-            return false;
-        }
-        this.setTdSize();
-        return true;
     }
 }
 
@@ -120,6 +80,93 @@ export function mergeTd(tdArr){
     return true;
 }
 
+export function mergeTr(tdArr){
+    let itemArr = tdArr.map(id=>{
+        return this.getItemById(id);
+    });
+    let isValid = true;
+    itemArr.sort(function (item1,item2) {//check选择的td是否在同一行
+        if(isValid && item1.posInfo.x != item2.posInfo.x){
+            isValid = false;
+        }
+        return item1.posInfo.x - item2.posInfo.x;
+    });
+    if(!isValid) {
+        return false;
+    }
+    if(isValid) {
+        const {x} = itemArr[0].posInfo;
+        let startY = itemArr[0].posInfo.y;
+        let endY = itemArr[itemArr.length-1].posInfo.y;
+        for (let i = startY+1; i < endY; i++) {//检查选择的td是否连续
+            if(this.tds[i][x].mockType == 0 && itemArr.indexOf(this.tds[i][x]) < 0 || this.tds[i][x].mockType == 1){
+                return false;
+            }
+        }
+        let cCol=0,cCol2=0;
+        for(let k=0;k<itemArr.length;k++){
+            let startY = itemArr[k].posInfo.y;
+            cCol2 = 0;
+            for(let j=itemArr[k].posInfo.x+1;j<this.tds[0].length;j++){
+                if([1,3].indexOf(this.tds[startY][j].mockType) >= 0){
+                    k == 0 ? cCol += 1 : cCol2+=1;
+                } else {
+                    break;
+                }
+            }
+            if( k != 0 && cCol != cCol2){
+                return false;
+            }
+        }
+        for(let i=startY+1;i<endY;i++){
+            this.setMockType(this.tds[i][x],true,false);
+        }
+        this.setMockType(itemArr[itemArr.length-1],true,false);
+    }
+    this.setTdSize();
+    return true;
+}
+
+export function split(id){
+    let tdItem = this.getItemById(id);
+    if(tdItem){
+        const {x,y} = tdItem.posInfo;
+        if((this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >= 0) || (this.tds[y+1][x] && this.tds[y+1][x].mockType >=2)){
+            let xLength = 0,yLength =0;
+            if([1,3].indexOf(this.tds[y][x+1].mockType) >=0){
+                for(let i = x+1;i<this.tds[y].length;i++){
+                    if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
+                        this.tds[y][i].mockType = 0;
+                        xLength++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if(this.tds[y+1][x].mockType >=2){
+                for(let i = y+1;i<this.tds.length;i++){
+                    if(this.tds[i][x].mockType >=2 ){
+                        this.tds[i][x].mockType = 0;
+                        yLength++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            for(let i=0;i<xLength;i++){
+                for(let j=0;j<yLength;j++){
+                    this.tds[y+j+1][x+i+1].mockType = 0;
+                }
+            }
+        } else {
+            return false;
+        }
+        this.setTdSize();
+        return true;
+    }
+}
+
+
 export function setMockType(item,isAdd,isTd){
     let cType = item.mockType;
     if(isAdd){
@@ -167,73 +214,6 @@ export function setTdSize(){
     }
 }
 
-export function splitTr(id){
-    return this.splitTd(id);
-    // let tdItem = this.getItemById(id);
-    // if(tdItem){
-    //     const {x,y} = tdItem.posInfo;
-    //     if(this.tds[y+1][x] && this.tds[y+1][x].mockType >= 2){
-    //         for(let i = y+1;i<this.tds.length;i++){
-    //             if(this.tds[i][x].mockType >= 2){
-    //                 this.setMockType(this.tds[i][x],false,false);
-    //             } else {
-    //                 break;
-    //             }
-    //         }
-    //     } else {
-    //         return false;
-    //     }
-    //     this.setTdSize();
-    //     return true;
-    // }
-}
-
-export function mergeTr(tdArr){
-    let itemArr = tdArr.map(id=>{
-        return this.getItemById(id);
-    });
-    let isValid = true;
-    itemArr.sort(function (item1,item2) {//check选择的td是否在同一行
-        if(isValid && item1.posInfo.x != item2.posInfo.x){
-            isValid = false;
-        }
-        return item1.posInfo.x - item2.posInfo.x;
-    });
-    if(!isValid) {
-        return false;
-    }
-    if(isValid) {
-        const {x} = itemArr[0].posInfo;
-        let startY = itemArr[0].posInfo.y;
-        let endY = itemArr[itemArr.length-1].posInfo.y;
-        for (let i = startY+1; i < endY; i++) {//检查选择的td是否连续
-            if(this.tds[i][x].mockType == 0 && itemArr.indexOf(this.tds[i][x]) < 0 || this.tds[i][x].mockType == 1){
-                return false;
-            }
-        }
-        let cCol=0,cCol2=0;
-        for(let k=0;k<itemArr.length;k++){
-            let startY = itemArr[k].posInfo.y;
-            cCol2 = 0;
-            for(let j=itemArr[k].posInfo.x+1;j<this.tds[0].length;j++){
-                if([1,3].indexOf(this.tds[startY][j].mockType) >= 0){
-                    k == 0 ? cCol += 1 : cCol2+=1;
-                } else {
-                    break;
-                }
-            }
-            if( k != 0 && cCol != cCol2){
-                return false;
-            }
-        }
-        for(let i=startY+1;i<endY;i++){
-            this.setMockType(this.tds[i][x],true,false);
-        }
-        this.setMockType(itemArr[itemArr.length-1],true,false);
-    }
-    this.setTdSize();
-    return true;
-}
 
 export function getItemById(id){
     for(let i=0;i<this.tds.length;i++){

@@ -28,10 +28,9 @@ class FormPage extends Component{
 
     clickSplitTd(){
         if(this.tdIds.length == 1) {
-            console.log('clickSplite');
             const {tableObj} = this.state;
             if (tableObj) {
-                tableObj.splitTd(this.tdIds[0]);
+                tableObj.split(this.tdIds[0]);
                 this.setState({tableObj: tableObj})
             }
             this.tdIds = [];
@@ -67,7 +66,7 @@ class FormPage extends Component{
         if(this.tdIds.length == 1) {
             const {tableObj} = this.state;
             if (tableObj) {
-                tableObj.splitTr(this.tdIds[0]);
+                tableObj.split(this.tdIds[0]);
                 this.setState({tableObj: tableObj})
             }
             this.tdIds = [];
