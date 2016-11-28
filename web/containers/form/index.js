@@ -4,10 +4,12 @@
 import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ToolBar from './components/toolbar'
-import NumberPicker from '../../components/numberPicker'
+// import NumberPicker from '../../components/numberPicker'
 import reactElementToJSXString  from 'react-element-to-jsx-string'
 import tableMaker from './utils/tableMaker'
 import jsxToString from 'jsx-to-string'
+
+import NumberPicker from './components/number-picker';
 
 class FormPage extends Component{
     constructor(){
@@ -43,7 +45,7 @@ class FormPage extends Component{
         if(this.tdIds.length > 1) {
             const {tableObj} = this.state;
             if (tableObj) {
-                let isSuccess = tableObj.mergeTd(this.tdIds);
+                let isSuccess = tableObj.merge(this.tdIds);
                 console.log('isSuccess',isSuccess);
                 if(isSuccess) {
                     this.setState({tableObj: tableObj});
@@ -79,7 +81,7 @@ class FormPage extends Component{
         if(this.tdIds.length > 1) {
             const {tableObj} = this.state;
             if (tableObj) {
-                let isSuccess = tableObj.mergeTr(this.tdIds);
+                let isSuccess = tableObj.merge(this.tdIds);
                 console.log('isSuccess',isSuccess);
                 if(isSuccess) {
                     this.setState({tableObj: tableObj});
@@ -98,14 +100,14 @@ class FormPage extends Component{
         let node = tableObj ? tableObj.getNode() : null;
         return(
             <div className="true-form-container">
-                <ToolBar>
-                    <div style={{display:'flex',flexDirection:'row'}}>
-                        <div onClick={()=>{this.clickGenerate()}}>生成</div>
-                        <div onClick={()=>{this.clickSplitTd()}}>td分离</div>
-                        <div onClick={()=>{this.clickMergeTd()}}>td组合</div>
-                        <div onClick={()=>{this.clickSplitTr()}}>tr分离</div>
-                        <div onClick={()=>{this.clickMergeTr()}}>tr组合</div>
-                    </div>
+                <ToolBar style={{position:'absolute'}}>
+                    {/*<div style={{display:'flex',flexDirection:'row'}}>*/}
+                        {/*<div onClick={()=>{this.clickGenerate()}}>生成</div>*/}
+                        {/*<div onClick={()=>{this.clickSplitTd()}}>td分离</div>*/}
+                        {/*<div onClick={()=>{this.clickMergeTd()}}>td组合</div>*/}
+                        {/*<div onClick={()=>{this.clickSplitTr()}}>tr分离</div>*/}
+                        {/*<div onClick={()=>{this.clickMergeTr()}}>tr组合</div>*/}
+                    {/*</div>*/}
                 </ToolBar>
                 <div className="true-form-body-container">
                     <div className="true-form-body-form-container">

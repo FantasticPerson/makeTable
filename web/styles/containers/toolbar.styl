@@ -1,5 +1,97 @@
+@import "../common.styl"
+
 .true-form-tool-bar-container
+  @extend .display-flex-row
   width: 100%;
   height: 50px;
   background-color: #FFFFFF;
+  align-items center
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+.true-form-edit-edit-container
+.true-form-custom-style-icon-container
+.true-form-tool-icon-container
+  @extend .display-flex-row-center
+  background-color #FFFFFF //DEEAFA
+  height 20px
+  border-radius 3px
+  padding 4px
+  border 1px solid #EEEEEE
+  margin-left 10px
+
+.true-form-edit-edit-text
+.true-form-custom-style-text
+.true-form-tool-text
+  margin-left 3px
+
+.true-form-tool-bar-edit-container
+  background-color #FFFFFF
+  border 1px solid #EEEEEE
+  position: absolute;
+  width: 100px;
+  margin-top: 45px;
+  margin-left: 20px;
+
+.true-form-edit-element-icon-container
+.true-form-edit-display-icon-container
+.true-form-edit-preview-icon-container
+.true-form-edit-source-icon-container
+  @extend .display-flex-row
+  height 26px
+  align-items center
+
+.true-form-sub-tool-bar-container
+  position absolute
+
+.true-form-edit-icon-style
+  margin-left 3px
+
+.true-form-edit-icon-sub-container
+  position absolute
+
+.true-form-tool-bar-edit-display-container
+  margin-left: 105px;
+  margin-top: -80px;
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  width 180px
+
+.true-form-tool-bar-edit-display-header
+  background-color: #EEF6FC;
+  height: 20px;
+
+.true-form-tool-bar-edit-display-header-text
+  color: #6998D6;
+  line-height: 20px;
+  text-align: center;
+  width 60px
+
+.true-form-tool-bar-edit-display-body-row
+.true-form-tool-bar-edit-display-body-col
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  height: 43px;
+  border-bottom: 1px solid #999999;
+  padding-bottom 10px
+
+.true-form-tool-bar-edit-display-body-col-text
+.true-form-tool-bar-edit-display-body-row-text
+  margin-left 6px
+
+
+.true-form-tool-bar-edit-display-confirm-btn
+  width: 60px;
+  height: 30px;
+  background-color: #6998D6;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 30px;
+  margin-top: 10px;
+  font-size: 15px;
+  color: #FFFFFF;
+
 

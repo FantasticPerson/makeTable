@@ -13,6 +13,24 @@
   color #fff
   cursor pointer
 
+.display-flex-row
+  display flex
+  flex-direction row
+
+.display-flex-column
+  display flex
+  flex-direction row
+
+.display-flex-row-center
+  @extend .display-flex-row
+  justify-content center
+  align-items center
+
+.display-flex-column-center
+  @extend .display-flex-column
+  justify-content center
+  align-items center
+
 .tr-common-button-gray
   @extend .tr-common-button
   background-color rgb(120, 121, 121)

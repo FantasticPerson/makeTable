@@ -11,10 +11,9 @@ export default class tableMaker2 extends Object{
         this.getNode = getNode;
         this.mergeTd = mergeTd;
         this.mergeTr = mergeTr;
+        this.merge = merge;
         this.split = split;
         this.getItemById = getItemById;
-        this.getRowAndCol = getRowAndCol;
-        this.getCols = getCols;
         this.setTdSize = setTdSize;
         this.setMockType = setMockType;
         this.onTdClick = onTdClick;
@@ -32,6 +31,66 @@ export default class tableMaker2 extends Object{
     }
 }
 
+export function merge(tdArr) {
+    let isSuccess = this.mergeTd(tdArr);
+    if(isSuccess){
+        return true;
+    } else {
+        isSuccess = this.mergeTr(tdArr);
+        return isSuccess;
+    }
+}
+
+export function merge2(tdArr){
+    let itemArr = tdArr.map(id=>{
+        return this.getItemById(id);
+    });
+    let itemArr2 = [],yArr=[];
+    for(let i=0;i<itemArr.length;i++){
+        if(yArr.indexOf(itemArr[i].posInfo.y) < 0){
+            yArr.push(itemArr[i].posInfo.y);
+            itemArr2.push([]);
+        }
+        let index = yArr.indexOf(itemArr[i].posInfo.y);
+        itemArr2[index].push(itemArr[i]);
+    }
+    let isValid = true;
+    itemArr2.sort(function(item1,item2){
+        item1.sort(function(item3,item4){
+            return item3.posInfo.x - item4.posInfo.x;
+        });
+        item2.sort(function(item5,item6){
+            return item5.posInfo.x - item6.posInfo.x;
+        });
+        isValid = isValid && (item1.length == item2.length);
+        return item1[0].posInfo.y - item2[0].posInfo.y;
+    });
+    if(!isValid){
+        return false;
+    }
+    console.log(itemArr2);
+    for(let j=0;j<itemArr2[0].length;j++){
+        for(let i=1;i<itemArr.length;i++){
+            if(itemArr[i-1][j].posInfo.x != itemArr[i][j].posInfo.x){
+                return false;
+            }
+        }
+    }
+    for(let i=0;i<itemArr.length;i++){
+        let startX = itemArr[i][0].posInfo.x;
+        let endX = itemArr[i][itemArr[i].length-1].posInfo.x;
+        for(let j=startX+1;j<endX;j++){
+
+        }
+    }
+    for(let i=0;i<itemArr2.length;i++){
+        if(!isValid){
+            break;
+        }
+
+    }
+}
+
 export function mergeTd(tdArr){
     let itemArr = tdArr.map(id=>{
         return this.getItemById(id);
@@ -46,7 +105,6 @@ export function mergeTd(tdArr){
     if(!isValid) {
         return false;
     }
-
     if(isValid) {
         const {y} = itemArr[0].posInfo;
         let startX = itemArr[0].posInfo.x;
@@ -89,7 +147,7 @@ export function mergeTr(tdArr){
         if(isValid && item1.posInfo.x != item2.posInfo.x){
             isValid = false;
         }
-        return item1.posInfo.x - item2.posInfo.x;
+        return item1.posInfo.y - item2.posInfo.y;
     });
     if(!isValid) {
         return false;
@@ -166,7 +224,6 @@ export function split(id){
     }
 }
 
-
 export function setMockType(item,isAdd,isTd){
     let cType = item.mockType;
     if(isAdd){
@@ -212,8 +269,8 @@ export function setTdSize(){
             }
         }
     }
+    console.log(this.tds);
 }
-
 
 export function getItemById(id){
     for(let i=0;i<this.tds.length;i++){
@@ -226,43 +283,10 @@ export function getItemById(id){
     return null;
 }
 
-export function getRowAndCol(item){
-    if(item.mockType != 0){
-        return {};
-    }
-    const {x,y} = item.posInfo;
-    let tdArr = this.tds[y];
-    let rows = 1,cols=1;
-    for(let i=x+1;i<tdArr.length;i++){
-        if(tdArr[i].mockType == 1){
-            cols++;
-        } else {
-            break;
-        }
-    }
-    for(let j=y+1;j<this.tds.length;j++){
-        if (this.tds[j][x].mockType == 2) {
-            rows++;
-        } else {
-            break;
-        }
-    }
-    return {rows,cols};
-}
-
-export function getCols(){
-    let cols = 0;
-    this.tds.map(item=>{
-        cols = item.length > cols ? item.length : cols;
-    });
-    return cols;
-}
-
-
 export function getNode(){
     const trArr = this.tds.map((tdSub,index)=>{
        const tdArr = tdSub.map((item,index1)=>{
-           return item.getNode(this.getRowAndCol(item),index1);
+           return item.getNode({},index1);
        });
        return (<tr key={index}>{tdArr}</tr>)
     });
