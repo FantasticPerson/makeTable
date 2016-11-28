@@ -22,6 +22,10 @@ export default class NumberPicker extends Component{
         }
     }
 
+    getNumber(){
+        return this.state.number;
+    }
+
     render(){
         const {onChange} = this.props;
         const {number} = this.state;

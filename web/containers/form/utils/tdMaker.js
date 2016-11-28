@@ -26,9 +26,14 @@ export function getNode(tbInfo,index=0){
         let width = cCol / tCol * 100 + '%';
         let style = {width,height,...this.pStyle};
         let bgColor = choose ? '#eeeeee' : '#ffffff';
-        return (<td colSpan={cCol} key={index} rowSpan={cRow} style={{...style,backgroundColor:bgColor}} onClick={()=>{
-            this.onTdClick(this.id);
-        }}>{this.content}</td>)
+        return (<td colSpan={cCol} key={index} rowSpan={cRow} style={{...style,backgroundColor:bgColor}}
+                    onClick={()=>{
+                        this.onTdClick(this.id);
+                    }} onContextMenu={(e)=>{
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }}
+        >{this.content}</td>)
     }
 
     return null;

@@ -13,7 +13,8 @@ export default class ToolBarEdit extends Component{
     renderSubTool(){
         const {cTool} = this.state;
         if(cTool == 'display'){
-            return (<ToolBarEditDisplay/>);
+            const {clickGenerateTable} = this.props;
+            return (<ToolBarEditDisplay clickGenerateTable={clickGenerateTable} onConfirmClick={this.onConfirmClicked.bind(this)}/>);
         }
     }
 
@@ -21,6 +22,10 @@ export default class ToolBarEdit extends Component{
         const {cTool} = this.state;
         let name2 = (cTool == name ? null : name);
         this.setState({cTool:name2});
+    }
+
+    onConfirmClicked(){
+        this.setState({cTool:null});
     }
 
     getStyleByName(name){

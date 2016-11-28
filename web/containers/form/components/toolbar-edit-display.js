@@ -9,6 +9,13 @@ export default class ToolBarEditDisplay extends Component{
         super();
     }
 
+    onConfirmClickHandler(){
+        const {clickGenerateTable,onConfirmClick} = this.props;
+        const {numberPicker1,numberPicker2} = this.refs;
+        clickGenerateTable(numberPicker1.getNumber(),numberPicker2.getNumber());
+        onConfirmClick();
+    }
+
     render(){
         const {} = this.props;
         return (
@@ -20,16 +27,16 @@ export default class ToolBarEditDisplay extends Component{
                     <div className="true-form-tool-bar-edit-display-body-row">
                         <div className="true-form-tool-bar-edit-display-body-row-text">{'行数:'}</div>
                         <div className="true-form-tool-bar-edit-display-body-row-picker">
-                            <NumberPicker/>
+                            <NumberPicker ref="numberPicker1"/>
                         </div>
                     </div>
                     <div className="true-form-tool-bar-edit-display-body-col">
                         <div className="true-form-tool-bar-edit-display-body-col-text">{'列数:'}</div>
                         <div className="true-form-tool-bar-edit-display-body-col-picker">
-                            <NumberPicker/>
+                            <NumberPicker ref="numberPicker2"/>
                         </div>
                     </div>
-                    <div className="true-form-tool-bar-edit-display-confirm-btn" style={{marginLeft:'60px'}}>{'插入'}</div>
+                    <div className="true-form-tool-bar-edit-display-confirm-btn" onClick={()=>{this.onConfirmClickHandler()}} style={{marginLeft:'60px'}}>{'插入'}</div>
                 </div>
             </div>
         )

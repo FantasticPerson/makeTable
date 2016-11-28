@@ -59,8 +59,8 @@ class FormPage extends Component{
         }
     }
 
-    clickGenerate(){
-        let tableObj2 = new tableMaker(7,3,this.onTdItemClick.bind(this),null);
+    clickGenerateTable(num1,num2){
+        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),null);
         this.setState({tableObj:tableObj2});
     }
 
@@ -100,7 +100,7 @@ class FormPage extends Component{
         let node = tableObj ? tableObj.getNode() : null;
         return(
             <div className="true-form-container">
-                <ToolBar style={{position:'absolute'}}>
+                <ToolBar style={{position:'absolute'}} clickGenerateTable={this.clickGenerateTable.bind(this)}>
                     {/*<div style={{display:'flex',flexDirection:'row'}}>*/}
                         {/*<div onClick={()=>{this.clickGenerate()}}>生成</div>*/}
                         {/*<div onClick={()=>{this.clickSplitTd()}}>td分离</div>*/}

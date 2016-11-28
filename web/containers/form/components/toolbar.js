@@ -13,7 +13,8 @@ export default class ToolBar extends Component{
     renderSubTool(){
         const {subTool} = this.state;
         if(subTool == 'edit'){
-            return (<ToolbarEdit/>)
+            const {style,clickGenerateTable} = this.props;
+            return (<ToolbarEdit clickGenerateTable={clickGenerateTable}/>)
         }
     }
 
@@ -33,7 +34,7 @@ export default class ToolBar extends Component{
     }
 
     render(){
-        const {style} = this.props;
+        const {style,clickGenerateTable} = this.props;
         let styleEdit = this.getStyleByName('edit');
         let styleStyle = this.getStyleByName('style');
         let styleTool = this.getStyleByName('tool');
