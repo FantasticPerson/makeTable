@@ -10,6 +10,8 @@ import tableMaker from './utils/tableMaker'
 import jsxToString from 'jsx-to-string'
 
 import NumberPicker from './components/number-picker';
+import {showOverLayByName,removeOverLayByName} from '../../actions/view'
+import * as overLayNames from '../../constants/OverLayNames'
 
 class FormPage extends Component{
     constructor(){
@@ -25,10 +27,13 @@ class FormPage extends Component{
         } else if(this.tdIds.indexOf(id) < 0){
             this.tdIds.push(id);
         }
+        const {tableObj} = this.state;
+        this.setState({tableObj: tableObj});
         console.log(this.tdIds);
     }
 
     clickSplitTd(){
+        this.props.dispatch(removeOverLayByName(overLayNames.FORM_MENU_MODAL));
         if(this.tdIds.length == 1) {
             const {tableObj} = this.state;
             if (tableObj) {
@@ -42,6 +47,7 @@ class FormPage extends Component{
     }
 
     clickMergeTd(){
+        this.props.dispatch(removeOverLayByName(overLayNames.FORM_MENU_MODAL));
         if(this.tdIds.length > 1) {
             const {tableObj} = this.state;
             if (tableObj) {
@@ -60,7 +66,7 @@ class FormPage extends Component{
     }
 
     clickGenerateTable(num1,num2){
-        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),null);
+        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onRightClick.bind(this),null);
         this.setState({tableObj:tableObj2});
     }
 
@@ -95,9 +101,17 @@ class FormPage extends Component{
         }
     }
 
+    onRightClick(data){
+        this.props.dispatch(showOverLayByName(overLayNames.FORM_MENU_MODAL,{posInfo:data,merge:this.clickMergeTd.bind(this),split:this.clickSplitTd.bind(this),cancel:this.onMenuCancel.bind(this)}));
+    }
+
+    onMenuCancel(){
+        this.props.dispatch(removeOverLayByName(overLayNames.FORM_MENU_MODAL));
+    }
+
     render(){
         const {col,row,tableObj} = this.state;
-        let node = tableObj ? tableObj.getNode() : null;
+        let node = tableObj ? tableObj.getNode(this.tdIds) : null;
         return(
             <div className="true-form-container">
                 <ToolBar style={{position:'absolute'}} clickGenerateTable={this.clickGenerateTable.bind(this)}>

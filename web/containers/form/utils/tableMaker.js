@@ -6,7 +6,7 @@ import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
 export default class tableMaker2 extends Object{
-    constructor(num1,num2,onTdClick,style){
+    constructor(num1,num2,onTdClick,onRightClick,style){
         super();
         this.getNode = getNode;
         this.mergeTd = mergeTd;
@@ -16,6 +16,7 @@ export default class tableMaker2 extends Object{
         this.getItemById = getItemById;
         this.setTdSize = setTdSize;
         this.setMockType = setMockType;
+        this.onRightClick = onRightClick;
         this.onTdClick = onTdClick;
         this.id = 0;
         let tdArr = [];
@@ -24,7 +25,7 @@ export default class tableMaker2 extends Object{
         for(let i=0;i<num1;i++){
             tdArr[i] = [];
             for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,{width,height},0,this.onTdClick,null)
+                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,{width,height},0,this.onTdClick,this.onRightClick,null)
             }
         }
         this.tds = tdArr;
@@ -283,13 +284,21 @@ export function getItemById(id){
     return null;
 }
 
-export function getNode(){
-    const trArr = this.tds.map((tdSub,index)=>{
-       const tdArr = tdSub.map((item,index1)=>{
-           return item.getNode({},index1);
-       });
-       return (<tr key={index}>{tdArr}</tr>)
+export function getNode(ids){
+    let trArr = [];
+    this.tds.map((tdSub,index)=>{
+        let tdArr2 = [];
+        tdSub.map((item,index1)=>{
+            let item1 = item.getNode(ids,index1);
+            if(item1){
+                tdArr2.push(item1);
+            }
+        });
+        if(tdArr2 && tdArr2.length > 0) {
+            trArr.push(<tr key={index}>{tdArr2}</tr>);
+        }
     });
+
     return (
         <table  style={{width:'688px',height:'355px',border:'1px solid'}}>
             <tbody>

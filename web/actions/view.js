@@ -3,7 +3,7 @@
  */
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
-import * as ViewNames from '../constants/OverLayNames'
+import * as overLayNames from '../constants/OverLayNames'
 
 export function showOverLayByName(overLayName,data = null){
     return (dispatch,getState)=>{
@@ -33,9 +33,9 @@ export function removeOverLayByName(overLayName){
 }
 
 export function showLoading(data=null){
-    return showOverLayByName(ViewNames.VIEW_LOADING,data);
+    return showOverLayByName(overLayNames.VIEW_LOADING,data);
 }
 
 export function removeLoading(){
-    return removeOverLayByName(ViewNames.VIEW_LOADING);
+    return removeOverLayByName(overLayNames.VIEW_LOADING);
 }
