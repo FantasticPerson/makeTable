@@ -11,7 +11,7 @@ export default class ContextMenu extends Component{
     render(){
         const {posInfo,merge,split,cancel} = this.props.data;
         return (
-            <div className="true-form-context-menu-container">
+            <div className="true-form-context-menu-container" style={{marginTop:posInfo.pageY,marginLeft:posInfo.pageX}}>
                 <div className="true-form-context-menu-merge" onClick={()=>{merge()}}>
                     <div className="true-form-context-menu-merge-text">{'合并选中的单元格'}</div>
                 </div>

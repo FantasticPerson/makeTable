@@ -11,10 +11,10 @@ export default class RightClickMenuModal extends Component{
     }
 
     render() {
-        const {} = this.props;
+        const {cancel} = this.props.data;
         return (
             <BaseModal bgClassName="right_click_menu_bg_class_name">
-                <div>
+                <div className="right_click_context_menu_container" onClick={()=>{cancel()}}>
                     <ContextMenu {...this.props}/>
                 </div>
             </BaseModal>
