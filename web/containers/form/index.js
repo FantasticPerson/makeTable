@@ -5,13 +5,14 @@ import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ToolBar from './components/toolbar'
 // import NumberPicker from '../../components/numberPicker'
-import reactElementToJSXString  from 'react-element-to-jsx-string'
+// import reactElementToJSXString  from 'react-element-to-jsx-string'
 import tableMaker from './utils/tableMaker'
-import jsxToString from 'jsx-to-string'
+// import jsxToString from 'jsx-to-string'
 
-import NumberPicker from './components/number-picker';
+// import NumberPicker from './components/number-picker';
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import * as overLayNames from '../../constants/OverLayNames'
+import ColorPicker from './components/colorPicker'
 
 class FormPage extends Component{
     constructor(){
@@ -114,7 +115,7 @@ class FormPage extends Component{
         let node = tableObj ? tableObj.getNode(this.tdIds) : null;
         return(
             <div className="true-form-container">
-                <ToolBar style={{position:'absolute'}} clickGenerateTable={this.clickGenerateTable.bind(this)}>
+                <ToolBar formStyle={this.props.formStyle} dispatch={this.props.dispatch} style={{position:'absolute'}} clickGenerateTable={this.clickGenerateTable.bind(this)}>
                     {/*<div style={{display:'flex',flexDirection:'row'}}>*/}
                         {/*<div onClick={()=>{this.clickGenerate()}}>生成</div>*/}
                         {/*<div onClick={()=>{this.clickSplitTd()}}>td分离</div>*/}
@@ -126,6 +127,7 @@ class FormPage extends Component{
                 <div className="true-form-body-container">
                     <div className="true-form-body-form-container">
                         {node}
+                        <ColorPicker></ColorPicker>
                     </div>
                 </div>
             </div>
@@ -135,7 +137,8 @@ class FormPage extends Component{
 
 function mapStateToProps(state) {
     return {
-        title: state.demoPage.title
+        title: state.demoPage.title,
+        formStyle:state.form.formStyle
     }
 }
 

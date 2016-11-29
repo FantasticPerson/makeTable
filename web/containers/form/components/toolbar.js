@@ -3,6 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react';
 import ToolbarEdit from './toolbar-edit'
+import ToolbarStyle from './toolbar-style'
 
 export default class ToolBar extends Component{
     constructor(){
@@ -14,7 +15,10 @@ export default class ToolBar extends Component{
         const {subTool} = this.state;
         if(subTool == 'edit'){
             const {style,clickGenerateTable} = this.props;
-            return (<ToolbarEdit clickGenerateTable={clickGenerateTable}/>)
+            return (<ToolbarEdit clickGenerateTable={clickGenerateTable} dispath={this.props.dispatch}/>)
+        } else if(subTool == 'style'){
+            const {formStyle} = this.props;
+            return (<ToolbarStyle dispatch={this.props.dispatch} formStyle={formStyle}/>)
         }
     }
 
@@ -34,7 +38,7 @@ export default class ToolBar extends Component{
     }
 
     render(){
-        const {style,clickGenerateTable} = this.props;
+        const {style} = this.props;
         let styleEdit = this.getStyleByName('edit');
         let styleStyle = this.getStyleByName('style');
         let styleTool = this.getStyleByName('tool');
@@ -67,14 +71,5 @@ export default class ToolBar extends Component{
                 </div>
             </div>
         );
-        // return(
-        //     <div className="true-form-tool-bar-container">
-        //         <div>{'插入表格'}</div>
-        //         <div>
-        //             {'行数:3，列数:3'}
-        //             <button onClick={()=>{generate(3,3)}}>生成</button>
-        //         </div>
-        //     </div>
-        // )
     }
 }

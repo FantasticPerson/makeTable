@@ -7,3 +7,6 @@ export const update_title = "update_title";
 
 //view
 export const update_over_lay_list = "update_over_lay_list";
+
+//form
+export const update_form_style = "update_form_style";

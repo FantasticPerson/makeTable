@@ -5,6 +5,7 @@ import {routerReducer} from 'react-router-redux'
 import {nestCombineReducers, handleActionsReducor} from '../utils/reducer-helper';
 import * as demoPage from './demoPage'
 import * as view from './view'
+import * as form from './form'
 
 export const rootReducer = nestCombineReducers({
     routing:routerReducer,
@@ -13,6 +14,9 @@ export const rootReducer = nestCombineReducers({
     },
     view:{
         overLayList:handleActionsReducor([],view.overLayList)
+    },
+    form:{
+        formStyle:handleActionsReducor(null,form.formStyle)
     }
 });
 
