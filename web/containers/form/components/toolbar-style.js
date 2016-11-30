@@ -9,47 +9,48 @@ import ToolbarEditDisplay from './toolbar-style-editor'
 export default class ToolbarStyle extends Component{
     constructor(){
         super();
-        this.state = {styleArr:[],cIndex:null,view_state:'loading',subName:null}
+        this.state = {view_state:'loading',subName:null}
     }
 
     componentDidMount(){
         let styleArr = [
             {
-                borderColor:'red',
-                borderSize:'1px',
-                fontSize:'12px',
+                borderColor:{r: '241', g: '112', b: '19', a: '1'},
+                borderSize:1,
+                fontSize:12,
                 isDefault:true,
                 name:'样式一',
                 id:1
             },{
-                borderBlue:'green',
-                borderSize:'1px',
-                fontSize:'12px',
+                borderBlue:{r: '241', g: '112', b: '19', a: '0.5'},
+                borderSize:1,
+                fontSize:12,
                 isDefault:false,
                 name:'样式二',
                 id:2
             }
         ];
-        this.setState({styleArr:styleArr,view_state:'ready',cIndex:1});
-        this.props.dispatch(formAction.updateFormStyle(styleArr[0]));
+        this.props.dispatch(formAction.updateStyleList(styleArr));
+        this.props.dispatch(formAction.updateCurrentStyleId(styleArr[0].id))
     }
 
-    onStyleItemClick(obj){
-        this.props.dispatch(formAction.updateFormStyle(obj));
+    onStyleItemClick(id){
+        this.props.dispatch(formAction.updateCurrentStyleId(id));
+        this.setState({subName:null});
     }
 
     renderStyleArr(){
         const {formStyle} = this.props;
-        const {styleArr,cIndex} = this.state;
-        return styleArr.map((item,index)=>{
-            return (<ToolbarStyleItem data={item} formStyle={formStyle} key={index} cIndex={cIndex} onClick={this.onStyleItemClick.bind(this)}/>);
+        return formStyle.list.map((item,index)=>{
+            return (<ToolbarStyleItem data={item} key={index} cId={formStyle.id} onClick={this.onStyleItemClick.bind(this)}/>);
         })
     }
 
     renderSubView(){
+        const {formStyle} = this.props;
         const {subName} = this.state;
         if(subName == 'viewAdd' || subName == 'viewModify'){
-            return (<ToolbarEditDisplay/>)
+            return (<ToolbarEditDisplay formStyle={formStyle}/>)
         }
     }
 

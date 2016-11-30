@@ -10,12 +10,12 @@ export default class ToolbarStyleItem extends Component{
 
     onClickHandler(){
         const {onClick,data} = this.props;
-        onClick(data);
+        onClick(data.id);
     }
 
     render(){
-        const {data,formStyle} = this.props;
-        let bgColor = formStyle.id == data.id ? '#ECF6E7' : '#FFFFFF';
+        const {data,cId} = this.props;
+        let bgColor = cId == data.id ? '#ECF6E7' : '#FFFFFF';
         return (
             <div className="true-form-tool-bar-style-item-container" style={{backgroundColor:bgColor}} onClick={()=>{this.onClickHandler()}}>
                 <div className="true-form-tool-bar-style-item-container-icon true-form-tool-bar-style-style-1"></div>

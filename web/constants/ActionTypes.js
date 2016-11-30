@@ -9,4 +9,5 @@ export const update_title = "update_title";
 export const update_over_lay_list = "update_over_lay_list";
 
 //form
-export const update_form_style = "update_form_style";
+export const update_form_style_list = "update_form_style_list";
+export const update_form_current_style_id = "update_form_current_style_id";

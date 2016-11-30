@@ -16,7 +16,8 @@ export const rootReducer = nestCombineReducers({
         overLayList:handleActionsReducor([],view.overLayList)
     },
     form:{
-        formStyle:handleActionsReducor(null,form.formStyle)
+        formStyleList:handleActionsReducor([],form.formStyleList),
+        currentId:handleActionsReducor(null,form.formStyleId)
     }
 });
 
