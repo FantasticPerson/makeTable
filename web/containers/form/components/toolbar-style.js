@@ -4,11 +4,12 @@
 import React,{Component,PropTypes} from 'react'
 import ToolbarStyleItem from './toolbar-style-item'
 import * as formAction from '../../../actions/form'
+import ToolbarEditDisplay from './toolbar-style-editor'
 
 export default class ToolbarStyle extends Component{
     constructor(){
         super();
-        this.state = {styleArr:[],cIndex:null,view_state:'loading'}
+        this.state = {styleArr:[],cIndex:null,view_state:'loading',subName:null}
     }
 
     componentDidMount(){
@@ -45,22 +46,45 @@ export default class ToolbarStyle extends Component{
         })
     }
 
+    renderSubView(){
+        const {subName} = this.state;
+        if(subName == 'viewAdd' || subName == 'viewModify'){
+            return (<ToolbarEditDisplay/>)
+        }
+    }
+
+    onClickHandler(name){
+        const {subName} = this.state;
+        let name2 = subName == name ? null : name;
+        this.setState({subName:name2});
+    }
+
     render(){
         return (
-            <div className="true-form-tool-bar-style-container">
-                <div className="true-form-tool-bar-style-container-1">
-                    <div className="true-form-tool-bar-style-container-1-text-container">
-                        <div className="true-form-tool-bar-style-container-1-text">{'已保存的样式'}</div>
+            <div>
+                <div className="true-form-tool-bar-style-container">
+                    <div className="true-form-tool-bar-style-container-1">
+                        <div className="true-form-tool-bar-style-container-1-text-container">
+                            <div className="true-form-tool-bar-style-container-1-text">{'已保存的样式'}</div>
+                        </div>
+                        <div className="true-form-tool-bar-style-container-1-styles">
+                            {this.renderStyleArr()}
+                        </div>
                     </div>
-                    <div className="true-form-tool-bar-style-container-1-styles">
-                        {this.renderStyleArr()}
+                    <div className="true-form-tool-bar-style-container-2">
+                        <div className="true-form-tool-bar-style-container-2-text-container">
+                            <div className="true-form-tool-bar-style-container-2-text">{'样式编辑'}</div>
+                        </div>
+                        <div className="true-form-tool-bar-style-container-2-btn" onClick={()=>{
+                            this.onClickHandler('viewAdd');
+                        }}>{'修改'}</div>
+                        <div className="true-form-tool-bar-style-container-2-btn" onClick={()=>{
+                            this.onClickHandler('viewModify');
+                        }} style={{marginTop:'-30px',marginLeft:'80px'}}>{'添加'}</div>
                     </div>
                 </div>
-                <div className="true-form-tool-bar-style-container-2">
-                    <div className="true-form-tool-bar-style-container-2-text-container">
-                        <div className="true-form-tool-bar-style-container-2-text">{'新增样式'}</div>
-                    </div>
-                    <div className="true-form-tool-bar-style-container-2-btn">{'添加'}</div>
+                <div className="true-form-tool-bar-style-sub-container">
+                    {this.renderSubView()}
                 </div>
             </div>
         )

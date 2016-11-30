@@ -127,7 +127,6 @@ class FormPage extends Component{
                 <div className="true-form-body-container">
                     <div className="true-form-body-form-container">
                         {node}
-                        <ColorPicker></ColorPicker>
                     </div>
                 </div>
             </div>

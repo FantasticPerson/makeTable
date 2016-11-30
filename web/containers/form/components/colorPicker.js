@@ -18,10 +18,10 @@ export default class ColorPicker extends Component{
         const {color} = this.state;
         let colorString = 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';
         return (
-            <div style={{width:'300px'}}>
-                <HuePicker width={'300'} color={color} onChange={this.onChange.bind(this)}/>
+            <div style={{width:'200px'}}>
+                <HuePicker width={'200'} color={color} onChange={this.onChange.bind(this)}/>
                 <div style={{marginTop:'10px'}}>
-                    <AlphaPicker width={'300'} color={color} onChange={this.onChange.bind(this)}/>
+                    <AlphaPicker width={'200'} color={color} onChange={this.onChange.bind(this)}/>
                 </div>
                 <div style={{backgroundColor:colorString}} className="color-picker-color-cube"></div>
             </div>
