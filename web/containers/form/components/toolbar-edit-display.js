@@ -2,7 +2,7 @@
  * Created by wdd on 2016/11/28.
  */
 import React,{Component,PropTypes} from 'react'
-import NumberPicker from './number-picker'
+import NumberPicker from '../../../components/number-picker'
 
 export default class ToolBarEditDisplay extends Component{
     constructor() {

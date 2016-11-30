@@ -2,9 +2,9 @@
  * Created by wdd on 2016/11/29.
  */
 import React,{Component,PropTypes} from 'react'
-import ColorPicker from './colorPicker'
-import NumberPicker from './number-picker'
-import ItemSelector from './itemSelector'
+import ColorPicker from '../../../components/colorPicker'
+import NumberPicker from '../../../components/number-picker'
+import ItemSelector from '../../../components/itemSelector'
 
 
 export default class ToolbarStyleEditor extends Component{
