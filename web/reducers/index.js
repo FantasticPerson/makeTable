@@ -17,7 +17,8 @@ export const rootReducer = nestCombineReducers({
     },
     form:{
         formStyleList:handleActionsReducor([],form.formStyleList),
-        currentId:handleActionsReducor(null,form.formStyleId)
+        currentId:handleActionsReducor(null,form.formStyleId),
+        maxId:handleActionsReducor(-1,form.formMaxId)
     }
 });
 

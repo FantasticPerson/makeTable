@@ -5,7 +5,7 @@ import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
-export default class tableMaker2 extends Object{
+export default class tableMaker extends Object{
     constructor(num1,num2,onTdClick,onRightClick,style){
         super();
         this.getNode = getNode;

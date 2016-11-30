@@ -11,3 +11,7 @@ export const formStyleList = {
 export const formStyleId = {
     [ActionTypes.update_form_current_style_id]:actionPayloadReducer
 };
+
+export const formMaxId = {
+    [ActionTypes.update_form_style_max_id]:actionPayloadReducer
+};

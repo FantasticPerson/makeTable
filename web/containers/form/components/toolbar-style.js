@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ToolbarStyleItem from './toolbar-style-item'
 import * as formAction from '../../../actions/form'
-import ToolbarEditDisplay from './toolbar-style-editor'
+import ToolbarStyleEditor from './toolbar-style-editor'
 
 export default class ToolbarStyle extends Component{
     constructor(){
@@ -47,10 +47,10 @@ export default class ToolbarStyle extends Component{
     }
 
     renderSubView(){
-        const {formStyle} = this.props;
+        const {formStyle,onUpdateStyle} = this.props;
         const {subName} = this.state;
         if(subName == 'viewAdd' || subName == 'viewModify'){
-            return (<ToolbarEditDisplay formStyle={formStyle}/>)
+            return (<ToolbarStyleEditor formStyle={formStyle} onUpdateStyle={onUpdateStyle} dispatch={this.props.dispatch}/>)
         }
     }
 

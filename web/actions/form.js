@@ -15,3 +15,9 @@ export function updateCurrentStyleId(id){
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_current_style_id,id))
     })
 }
+
+export function updateMaxId(id){
+    return ((dispatch)=>{
+        dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,id));
+    })
+}

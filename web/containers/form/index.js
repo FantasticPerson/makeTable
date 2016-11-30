@@ -8,7 +8,7 @@ import tableMaker from './utils/tableMaker'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import * as overLayNames from '../../constants/OverLayNames'
 import {formDefaultStyle} from './const'
-import {updateCurrentStyleId,updateStyleList} from '../../actions/form'
+import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 
 class FormPage extends Component{
     constructor(){
@@ -30,6 +30,7 @@ class FormPage extends Component{
     componentDidMount(){
         this.props.dispatch(updateStyleList(formDefaultStyle));
         this.props.dispatch(updateCurrentStyleId(formDefaultStyle[0].id));
+        this.props.dispatch(updateMaxId(formDefaultStyle[0].id));
     }
 
     clickSplit(){
@@ -43,6 +44,18 @@ class FormPage extends Component{
             this.tdIds = [];
         } else {
 
+        }
+    }
+
+    onUpdateStyle(){
+        const {tableObj} = this.state;
+        if(tableObj){
+            const {formStyleList,formStyleId} = this.props;
+            let formStyle = formStyleList.find(function(item){
+                return item.id == formStyleId
+            });
+            tableObj.setStyle(formStyle);
+            this.setState({tableObj: tableObj})
         }
     }
 
@@ -83,11 +96,12 @@ class FormPage extends Component{
     }
 
     render(){
-        const {tableObj} = this.state;
+        const {tableObj,id} = this.state;
         let node = tableObj ? tableObj.getNode(this.tdIds) : null;
+        let formStyle = {list:this.props.formStyleList,id:this.props.formStyleId,maxId:this.props.formStyleMaxId};
         return(
             <div className="true-form-container">
-                <ToolBar formStyle={{list:this.props.formStyleList,id:this.props.formStyleId}} dispatch={this.props.dispatch} style={{position:'absolute'}} clickGenerateTable={this.clickGenerateTable.bind(this)}>
+                <ToolBar formStyle={formStyle} dispatch={this.props.dispatch} style={{position:'absolute'}} onUpdateStyle={this.onUpdateStyle.bind(this)} clickGenerateTable={this.clickGenerateTable.bind(this)}>
                 </ToolBar>
                 <div className="true-form-body-container">
                     <div className="true-form-body-form-container">
@@ -103,7 +117,8 @@ function mapStateToProps(state) {
     return {
         title: state.demoPage.title,
         formStyleList:state.form.formStyleList,
-        formStyleId:state.form.currentId
+        formStyleId:state.form.currentId,
+        formStyleMaxId:state.form.maxId
     }
 }
 

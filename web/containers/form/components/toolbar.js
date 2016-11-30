@@ -17,8 +17,8 @@ export default class ToolBar extends Component{
             const {style,clickGenerateTable} = this.props;
             return (<ToolbarEdit clickGenerateTable={clickGenerateTable} dispath={this.props.dispatch}/>)
         } else if(subTool == 'style'){
-            const {formStyle} = this.props;
-            return (<ToolbarStyle dispatch={this.props.dispatch} formStyle={formStyle}/>)
+            const {formStyle,onUpdateStyle} = this.props;
+            return (<ToolbarStyle dispatch={this.props.dispatch} formStyle={formStyle} onUpdateStyle={onUpdateStyle}/>)
         }
     }
 

@@ -14,6 +14,10 @@ export default class ColorPicker extends Component{
         this.setState({color:color.rgb});
     }
 
+    getColor(){
+        return this.state.color;
+    }
+
     componentDidMount(){
         const {color} = this.props;
         if(color) {
