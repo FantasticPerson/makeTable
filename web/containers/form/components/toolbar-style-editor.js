@@ -4,6 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ColorPicker from './colorPicker'
 import NumberPicker from './number-picker'
+import ItemSelector from './itemSelector'
 
 
 export default class ToolbarStyleEditor extends Component{
@@ -13,6 +14,9 @@ export default class ToolbarStyleEditor extends Component{
 
     render(){
         const {} = this.props;
+        let arr = [
+            {text:'1',value:'1'},{text:'2',value:'2'},{text:'3',value:'3'}
+        ];
         return(
             <div className="true-form-tool-bar-style-editor-container">
                 <div className="true-form-tool-bar-style-editor-header">
@@ -40,7 +44,9 @@ export default class ToolbarStyleEditor extends Component{
                 </div>
                 <div className="true-form-tool-bar-style-editor-font-family">
                     <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-family-text">{'字体选择'}</div>
-                    <div className="true-form-tool-bar-style-editor-font-family-container"></div>
+                    <div className="true-form-tool-bar-style-editor-font-family-container">
+                        <ItemSelector optionDataArray ={arr}/>
+                    </div>
                 </div>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="true-form-tool-bar-style-editor-confirm-btn">{'确认'}</div>
