@@ -5,28 +5,44 @@ import React,{Component,PropTypes} from 'react'
 import ColorPicker from '../../../components/colorPicker'
 import NumberPicker from '../../../components/number-picker'
 import ItemSelector from '../../../components/itemSelector'
-import {updateStyleList} from '../../../actions/form'
+import {updateStyleList,updateMaxId} from '../../../actions/form'
 
 export default class ToolbarStyleEditor extends Component{
     constructor(){
         super();
+        this.formStyle = {};
     }
 
     onConformClick(){
-        const {formStyle,onUpdateStyle} = this.props;
+        const {formStyle,onUpdateStyle,subName} = this.props;
         const {colorPicker,numberPicker1,numberPicker2} = this.refs;
         let arr = [];
-        for(let i=0;i<formStyle.list.length;i++){
-            if(formStyle.list[i].id == formStyle.id){
-                let style={id:formStyle.list[i].id};
-                style.borderColor = colorPicker.getColor();
-                style.fontSize = numberPicker2.getNumber();
-                style.borderSize = numberPicker1.getNumber();
-                style.isDefault = formStyle.list[i].isDefault;
-                style.name = formStyle.list[i].name;
-                arr.push(style);
-            } else {
+        if(subName == 'viewAdd'){
+            let style = {};
+            style.name = this.formStyle.name;
+            style.id = this.formStyle.id;
+            style.borderColor = colorPicker.getColor();
+            style.fontSize = numberPicker2.getNumber();
+            style.isDefault = this.formStyle.isDefault;
+            style.borderSize = numberPicker1.getNumber();
+            for(let i=0;i<formStyle.list.length;i++){
                 arr.push(formStyle.list[i]);
+            }
+            arr.push(style);
+            this.props.dispatch(updateMaxId(style.id))
+        } else {
+            for (let i = 0; i < formStyle.list.length; i++) {
+                if (formStyle.list[i].id == formStyle.id) {
+                    let style = {id: formStyle.list[i].id};
+                    style.borderColor = colorPicker.getColor();
+                    style.fontSize = numberPicker2.getNumber();
+                    style.borderSize = numberPicker1.getNumber();
+                    style.isDefault = formStyle.list[i].isDefault;
+                    style.name = formStyle.list[i].name;
+                    arr.push(style);
+                } else {
+                    arr.push(formStyle.list[i]);
+                }
             }
         }
         this.props.dispatch(updateStyleList(arr));
@@ -36,17 +52,33 @@ export default class ToolbarStyleEditor extends Component{
     }
 
     render(){
-        const {formStyle} = this.props;
-        let formStyleItem = formStyle.list.find(function (item) {
-            return item.id == formStyle.id;
-        });
+        const {formStyle,subName} = this.props;
+        let formStyleItem = {};
+        if(subName == 'viewAdd'){
+            let defaultStyle = formStyle.list.find(function(item){
+                return item.isDefault;
+            });
+            formStyle.borderColor = defaultStyle.borderColor;
+            formStyle.borderSize = defaultStyle.borderSize;
+            formStyle.fontSize = defaultStyle.fontSize;
+            formStyle.name = defaultStyle.name;
+            formStyle.isDefault = false;
+            formStyle.id = (formStyle.maxId+1);
+            this.formStyle = formStyle;
+        } else {
+            formStyleItem = formStyle.list.find(function (item) {
+                return item.id == formStyle.id;
+            });
+        }
+
         let arr = [
             {text:'1',value:'1'},{text:'2',value:'2'},{text:'3',value:'3'}
         ];
+        let title = (subName == 'viewAdd' ? '添加样式' : '样式详情');
         return(
             <div className="true-form-tool-bar-style-editor-container">
                 <div className="true-form-tool-bar-style-editor-header">
-                    <div className="true-form-tool-bar-style-editor-text">{'样式详情'}</div>
+                    <div className="true-form-tool-bar-style-editor-text">{title}</div>
                 </div>
                 <div className="true-form-tool-bar-style-editor-color">
                     <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-color-text">{'边框颜色'}</div>

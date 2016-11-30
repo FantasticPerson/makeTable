@@ -12,28 +12,6 @@ export default class ToolbarStyle extends Component{
         this.state = {view_state:'loading',subName:null}
     }
 
-    componentDidMount(){
-        // let styleArr = [
-        //     {
-        //         borderColor:{r: '241', g: '112', b: '19', a: '1'},
-        //         borderSize:1,
-        //         fontSize:12,
-        //         isDefault:true,
-        //         name:'样式一',
-        //         id:1
-        //     },{
-        //         borderBlue:{r: '241', g: '112', b: '19', a: '0.5'},
-        //         borderSize:1,
-        //         fontSize:12,
-        //         isDefault:false,
-        //         name:'样式二',
-        //         id:2
-        //     }
-        // ];
-        // this.props.dispatch(formAction.updateStyleList(styleArr));
-        // this.props.dispatch(formAction.updateCurrentStyleId(styleArr[0].id))
-    }
-
     onStyleItemClick(id){
         this.props.dispatch(formAction.updateCurrentStyleId(id));
         this.setState({subName:null});
@@ -50,7 +28,7 @@ export default class ToolbarStyle extends Component{
         const {formStyle,onUpdateStyle} = this.props;
         const {subName} = this.state;
         if(subName == 'viewAdd' || subName == 'viewModify'){
-            return (<ToolbarStyleEditor formStyle={formStyle} onUpdateStyle={onUpdateStyle} dispatch={this.props.dispatch}/>)
+            return (<ToolbarStyleEditor formStyle={formStyle} subName={subName} onUpdateStyle={onUpdateStyle} dispatch={this.props.dispatch}/>)
         }
     }
 
@@ -77,10 +55,10 @@ export default class ToolbarStyle extends Component{
                             <div className="true-form-tool-bar-style-container-2-text">{'样式编辑'}</div>
                         </div>
                         <div className="true-form-tool-bar-style-container-2-btn" onClick={()=>{
-                            this.onClickHandler('viewAdd');
+                            this.onClickHandler('viewModify');
                         }}>{'修改'}</div>
                         <div className="true-form-tool-bar-style-container-2-btn" onClick={()=>{
-                            this.onClickHandler('viewModify');
+                            this.onClickHandler('viewAdd');
                         }} style={{marginTop:'-30px',marginLeft:'80px'}}>{'添加'}</div>
                     </div>
                 </div>
