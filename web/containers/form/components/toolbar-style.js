@@ -13,25 +13,25 @@ export default class ToolbarStyle extends Component{
     }
 
     componentDidMount(){
-        let styleArr = [
-            {
-                borderColor:{r: '241', g: '112', b: '19', a: '1'},
-                borderSize:1,
-                fontSize:12,
-                isDefault:true,
-                name:'样式一',
-                id:1
-            },{
-                borderBlue:{r: '241', g: '112', b: '19', a: '0.5'},
-                borderSize:1,
-                fontSize:12,
-                isDefault:false,
-                name:'样式二',
-                id:2
-            }
-        ];
-        this.props.dispatch(formAction.updateStyleList(styleArr));
-        this.props.dispatch(formAction.updateCurrentStyleId(styleArr[0].id))
+        // let styleArr = [
+        //     {
+        //         borderColor:{r: '241', g: '112', b: '19', a: '1'},
+        //         borderSize:1,
+        //         fontSize:12,
+        //         isDefault:true,
+        //         name:'样式一',
+        //         id:1
+        //     },{
+        //         borderBlue:{r: '241', g: '112', b: '19', a: '0.5'},
+        //         borderSize:1,
+        //         fontSize:12,
+        //         isDefault:false,
+        //         name:'样式二',
+        //         id:2
+        //     }
+        // ];
+        // this.props.dispatch(formAction.updateStyleList(styleArr));
+        // this.props.dispatch(formAction.updateCurrentStyleId(styleArr[0].id))
     }
 
     onStyleItemClick(id){

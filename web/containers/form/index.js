@@ -7,6 +7,8 @@ import ToolBar from './components/toolbar'
 import tableMaker from './utils/tableMaker'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import * as overLayNames from '../../constants/OverLayNames'
+import {formDefaultStyle} from './const'
+import {updateCurrentStyleId,updateStyleList} from '../../actions/form'
 
 class FormPage extends Component{
     constructor(){
@@ -23,6 +25,11 @@ class FormPage extends Component{
         }
         const {tableObj} = this.state;
         this.setState({tableObj: tableObj});
+    }
+
+    componentDidMount(){
+        this.props.dispatch(updateStyleList(formDefaultStyle));
+        this.props.dispatch(updateCurrentStyleId(formDefaultStyle[0].id));
     }
 
     clickSplit(){
@@ -59,7 +66,11 @@ class FormPage extends Component{
     }
 
     clickGenerateTable(num1,num2){
-        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onRightClick.bind(this),null);
+        const {formStyleList,formStyleId} = this.props;
+        let formStyle = formStyleList.find(function(item){
+            return item.id == formStyleId
+        });
+        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onRightClick.bind(this),formStyle);
         this.setState({tableObj:tableObj2});
     }
 

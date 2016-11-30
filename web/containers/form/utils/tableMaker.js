@@ -16,19 +16,28 @@ export default class tableMaker2 extends Object{
         this.getItemById = getItemById;
         this.setTdSize = setTdSize;
         this.setMockType = setMockType;
+        this.setStyle = setStyle;
+        this.style = style;
         this.onRightClick = onRightClick;
         this.onTdClick = onTdClick;
         this.id = 0;
         let tdArr = [];
-        let width = 1/num2 * 100 + '%';
-        let height = 1/num1 * 100 + '%';
         for(let i=0;i<num1;i++){
             tdArr[i] = [];
             for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,{width,height},0,this.onTdClick,this.onRightClick,null)
+                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,this.style,0,this.onTdClick,this.onRightClick,null)
             }
         }
         this.tds = tdArr;
+    }
+}
+
+export function setStyle(style){
+    this.style = style;
+    for(let i=0;i<this.tds.length;i++){
+        for(let j=0;j<this.tds[i].length;j++){
+            this.tds[i][j].setStyle(style);
+        }
     }
 }
 
@@ -299,8 +308,11 @@ export function getNode(ids){
         }
     });
 
+    let style = {width:'668px',height:'355px'};
+    let color = this.style.borderColor;
+    style.border = this.style.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
     return (
-        <table  style={{width:'688px',height:'355px',border:'1px solid'}}>
+        <table  style={style}>
             <tbody>
                 {trArr}
             </tbody>
