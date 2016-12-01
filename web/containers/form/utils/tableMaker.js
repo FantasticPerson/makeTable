@@ -46,7 +46,6 @@ export function insertComponent(tdId,componentType){
 export function setComponentStyle(tdId,componentId,style){
     let item = this.getItemById(tdId);
     if(item){
-        console.log('tb setComponentStyle')
         item.setComponentStyle(componentId,style);
     }
 }

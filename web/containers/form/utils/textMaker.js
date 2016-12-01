@@ -18,7 +18,6 @@ export default class TextMaker extends Object{
 
 export function setStyle(style){
     this.style = style;
-    console.log('setStyle success');
 }
 
 export function getNode(index){

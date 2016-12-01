@@ -35,10 +35,9 @@ export function insertComponent(type){
 export function setComponentStyle(id,style){
     let component = this.componentArray.find((item)=>{
         return item.id == id;
-    })
+    });
     if(component){
-        console.log('td setCompomemt style')
-        component.setStyle(style)
+        component.setStyle(style);
     }
 }
 
@@ -72,7 +71,7 @@ export function getNode(tdIds,index=0){
                     }} onDrop={(e)=>{
                         this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
                     }}
-        ><div style={{width:'100%',height:'100%'}}>{components}</div></td>)
+        ><div style={{width:'100%',height:'100%',overflow:'hidden'}}>{components}</div></td>)
     } else {
         return null;
     }

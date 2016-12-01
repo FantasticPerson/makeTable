@@ -14,3 +14,14 @@ export const formDefaultStyle = [{
     name:'样式一',
     id:1
 }];
+
+export const NameList = [
+    {value:'SimHei',text:'黑体'},
+    {value:'SimSun',text:'宋体'},
+    {value:'NSimSun',text:'新宋体'},
+    {value:'FangSong',text:'仿宋'},
+    {value:'KaiTi',text:'楷体'},
+    {value:'FangSong_GB2312',text:'仿宋_GB2312'},
+    {value:'KaiTi_GB2312',text:'楷体_GB2312'},
+    {value:'Microsoft YaHei',text:'微软雅黑体'},
+];
