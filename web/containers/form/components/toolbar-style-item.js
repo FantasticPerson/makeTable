@@ -9,8 +9,10 @@ export default class ToolbarStyleItem extends Component{
     }
 
     onClickHandler(){
-        const {onClick,data} = this.props;
-        onClick(data.id);
+        const {onClick,data,cId} = this.props;
+        if(cId != data.id) {
+            onClick(data.id);
+        }
     }
 
     render(){

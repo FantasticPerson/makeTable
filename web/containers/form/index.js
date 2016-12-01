@@ -115,7 +115,6 @@ class FormPage extends Component{
 
 function mapStateToProps(state) {
     return {
-        title: state.demoPage.title,
         formStyleList:state.form.formStyleList,
         formStyleId:state.form.currentId,
         formStyleMaxId:state.form.maxId

@@ -3,6 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import ToolBarEditDisplay from './toolbar-edit-display'
+import ComponentPicker from './componentPicker'
 
 export default class ToolBarEdit extends Component{
     constructor(){
@@ -15,6 +16,8 @@ export default class ToolBarEdit extends Component{
         if(cTool == 'display'){
             const {clickGenerateTable} = this.props;
             return (<ToolBarEditDisplay clickGenerateTable={clickGenerateTable} onConfirmClick={this.onConfirmClicked.bind(this)}/>);
+        } else if(cTool == 'element'){
+            return (<ComponentPicker/>);
         }
     }
 

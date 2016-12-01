@@ -19,6 +19,8 @@ export default class ToolBar extends Component{
         } else if(subTool == 'style'){
             const {formStyle,onUpdateStyle} = this.props;
             return (<ToolbarStyle dispatch={this.props.dispatch} formStyle={formStyle} onUpdateStyle={onUpdateStyle}/>)
+        } else if(subTool == ''){
+
         }
     }
 
