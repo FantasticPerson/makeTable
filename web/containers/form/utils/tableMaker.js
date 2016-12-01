@@ -6,7 +6,7 @@ import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
 export default class tableMaker extends Object{
-    constructor(num1,num2,onTdClick,onRightClick,onComponentDrop,style){
+    constructor(num1,num2,onTdClick,onRightClick,onComponentDrop,onComponentClick,style){
         super();
         this.getNode = getNode;
         this.mergeTd = mergeTd;
@@ -17,20 +17,22 @@ export default class tableMaker extends Object{
         this.setTdSize = setTdSize;
         this.setMockType = setMockType;
         this.setStyle = setStyle;
+        this.insertComponent = insertComponent;
         this.onComponentDrop = onComponentDrop;
         this.style = style;
         this.onRightClick = onRightClick;
         this.onTdClick = onTdClick;
+        this.onComponentClick = onComponentClick;
         this.id = 0;
-        this.insertComponent = insertComponent;
         let tdArr = [];
         for(let i=0;i<num1;i++){
             tdArr[i] = [];
             for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,this.style,0,this.onTdClick,this.onRightClick,this.onComponentDrop,null)
+                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,this.style,0,this.onTdClick,this.onRightClick,this.onComponentDrop,this.onComponentClick,null)
             }
         }
         this.tds = tdArr;
+        this.setComponentStyle =setComponentStyle;
     }
 }
 
@@ -38,7 +40,14 @@ export function insertComponent(tdId,componentType){
     let tdItem = this.getItemById(tdId);
     if(tdItem){
         tdItem.insertComponent(componentType);
-        console.log('yes is does exist');
+    }
+}
+
+export function setComponentStyle(tdId,componentId,style){
+    let item = this.getItemById(tdId);
+    if(item){
+        console.log('tb setComponentStyle')
+        item.setComponentStyle(componentId,style);
     }
 }
 
@@ -107,7 +116,6 @@ export function merge2(tdArr){
         if(!isValid){
             break;
         }
-
     }
 }
 

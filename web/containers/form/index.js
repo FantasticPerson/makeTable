@@ -92,12 +92,31 @@ class FormPage extends Component{
         let formStyle = formStyleList.find(function(item){
             return item.id == formStyleId
         });
-        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onRightClick.bind(this),this.onComponentDrop.bind(this),formStyle);
+        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onTdRightClick.bind(this),this.onComponentDrop.bind(this),this.onComponentRightClick.bind(this),formStyle);
         this.setState({tableObj:tableObj2});
     }
 
-    onRightClick(data){
+    onTdRightClick(data){
         this.props.dispatch(showOverLayByName(overLayNames.FORM_MENU_MODAL,{posInfo:data,merge:this.clickMerge.bind(this),split:this.clickSplit.bind(this),cancel:this.onMenuCancel.bind(this)}));
+    }
+
+    onComponentRightClick(data){
+        this.props.dispatch(showOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR,{data:data,confirm:this.componentClickConfirm.bind(this),cancel:this.componentClickCancel.bind(this)}))
+    }
+
+    componentClickConfirm(tdId,id,style){
+        this.props.dispatch(removeOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR));
+        console.log('click confirm');
+        console.log(tdId,id);
+        const {tableObj} = this.state;
+        if(tableObj){
+            tableObj.setComponentStyle(tdId,id,{color:'red'});
+            this.setState({tableObj:tableObj})
+        }
+    }
+
+    componentClickCancel(){
+        this.props.dispatch(removeOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR))
     }
 
     onMenuCancel(){

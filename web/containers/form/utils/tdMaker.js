@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react';
 import textMaker from './textMaker'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,style,mockType,onTdClick,onRightClick,onComponentDrop,content){
+    constructor(posInfo,id,style,mockType,onTdClick,onRightClick,onComponentDrop,onComponentClick,content){
         super();
         this.style = style;
         this.pStyle = {border:'1px solid'};
@@ -15,18 +15,30 @@ export default class tdMaker extends Object{
         this.mockType = mockType;//0:not mock;1:col;2:row;3:row&col
         this.state={choose:false};
         this.onTdClick = onTdClick;
+        this.onComponentClick = onComponentClick;
         this.onRightClick = onRightClick;
         this.onComponentDrop = onComponentDrop;
         this.insertComponent = insertComponent;
         this.componentArray = [];
         this.getNode = getNode;
         this.setStyle = setStyle;
+        this.setComponentStyle = setComponentStyle;
     }
 }
 
 export function insertComponent(type){
     if(type == 'text'){
-        this.componentArray.push(new textMaker(this.componentId++,'text',{}))
+        this.componentArray.push(new textMaker(this.componentId++,this.id,'text',{},this.onComponentClick))
+    }
+}
+
+export function setComponentStyle(id,style){
+    let component = this.componentArray.find((item)=>{
+        return item.id == id;
+    })
+    if(component){
+        console.log('td setCompomemt style')
+        component.setStyle(style)
     }
 }
 
