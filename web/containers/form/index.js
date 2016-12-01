@@ -47,6 +47,15 @@ class FormPage extends Component{
         }
     }
 
+    onComponentDrop(tdId,componentType){
+        console.log(tdId,componentType);
+        const {tableObj} = this.state;
+        if(tableObj){
+            tableObj.insertComponent(tdId,componentType);
+            this.setState({tableObj: tableObj});
+        }
+    }
+
     onUpdateStyle(){
         const {tableObj} = this.state;
         if(tableObj){
@@ -83,7 +92,7 @@ class FormPage extends Component{
         let formStyle = formStyleList.find(function(item){
             return item.id == formStyleId
         });
-        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onRightClick.bind(this),formStyle);
+        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onRightClick.bind(this),this.onComponentDrop.bind(this),formStyle);
         this.setState({tableObj:tableObj2});
     }
 
@@ -94,6 +103,7 @@ class FormPage extends Component{
     onMenuCancel(){
         this.props.dispatch(removeOverLayByName(overLayNames.FORM_MENU_MODAL));
     }
+
 
     render(){
         const {tableObj,id} = this.state;

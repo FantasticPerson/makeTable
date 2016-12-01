@@ -2,22 +2,31 @@
  * Created by wdd on 2016/11/24.
  */
 import React,{Component,PropTypes} from 'react';
-import {showOverLayByName} from '../../../actions/view'
-import {overLayMap} from '../../../constants/OverLayNames'
+import textMaker from './textMaker'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,style,mockType,onTdClick,onRightClick,content){
+    constructor(posInfo,id,style,mockType,onTdClick,onRightClick,onComponentDrop,content){
         super();
         this.style = style;
         this.pStyle = {border:'1px solid'};
         this.id = id;
+        this.componentId = 0;
         this.posInfo=posInfo;
         this.mockType = mockType;//0:not mock;1:col;2:row;3:row&col
         this.state={choose:false};
         this.onTdClick = onTdClick;
         this.onRightClick = onRightClick;
+        this.onComponentDrop = onComponentDrop;
+        this.insertComponent = insertComponent;
+        this.componentArray = [];
         this.getNode = getNode;
         this.setStyle = setStyle;
+    }
+}
+
+export function insertComponent(type){
+    if(type == 'text'){
+        this.componentArray.push(new textMaker(this.componentId++,'text',{}))
     }
 }
 
@@ -37,13 +46,21 @@ export function getNode(tdIds,index=0){
         let color = this.style.borderColor;
         style.border = this.style.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
         style.backgroundColor = bgColor;
+        const components = this.componentArray.map((item,index)=>{
+            return item.getNode(index);
+        });
         return (<td colSpan={col} key={index} rowSpan={row} style={style} onClick={()=>{
                         this.onTdClick(this.id);
                     }} onContextMenu={(e)=>{
                         e.preventDefault();
                         e.stopPropagation();
                         this.onRightClick({clientX:e.clientX,clientY:e.clientY,screenX:e.screenX,screenY:e.screenY,pageX:e.pageX,pageY:e.pageY});
-                    }}>{this.content}</td>)
+                    }} onDragOver={(e)=>{
+                        e.preventDefault()
+                    }} onDrop={(e)=>{
+                        this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
+                    }}
+        ><div style={{width:'100%',height:'100%'}}>{components}</div></td>)
     } else {
         return null;
     }
