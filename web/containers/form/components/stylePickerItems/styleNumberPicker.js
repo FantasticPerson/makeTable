@@ -2,6 +2,7 @@
  * Created by wdd on 2016/12/1.
  */
 import React,{Component,PropTypes} from 'react'
+import NumberPicker from '../../../../components/number-picker'
 
 export default class StyleNumberPicker extends Component{
     constructor(){
