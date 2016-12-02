@@ -2,10 +2,11 @@
  * Created by wdd on 2016/11/29.
  */
 import React,{Component,PropTypes} from 'react'
-import ColorPicker from '../../../components/colorPicker'
-import NumberPicker from '../../../components/number-picker'
-import ItemSelector from '../../../components/itemSelector'
+import StyleColorPicker from './stylePickerItems/styleColorPicker'
+import StyleNumberPicker from './stylePickerItems/styleNumberPicker'
+import StyleDropBoxPicker from './stylePickerItems/styleDropBoxPicker'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
+import {fontFamilyList} from '../const'
 
 export default class ToolbarStyleEditor extends Component{
     constructor(){
@@ -21,10 +22,10 @@ export default class ToolbarStyleEditor extends Component{
             let style = {};
             style.name = this.formStyle.name;
             style.id = this.formStyle.id;
-            style.borderColor = colorPicker.getColor();
-            style.fontSize = numberPicker2.getNumber();
+            style.borderColor = colorPicker.getValue();
+            style.fontSize = numberPicker2.getValue();
             style.isDefault = this.formStyle.isDefault;
-            style.borderSize = numberPicker1.getNumber();
+            style.borderSize = numberPicker1.getValue();
             for(let i=0;i<formStyle.list.length;i++){
                 arr.push(formStyle.list[i]);
             }
@@ -34,9 +35,9 @@ export default class ToolbarStyleEditor extends Component{
             for (let i = 0; i < formStyle.list.length; i++) {
                 if (formStyle.list[i].id == formStyle.id) {
                     let style = {id: formStyle.list[i].id};
-                    style.borderColor = colorPicker.getColor();
-                    style.fontSize = numberPicker2.getNumber();
-                    style.borderSize = numberPicker1.getNumber();
+                    style.borderColor = colorPicker.getValue();
+                    style.fontSize = numberPicker2.getValue();
+                    style.borderSize = numberPicker1.getValue();
                     style.isDefault = formStyle.list[i].isDefault;
                     style.name = formStyle.list[i].name;
                     arr.push(style);
@@ -71,41 +72,16 @@ export default class ToolbarStyleEditor extends Component{
             });
         }
 
-        let arr = [
-            {text:'1',value:'1'},{text:'2',value:'2'},{text:'3',value:'3'}
-        ];
         let title = (subName == 'viewAdd' ? '添加样式' : '样式详情');
         return(
             <div className="true-form-tool-bar-style-editor-container">
                 <div className="true-form-tool-bar-style-editor-header">
                     <div className="true-form-tool-bar-style-editor-text">{title}</div>
                 </div>
-                <div className="true-form-tool-bar-style-editor-color">
-                    <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-color-text">{'边框颜色'}</div>
-                    <div className="true-form-tool-bar-style-editor-color-container">
-                        <ColorPicker ref='colorPicker' color={(formStyleItem ? formStyleItem.borderColor : null)}/>
-                    </div>
-                </div>
-                <div className="true-form-tool-bar-style-editor-border-size">
-                    <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-border-size-text">{'边框粗细'}</div>
-                    <div className="true-form-tool-bar-style-editor-border-size-container">
-                        <NumberPicker ref='numberPicker1' value={(formStyleItem?formStyleItem.borderSize:null)}/>
-                    </div>
-                    <div style={{marginLeft:'5px',marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-unit">{'(单位:px)'}</div>
-                </div>
-                <div className="true-form-tool-bar-style-editor-font-size">
-                    <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-text">{'字体大小'}</div>
-                    <div className="true-form-tool-bar-style-editor-font-size-container">
-                        <NumberPicker ref='numberPicker2' value={(formStyleItem?formStyleItem.fontSize:null)}/>
-                    </div>
-                    <div style={{marginLeft:'5px',marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-unit">{'(单位:px)'}</div>
-                </div>
-                <div className="true-form-tool-bar-style-editor-font-family">
-                    <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-family-text">{'字体选择'}</div>
-                    <div className="true-form-tool-bar-style-editor-font-family-container">
-                        <ItemSelector optionDataArray ={arr}/>
-                    </div>
-                </div>
+                <StyleColorPicker ref='colorPicker' title="边框颜色" color={(formStyleItem ? formStyleItem.borderColor : null)}/>
+                <StyleNumberPicker ref='numberPicker1' title="边框粗细" size={(formStyleItem?formStyleItem.borderSize:null)} unit="(单位:px)"/>
+                <StyleNumberPicker ref='numberPicker2' title="字体大小" size={(formStyleItem?formStyleItem.fontSize:null)} unit="(单位:px)"/>
+                <StyleDropBoxPicker title="字体选择" groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="true-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div style={{marginTop:'-30px',marginLeft:'80px'}} onClick={()=>{}} className="true-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>

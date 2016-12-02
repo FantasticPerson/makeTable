@@ -5,7 +5,6 @@ import React,{Component,PropTypes} from 'react'
 import ColorPicker from '../../../components/colorPicker'
 import NumberPicker from '../../../components/number-picker'
 import ItemSelector from '../../../components/itemSelector'
-import {updateStyleList,updateMaxId} from '../../../actions/form'
 
 export default class ComponentStyleEditor extends Component{
     constructor(){
@@ -16,39 +15,6 @@ export default class ComponentStyleEditor extends Component{
     onConformClick(){
         const {formStyle,onUpdateStyle,subName,confirm,posInfo} = this.props;
         const {colorPicker,numberPicker1,numberPicker2} = this.refs;
-        // let arr = [];
-        // if(subName == 'viewAdd'){
-        //     let style = {};
-        //     style.name = this.formStyle.name;
-        //     style.id = this.formStyle.id;
-        //     style.borderColor = colorPicker.getColor();
-        //     style.fontSize = numberPicker2.getNumber();
-        //     style.isDefault = this.formStyle.isDefault;
-        //     style.borderSize = numberPicker1.getNumber();
-        //     for(let i=0;i<formStyle.list.length;i++){
-        //         arr.push(formStyle.list[i]);
-        //     }
-        //     arr.push(style);
-        //     this.props.dispatch(updateMaxId(style.id))
-        // } else {
-        //     for (let i = 0; i < formStyle.list.length; i++) {
-        //         if (formStyle.list[i].id == formStyle.id) {
-        //             let style = {id: formStyle.list[i].id};
-        //             style.borderColor = colorPicker.getColor();
-        //             style.fontSize = numberPicker2.getNumber();
-        //             style.borderSize = numberPicker1.getNumber();
-        //             style.isDefault = formStyle.list[i].isDefault;
-        //             style.name = formStyle.list[i].name;
-        //             arr.push(style);
-        //         } else {
-        //             arr.push(formStyle.list[i]);
-        //         }
-        //     }
-        // }
-        // this.props.dispatch(updateStyleList(arr));
-        // setTimeout(function(){
-        //     onUpdateStyle();
-        // }.bind(this),20);
         confirm(posInfo.tdId,posInfo.id,{});
 
     }

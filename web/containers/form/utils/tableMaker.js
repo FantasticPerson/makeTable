@@ -6,7 +6,7 @@ import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
 export default class tableMaker extends Object{
-    constructor(num1,num2,onTdClick,onRightClick,onComponentDrop,onComponentClick,style){
+    constructor(num1,num2,tWidth,tHeight,onTdClick,onRightClick,onComponentDrop,onComponentClick,style){
         super();
         this.getNode = getNode;
         this.mergeTd = mergeTd;
@@ -28,7 +28,7 @@ export default class tableMaker extends Object{
         for(let i=0;i<num1;i++){
             tdArr[i] = [];
             for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1},this.id++,this.style,0,this.onTdClick,this.onRightClick,this.onComponentDrop,this.onComponentClick,null)
+                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1,tWidth,tHeight},this.id++,this.style,0,this.onTdClick,this.onRightClick,this.onComponentDrop,this.onComponentClick,null)
             }
         }
         this.tds = tdArr;

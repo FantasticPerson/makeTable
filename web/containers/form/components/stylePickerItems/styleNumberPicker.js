@@ -9,17 +9,21 @@ export default class StyleNumberPicker extends Component{
         super();
     }
 
+    getValue(){
+        const {numberPicker} = this.refs;
+        return numberPicker.getNumber();
+    }
+
     render(){
-        const {title,size} = this.props;
+        const {title,size,unit} = this.props;
         return(
             <div className="true-form-tool-bar-style-editor-border-size">
                 <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-border-size-text">{title}</div>
-                    <div className="true-form-tool-bar-style-editor-border-size-container">
-                        <NumberPicker ref='numberPicker1' value={(size?size:null)}/>
-                    </div>
-                <div style={{marginLeft:'5px',marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-unit">{'(单位:px)'}</div>
+                <div className="true-form-tool-bar-style-editor-border-size-container">
+                    <NumberPicker ref='numberPicker' value={(size?size:null)}/>
+                </div>
+                <div style={{marginLeft:'5px',marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-unit">{unit?unit:''}</div>
             </div>
         )
-
     }
 }

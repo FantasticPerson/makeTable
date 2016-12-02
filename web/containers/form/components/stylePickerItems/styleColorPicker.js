@@ -9,6 +9,11 @@ export default class StyleColorPicker extends Component{
         super();
     }
 
+    getValue(){
+        const {colorPicker} = this.refs;
+        return colorPicker.getColor();
+    }
+
     render(){
         const {title,color} = this.props;
         return (

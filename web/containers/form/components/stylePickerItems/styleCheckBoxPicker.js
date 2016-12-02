@@ -9,12 +9,13 @@ export default class StyleCheckBoxPicker extends Component{
     }
 
     render(){
-        const {title} = this.props;
+        const {title,text} = this.props;
         return (
             <div className="true-form-tool-bar-style-editor-font-family">
                 <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-family-text">{title}</div>
                 <div className="true-form-tool-bar-style-editor-font-family-container">
                     <input type="checkbox"/>
+                    <div>{text}</div>
                 </div>
             </div>
         )

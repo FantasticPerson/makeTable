@@ -2,7 +2,10 @@
  * Created by wdd on 2016/11/24.
  */
 import React,{Component,PropTypes} from 'react';
-import textMaker from './textMaker'
+import TextMaker from './componentMaker/textMaker'
+import InputMaker from './componentMaker/inputMaker'
+import TextAreaMaker from './componentMaker/textAreaMaker'
+import DropBoxMaker from './componentMaker/dropboxMaker'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,style,mockType,onTdClick,onRightClick,onComponentDrop,onComponentClick,content){
@@ -28,7 +31,13 @@ export default class tdMaker extends Object{
 
 export function insertComponent(type){
     if(type == 'text'){
-        this.componentArray.push(new textMaker(this.componentId++,this.id,'text',{},this.onComponentClick))
+        this.componentArray.push(new TextMaker(this.componentId++,this.id,'text',{},this.onComponentClick))
+    } else if(type == 'input'){
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,'text',{},this.onComponentClick))
+    } else if(type == 'textArea'){
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,'textArea',{},this.onComponentClick))
+    } else if(type == 'dropBox'){
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,'dropBox',{},this.onComponentClick))
     }
 }
 
@@ -47,9 +56,9 @@ export function setStyle(style){
 
 export function getNode(tdIds,index=0){
     if(this.mockType == 0) {
-        const {cCol,tCol,cRow,tRow} = this.posInfo;
-        let height = cRow / tRow * 100 + '%';
-        let width = cCol / tCol * 100 + '%';
+        const {cCol,tCol,cRow,tRow,tWidth,tHeight} = this.posInfo;
+        let height = cRow / tRow * tHeight;
+        let width = cCol / tCol * tWidth;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
         let row = cCol == tCol ? 1 : cRow;
@@ -57,6 +66,8 @@ export function getNode(tdIds,index=0){
         let color = this.style.borderColor;
         style.border = this.style.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
         style.backgroundColor = bgColor;
+        style.width = width+'px';
+        style.height = height+'px';
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
@@ -71,7 +82,7 @@ export function getNode(tdIds,index=0){
                     }} onDrop={(e)=>{
                         this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
                     }}
-        ><div style={{width:'100%',height:'100%',overflow:'hidden'}}>{components}</div></td>)
+        ><div style={{width:(width) + 'px',height:(height)+'px',display:'flex',overflow:'hidden',flexDirection:'row',alignItems:'center'}}>{components}</div></td>)
     } else {
         return null;
     }

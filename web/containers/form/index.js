@@ -92,7 +92,7 @@ class FormPage extends Component{
         let formStyle = formStyleList.find(function(item){
             return item.id == formStyleId
         });
-        let tableObj2 = new tableMaker(num1,num2,this.onTdItemClick.bind(this),this.onTdRightClick.bind(this),this.onComponentDrop.bind(this),this.onComponentRightClick.bind(this),formStyle);
+        let tableObj2 = new tableMaker(num1,num2,668,355,this.onTdItemClick.bind(this),this.onTdRightClick.bind(this),this.onComponentDrop.bind(this),this.onComponentRightClick.bind(this),formStyle);
         this.setState({tableObj:tableObj2});
     }
 

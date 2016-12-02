@@ -15,7 +15,7 @@ export const formDefaultStyle = [{
     id:1
 }];
 
-export const NameList = [
+export const fontFamilyList = [
     {value:'SimHei',text:'黑体'},
     {value:'SimSun',text:'宋体'},
     {value:'NSimSun',text:'新宋体'},
