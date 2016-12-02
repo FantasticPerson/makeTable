@@ -51,8 +51,11 @@ export function setComponentStyle(id,style){
     }
 }
 
-export function setStyle(style){
-    this.style = style;
+export function setStyle(styleArr){
+    this.styleArr = styleArr;
+    for(let i=0;i<this.componentArray.length;i++){
+        this.componentArray[i].setStyle(styleArr);
+    }
 }
 
 export function getNode(tdIds,index=0){

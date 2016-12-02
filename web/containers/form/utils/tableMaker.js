@@ -51,11 +51,11 @@ export function setComponentStyle(tdId,componentId,style){
     }
 }
 
-export function setStyle(style){
-    this.style = style;
+export function setStyle(styleArr){
+    this.styleArr = styleArr;
     for(let i=0;i<this.tds.length;i++){
         for(let j=0;j<this.tds[i].length;j++){
-            this.tds[i][j].setStyle(style);
+            this.tds[i][j].setStyle(styleArr);
         }
     }
 }

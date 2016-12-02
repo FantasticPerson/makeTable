@@ -28,8 +28,8 @@ export function onChange(e){
     this.value = dom.value;
 }
 
-export function setStyle(style){
-    this.style = style;
+export function setStyle(styleArr){
+    this.styleArr = styleArr;
 }
 
 export function onKeyDown(e){

@@ -17,8 +17,8 @@ export default class DropBoxMaker extends Object{
     }
 }
 
-export function setStyle(style){
-    this.style = style;
+export function setStyle(styleArr){
+    this.styleArr = styleArr;
 }
 
 export function getNode(index){

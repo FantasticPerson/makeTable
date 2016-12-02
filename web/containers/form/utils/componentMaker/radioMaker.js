@@ -16,8 +16,8 @@ export default class TextMaker extends Object{
     }
 }
 
-export function setStyle(style){
-    this.style = style;
+export function setStyle(styleArr){
+    this.styleArr = styleArr;
 }
 
 export function getNode(index){

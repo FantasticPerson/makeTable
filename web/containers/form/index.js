@@ -64,7 +64,7 @@ class FormPage extends Component{
             let formStyle = formStyleList.find(function(item){
                 return item.id == formStyleId
             });
-            tableObj.setStyle(formStyle);
+            tableObj.setStyle(formStyleList);
             this.setState({tableObj: tableObj})
         }
     }
