@@ -41,7 +41,7 @@ export function getNode(index){
     });
     let style = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
     return (
-        <span style={style} key={index} onKeyDown={(e)=>{
+        <span style={{...style,...this.style}} key={index} onKeyDown={(e)=>{
             console.log(e.which)
         }} onDoubleClick={(e)=>{
             this.onDoubleClick(e);

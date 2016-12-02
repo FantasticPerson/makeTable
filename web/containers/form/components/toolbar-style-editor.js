@@ -15,7 +15,7 @@ export default class ToolbarStyleEditor extends Component{
     }
 
     onConformClick(){
-        const {formStyle,onUpdateStyle,subName} = this.props;
+        const {formStyle,onUpdateStyle,subName,onClickClose} = this.props;
         const {colorPicker,colorPicker2,numberPicker1,numberPicker2,dropBoxSelector} = this.refs;
         let arr = [];
         if(subName == 'viewAdd'){
@@ -51,9 +51,15 @@ export default class ToolbarStyleEditor extends Component{
             }
         }
         this.props.dispatch(updateStyleList(arr));
+        onClickClose();
         setTimeout(function(){
             onUpdateStyle();
         }.bind(this),20);
+    }
+
+    onCancelClick(){
+        const {onClickClose} = this.props;
+        onClickClose();
     }
 
     render(){
@@ -89,7 +95,7 @@ export default class ToolbarStyleEditor extends Component{
                 <StyleDropBoxPicker ref='dropBoxSelector' title="字体选择" selectedValue={(formStyleItem?formStyleItem.fontFamily:null)} groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="true-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
-                    <div style={{marginTop:'-30px',marginLeft:'80px'}} onClick={()=>{}} className="true-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>
+                    <div style={{marginTop:'-30px',marginLeft:'80px'}} onClick={()=>{this.onCancelClick()}} className="true-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>
                 </div>
             </div>
         )

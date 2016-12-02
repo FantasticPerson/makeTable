@@ -28,11 +28,15 @@ export default class ToolbarStyle extends Component{
         })
     }
 
+    onCloseStyleEditor(){
+        this.setState({subName:null});
+    }
+
     renderSubView(){
         const {formStyle,onUpdateStyle} = this.props;
         const {subName} = this.state;
         if(subName == 'viewAdd' || subName == 'viewModify'){
-            return (<ToolbarStyleEditor formStyle={formStyle} subName={subName} onUpdateStyle={onUpdateStyle} dispatch={this.props.dispatch}/>)
+            return (<ToolbarStyleEditor formStyle={formStyle} subName={subName} onUpdateStyle={onUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>)
         }
     }
 

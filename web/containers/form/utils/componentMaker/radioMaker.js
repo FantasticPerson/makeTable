@@ -8,6 +8,7 @@ export default class TextMaker extends Object{
         super();
         this.tdId = tdId;
         this.id = id;
+        this.style = {};
         this.type = type;
         this.style = style;
         this.onContextMenu = onComponentClick;
@@ -21,8 +22,12 @@ export function setStyle(styleArr){
 }
 
 export function getNode(index){
+    let cStyle = this.styleArr.find((item)=>{
+        return item.id == this.styleId;
+    });
+    let style = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
     return (
-        <input type="radio" style={{...this.style}} key={index} onClick={(e)=>{e.stopPropagation()}} onContextMenu={(e)=>{
+        <input type="radio" style={{...style,...this.style}} key={index} onClick={(e)=>{e.stopPropagation()}} onContextMenu={(e)=>{
             e.preventDefault();
             e.stopPropagation();
             this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY});
