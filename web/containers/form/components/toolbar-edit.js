@@ -8,27 +8,38 @@ import ComponentPicker from './componentPicker'
 export default class ToolBarEdit extends Component{
     constructor(){
         super();
-        this.state={cTool:null}
+        this.state={cTool:[]}
     }
 
     renderSubTool(){
         const {cTool} = this.state;
-        if(cTool == 'display'){
-            const {clickGenerateTable} = this.props;
-            return (<ToolBarEditDisplay clickGenerateTable={clickGenerateTable} onConfirmClick={this.onConfirmClicked.bind(this)}/>);
-        } else if(cTool == 'element'){
-            return (<ComponentPicker/>);
-        }
+        return cTool.map((item,index)=>{
+            if(item == 'display'){
+                const {clickGenerateTable} = this.props;
+                return (<ToolBarEditDisplay key={index} clickGenerateTable={clickGenerateTable} onConfirmClick={this.onConfirmClicked.bind(this)}/>);
+            } else if(item == 'element'){
+                return (<ComponentPicker key={index}/>)
+            }
+        })
     }
 
     onClickHandler(name){
-        const {cTool} = this.state;
-        let name2 = (cTool == name ? null : name);
-        this.setState({cTool:name2});
+        let cTool = this.state.cTool;
+        if(cTool.indexOf(name) >= 0){
+            cTool.splice(cTool.indexOf(name),1);
+        } else {
+            cTool.push(name);
+        }
+        this.setState({cTool:cTool});
     }
 
-    onConfirmClicked(){
-        this.setState({cTool:null});
+    onConfirmClicked(name){
+        let cTool = this.state.cTool;
+        if(cTool.indexOf('display') >= 0){
+            cTool.splice(cTool.indexOf('display'),1);
+            this.setState({cTool:cTool});
+        }
+        // this.setState({cTool:null});
     }
 
     getStyleByName(name){
@@ -41,11 +52,12 @@ export default class ToolBarEdit extends Component{
     }
 
     render(){
+        const {cTool} = this.state;
         const {} = this.props;
-        let styleElement = this.getStyleByName('element');
-        let styleDisplay = this.getStyleByName('display');
-        let stylePreview = this.getStyleByName('preview');
-        let styleSource = this.getStyleByName('source');
+        let styleElement = cTool.indexOf('element') >=0 ?  {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
+        let styleDisplay = cTool.indexOf('display') >=0 ?  {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
+        let stylePreview = cTool.indexOf('preview') >=0 ?  {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
+        let styleSource = cTool.indexOf('source') >=0 ?  {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
         return (
             <div className="true-form-tool-bar-edit-container">
                 <div className="true-form-edit-icon-container">

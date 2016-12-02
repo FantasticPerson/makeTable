@@ -11,16 +11,16 @@ export default class StyleDropBoxPicker extends Component{
 
     getValue(){
         const {itemSelector} = this.refs;
-        return itemSelector.getSelectValue();
+        return itemSelector.getValue();
     }
 
     render(){
-        const {title,groupData} = this.props;
+        const {title,groupData,selectedValue} = this.props;
         return (
             <div className="true-form-tool-bar-style-editor-font-family">
                 <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-family-text">{title}</div>
                 <div className="true-form-tool-bar-style-editor-font-family-container">
-                    <ItemSelector ref='itemSelector' optionDataArray ={groupData}/>
+                    <ItemSelector ref='itemSelector' selectedValue={selectedValue} optionDataArray ={groupData}/>
                 </div>
             </div>
         )

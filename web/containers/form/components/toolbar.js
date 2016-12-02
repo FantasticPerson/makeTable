@@ -8,42 +8,38 @@ import ToolbarStyle from './toolbar-style'
 export default class ToolBar extends Component{
     constructor(){
         super();
-        this.state = {subTool:null};
+        this.state = {subTool:[]};
     }
 
     renderSubTool(){
         const {subTool} = this.state;
-        if(subTool == 'edit'){
-            const {style,clickGenerateTable} = this.props;
-            return (<ToolbarEdit clickGenerateTable={clickGenerateTable} dispath={this.props.dispatch}/>)
-        } else if(subTool == 'style'){
-            const {formStyle,onUpdateStyle} = this.props;
-            return (<ToolbarStyle dispatch={this.props.dispatch} formStyle={formStyle} onUpdateStyle={onUpdateStyle}/>)
-        } else if(subTool == ''){
-
-        }
+        return subTool.map((name,index)=>{
+            if(name == 'edit'){
+                const {style,clickGenerateTable,dispatch} = this.props;
+                return (<ToolbarEdit key={index} dispath={dispatch} clickGenerateTable={clickGenerateTable}/>);
+            } else if(name == 'style'){
+                const {formStyle,onUpdateStyle,dispatch} = this.props;
+                return (<ToolbarStyle key={index} dispatch={dispatch} formStyle={formStyle} onUpdateStyle={onUpdateStyle}/>);
+            }
+        });
     }
 
     onBtnClick(name){
-        const {subTool} = this.state;
-        let name2 = (subTool == name ? null : name);
-        this.setState({subTool:name2});
-    }
-
-    getStyleByName(name){
-        const {subTool} = this.state;
-        if(name == subTool){
-            return {color1:'#eef6fc',color2:'#6998d6'}
+        let subTool = this.state.subTool;
+        if(subTool.indexOf(name)>=0){
+            subTool.splice(subTool.indexOf(name),1);
         } else {
-            return {color1:'#FFFFFF',color2:'#000000'}
+            subTool.push(name);
         }
+        this.setState({subTool:subTool});
     }
 
     render(){
         const {style} = this.props;
-        let styleEdit = this.getStyleByName('edit');
-        let styleStyle = this.getStyleByName('style');
-        let styleTool = this.getStyleByName('tool');
+        const {subTool} = this.state;
+        let styleEdit = subTool.indexOf('edit') >= 0 ? {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
+        let styleTool = subTool.indexOf('tool') >= 0 ? {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
+        let styleStyle = subTool.indexOf('style') >= 0 ? {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
         return(
             <div>
                 <div className="true-form-tool-bar-container" style={style}>
@@ -52,16 +48,16 @@ export default class ToolBar extends Component{
                             <div className="true-form-edit-edit-icon"></div>
                             <div className="true-form-edit-edit-text" style={{color:styleEdit.color2}}>{'编辑'}</div>
                         </div>
-                        <div className="true-form-custom-style-icon-container" style={{backgroundColor:styleStyle.color1}} onClick={()=>{this.onBtnClick('style')}}>
+                        <div className="true-form-custom-style-icon-container" style={{backgroundColor:styleStyle.color1,marginLeft:'150px'}} onClick={()=>{this.onBtnClick('style')}}>
                             <div className="true-form-custom-style-icon"></div>
                             <div className="true-form-custom-style-text" style={{color:styleStyle.color2}}>{'自定义样式'}</div>
                         </div>
-                        <div className="true-form-tool-icon-container" style={{backgroundColor:styleTool.color1}} onClick={()=>{this.onBtnClick('tool')}}>
+                        <div className="true-form-tool-icon-container" style={{backgroundColor:styleTool.color1,visibility:'hidden'}} onClick={()=>{this.onBtnClick('tool')}}>
                             <div className="true-form-tool-icon"></div>
                             <div className="true-form-tool-text" style={{color:styleTool.color2}}>{'工具'}</div>
                         </div>
                     </div>
-                    <div className="tool-bar-right" style={{display:'flex',marginRight:'30px'}}>
+                    <div className="tool-bar-right" style={{display:'flex',marginRight:'30px',visibility:'hidden'}}>
                         <div className="true-form-save-icon"></div>
                         <div className="true-form-print-icon" style={{marginLeft:'20px'}}></div>
                         <div className="true-form-question-icon" style={{marginLeft:'20px'}}></div>

@@ -50,8 +50,9 @@ class FormPage extends Component{
     onComponentDrop(tdId,componentType){
         console.log(tdId,componentType);
         const {tableObj} = this.state;
+        const {formStyleList,formStyleId} = this.props;
         if(tableObj){
-            tableObj.insertComponent(tdId,componentType);
+            tableObj.insertComponent(tdId,componentType,formStyleList,formStyleId);
             this.setState({tableObj: tableObj});
         }
     }
@@ -89,10 +90,10 @@ class FormPage extends Component{
 
     clickGenerateTable(num1,num2){
         const {formStyleList,formStyleId} = this.props;
-        let formStyle = formStyleList.find(function(item){
-            return item.id == formStyleId
-        });
-        let tableObj2 = new tableMaker(num1,num2,668,355,this.onTdItemClick.bind(this),this.onTdRightClick.bind(this),this.onComponentDrop.bind(this),this.onComponentRightClick.bind(this),formStyle);
+        // let formStyle = formStyleList.find(function(item){
+        //     return item.id == formStyleId
+        // });
+        let tableObj2 = new tableMaker(num1,num2,668,355,this.onTdItemClick.bind(this),this.onTdRightClick.bind(this),this.onComponentDrop.bind(this),this.onComponentRightClick.bind(this),formStyleList,formStyleId);
         this.setState({tableObj:tableObj2});
     }
 
@@ -104,10 +105,8 @@ class FormPage extends Component{
         this.props.dispatch(showOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR,{data:data,confirm:this.componentClickConfirm.bind(this),cancel:this.componentClickCancel.bind(this)}))
     }
 
-    componentClickConfirm(tdId,id,style){
+    componentClickConfirm(tdId,id){
         this.props.dispatch(removeOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR));
-        console.log('click confirm');
-        console.log(tdId,id);
         const {tableObj} = this.state;
         if(tableObj){
             tableObj.setComponentStyle(tdId,id,{color:'red'});
@@ -128,6 +127,7 @@ class FormPage extends Component{
         const {tableObj,id} = this.state;
         let node = tableObj ? tableObj.getNode(this.tdIds) : null;
         let formStyle = {list:this.props.formStyleList,id:this.props.formStyleId,maxId:this.props.formStyleMaxId};
+        console.log(formStyle);
         return(
             <div className="true-form-container">
                 <ToolBar formStyle={formStyle} dispatch={this.props.dispatch} style={{position:'absolute'}} onUpdateStyle={this.onUpdateStyle.bind(this)} clickGenerateTable={this.clickGenerateTable.bind(this)}>

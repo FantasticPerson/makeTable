@@ -20,7 +20,7 @@ export default class StyleColorPicker extends Component{
             <div className="true-form-tool-bar-style-editor-color">
                 <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-color-text">{title}</div>
                 <div className="true-form-tool-bar-style-editor-color-container">
-                    <ColorPicker ref='colorPicker' color={(color ? color.borderColor : null)}/>
+                    <ColorPicker ref='colorPicker' color={(color ? color : null)}/>
                 </div>
             </div>
         )

@@ -8,9 +8,9 @@ import TextAreaMaker from './componentMaker/textAreaMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,style,mockType,onTdClick,onRightClick,onComponentDrop,onComponentClick,content){
+    constructor(posInfo,id,styleArr,styleId,mockType,onTdClick,onRightClick,onComponentDrop,onComponentClick,content){
         super();
-        this.style = style;
+        this.styleArr = styleArr;
         this.pStyle = {border:'1px solid'};
         this.id = id;
         this.componentId = 0;
@@ -26,18 +26,19 @@ export default class tdMaker extends Object{
         this.getNode = getNode;
         this.setStyle = setStyle;
         this.setComponentStyle = setComponentStyle;
+        this.styleId = styleId;
     }
 }
 
-export function insertComponent(type){
+export function insertComponent(type,styleArr,styleId){
     if(type == 'text'){
-        this.componentArray.push(new TextMaker(this.componentId++,this.id,'text',{},this.onComponentClick))
+        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
     } else if(type == 'input'){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,'text',{},this.onComponentClick))
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
     } else if(type == 'textArea'){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,'textArea',{},this.onComponentClick))
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
     } else if(type == 'dropBox'){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,'dropBox',{},this.onComponentClick))
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
     }
 }
 
@@ -56,6 +57,9 @@ export function setStyle(style){
 
 export function getNode(tdIds,index=0){
     if(this.mockType == 0) {
+        let cStyle = this.styleArr.find((item)=>{
+            return item.id == this.styleId;
+        });
         const {cCol,tCol,cRow,tRow,tWidth,tHeight} = this.posInfo;
         let height = cRow / tRow * tHeight;
         let width = cCol / tCol * tWidth;
@@ -63,8 +67,8 @@ export function getNode(tdIds,index=0){
         let col = tRow == cRow ? 1 : cCol;
         let row = cCol == tCol ? 1 : cRow;
         let style = {width,height};
-        let color = this.style.borderColor;
-        style.border = this.style.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
+        let color = cStyle.borderColor;
+        style.border = cStyle.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
         style.backgroundColor = bgColor;
         style.width = width+'px';
         style.height = height+'px';

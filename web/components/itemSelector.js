@@ -8,19 +8,19 @@ export default class ItemSelector extends Component{
         super();
     }
 
-    getSelectValue(){
+    getValue(){
         const {itemSelector} = this.refs;
         let index = itemSelector.selectedIndex;
         return itemSelector.options[index].value;
     }
 
     render() {
-        const {optionDataArray} = this.props;
+        const {optionDataArray,selectedValue} = this.props;
         const optionArr = optionDataArray.map((item, index)=> {
             return (<option key={index} value={item.value}>{item.text}</option>)
         });
         return (
-            <select style={{width:'120px',height:'30px'}} ref="itemSelector">{optionArr}</select>
+            <select style={{width:'120px',height:'30px'}} defaultValue={selectedValue} ref="itemSelector">{optionArr}</select>
         );
     }
 }

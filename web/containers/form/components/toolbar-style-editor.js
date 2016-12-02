@@ -16,7 +16,7 @@ export default class ToolbarStyleEditor extends Component{
 
     onConformClick(){
         const {formStyle,onUpdateStyle,subName} = this.props;
-        const {colorPicker,numberPicker1,numberPicker2} = this.refs;
+        const {colorPicker,colorPicker2,numberPicker1,numberPicker2,dropBoxSelector} = this.refs;
         let arr = [];
         if(subName == 'viewAdd'){
             let style = {};
@@ -26,6 +26,8 @@ export default class ToolbarStyleEditor extends Component{
             style.fontSize = numberPicker2.getValue();
             style.isDefault = this.formStyle.isDefault;
             style.borderSize = numberPicker1.getValue();
+            style.fontColor = colorPicker2.getValue();
+            style.fontFamily = dropBoxSelector.getValue();
             for(let i=0;i<formStyle.list.length;i++){
                 arr.push(formStyle.list[i]);
             }
@@ -40,6 +42,8 @@ export default class ToolbarStyleEditor extends Component{
                     style.borderSize = numberPicker1.getValue();
                     style.isDefault = formStyle.list[i].isDefault;
                     style.name = formStyle.list[i].name;
+                    style.fontColor = colorPicker2.getValue();
+                    style.fontFamily = dropBoxSelector.getValue();
                     arr.push(style);
                 } else {
                     arr.push(formStyle.list[i]);
@@ -59,13 +63,13 @@ export default class ToolbarStyleEditor extends Component{
             let defaultStyle = formStyle.list.find(function(item){
                 return item.isDefault;
             });
-            formStyle.borderColor = defaultStyle.borderColor;
-            formStyle.borderSize = defaultStyle.borderSize;
-            formStyle.fontSize = defaultStyle.fontSize;
-            formStyle.name = defaultStyle.name;
-            formStyle.isDefault = false;
-            formStyle.id = (formStyle.maxId+1);
-            this.formStyle = formStyle;
+            formStyleItem.borderColor = defaultStyle.borderColor;
+            formStyleItem.borderSize = defaultStyle.borderSize;
+            formStyleItem.fontSize = defaultStyle.fontSize;
+            formStyleItem.name = defaultStyle.name;
+            formStyleItem.isDefault = false;
+            formStyleItem.id = (formStyle.maxId+1);
+            this.formStyle = formStyleItem;
         } else {
             formStyleItem = formStyle.list.find(function (item) {
                 return item.id == formStyle.id;
@@ -80,8 +84,9 @@ export default class ToolbarStyleEditor extends Component{
                 </div>
                 <StyleColorPicker ref='colorPicker' title="边框颜色" color={(formStyleItem ? formStyleItem.borderColor : null)}/>
                 <StyleNumberPicker ref='numberPicker1' title="边框粗细" size={(formStyleItem?formStyleItem.borderSize:null)} unit="(单位:px)"/>
+                <StyleColorPicker ref='colorPicker2' title="文字颜色" color={(formStyleItem ? formStyleItem.fontColor : null)}/>
                 <StyleNumberPicker ref='numberPicker2' title="字体大小" size={(formStyleItem?formStyleItem.fontSize:null)} unit="(单位:px)"/>
-                <StyleDropBoxPicker title="字体选择" groupData={fontFamilyList}/>
+                <StyleDropBoxPicker ref='dropBoxSelector' title="字体选择" selectedValue={(formStyleItem?formStyleItem.fontFamily:null)} groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="true-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div style={{marginTop:'-30px',marginLeft:'80px'}} onClick={()=>{}} className="true-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>

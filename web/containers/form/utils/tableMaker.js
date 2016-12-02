@@ -6,7 +6,7 @@ import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
 export default class tableMaker extends Object{
-    constructor(num1,num2,tWidth,tHeight,onTdClick,onRightClick,onComponentDrop,onComponentClick,style){
+    constructor(num1,num2,tWidth,tHeight,onTdClick,onRightClick,onComponentDrop,onComponentClick,styleArr,styleId){
         super();
         this.getNode = getNode;
         this.mergeTd = mergeTd;
@@ -19,7 +19,8 @@ export default class tableMaker extends Object{
         this.setStyle = setStyle;
         this.insertComponent = insertComponent;
         this.onComponentDrop = onComponentDrop;
-        this.style = style;
+        this.styleArr = styleArr;
+        this.styleId = styleId;
         this.onRightClick = onRightClick;
         this.onTdClick = onTdClick;
         this.onComponentClick = onComponentClick;
@@ -28,7 +29,7 @@ export default class tableMaker extends Object{
         for(let i=0;i<num1;i++){
             tdArr[i] = [];
             for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1,tWidth,tHeight},this.id++,this.style,0,this.onTdClick,this.onRightClick,this.onComponentDrop,this.onComponentClick,null)
+                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1,tWidth,tHeight},this.id++,this.styleArr,this.styleId,0,this.onTdClick,this.onRightClick,this.onComponentDrop,this.onComponentClick,null)
             }
         }
         this.tds = tdArr;
@@ -36,10 +37,10 @@ export default class tableMaker extends Object{
     }
 }
 
-export function insertComponent(tdId,componentType){
+export function insertComponent(tdId,componentType,styleArr,styleId){
     let tdItem = this.getItemById(tdId);
     if(tdItem){
-        tdItem.insertComponent(componentType);
+        tdItem.insertComponent(componentType,styleArr,styleId);
     }
 }
 
@@ -311,6 +312,9 @@ export function getItemById(id){
 }
 
 export function getNode(ids){
+    let cStyle = this.styleArr.find((item)=>{
+        return item.id == this.styleId;
+    });
     let trArr = [];
     this.tds.map((tdSub,index)=>{
         let tdArr2 = [];
@@ -326,8 +330,8 @@ export function getNode(ids){
     });
 
     let style = {width:'668px',height:'355px'};
-    let color = this.style.borderColor;
-    style.border = this.style.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
+    let color = cStyle.borderColor;
+    style.border = cStyle.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
     return (
         <table  style={style}>
             <tbody>

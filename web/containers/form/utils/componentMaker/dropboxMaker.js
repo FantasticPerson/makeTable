@@ -4,12 +4,12 @@
 import React,{Component,PropTypes} from 'react'
 
 export default class DropBoxMaker extends Object{
-    constructor(id,tdId,type,style,onComponentClick){
+    constructor(id,tdId,styleArr,styleId,onComponentClick){
         super();
         this.tdId = tdId;
         this.id = id;
         this.type = 'dropBox';
-        this.style = style;
+        this.style = {};
         this.onContextMenu = onComponentClick;
         this.getNode = getNode;
         this.setStyle = setStyle;

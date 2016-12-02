@@ -4,12 +4,14 @@
 import React,{Component,PropTypes} from 'react'
 
 export default class TextMaker extends Object{
-    constructor(id,tdId,type,style,onComponentClick){
+    constructor(id,tdId,styleArr,styleId,onComponentClick){
         super();
         this.tdId = tdId;
         this.id = id;
         this.type = 'text';
-        this.style = style;
+        this.style = {};
+        this.styleArr = styleArr;
+        this.styleId = styleId;
         this.onContextMenu = onComponentClick;
         this.getNode = getNode;
         this.setStyle = setStyle;
@@ -34,8 +36,12 @@ export function onDoubleClick(e){
 }
 
 export function getNode(index){
+    let cStyle = this.styleArr.find((item)=>{
+        return item.id == this.styleId;
+    });
+    let style = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
     return (
-        <span style={{...this.style}} key={index} onKeyDown={(e)=>{
+        <span style={style} key={index} onKeyDown={(e)=>{
             console.log(e.which)
         }} onDoubleClick={(e)=>{
             this.onDoubleClick(e);
