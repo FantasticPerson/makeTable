@@ -45,3 +45,43 @@
   height: 30px;
   background: url(./icon/arrow.jpg) 0 0 no-repeat;
 }
+//--------------------------------------------------
+.abc-flex-row
+  display flex
+  flex-direction row
+
+.abc-flex-row-center-auto
+  @extend .abc-flex-row
+  align-items center
+
+.abc-flex-row-auto-center
+  @extend .abc-flex-row
+  justify-content center
+
+.abc-flex-row-center-center
+  @extend .abc-flex-row-center-auto
+  justify-content center
+
+.abc-flex-column
+  display flex
+  flex-direction column
+
+.abc-flex-column-center-auto
+  @extend .abc-flex-column
+  align-items center
+
+.abc-flex-column-auto-center
+  @extend .abc-flex-column
+  justify-content center
+
+.abc-flex-column-center-center
+  @extend .abc-flex-column-center-auto
+  justify-content center
+
+.abc-common-btn-blue
+  background-color #6998D6
+  border-radius 5px
+  text-align center
+  font-size 15px
+  color #FFF
+  cursor pointer

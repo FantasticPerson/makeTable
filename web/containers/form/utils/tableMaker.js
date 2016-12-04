@@ -5,36 +5,56 @@ import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
-export default class tableMaker extends Object{
-    constructor(num1,num2,tWidth,tHeight,onTdClick,onRightClick,onComponentDrop,onComponentClick,styleArr,styleId){
+export default class tableMaker extends Object {
+    constructor(posInfo, functionArray, styleArr, styleId) {
         super();
-        this.getNode = getNode;
-        this.mergeTd = mergeTd;
-        this.mergeTr = mergeTr;
-        this.merge = merge;
-        this.split = split;
-        this.getItemById = getItemById;
-        this.setTdSize = setTdSize;
-        this.setMockType = setMockType;
-        this.setStyle = setStyle;
-        this.insertComponent = insertComponent;
-        this.onComponentDrop = onComponentDrop;
-        this.styleArr = styleArr;
-        this.styleId = styleId;
-        this.onRightClick = onRightClick;
-        this.onTdClick = onTdClick;
-        this.onComponentClick = onComponentClick;
         this.id = 0;
-        let tdArr = [];
-        for(let i=0;i<num1;i++){
-            tdArr[i] = [];
-            for(let j=0;j<num2;j++){
-                tdArr[i][j] = new tdMaker({x:j,y:i,cCol:1,tCol:num2,cRow:1,tRow:num1,tWidth,tHeight},this.id++,this.styleArr,this.styleId,0,this.onTdClick,this.onRightClick,this.onComponentDrop,this.onComponentClick,null)
-            }
-        }
-        this.tds = tdArr;
-        this.setComponentStyle =setComponentStyle;
+        this.styleId = styleId;
+        this.styleArr = styleArr;
+
+        this.registerFunc = registerFunc;
+        this.registerFunc(functionArray);
+        this.initTds = initTds;
+        this.initTds(posInfo);
     }
+}
+
+export function registerFunc(functionArray){
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext} = functionArray;
+    this.onTdClick = onTdClick;
+    this.onTdContext = onTdContext;
+    this.onComponentDrop = onComponentDrop;
+    this.onComponentContext = onComponentContext;
+    this.getNode = getNode;
+    this.mergeTd = mergeTd;
+    this.mergeTr = mergeTr;
+    this.merge = merge;
+    this.split = split;
+    this.getItemById = getItemById;
+    this.setTdSize = setTdSize;
+    this.setMockType = setMockType;
+    this.setStyle = setStyle;
+    this.insertComponent = insertComponent;
+    this.setComponentStyle = setComponentStyle;
+}
+
+export function initTds(posInfo){
+    let tdArr = [];
+    const {row, col, width, height} = posInfo;
+    for (let i = 0; i < row; i++) {
+        tdArr[i] = [];
+        for (let j = 0; j < col; j++) {
+            let posInfo = {x: j, y: i, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
+            let functionArray = {
+                onTdClick:this.onTdClick,
+                onTdContext:this.onTdContext,
+                onComponentDrop:this.onComponentDrop,
+                onComponentContext:this.onComponentContext
+            };
+            tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray)
+        }
+    }
+    this.tds = tdArr;
 }
 
 export function insertComponent(tdId,componentType,styleArr,styleId){
@@ -60,63 +80,187 @@ export function setStyle(styleArr){
     }
 }
 
-export function merge(tdArr) {
-    let isSuccess = this.mergeTd(tdArr);
-    if(isSuccess){
-        return true;
-    } else {
-        isSuccess = this.mergeTr(tdArr);
-        return isSuccess;
-    }
-}
-
-export function merge2(tdArr){
-    let itemArr = tdArr.map(id=>{
-        return this.getItemById(id);
-    });
-    let itemArr2 = [],yArr=[];
-    for(let i=0;i<itemArr.length;i++){
-        if(yArr.indexOf(itemArr[i].posInfo.y) < 0){
-            yArr.push(itemArr[i].posInfo.y);
-            itemArr2.push([]);
-        }
-        let index = yArr.indexOf(itemArr[i].posInfo.y);
-        itemArr2[index].push(itemArr[i]);
-    }
-    let isValid = true;
-    itemArr2.sort(function(item1,item2){
-        item1.sort(function(item3,item4){
-            return item3.posInfo.x - item4.posInfo.x;
-        });
-        item2.sort(function(item5,item6){
-            return item5.posInfo.x - item6.posInfo.x;
-        });
-        isValid = isValid && (item1.length == item2.length);
-        return item1[0].posInfo.y - item2[0].posInfo.y;
-    });
-    if(!isValid){
-        return false;
-    }
-    console.log(itemArr2);
-    for(let j=0;j<itemArr2[0].length;j++){
-        for(let i=1;i<itemArr.length;i++){
-            if(itemArr[i-1][j].posInfo.x != itemArr[i][j].posInfo.x){
-                return false;
+export function merge(tdArr){
+    let pointsArr = [];
+    tdArr.map(id=>{
+        let item = this.getItemById(id);
+        let xLength = 1,yLength=1;
+        const {x,y} = item.posInfo;
+        for (let i = x + 1; i < this.tds[y].length; i++) {
+            if ([1, 3].indexOf(this.tds[y][i].mockType) >= 0) {
+                xLength ++;
+            } else {
+                break;
             }
         }
+        for(let j=y+1;j<this.tds.length;j++){
+            if([2,3].indexOf(this.tds[j][x].mockType) >= 0){
+                yLength++;
+            } else {
+                break;
+            }
+        }
+        for(let i=0;i<xLength;i++){
+            for(let j=0;j<yLength;j++){
+                pointsArr.push([x+i,y+j]);
+            }
+        }
+    });
+    let pointArr2 = [];
+    let yArr = [];
+    for(let i = 0;i<pointsArr.length;i++){
+        let yIndex = yArr.indexOf(pointsArr[i][1]);
+        if(yIndex < 0){
+            yArr.push(pointsArr[i][1]);
+            yIndex = yArr.length-1;
+            pointArr2.push([]);
+        }
+        pointArr2[yIndex].push(pointsArr[i]);
     }
-    for(let i=0;i<itemArr.length;i++){
-        let startX = itemArr[i][0].posInfo.x;
-        let endX = itemArr[i][itemArr[i].length-1].posInfo.x;
-        for(let j=startX+1;j<endX;j++){
+    pointArr2.sort(function (item1, item2) {
+        return item1[0][1] - item2[0][1];
+    });
+    for(let i=0;i<pointArr2.length;i++){
+        pointArr2[i].sort(function (item1, item2) {
+            return item1[0] -item2[0];
+        })
+    }
+    for(let i=1;i<pointArr2.length;i++){
+        let arr1 = pointArr2[i],arr2=pointArr2[i-1];
+        let startX1 = arr1[0][0],startX2 = arr2[0][0];
+        let endX1 = arr1[arr1.length-1][0],endX2 = arr2[arr2.length-1][0];
+        if(startX1 != startX2 || endX2 != endX1 || (endX1 -startX1 != endX2 - startX2)){
+            return false;
+        }
+    }
+    for(let i =1 ;i<pointArr2[0].length;i++){
+        let startY1 = pointArr2[0][i][1],startY2 = pointArr2[0][i-1][1];
+        let endY1 = pointArr2[pointArr2.length-1][i][1],endY2 = pointArr2[pointArr2.length-1][i-1][1];
+        if(startY1 != startY2 || endY2 != endY1 || (endY1-endY2 != startY1 - startY2)){
+            return false;
+        }
+    }
+    let minX = pointArr2[0][0][0],minY = pointArr2[0][0][1];
+    let maxX = pointArr2[0][pointArr2[0].length-1][0],maxY = pointArr2[pointArr2.length-1][0][1];
 
+    for(let i = minX+1;i<maxX+1;i++){
+        this.tds[minY][i].mockType = 1;
+    }
+    for(let i = minY+1;i<maxY+1;i++){
+        this.tds[i][minX].mockType = 2;
+    }
+    for(let i = minX + 1;i<maxX+1;i++){
+        for(let j=minY+1;j<maxY+1;j++){
+            this.tds[j][i].mockType = 3;
         }
     }
-    for(let i=0;i<itemArr2.length;i++){
-        if(!isValid){
-            break;
+    this.setTdSize();
+    return true;
+}
+
+export function merge3(tdArr) {
+    // let isSuccess = this.mergeTd(tdArr);
+    // if(isSuccess){
+    //     return true;
+    // } else {
+    //     isSuccess = this.mergeTr(tdArr);
+    // }
+    // if(isSuccess){
+    //     return true;
+    // } else {
+    //
+    // }
+
+    // let type = 1;
+    // let isRow = false;
+    // let isCol = false;
+    // let isAllSingle = false;
+    // let maxX = 0,minX=0,maxY=0,minY=0;
+    let itemArr = tdArr.map(id=>{
+        let item = this.getItemById(id);
+        let xLength = 0;
+        let yLength = 0;
+        const {x,y} = item.posInfo;
+        // if(x < this.tds[y].length -1) {
+            for (let i = x + 1; i < this.tds[y].length; i++) {
+                if ([1, 3].indexOf(this.tds[y][i].mockType) >= 0) {
+                    xLength += 1;
+                }
+            }
+        // }
+        // if()
+        for(let j=y+1;j<this.tds.length;j++){
+            if([2,3].indexOf(this.tds[j][x].mockType) >= 0){
+                yLength += 1;
+            }
+        }
+        return {item:item,xLength,yLength};
+    });
+
+    let itemArr2 = [];
+    let yArr = [];
+    for(let i = 0;i<itemArr.length;i++){
+        let yIndex = yArr.indexOf(itemArr[i].item.posInfo.y);
+        if(yIndex < 0){
+            yArr.push(itemArr[i].item.posInfo.y);
+            itemArr2.push([]);
+            yIndex = yArr.length -1;
+        }
+        itemArr2[yIndex].push(itemArr[i]);
+    }
+    for(let j = 0; j< itemArr2.length;j++){
+        itemArr2[j].sort(function(item1,item2){
+            return item1.item.posInfo.x - item2.item.posInfo.x;
+        })
+    }
+
+    for(let i =1 ;i<itemArr2.length;i++){
+        if(itemArr2[i].length != itemArr2[i-1].length){
+            return false;
+        }
+        if(itemArr2[i][0].item.posInfo.x != itemArr2[i-1][0].item.posInfo.x){
+            return false;
+        }
+        let item1 = itemArr2[i][itemArr2[i].length-1];
+        let item2 = itemArr2[i-1][itemArr2[i].length-1];
+        if((item1.item.posInfo.x + item1.xLength) != (item2.item.posInfo.x + item2.xLength)){
+            return false;
         }
     }
+    let length = itemArr2[0].length;
+    let length2 = itemArr2.length;
+    for(let i = 1;i<length;i++){
+        if(itemArr2[0][i-1].item.posInfo.y != itemArr2[0][1].item.posInfo.y){
+            return false;
+        }
+        let item1 = itemArr2[length2-1][i-1];
+        let item2 = itemArr2[length2-1][i];
+        if((item1.item.posInfo.y + item1.yLength) != (item2.item.posInfo.y + item2.yLength)){
+            return false;
+        }
+    }
+    let minX = itemArr2[0][0].item.posInfo.x;
+    let minY = itemArr2[0][0].item.posInfo.y;
+    let maxX = itemArr2[0][length-1].item.posInfo.x + itemArr2[0][length-1].xLength;
+    let maxY = itemArr2[length2-1][length-1].item.posInfo.y + itemArr2[length2-1][length-1].yLength;
+
+    for(let i = minX+1;i<maxX+1;i++){
+        this.tds[minY][i].mockType = 1;
+        // itemArr2[0][i].item.mockType = 1;
+    }
+    for(let i = minY+1;i<maxY+1;i++){
+        this.tds[i][minX].mockType = 2;
+        // itemArr2[i][minX].item.mockType = 2;
+    }
+    for(let i = minX + 1;i<maxX+1;i++){
+        for(let j=minY+1;j<maxY+1;j++){
+            this.tds[j][i].mockType = 3;
+            // itemArr2[j][i].item.mockType = 3;
+        }
+    }
+    this.setTdSize();
+    console.log(itemArr2);
+    return true;
 }
 
 export function mergeTd(tdArr){

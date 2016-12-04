@@ -1,0 +1,33 @@
+@import "../common.styl"
+
+.abc-form-tool-bar-container
+  @extend .abc-flex-row-center-auto
+  width: 100%;
+  height: 50px;
+  background-color: #FFF;
+  justify-content: space-between;
+
+.abc-form-tool-bar-container-left
+  @extends .abc-flex-row
+  margin-left '10px'
+
+.abc-form-tool-bar-container-left-item
+  @extend .abc-flex-row-center-center
+  height 20px
+  background-color #FFF
+  border-radius 3px
+  margin-left 10px
+  padding 4px
+  border 1px solid #EEE
+  cursor pointer
+
+.abc-form-tool-bar-container-left-item-text
+  margin-left 3px
+
+.abc-form-tool-bar-container-right
+  @extend .abc-flex-row
+  margin-right 30px
+  visibility hidden
+
+.abc-form-tool-bar-sub-tool-container
+  position absolute

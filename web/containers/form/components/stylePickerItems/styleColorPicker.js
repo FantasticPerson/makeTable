@@ -17,9 +17,9 @@ export default class StyleColorPicker extends Component{
     render(){
         const {title,color} = this.props;
         return (
-            <div className="true-form-tool-bar-style-editor-color">
-                <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-color-text">{title}</div>
-                <div className="true-form-tool-bar-style-editor-color-container">
+            <div className="abc-form-tool-bar-style-editor-color-container">
+                <div className="abc-form-tool-bar-style-editor-color-text">{title}</div>
+                <div className="abc-form-tool-bar-style-editor-color-picker">
                     <ColorPicker ref='colorPicker' color={(color ? color : null)}/>
                 </div>
             </div>

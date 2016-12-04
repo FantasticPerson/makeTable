@@ -2,7 +2,7 @@ let path = require('path');
 
 export const APP_DEBUG = true;//切换debug环境和产品环境
 
-export const DEV_PORT = 3999;
+export const DEV_PORT = 3998;
 export const EMBED_FILE_MAX_SIZE = 10000;
 export const APP_DIR = path.join(__dirname, '..');
 export const NODE_MODULES_DIR = path.join(APP_DIR,'node_modules');

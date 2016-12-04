@@ -16,14 +16,12 @@ export default class StyleTextPicker extends Component{
 
     render(){
         const {title,text} = this.props;
-        console.log('text:'+text);
         return(
-            <div className="true-form-tool-bar-style-editor-border-size">
-                <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-border-size-text">{title}</div>
-                <div className="true-form-tool-bar-style-editor-border-size-container">
+            <div className="abc-form-tool-bar-style-editor-text-container">
+                <div className="abc-form-tool-bar-style-editor-text-text">{title}</div>
+                <div className="abc-form-tool-bar-style-editor-text-picker">
                     <input type="text" ref='textPicker' defaultValue={(text?text:null)}/>
                 </div>
-                <div style={{marginLeft:'5px',marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-unit">{}</div>
             </div>
         )
     }

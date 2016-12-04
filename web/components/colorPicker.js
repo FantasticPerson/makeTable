@@ -3,6 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {HuePicker,AlphaPicker} from 'react-color'
+import {stringifyRGBAObj} from '../containers/form/utils/data-helper'
 
 export default class ColorPicker extends Component{
     constructor(){
@@ -27,15 +28,15 @@ export default class ColorPicker extends Component{
 
     render(){
         const {color} = this.state;
-        let colorString = 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';
+        let style = {width:'20px',height:'20px',borderRadius:'3px',marginTop:'10px',backgroundColor:stringifyRGBAObj(color)};
         return (
             <div style={{width:'200px'}}>
                 <HuePicker width={'200px'} color={color} onChange={this.onChange.bind(this)}/>
                 <div style={{marginTop:'10px'}}>
                     <AlphaPicker width={'200px'} color={color} onChange={this.onChange.bind(this)}/>
                 </div>
-                <div style={{backgroundColor:colorString}} className="color-picker-color-cube"></div>
+                <div style={style}></div>
             </div>
-        )
+        );
     }
 }

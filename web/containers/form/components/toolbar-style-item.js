@@ -8,7 +8,7 @@ export default class ToolbarStyleItem extends Component{
         super();
     }
 
-    onClickHandler(){
+    onClick(){
         const {onClick,data,cId} = this.props;
         if(cId != data.id) {
             onClick(data.id);
@@ -19,9 +19,9 @@ export default class ToolbarStyleItem extends Component{
         const {data,cId} = this.props;
         let bgColor = cId == data.id ? '#ECF6E7' : '#FFFFFF';
         return (
-            <div className="true-form-tool-bar-style-item-container" style={{backgroundColor:bgColor}} onClick={()=>{this.onClickHandler()}}>
-                <div className="true-form-tool-bar-style-item-container-icon true-form-tool-bar-style-style-1"></div>
-                <div className="true-form-tool-bat-style-item-container-text">{data.name}</div>
+            <div className="abc-form-tool-bar-style-item-container" style={{backgroundColor:bgColor}} onClick={()=>{this.onClick()}}>
+                <div className="abc-form-tool-bar-style-item-container-icon true-form-tool-bar-style-style-1"></div>
+                <div className="abc-form-tool-bat-style-item-container-text">{data.name}</div>
             </div>
         )
     }

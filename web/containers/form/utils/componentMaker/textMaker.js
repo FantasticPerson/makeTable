@@ -10,31 +10,19 @@ export default class TextMaker extends Object{
         this.tdId = tdId;
         this.id = id;
         this.type = 'text';
+        this.value = "右击编辑内容";
         this.style = {};
         this.styleArr = styleArr;
         this.styleId = styleId;
         this.onContextMenu = onComponentClick;
         this.getNode = getNode;
         this.setStyle = setStyle;
-        this.value = "右击编辑内容";
         this.onSetStyleConfirm = onSetStyleConfirm;
     }
 }
 
 export function setStyle(styleArr){
     this.styleArr = styleArr;
-}
-
-export function onKeyDown(e){
-    if(e.which == 13) {
-        let dom = e.currentTarget;
-        dom.disabled = true;
-    }
-}
-
-export function onDoubleClick(e){
-    let dom = e.currentTarget;
-    dom.disabled = false;
 }
 
 export function onSetStyleConfirm(style,text,item){
@@ -71,18 +59,12 @@ export function getNode(index){
     }
     console.log({...style,...this.style});
     return (
-        <span style={{...style,...this.style,...pAColor}} key={index} onDoubleClick={(e)=>{
-            this.onDoubleClick(e);
-        }} onClick={(e)=>{
+        <span style={{...style,...this.style,...pAColor}} key={index} onClick={(e)=>{
             e.stopPropagation()
         }} onContextMenu={(e)=>{
             e.preventDefault();
             e.stopPropagation();
             this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY,style:{...style2,...this.style},value:this.value,onConfirm:this.onSetStyleConfirm.bind(this),cTarget:e.currentTarget});
-        }} onChange={(e)=>{
-            this.onChange(e);
-        }} onKeyPress={(e)=>{
-            this.onKeyDown(e);
         }}
         >{this.value}</span>
     )

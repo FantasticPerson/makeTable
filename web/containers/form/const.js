@@ -22,3 +22,20 @@ export const fontFamilyList = [
     {value:'KaiTi_GB2312',text:'楷体_GB2312'},
     {value:'Microsoft YaHei',text:'微软雅黑体'},
 ];
+
+export const editElement = 'element';
+export const editDisplay = 'display';
+export const editPreview = 'preview';
+export const editSource = 'source';
+
+export const toolEdit = 'edit';
+export const toolTool = 'tool';
+export const toolStyle = 'style';
+
+export const styleViewAdd = 'viewAdd';
+export const styleViewModify = 'viewModify';
+
+export const componentText = 'text';
+export const componentInput = 'input';
+export const componentTextArea = 'textArea';
+export const componentDropBox = 'dropBox';

@@ -36,8 +36,8 @@ export default createClass({
     return (
       <div style={containerStyle}>
         <Scrollbars
-          renderThumbVertical={props => <div {...props} className="tr-scrollbar-thumb-vertical"></div>}
-          renderThumbHorizontal={props => <div {...props} className="tr-scrollbar-thumb-horizontal"></div>}
+          renderThumbVertical={props => <div {...props} className="abc-scrollbar-thumb-vertical"></div>}
+          renderThumbHorizontal={props => <div {...props} className="abc-scrollbar-thumb-horizontal"></div>}
           ref="scrollbars" {...props}/>
       </div>
     )

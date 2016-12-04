@@ -6,39 +6,46 @@ import TextMaker from './componentMaker/textMaker'
 import InputMaker from './componentMaker/inputMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
+import {componentText,componentInput,componentTextArea,componentDropBox} from '../const'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,styleArr,styleId,mockType,onTdClick,onRightClick,onComponentDrop,onComponentClick,content){
+    constructor(posInfo,id,styleArr,styleId,mockType,functionArray){
         super();
-        this.styleArr = styleArr;
-        this.pStyle = {border:'1px solid'};
-        this.id = id;
-        this.componentId = 0;
-        this.posInfo=posInfo;
-        this.mockType = mockType;//0:not mock;1:col;2:row;3:row&col
         this.state={choose:false};
-        this.onTdClick = onTdClick;
-        this.onComponentClick = onComponentClick;
-        this.onRightClick = onRightClick;
-        this.onComponentDrop = onComponentDrop;
-        this.insertComponent = insertComponent;
-        this.componentArray = [];
-        this.getNode = getNode;
-        this.setStyle = setStyle;
-        this.setComponentStyle = setComponentStyle;
+        this.id = id;
+        this.mockType = mockType;
+        this.posInfo=posInfo;
+        this.styleArr = styleArr;
         this.styleId = styleId;
+        this.componentId = 0;
+        this.componentArray = [];
+
+        this.registerFunc = registerFunc;
+        this.registerFunc(functionArray);
     }
 }
 
+export function registerFunc(functionArray){
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext} = functionArray;
+    this.onTdClick = onTdClick;
+    this.onComponentContext = onComponentContext;
+    this.onTdContext = onTdContext;
+    this.onComponentDrop = onComponentDrop;
+    this.setComponentStyle = setComponentStyle;
+    this.insertComponent = insertComponent;
+    this.getNode = getNode;
+    this.setStyle = setStyle;
+}
+
 export function insertComponent(type,styleArr,styleId){
-    if(type == 'text'){
-        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
-    } else if(type == 'input'){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
-    } else if(type == 'textArea'){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
-    } else if(type == 'dropBox'){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentClick))
+    if(type == componentText){
+        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+    } else if(type == componentInput){
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+    } else if(type == componentTextArea){
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+    } else if(type == componentDropBox){
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
     }
 }
 
@@ -83,13 +90,16 @@ export function getNode(tdIds,index=0){
                     }} onContextMenu={(e)=>{
                         e.preventDefault();
                         e.stopPropagation();
-                        this.onRightClick({clientX:e.clientX,clientY:e.clientY,screenX:e.screenX,screenY:e.screenY,pageX:e.pageX,pageY:e.pageY});
+                        this.onTdContext({pageX:e.pageX, pageY:e.pageY});
                     }} onDragOver={(e)=>{
                         e.preventDefault()
                     }} onDrop={(e)=>{
                         this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                    }}
-        ><div style={{width:(width) + 'px',height:(height)+'px',display:'flex',overflow:'hidden',flexDirection:'row',alignItems:'center'}}>{components}</div></td>)
+                    }}>
+            <div style={{width:(width) + 'px',height:(height)+'px',display:'flex',overflow:'hidden',flexDirection:'row',alignItems:'center'}}>
+                {components}
+            </div>
+        </td>)
     } else {
         return null;
     }

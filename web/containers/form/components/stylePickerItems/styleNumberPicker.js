@@ -17,12 +17,12 @@ export default class StyleNumberPicker extends Component{
     render(){
         const {title,size,unit} = this.props;
         return(
-            <div className="true-form-tool-bar-style-editor-border-size">
-                <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-border-size-text">{title}</div>
-                <div className="true-form-tool-bar-style-editor-border-size-container">
+            <div className="abc-form-tool-bar-style-editor-number-container">
+                <div className="abc-form-tool-bar-style-editor-number-text">{title}</div>
+                <div className="abc-form-tool-bar-style-editor-number-picker">
                     <NumberPicker ref='numberPicker' value={(size?size:null)}/>
                 </div>
-                <div style={{marginLeft:'5px',marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-size-unit">{unit?unit:''}</div>
+                <div className="abc-form-tool-bar-style-editor-number-unit">{unit?unit:''}</div>
             </div>
         )
     }

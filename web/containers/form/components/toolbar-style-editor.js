@@ -84,9 +84,9 @@ export default class ToolbarStyleEditor extends Component{
 
         let title = (subName == 'viewAdd' ? '添加样式' : '样式详情');
         return(
-            <div className="true-form-tool-bar-style-editor-container">
-                <div className="true-form-tool-bar-style-editor-header">
-                    <div className="true-form-tool-bar-style-editor-text">{title}</div>
+            <div className="abc-form-tool-bar-style-editor-container">
+                <div className="abc-form-tool-bar-style-editor-container-header">
+                    <div className="abc-form-tool-bar-style-editor-container-header-text">{title}</div>
                 </div>
                 <StyleColorPicker ref='colorPicker' title="边框颜色" color={(formStyleItem ? formStyleItem.borderColor : null)}/>
                 <StyleNumberPicker ref='numberPicker1' title="边框粗细" size={(formStyleItem?formStyleItem.borderSize:null)} unit="(单位:px)"/>
@@ -94,8 +94,8 @@ export default class ToolbarStyleEditor extends Component{
                 <StyleNumberPicker ref='numberPicker2' title="字体大小" size={(formStyleItem?formStyleItem.fontSize:null)} unit="(单位:px)"/>
                 <StyleDropBoxPicker ref='dropBoxSelector' title="字体选择" selectedValue={(formStyleItem?formStyleItem.fontFamily:null)} groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
-                    <div className="true-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
-                    <div style={{marginTop:'-30px',marginLeft:'80px'}} onClick={()=>{this.onCancelClick()}} className="true-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>
+                    <div className="abc-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
+                    <div className="abc-form-tool-bar-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>
                 </div>
             </div>
         )

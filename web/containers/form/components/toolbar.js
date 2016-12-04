@@ -4,6 +4,7 @@
 import React,{Component,PropTypes} from 'react';
 import ToolbarEdit from './toolbar-edit'
 import ToolbarStyle from './toolbar-style'
+import {toolEdit,toolStyle,toolTool} from '../const'
 
 export default class ToolBar extends Component{
     constructor(){
@@ -14,17 +15,18 @@ export default class ToolBar extends Component{
     renderSubTool(){
         const {subTool} = this.state;
         return subTool.map((name,index)=>{
-            if(name == 'edit'){
-                const {style,clickGenerateTable,dispatch} = this.props;
-                return (<ToolbarEdit key={index} dispath={dispatch} clickGenerateTable={clickGenerateTable}/>);
-            } else if(name == 'style'){
-                const {formStyle,onUpdateStyle,dispatch} = this.props;
-                return (<ToolbarStyle key={index} dispatch={dispatch} formStyle={formStyle} onUpdateStyle={onUpdateStyle}/>);
+            if(name == toolEdit){
+                const {generateTable,dispatch} = this.props.data;
+                let toolbarEditData = {dispatch,generateTable};
+                return (<ToolbarEdit key={index} data={toolbarEditData}/>);
+            } else if(name == toolStyle){
+                const {formStyle,afterUpdateStyle,dispatch} = this.props.data;
+                return (<ToolbarStyle key={index} dispatch={dispatch} formStyle={formStyle} afterUpdateStyle={afterUpdateStyle}/>);
             }
         });
     }
 
-    onBtnClick(name){
+    onToolClick(name){
         let subTool = this.state.subTool;
         if(subTool.indexOf(name)>=0){
             subTool.splice(subTool.indexOf(name),1);
@@ -35,36 +37,49 @@ export default class ToolBar extends Component{
     }
 
     render(){
-        const {style} = this.props;
+        const {style} = this.props.data;
         const {subTool} = this.state;
-        let styleEdit = subTool.indexOf('edit') >= 0 ? {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
-        let styleTool = subTool.indexOf('tool') >= 0 ? {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
-        let styleStyle = subTool.indexOf('style') >= 0 ? {color1:'#eef6fc',color2:'#6998d6'} : {color1:'#FFFFFF',color2:'#000000'};
+        let styleArray = [{color1:'#eef6fc',color2:'#6998d6'},{color1:'#FFFFFF',color2:'#000000'}];
         return(
             <div>
-                <div className="true-form-tool-bar-container" style={style}>
-                    <div className="tool-bar-left" style={{marginLeft:'10px',display:'flex'}}>
-                        <div className="true-form-edit-edit-container" style={{backgroundColor:styleEdit.color1}} onClick={()=>{this.onBtnClick('edit')}}>
+                <div className="abc-form-tool-bar-container" style={style}>
+                    <div className="abc-form-tool-bar-container-left">
+                        <div className="abc-form-tool-bar-container-left-item"
+                             style={{backgroundColor:styleArray[subTool.indexOf(toolEdit)>=0 ? 0 : 1].color1}}
+                             onClick={()=>{this.onToolClick(toolEdit)}}>
                             <div className="true-form-edit-edit-icon"></div>
-                            <div className="true-form-edit-edit-text" style={{color:styleEdit.color2}}>{'编辑'}</div>
+                            <div className="abc-form-tool-bar-container-left-item-text"
+                                 style={{color:styleArray[subTool.indexOf(toolEdit)>=0 ? 0 : 1].color2}}>
+                                {'编辑'}
+                            </div>
                         </div>
-                        <div className="true-form-custom-style-icon-container" style={{backgroundColor:styleStyle.color1,marginLeft:'150px'}} onClick={()=>{this.onBtnClick('style')}}>
+                        <div className="abc-form-tool-bar-container-left-item"
+                             style={{backgroundColor:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color1,marginLeft:'150px'}}
+                             onClick={()=>{this.onToolClick(toolStyle)}}>
                             <div className="true-form-custom-style-icon"></div>
-                            <div className="true-form-custom-style-text" style={{color:styleStyle.color2}}>{'自定义样式'}</div>
+                            <div className="abc-form-tool-bar-container-left-item-text"
+                                 style={{color:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color2}}>
+                                {'自定义样式'}
+                            </div>
                         </div>
-                        <div className="true-form-tool-icon-container" style={{backgroundColor:styleTool.color1,visibility:'hidden'}} onClick={()=>{this.onBtnClick('tool')}}>
+                        <div className="abc-form-tool-bar-container-left-item"
+                             style={{backgroundColor:styleArray[subTool.indexOf(toolTool)>=0 ? 0 : 1].color1,visibility:'hidden'}}
+                             onClick={()=>{this.onToolClick(toolTool)}}>
                             <div className="true-form-tool-icon"></div>
-                            <div className="true-form-tool-text" style={{color:styleTool.color2}}>{'工具'}</div>
+                            <div className="abc-form-tool-bar-container-left-item-text"
+                                 style={{color:styleArray[subTool.indexOf(toolTool)>=0 ? 0 : 1].color2}}>
+                                {'工具'}
+                            </div>
                         </div>
                     </div>
-                    <div className="tool-bar-right" style={{display:'flex',marginRight:'30px',visibility:'hidden'}}>
+                    <div className="abc-form-tool-bar-container-right">
                         <div className="true-form-save-icon"></div>
                         <div className="true-form-print-icon" style={{marginLeft:'20px'}}></div>
                         <div className="true-form-question-icon" style={{marginLeft:'20px'}}></div>
                     </div>
                     {this.props.children}
                 </div>
-                <div className="true-form-sub-tool-bar-container">
+                <div className="abc-form-tool-bar-sub-tool-container">
                     {this.renderSubTool()}
                 </div>
             </div>

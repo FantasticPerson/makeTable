@@ -3,11 +3,11 @@
  */
 import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
+import * as overLayNames from '../../constants/OverLayNames'
 import ToolBar from './components/toolbar'
 import tableMaker from './utils/tableMaker'
-import {showOverLayByName,removeOverLayByName} from '../../actions/view'
-import * as overLayNames from '../../constants/OverLayNames'
 import {formDefaultStyle} from './const'
+import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 
 class FormPage extends Component{
@@ -17,7 +17,7 @@ class FormPage extends Component{
         this.tdIds = [];
     }
 
-    onTdItemClick(id){
+    onTdClick(id){
         if(this.tdIds.indexOf(id) >= 0){
             this.tdIds.splice(this.tdIds.indexOf(id),1);
         } else if(this.tdIds.indexOf(id) < 0){
@@ -57,7 +57,7 @@ class FormPage extends Component{
         }
     }
 
-    onUpdateStyle(){
+    afterUpdateStyle(){
         const {tableObj} = this.state;
         if(tableObj){
             const {formStyleList,formStyleId} = this.props;
@@ -88,21 +88,34 @@ class FormPage extends Component{
         }
     }
 
-    clickGenerateTable(num1,num2){
+    generateTable(num1, num2){
         const {formStyleList,formStyleId} = this.props;
-        // let formStyle = formStyleList.find(function(item){
-        //     return item.id == formStyleId
-        // });
-        let tableObj2 = new tableMaker(num1,num2,668,355,this.onTdItemClick.bind(this),this.onTdRightClick.bind(this),this.onComponentDrop.bind(this),this.onComponentRightClick.bind(this),formStyleList,formStyleId);
+        let posInfo = {row:num1,col:num2,width:668,height:355};
+        let functionArray = {
+            onTdClick:this.onTdClick.bind(this),
+            onTdContext:this.onTdContext.bind(this),
+            onComponentDrop:this.onComponentDrop.bind(this),
+            onComponentContext:this.onComponentContext.bind(this)
+        };
+        let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId);
         this.setState({tableObj:tableObj2});
     }
 
-    onTdRightClick(data){
-        this.props.dispatch(showOverLayByName(overLayNames.FORM_MENU_MODAL,{posInfo:data,merge:this.clickMerge.bind(this),split:this.clickSplit.bind(this),cancel:this.onMenuCancel.bind(this)}));
+    onTdContext(data){
+        this.props.dispatch(showOverLayByName(overLayNames.FORM_MENU_MODAL,{
+            posInfo:data,
+            merge:this.clickMerge.bind(this),
+            split:this.clickSplit.bind(this),
+            cancel:this.onMenuCancel.bind(this)
+        }));
     }
 
-    onComponentRightClick(data){
-        this.props.dispatch(showOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR,{data:data,confirm:this.componentClickConfirm.bind(this),cancel:this.componentClickCancel.bind(this)}))
+    onComponentContext(data){
+        this.props.dispatch(showOverLayByName(overLayNames.COMPONENT_STYLE_EDITOR,{
+            data:data,
+            confirm:this.componentClickConfirm.bind(this),
+            cancel:this.componentClickCancel.bind(this)
+        }))
     }
 
     componentClickConfirm(tdId,id){
@@ -124,16 +137,21 @@ class FormPage extends Component{
 
 
     render(){
-        const {tableObj,id} = this.state;
+        const {tableObj} = this.state;
+        const {dispatch,formStyleList,formStyleId,formStyleMaxId} = this.props;
         let node = tableObj ? tableObj.getNode(this.tdIds) : null;
-        let formStyle = {list:this.props.formStyleList,id:this.props.formStyleId,maxId:this.props.formStyleMaxId};
-        console.log(formStyle);
+        let formStyle = {list:formStyleList,id:formStyleId,maxId:formStyleMaxId};
+        let toolBarData = {formStyle:formStyle,dispatch:dispatch,style:{position:'absolute'}};
+        toolBarData = {
+            ...toolBarData,
+            afterUpdateStyle:this.afterUpdateStyle.bind(this),
+            generateTable:this.generateTable.bind(this)
+        };
         return(
-            <div className="true-form-container">
-                <ToolBar formStyle={formStyle} dispatch={this.props.dispatch} style={{position:'absolute'}} onUpdateStyle={this.onUpdateStyle.bind(this)} clickGenerateTable={this.clickGenerateTable.bind(this)}>
-                </ToolBar>
-                <div className="true-form-body-container">
-                    <div className="true-form-body-form-container">
+            <div className="abc-form-container">
+                <ToolBar data={toolBarData}/>
+                <div className="abc-form-container-body">
+                    <div className="abc-form-container-body-table">
                         {node}
                     </div>
                 </div>
@@ -144,9 +162,9 @@ class FormPage extends Component{
 
 function mapStateToProps(state) {
     return {
+        formStyleMaxId:state.form.maxId,
         formStyleList:state.form.formStyleList,
-        formStyleId:state.form.currentId,
-        formStyleMaxId:state.form.maxId
+        formStyleId:state.form.currentId
     }
 }
 

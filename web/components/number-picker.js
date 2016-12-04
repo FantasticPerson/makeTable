@@ -6,27 +6,27 @@ import React,{Component,PropTypes} from 'react'
 export default class NumberPicker extends Component{
     constructor() {
         super();
-        this.state = {number:1};
+        this.state = {number:1,max:50,min:1};
     }
 
     onClickAdd() {
-        const {number} = this.state;
-        if (number < 50){
+        const {number,max} = this.state;
+        if (number < max){
             this.setState({number:(number+1)});
         }
     }
     onClickReduce(){
-        const {number} = this.state;
-        if(number > 1){
+        const {number,min} = this.state;
+        if(number > min){
             this.setState({number:(number-1)});
         }
     }
 
     componentDidMount(){
-        const {value} = this.props;
-        if(value){
-            this.setState({number:value});
-        }
+        const {value,maxNum,minNum} = this.props;
+        const {number,max,min} = this.state;
+        let state = {number:(value?value:number),max:(maxNum?maxNum:max),min:(minNum?minNum:min)};
+        this.setState(state);
     }
 
     getNumber(){
@@ -34,14 +34,13 @@ export default class NumberPicker extends Component{
     }
 
     render(){
-        const {onChange} = this.props;
         const {number} = this.state;
         return (
-            <div className="number-picker-container">
-                <div className="number-picker-text">{number}</div>
-                <div className="number-picker-btn-container">
-                    <div className="number-picker-add-btn" onClick={()=>{this.onClickAdd()}}>{'+'}</div>
-                    <div className="number-picker-delete-btn" onClick={()=>{this.onClickReduce()}}>{'-'}</div>
+            <div className="abc-number-picker-container">
+                <div className="abc-number-picker-text">{number}</div>
+                <div>
+                    <div className="abc-number-picker-add-btn" onClick={()=>{this.onClickAdd()}}>{'+'}</div>
+                    <div className="abc-number-picker-delete-btn" onClick={()=>{this.onClickReduce()}}>{'-'}</div>
                 </div>
             </div>
         )

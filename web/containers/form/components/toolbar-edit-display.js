@@ -9,34 +9,34 @@ export default class ToolBarEditDisplay extends Component{
         super();
     }
 
-    onConfirmClickHandler(){
-        const {clickGenerateTable,onConfirmClick} = this.props;
+    onConfirmClick(){
+        const {generateTable,confirmClick} = this.props.data;
         const {numberPicker1,numberPicker2} = this.refs;
-        clickGenerateTable(numberPicker1.getNumber(),numberPicker2.getNumber());
-        onConfirmClick();
+        generateTable(numberPicker1.getNumber(),numberPicker2.getNumber());
+        confirmClick();
     }
 
     render(){
         const {} = this.props;
         return (
-            <div className="true-form-tool-bar-edit-display-container">
-                <div className="true-form-tool-bar-edit-display-header">
-                    <div className="true-form-tool-bar-edit-display-header-text">{'插入表格'}</div>
+            <div className="abc-form-tool-bar-edit-display-container">
+                <div className="abc-form-tool-bar-edit-display-container-header">
+                    <div className="abc-form-tool-bar-edit-display-container-header-text">{'插入表格'}</div>
                 </div>
-                <div className="true-form-tool-bar-edit-display-body">
-                    <div className="true-form-tool-bar-edit-display-body-row">
-                        <div className="true-form-tool-bar-edit-display-body-row-text">{'行数:'}</div>
-                        <div className="true-form-tool-bar-edit-display-body-row-picker">
+                <div className="abc-form-tool-bar-edit-display-container-body">
+                    <div className="abc-form-tool-bar-edit-display-container-body-row">
+                        <div className="abc-form-tool-bar-edit-display-container-body-row-text">{'行数:'}</div>
+                        <div className="abc-form-tool-bar-edit-display-container-body-row-picker">
                             <NumberPicker ref="numberPicker1"/>
                         </div>
                     </div>
-                    <div className="true-form-tool-bar-edit-display-body-col">
-                        <div className="true-form-tool-bar-edit-display-body-col-text">{'列数:'}</div>
-                        <div className="true-form-tool-bar-edit-display-body-col-picker">
+                    <div className="abc-form-tool-bar-edit-display-container-body-col">
+                        <div className="abc-form-tool-bar-edit-display-container-body-col-text">{'列数:'}</div>
+                        <div className="abc-form-tool-bar-edit-display-container-body-col-picker">
                             <NumberPicker ref="numberPicker2"/>
                         </div>
                     </div>
-                    <div className="true-form-tool-bar-edit-display-confirm-btn" onClick={()=>{this.onConfirmClickHandler()}} style={{marginLeft:'60px'}}>{'插入'}</div>
+                    <div className="abc-form-tool-bar-edit-confirm-btn" onClick={()=>{this.onConfirmClick()}}>{'插入'}</div>
                 </div>
             </div>
         )
