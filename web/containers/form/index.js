@@ -9,6 +9,7 @@ import tableMaker from './utils/tableMaker'
 import {formDefaultStyle} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
+import OptionDataAddTool from '../../components/optionDataAddTool'
 
 class FormPage extends Component{
     constructor(){
@@ -148,6 +149,7 @@ class FormPage extends Component{
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body">
+                    {/*<OptionDataAddTool/>*/}
                     <div className="abc-form-container-body-table">
                         {node}
                     </div>
