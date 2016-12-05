@@ -31,10 +31,16 @@ export function onSetStyleConfirm(style,text,item){
         item.style.fontSize = style.fontSize+'px';
     }
     if(style.color) {
-        item.style.fontColor = style.color;
+        item.style.color = stringifyRGBAObj(style.color);
     }
     if(style.fontFamily) {
         item.style.fontFamily = style.fontFamily;
+    }
+    if(style.marginTop){
+        item.style.marginTop = style.marginTop + 'px';
+    }
+    if(style.marginLeft){
+        item.style.marginLeft = style.marginTop + 'px';
     }
     this.style = {...this.style,...style};
     this.value = text;
@@ -44,27 +50,32 @@ export function getNode(index){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
-    let originColor = cStyle.fontColor;
-    let color = 'rgba('+originColor.r+','+originColor.g+','+originColor.b+','+originColor.a+')';
-    let style = {color:color,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize+'px'};
-    let style2 = {color:color,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
-
-    let pAColor;
-    let pColor = this.style.color;
-    if(pColor){
-        pAColor = {color:'rgba('+pColor.r+','+pColor.g+','+pColor.b+','+pColor.a+')'};
-        if(this.style.fontSize){
-            pAColor.fontSize = this.style.fontSize + 'px';
-        }
+    let style = {color:stringifyRGBAObj(cStyle.fontColor),fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize+'px'};
+    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    let pStyle = {};
+    if(this.style.color){
+        pStyle.color = stringifyRGBAObj(this.style.color);
+    }
+    if(this.style.fontSize){
+        pStyle.fontSize = this.style.fontSize + 'px';
+    }
+    if(this.style.fontFamily){
+        pStyle.fontFamily = this.style.fontFamily;
+    }
+    if(this.style.marginLeft){
+        pStyle.marginLeft = this.style.marginLeft + 'px';
+    }
+    if(this.style.marginTop){
+        pStyle.marginTop = this.style.marginTop + 'px';
     }
     console.log({...style,...this.style});
     return (
-        <span style={{...style,...this.style,...pAColor}} key={index} onClick={(e)=>{
+        <span style={{...style,...pStyle}} key={index} onClick={(e)=>{
             e.stopPropagation()
         }} onContextMenu={(e)=>{
             e.preventDefault();
             e.stopPropagation();
-            this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY,style:{...style2,...this.style},value:this.value,onConfirm:this.onSetStyleConfirm.bind(this),cTarget:e.currentTarget});
+            this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY,style:{...style1,...this.style},value:this.value,onConfirm:this.onSetStyleConfirm.bind(this),cTarget:e.currentTarget});
         }}
         >{this.value}</span>
     )

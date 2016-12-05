@@ -34,10 +34,10 @@ export default class ToolbarStyle extends Component{
     }
 
     renderSubView(){
-        const {formStyle,onUpdateStyle} = this.props;
+        const {formStyle,afterUpdateStyle} = this.props;
         const {subName} = this.state;
         if(subName == styleViewAdd || subName == styleViewModify){
-            return (<ToolbarStyleEditor formStyle={formStyle} subName={subName} onUpdateStyle={onUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>)
+            return (<ToolbarStyleEditor formStyle={formStyle} subName={subName} onUpdateStyle={afterUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>)
         }
     }
 
@@ -55,7 +55,7 @@ export default class ToolbarStyle extends Component{
                         <div className="abc-form-tool-bar-style-container-up-text-container">
                             <div className="abc-form-tool-bar-style-container-up-text-container-text">{'已保存的样式'}</div>
                         </div>
-                        <div className="true-form-tool-bar-style-container-1-styles">
+                        <div className="abc-form-tool-bar-style-container-up-styles">
                             {this.renderStyleArr()}
                         </div>
                     </div>

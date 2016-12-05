@@ -16,9 +16,9 @@ export default class TextStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {textPicker,colorPicker,numberPicker,dropBoxPicker} = this.refs;
+        const {textPicker,colorPicker,numberPicker,numberPicker1,numberPicker2,dropBoxPicker} = this.refs;
         let cStyle = {};
-        if(JSON.stringify(colorPicker.getValue()) != JSON.stringify(style.color)){
+        if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
             cStyle.color = colorPicker.getValue();
         }
         if(numberPicker.getValue() != style.fontSize){
@@ -26,6 +26,12 @@ export default class TextStyleEditor extends Component{
         }
         if(dropBoxPicker.getValue() != style.fontFamily){
             cStyle.fontFamily = dropBoxPicker.getValue();
+        }
+        if(!style.marginTop || (style.marginTop != numberPicker1.getValue())){
+            cStyle.marginTop = numberPicker1.getValue();
+        }
+        if(!style.marginLeft || (style.marginLeft != numberPicker2.getValue())){
+            cStyle.marginLeft = numberPicker2.getValue();
         }
         onConfirm(cStyle,textPicker.getValue(),item);
         onClose();
@@ -48,6 +54,8 @@ export default class TextStyleEditor extends Component{
                 <TextPicker ref='textPicker' text={textValue} title="设置内容"/>
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
+                <NumberPicker ref='numberPicker1' min={0} size={cStyle ? cStyle.marginLeft : null} title="左间距" unit="(单位:px)"/>
+                <NumberPicker ref='numberPicker2' min={0} size={cStyle ? cStyle.marginTop : null} title="上间距" unit="(单位:px)"/>
                 <DropBoxPicker ref="dropBoxPicker" selectedValue={cStyle ? cStyle.fontFamily:null} title="文字字体" groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>

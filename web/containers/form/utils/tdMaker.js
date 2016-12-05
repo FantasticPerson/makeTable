@@ -7,6 +7,7 @@ import InputMaker from './componentMaker/inputMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
 import {componentText,componentInput,componentTextArea,componentDropBox} from '../const'
+import {stringifyRGBAObj} from './data-helper'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray){
@@ -77,8 +78,7 @@ export function getNode(tdIds,index=0){
         let col = tRow == cRow ? 1 : cCol;
         let row = cCol == tCol ? 1 : cRow;
         let style = {width,height};
-        let color = cStyle.borderColor;
-        style.border = cStyle.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
+        style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
         style.backgroundColor = bgColor;
         style.width = width+'px';
         style.height = height+'px';

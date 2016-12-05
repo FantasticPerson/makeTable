@@ -3,10 +3,12 @@
  */
 import React,{Component,PropTypes} from 'react'
 import BaseModal from '../../../components/BaseModal'
-import ComponentStyleEditor from './component-style-editor'
 import TextStyleEditor from './comPonentStyleEditors/textStyleEditor'
+import InputStyleEditor from './comPonentStyleEditors/inputStyleEditor'
+import TextAreaStyleEditor from './comPonentStyleEditors/textAreaStyleEditor'
 import * as overLayNames from '../../../constants/OverLayNames'
 import {removeOverLayByName} from '../../../actions/view'
+import {componentText,componentTextArea,componentInput,componentDropBox} from '../const'
 
 export default class ComponentRightClickModal extends Component{
     constructor(){
@@ -19,8 +21,14 @@ export default class ComponentRightClickModal extends Component{
 
     renderComponentEditor(){
         const {data,cancel,confirm} = this.props.data;
-        if(data.type == 'text'){
+        if(data.type == componentText){
             return   <TextStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+        } else if(data.type == componentInput){
+            return   <InputStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+        } else if(data.type == componentTextArea){
+            return   <TextAreaStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+        } else if(data.type == componentDropBox){
+
         }
     }
 
@@ -34,8 +42,6 @@ export default class ComponentRightClickModal extends Component{
                     }
                 }}>
                     {this.renderComponentEditor()}
-                    {/*<TextStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />*/}
-                    {/*<ComponentStyleEditor posInfo={{type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY}} confirm={confirm} cancel={cancel}/>*/}
                 </div>
             </BaseModal>
         )

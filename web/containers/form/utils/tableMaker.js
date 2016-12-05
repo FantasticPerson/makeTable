@@ -4,6 +4,7 @@
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
+import {stringifyRGBAObj} from './data-helper'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId) {
@@ -11,11 +12,12 @@ export default class tableMaker extends Object {
         this.id = 0;
         this.styleId = styleId;
         this.styleArr = styleArr;
+        this.posInfo = posInfo;
 
         this.registerFunc = registerFunc;
         this.registerFunc(functionArray);
         this.initTds = initTds;
-        this.initTds(posInfo);
+        this.initTds();
     }
 }
 
@@ -26,21 +28,18 @@ export function registerFunc(functionArray){
     this.onComponentDrop = onComponentDrop;
     this.onComponentContext = onComponentContext;
     this.getNode = getNode;
-    this.mergeTd = mergeTd;
-    this.mergeTr = mergeTr;
     this.merge = merge;
     this.split = split;
     this.getItemById = getItemById;
     this.setTdSize = setTdSize;
-    this.setMockType = setMockType;
     this.setStyle = setStyle;
     this.insertComponent = insertComponent;
     this.setComponentStyle = setComponentStyle;
 }
 
-export function initTds(posInfo){
+export function initTds(){
     let tdArr = [];
-    const {row, col, width, height} = posInfo;
+    const {row, col, width, height} = this.posInfo;
     for (let i = 0; i < row; i++) {
         tdArr[i] = [];
         for (let j = 0; j < col; j++) {
@@ -136,7 +135,7 @@ export function merge(tdArr){
     for(let i =1 ;i<pointArr2[0].length;i++){
         let startY1 = pointArr2[0][i][1],startY2 = pointArr2[0][i-1][1];
         let endY1 = pointArr2[pointArr2.length-1][i][1],endY2 = pointArr2[pointArr2.length-1][i-1][1];
-        if(startY1 != startY2 || endY2 != endY1 || (endY1-endY2 != startY1 - startY2)){
+        if(startY1 != startY2 || endY2 != endY1 || (endY1-startY1 != endY2 - startY2)){
             return false;
         }
     }
@@ -153,205 +152,6 @@ export function merge(tdArr){
         for(let j=minY+1;j<maxY+1;j++){
             this.tds[j][i].mockType = 3;
         }
-    }
-    this.setTdSize();
-    return true;
-}
-
-export function merge3(tdArr) {
-    // let isSuccess = this.mergeTd(tdArr);
-    // if(isSuccess){
-    //     return true;
-    // } else {
-    //     isSuccess = this.mergeTr(tdArr);
-    // }
-    // if(isSuccess){
-    //     return true;
-    // } else {
-    //
-    // }
-
-    // let type = 1;
-    // let isRow = false;
-    // let isCol = false;
-    // let isAllSingle = false;
-    // let maxX = 0,minX=0,maxY=0,minY=0;
-    let itemArr = tdArr.map(id=>{
-        let item = this.getItemById(id);
-        let xLength = 0;
-        let yLength = 0;
-        const {x,y} = item.posInfo;
-        // if(x < this.tds[y].length -1) {
-            for (let i = x + 1; i < this.tds[y].length; i++) {
-                if ([1, 3].indexOf(this.tds[y][i].mockType) >= 0) {
-                    xLength += 1;
-                }
-            }
-        // }
-        // if()
-        for(let j=y+1;j<this.tds.length;j++){
-            if([2,3].indexOf(this.tds[j][x].mockType) >= 0){
-                yLength += 1;
-            }
-        }
-        return {item:item,xLength,yLength};
-    });
-
-    let itemArr2 = [];
-    let yArr = [];
-    for(let i = 0;i<itemArr.length;i++){
-        let yIndex = yArr.indexOf(itemArr[i].item.posInfo.y);
-        if(yIndex < 0){
-            yArr.push(itemArr[i].item.posInfo.y);
-            itemArr2.push([]);
-            yIndex = yArr.length -1;
-        }
-        itemArr2[yIndex].push(itemArr[i]);
-    }
-    for(let j = 0; j< itemArr2.length;j++){
-        itemArr2[j].sort(function(item1,item2){
-            return item1.item.posInfo.x - item2.item.posInfo.x;
-        })
-    }
-
-    for(let i =1 ;i<itemArr2.length;i++){
-        if(itemArr2[i].length != itemArr2[i-1].length){
-            return false;
-        }
-        if(itemArr2[i][0].item.posInfo.x != itemArr2[i-1][0].item.posInfo.x){
-            return false;
-        }
-        let item1 = itemArr2[i][itemArr2[i].length-1];
-        let item2 = itemArr2[i-1][itemArr2[i].length-1];
-        if((item1.item.posInfo.x + item1.xLength) != (item2.item.posInfo.x + item2.xLength)){
-            return false;
-        }
-    }
-    let length = itemArr2[0].length;
-    let length2 = itemArr2.length;
-    for(let i = 1;i<length;i++){
-        if(itemArr2[0][i-1].item.posInfo.y != itemArr2[0][1].item.posInfo.y){
-            return false;
-        }
-        let item1 = itemArr2[length2-1][i-1];
-        let item2 = itemArr2[length2-1][i];
-        if((item1.item.posInfo.y + item1.yLength) != (item2.item.posInfo.y + item2.yLength)){
-            return false;
-        }
-    }
-    let minX = itemArr2[0][0].item.posInfo.x;
-    let minY = itemArr2[0][0].item.posInfo.y;
-    let maxX = itemArr2[0][length-1].item.posInfo.x + itemArr2[0][length-1].xLength;
-    let maxY = itemArr2[length2-1][length-1].item.posInfo.y + itemArr2[length2-1][length-1].yLength;
-
-    for(let i = minX+1;i<maxX+1;i++){
-        this.tds[minY][i].mockType = 1;
-        // itemArr2[0][i].item.mockType = 1;
-    }
-    for(let i = minY+1;i<maxY+1;i++){
-        this.tds[i][minX].mockType = 2;
-        // itemArr2[i][minX].item.mockType = 2;
-    }
-    for(let i = minX + 1;i<maxX+1;i++){
-        for(let j=minY+1;j<maxY+1;j++){
-            this.tds[j][i].mockType = 3;
-            // itemArr2[j][i].item.mockType = 3;
-        }
-    }
-    this.setTdSize();
-    console.log(itemArr2);
-    return true;
-}
-
-export function mergeTd(tdArr){
-    let itemArr = tdArr.map(id=>{
-        return this.getItemById(id);
-    });
-    let isValid = true;
-    itemArr.sort(function (item1,item2) {//check选择的td是否在同一行
-        if(isValid && item1.posInfo.y != item2.posInfo.y){
-            isValid = false;
-        }
-        return item1.posInfo.x - item2.posInfo.x;
-    });
-    if(!isValid) {
-        return false;
-    }
-    if(isValid) {
-        const {y} = itemArr[0].posInfo;
-        let startX = itemArr[0].posInfo.x;
-        let endX = itemArr[itemArr.length-1].posInfo.x;
-        for (let i = startX+1; i < endX; i++) {//检查选择的td是否连续
-            if((this.tds[y][i].mockType == 0 && itemArr.indexOf(this.tds[y][i]) < 0) || this.tds[y][i].mockType == 2){
-                return false;
-            }
-        }
-        let cRow=0,cRow2=0;
-        for(let k=0;k<itemArr.length;k++){
-            cRow2 = 0;
-            let startX = itemArr[k].posInfo.x;
-            for(let j=itemArr[k].posInfo.y+1;j<this.tds.length;j++){
-                if(this.tds[j][startX].mockType >= 2){
-                    k == 0 ? cRow += 1 : cRow2+=1;
-                } else {
-                    break;
-                }
-            }
-            if( k != 0 && cRow != cRow2){
-                return false;
-            }
-        }
-        for(let i=startX+1;i<endX;i++){
-            this.setMockType(this.tds[y][i],true,true);
-        }
-        this.setMockType(itemArr[itemArr.length-1],true,true);
-    }
-    this.setTdSize();
-    return true;
-}
-
-export function mergeTr(tdArr){
-    let itemArr = tdArr.map(id=>{
-        return this.getItemById(id);
-    });
-    let isValid = true;
-    itemArr.sort(function (item1,item2) {//check选择的td是否在同一行
-        if(isValid && item1.posInfo.x != item2.posInfo.x){
-            isValid = false;
-        }
-        return item1.posInfo.y - item2.posInfo.y;
-    });
-    if(!isValid) {
-        return false;
-    }
-    if(isValid) {
-        const {x} = itemArr[0].posInfo;
-        let startY = itemArr[0].posInfo.y;
-        let endY = itemArr[itemArr.length-1].posInfo.y;
-        for (let i = startY+1; i < endY; i++) {//检查选择的td是否连续
-            if(this.tds[i][x].mockType == 0 && itemArr.indexOf(this.tds[i][x]) < 0 || this.tds[i][x].mockType == 1){
-                return false;
-            }
-        }
-        let cCol=0,cCol2=0;
-        for(let k=0;k<itemArr.length;k++){
-            let startY = itemArr[k].posInfo.y;
-            cCol2 = 0;
-            for(let j=itemArr[k].posInfo.x+1;j<this.tds[0].length;j++){
-                if([1,3].indexOf(this.tds[startY][j].mockType) >= 0){
-                    k == 0 ? cCol += 1 : cCol2+=1;
-                } else {
-                    break;
-                }
-            }
-            if( k != 0 && cCol != cCol2){
-                return false;
-            }
-        }
-        for(let i=startY+1;i<endY;i++){
-            this.setMockType(this.tds[i][x],true,false);
-        }
-        this.setMockType(itemArr[itemArr.length-1],true,false);
     }
     this.setTdSize();
     return true;
@@ -393,23 +193,6 @@ export function split(id){
         }
         this.setTdSize();
         return true;
-    }
-}
-
-export function setMockType(item,isAdd,isTd){
-    let cType = item.mockType;
-    if(isAdd){
-        if(isTd && (cType == 0 || cType == 2)){
-            item.mockType += 1;
-        } else if(!isTd && (cType == 0 || cType ==1)){
-            item.mockType += 2;
-        }
-    } else{
-        if(isTd && (cType == 1 || cType == 3)){
-            item.mockType -= 1;
-        } else if(!isTd && (cType == 2 || cType == 3)){
-            item.mockType -= 2;
-        }
     }
 }
 
@@ -472,10 +255,9 @@ export function getNode(ids){
             trArr.push(<tr key={index}>{tdArr2}</tr>);
         }
     });
-
-    let style = {width:'668px',height:'355px'};
-    let color = cStyle.borderColor;
-    style.border = cStyle.borderSize+'px solid '+'rgba('+ color.r+','+color.g+','+color.b+','+color.a+')';
+    const {width,height} = this.posInfo;
+    let style = {width:width+'px',height:height+'px'};
+    style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
     return (
         <table  style={style}>
             <tbody>

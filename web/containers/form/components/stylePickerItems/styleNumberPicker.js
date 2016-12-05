@@ -15,12 +15,12 @@ export default class StyleNumberPicker extends Component{
     }
 
     render(){
-        const {title,size,unit} = this.props;
+        const {title,size,unit,max,min} = this.props;
         return(
             <div className="abc-form-tool-bar-style-editor-number-container">
                 <div className="abc-form-tool-bar-style-editor-number-text">{title}</div>
                 <div className="abc-form-tool-bar-style-editor-number-picker">
-                    <NumberPicker ref='numberPicker' value={(size?size:null)}/>
+                    <NumberPicker maxNum={max} minNum={min} ref='numberPicker' value={(size?size:null)}/>
                 </div>
                 <div className="abc-form-tool-bar-style-editor-number-unit">{unit?unit:''}</div>
             </div>

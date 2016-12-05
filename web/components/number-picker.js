@@ -25,7 +25,7 @@ export default class NumberPicker extends Component{
     componentDidMount(){
         const {value,maxNum,minNum} = this.props;
         const {number,max,min} = this.state;
-        let state = {number:(value?value:number),max:(maxNum?maxNum:max),min:(minNum?minNum:min)};
+        let state = {number:((value != undefined)?value:number),max:((maxNum != undefined)?maxNum:max),min:((minNum != undefined)?minNum:min)};
         this.setState(state);
     }
 
