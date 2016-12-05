@@ -12,3 +12,20 @@ export function stringifyRGBAObj(obj){
     }
     return 'rgba('+obj.r+','+obj.g+','+obj.b+','+obj.a+')';
 }
+
+export function checkArrayEqual(arr1,arr2){
+    if(arr1.length != arr2.length){
+        return false;
+    }
+    for(let i=0;i<arr1.length;i++){
+        if(arr2.indexOf(arr1[i]) < 0){
+            return false;
+        }
+    }
+    for(let i = 0;i<arr2.length;i++){
+        if(arr1.indexOf(arr2[i]) < 0){
+            return false;
+        }
+    }
+    return true;
+}

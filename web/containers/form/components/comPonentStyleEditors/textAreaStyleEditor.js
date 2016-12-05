@@ -5,6 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import ColorPicker from '../stylePickerItems/styleColorPicker'
 import NumberPicker from '../stylePickerItems/styleNumberPicker'
 import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
+import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import {fontFamilyList} from '../../const'
 import {stringifyRGBAObj} from '../../utils/data-helper'
 
@@ -15,7 +16,7 @@ export default class TextAreaStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {textPicker,colorPicker,numberPicker,numberPicker1,numberPicker2,numberPicker3,numberPicker4,dropBoxPicker} = this.refs;
+        const {textPicker,colorPicker,numberPicker,numberPicker1,numberPicker2,numberSetter1,numberSetter2,dropBoxPicker} = this.refs;
         let cStyle = {};
         if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
             cStyle.color = colorPicker.getValue();
@@ -32,11 +33,11 @@ export default class TextAreaStyleEditor extends Component{
         if(!style.marginLeft || (style.marginLeft != numberPicker2.getValue())){
             cStyle.marginLeft = numberPicker2.getValue();
         }
-        if(style.rows != numberPicker4.getValue()){
-            cStyle.rows = numberPicker4.getValue();
+        if((!style.width || style.width != numberSetter1.getValue()) && numberSetter1.getValue() != ''){
+            cStyle.width = numberSetter1.getValue();
         }
-        if(style.cols != numberPicker3.getValue()){
-            cStyle.cols = numberPicker3.getValue();
+        if((!style.height || style.height != numberSetter2.getValue()) && numberSetter2.getValue() != ''){
+            cStyle.height = numberSetter2.getValue();
         }
         onConfirm(cStyle,item);
         onClose();
@@ -57,10 +58,11 @@ export default class TextAreaStyleEditor extends Component{
                 </div>
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
+                <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>
+                <NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>
+
                 <NumberPicker ref='numberPicker1' min={0} size={cStyle ? cStyle.marginLeft : null} title="左间距" unit="(单位:px)"/>
                 <NumberPicker ref='numberPicker2' min={0} size={cStyle ? cStyle.marginTop : null} title="上间距" unit="(单位:px)"/>
-                <NumberPicker ref='numberPicker3' min={0} size={cStyle ? cStyle.cols : null} title="宽度" unit="(单位:cols)"/>
-                <NumberPicker ref='numberPicker4' min={0} size={cStyle ? cStyle.rows : null} title="高度" unit="(单位:rows)"/>
                 <DropBoxPicker ref="dropBoxPicker" selectedValue={cStyle ? cStyle.fontFamily:null} title="文字字体" groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>

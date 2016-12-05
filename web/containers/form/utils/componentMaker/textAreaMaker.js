@@ -41,11 +41,11 @@ export function onSetStyleConfirm(style,item){
     if(style.marginLeft){
         item.style.marginLeft = style.marginTop + 'px';
     }
-    if(style.rows){
-        item.rows = style.rows
+    if(style.width){
+        item.style.width = style.width + 'px'
     }
-    if(style.cols){
-        item.cols = style.cols;
+    if(style.height){
+        item.style.height = style.height + 'px';
     }
     this.style = {...this.style,...style};
 }
@@ -72,10 +72,14 @@ export function getNode(index){
     if(this.style.marginTop){
         pStyle.marginTop = this.style.marginTop + 'px';
     }
-    let rows = this.style.rows ? this.style.rows : 3;
-    let cols = this.style.cols ? this.style.cols : 20;
+    if(this.style.width){
+        pStyle.width = this.style.width + 'px';
+    }
+    if(this.style.height){
+        pStyle.height = this.style.width + 'px';
+    }
     return (
-        <textarea rows={rows} cols={cols} style={{...style,...pStyle}} key={index} onClick={(e)=>{e.stopPropagation()}} onContextMenu={(e)=>{
+        <textarea style={{...style,...pStyle}} key={index} onClick={(e)=>{e.stopPropagation()}} onContextMenu={(e)=>{
             e.preventDefault();
             e.stopPropagation();
             {/*this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY});*/}
