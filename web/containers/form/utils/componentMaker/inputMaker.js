@@ -66,6 +66,12 @@ export function onSetStyleConfirm(style,item){
     if(style.marginLeft){
         item.style.marginLeft = style.marginTop + 'px';
     }
+    if(style.width){
+        item.style.width = style.width + 'px';
+    }
+    if(style.height){
+        item.style.height = style.height + 'px';
+    }
     this.style = {...this.style,...style};
 }
 
@@ -91,6 +97,12 @@ export function getNode(index){
     }
     if(this.style.marginTop){
         pStyle.marginTop = this.style.marginTop + 'px';
+    }
+    if(this.style.width){
+        pStyle.width = this.style.width + 'px';
+    }
+    if(this.style.height){
+        pStyle.height = this.style.height + 'px';
     }
     return (
         <input type="text" style={{...style,...pStyle}} defaultValue={this.value}  key={index} onKeyDown={(e)=>{

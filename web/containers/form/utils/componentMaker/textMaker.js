@@ -42,6 +42,13 @@ export function onSetStyleConfirm(style,text,item){
     if(style.marginLeft){
         item.style.marginLeft = style.marginTop + 'px';
     }
+    if(style.width){
+        item.style.width = style.width + 'px';
+    }
+    if(style.height) {
+        item.style.height = style.height + 'px';
+    }
+
     this.style = {...this.style,...style};
     this.value = text;
 }
@@ -67,6 +74,12 @@ export function getNode(index){
     }
     if(this.style.marginTop){
         pStyle.marginTop = this.style.marginTop + 'px';
+    }
+    if(this.style.width){
+        pStyle.width = this.style.width + 'px';
+    }
+    if(this.style.height){
+        pStyle.height = this.style.height + 'px';
     }
     console.log({...style,...this.style});
     return (

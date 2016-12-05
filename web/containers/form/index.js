@@ -10,6 +10,7 @@ import {formDefaultStyle} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 import OptionDataAddTool from '../../components/optionDataAddTool'
+import NumberSetter from '../../components/numberSetter'
 
 class FormPage extends Component{
     constructor(){
@@ -150,6 +151,7 @@ class FormPage extends Component{
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body">
                     {/*<OptionDataAddTool/>*/}
+                    {/*<NumberSetter/>*/}
                     <div className="abc-form-container-body-table">
                         {node}
                     </div>
