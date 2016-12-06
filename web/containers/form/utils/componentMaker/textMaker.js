@@ -15,7 +15,6 @@ export default class TextMaker extends Object{
         this.styleArr = styleArr;
         this.styleId = styleId;
         this.onContextMenu = onComponentClick;
-        this.dispatch = dispatch;
         this.onDelete = onDelete;
         this.getNode = getNode;
         this.setStyle = setStyle;

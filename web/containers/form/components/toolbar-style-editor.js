@@ -70,6 +70,7 @@ export default class ToolbarStyleEditor extends Component{
                 return item.isDefault;
             });
             formStyleItem.borderColor = defaultStyle.borderColor;
+            formStyleItem.fontColor = defaultStyle.fontColor;
             formStyleItem.borderSize = defaultStyle.borderSize;
             formStyleItem.fontSize = defaultStyle.fontSize;
             formStyleItem.name = defaultStyle.name;
