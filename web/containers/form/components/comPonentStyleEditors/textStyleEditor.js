@@ -28,6 +28,7 @@ export default class TextStyleEditor extends Component{
         if(dropBoxPicker.getValue() != style.fontFamily){
             cStyle.fontFamily = dropBoxPicker.getValue();
         }
+        console.log(numberPicker1.getValue());
         if(!style.marginTop || (style.marginTop != numberPicker1.getValue())){
             cStyle.marginTop = numberPicker1.getValue();
         }

@@ -27,11 +27,11 @@ export default class TextStyleEditor extends Component{
         if(dropBoxPicker.getValue() != style.fontFamily){
             cStyle.fontFamily = dropBoxPicker.getValue();
         }
-        if((!style.marginTop || style.marginTop != numberPicker1.getValue()) && numberSetter1.getValue() != ''){
-            cStyle.marginTop = numberPicker1.getValue();
+        if((!style.marginTop || style.marginTop != numberPicker2.getValue()) && numberPicker2.getValue() != ''){
+            cStyle.marginTop = numberPicker2.getValue();
         }
-        if((!style.marginLeft || style.marginLeft != numberPicker2.getValue()) && numberSetter2.getValue() != ''){
-            cStyle.marginLeft = numberPicker2.getValue();
+        if((!style.marginLeft || style.marginLeft != numberPicker1.getValue()) && numberPicker1.getValue() != ''){
+            cStyle.marginLeft = numberPicker1.getValue();
         }
         if(!style.width || style.width != numberSetter1.getValue()){
             cStyle.width = numberSetter1.getValue();
@@ -67,8 +67,8 @@ export default class TextStyleEditor extends Component{
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>
-                <NumberPicker ref='numberPicker1' min={0} size={cStyle ? cStyle.marginLeft : null} title="左间距" unit="(单位:px)"/>
-                <NumberPicker ref='numberPicker2' min={0} size={cStyle ? cStyle.marginTop : null} title="上间距" unit="(单位:px)"/>
+                <NumberPicker ref='numberPicker1' min={-50} size={cStyle ? cStyle.marginLeft : null} title="左间距" unit="(单位:px)"/>
+                <NumberPicker ref='numberPicker2' min={-50} size={cStyle ? cStyle.marginTop : null} title="上间距" unit="(单位:px)"/>
                 <DropBoxPicker ref="dropBoxPicker" selectedValue={cStyle ? cStyle.fontFamily:null} title="文字字体" groupData={fontFamilyList}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>

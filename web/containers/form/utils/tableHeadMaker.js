@@ -24,10 +24,10 @@ export function setTitle(title){
 
 export function getNode(){
     // return (
-        // <tr>
-        //     <td colSpan={this.colSpan}>
-        //         {this.title}
-        //     </td>
-        // </tr>
+    //     <tr>
+    //         <td style={{height:'60px',textAlign:'center'}} colSpan={this.colSpan}>
+    //             {this.title}
+    //         </td>
+    //     </tr>
     // );
 }

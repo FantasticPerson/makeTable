@@ -65,6 +65,7 @@ export function getStyleObj(obj1,ob2){
 }
 
 export function setItemStyle(item,style){
+    console.log(style);
     if(style.fontSize) {
         item.style.fontSize = style.fontSize+'px';
     }
@@ -78,7 +79,7 @@ export function setItemStyle(item,style){
         item.style.marginTop = style.marginTop + 'px';
     }
     if(style.marginLeft){
-        item.style.marginLeft = style.marginTop + 'px';
+        item.style.marginLeft = style.marginLeft + 'px';
     }
     if(style.width){
         item.style.width = style.width + 'px';
