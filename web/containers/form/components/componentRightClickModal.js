@@ -7,9 +7,10 @@ import TextStyleEditor from './comPonentStyleEditors/textStyleEditor'
 import InputStyleEditor from './comPonentStyleEditors/inputStyleEditor'
 import TextAreaStyleEditor from './comPonentStyleEditors/textAreaStyleEditor'
 import DropBoxStyleEditor from './comPonentStyleEditors/dropBoxStyleEditor'
+import TdStyleEditor from './comPonentStyleEditors/tdStyleEditor'
 import * as overLayNames from '../../../constants/OverLayNames'
 import {removeOverLayByName} from '../../../actions/view'
-import {componentText,componentTextArea,componentInput,componentDropBox} from '../const'
+import {componentText,componentTextArea,componentInput,componentDropBox,componentTd} from '../const'
 
 export default class ComponentRightClickModal extends Component{
     constructor(){
@@ -30,6 +31,8 @@ export default class ComponentRightClickModal extends Component{
             return   <TextAreaStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
         } else if(data.type == componentDropBox){
             return   <DropBoxStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+        } else if(data.type == componentTd){
+            return <TdStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}}/>
         }
     }
 

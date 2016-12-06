@@ -6,11 +6,13 @@ import TextMaker from './componentMaker/textMaker'
 import InputMaker from './componentMaker/inputMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
-import {componentText,componentInput,componentTextArea,componentDropBox} from '../const'
-import {stringifyRGBAObj} from './data-helper'
+import {componentText,componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
+import {stringifyRGBAObj,setItemStyle,getStyleObj} from './data-helper'
+import {showOverLayByName,removeOverLayByName} from '../../../actions/view'
+import * as OverLayNames from '../../../constants/OverLayNames'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,styleArr,styleId,mockType,functionArray){
+    constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch){
         super();
         this.state={choose:false};
         this.id = id;
@@ -18,8 +20,14 @@ export default class tdMaker extends Object{
         this.posInfo=posInfo;
         this.styleArr = styleArr;
         this.styleId = styleId;
+        this.style = {};
         this.componentId = 0;
         this.componentArray = [];
+        this.dispatch = dispatch;
+        this.value = '';
+
+        this.onContextMenuShow = onContextMenuShow;
+        this.onSetStyleConfirm = onSetStyleConfirm;
 
         this.registerFunc = registerFunc;
         this.registerFunc(functionArray);
@@ -27,11 +35,12 @@ export default class tdMaker extends Object{
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle} = functionArray;
     this.onTdClick = onTdClick;
     this.onComponentContext = onComponentContext;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
+    this.afterUpdateStyle = afterUpdateStyle;
     this.setComponentStyle = setComponentStyle;
     this.insertComponent = insertComponent;
     this.getNode = getNode;
@@ -66,42 +75,107 @@ export function setStyle(styleArr){
     }
 }
 
+export function onSetStyleConfirm(style,text,item){
+    if(this.value != text){
+        this.value = text;
+    }
+    this.style = {...this.style,...style};
+    this.afterUpdateStyle();
+    // item.innerHTML = text;
+}
+
+export function onContextMenuShow(item,pageX,pageY) {
+    let cStyle = this.styleArr.find((item)=>{
+        return item.id == this.styleId;
+    });
+    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    this.onComponentContext({
+        type:componentTd,
+        id:this.id,
+        tdId:this.tdId,
+        pageX:pageX,
+        pageY:pageY,
+        style:{...style1,...this.style},
+        value:this.value,
+        onConfirm:this.onSetStyleConfirm.bind(this),
+        cTarget:item
+    });
+}
+
 export function getNode(tdIds,index=0){
     if(this.mockType == 0) {
         let cStyle = this.styleArr.find((item)=>{
             return item.id == this.styleId;
         });
-        const {cCol,tCol,cRow,tRow,tWidth,tHeight} = this.posInfo;
+        const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix} = this.posInfo;
         let height = cRow / tRow * tHeight;
         let width = cCol / tCol * tWidth;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
-        let row = cCol == tCol ? 1 : cRow;
+        let row = (cRowFix || cCol == tCol) ? 1 : cRow;
         let style = {width,height};
         style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
         style.backgroundColor = bgColor;
         style.width = width+'px';
         style.height = height+'px';
+        let getStyle = {...getStyleObj(cStyle,this.style),...style};
+
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td colSpan={col} key={index} rowSpan={row} style={style} onClick={()=>{
+        return (<td colSpan={col} key={index} rowSpan={row} style={{...getStyle,textAlign:'center'}} onClick={(e)=>{
+                    this.onTdClick(this.id);
+                    /*if(e.component){
+                        this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{
+                            cb:function(num){
+                                this.dispatch(removeOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL));
+                                if(num == 2){
+                                    const {obj,node} = e.component;
+                                    obj.onClickShow(node);
+                                } else {
+                                    this.onTdClick(this.id);
+                                }
+                                e.component = null;
+                            }.bind(this),
+                            data:e
+                        }))
+                    } else {
                         this.onTdClick(this.id);
+                    }*/
                     }} onContextMenu={(e)=>{
                         e.preventDefault();
-                        e.stopPropagation();
-                        this.onTdContext({pageX:e.pageX, pageY:e.pageY});
+                        {/*e.stopPropagation();*/}
+                        if(bgColor == '#eeeeee'){
+                            this.onTdContext({pageX: e.pageX, pageY: e.pageY});
+                        } else {
+                            this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
+                        }
+                        /*if(e.component){
+                            this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{
+                                cb:function(num){
+                                    this.dispatch(removeOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL));
+                                    if(num == 2){
+                                        const {obj,node,pageX,pageY} = e.component;
+                                        obj.onContextMenuShow(node,pageX,pageY);
+                                    } else {
+                                        const {pageX,pageY} = e.component;
+                                        this.onTdContext({pageX, pageY});
+                                    }
+                                    e.component = null;
+                                }.bind(this),
+                                data:e
+                            }));
+                        } else {
+                            this.onTdContext({pageX: e.pageX, pageY: e.pageY});
+                        }*/
                     }} onDragOver={(e)=>{
                         e.preventDefault()
                     }} onDrop={(e)=>{
                         this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                    }}>
-            <div style={{width:(width) + 'px',height:(height)+'px',display:'flex',overflow:'hidden',flexDirection:'row',alignItems:'center'}}>
+                    }}>{this.value}
                 {components}
-            </div>
         </td>)
-    } else {
-        return null;
     }
+    return null;
 }
 

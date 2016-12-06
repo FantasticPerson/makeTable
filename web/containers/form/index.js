@@ -88,15 +88,16 @@ class FormPage extends Component{
     }
 
     generateTable(num1, num2){
-        const {formStyleList,formStyleId} = this.props;
-        let posInfo = {row:num1,col:num2,width:668,height:355};
+        const {formStyleList,formStyleId,dispatch} = this.props;
+        let posInfo = {row:num1,col:num2,width:820,height:900};
         let functionArray = {
             onTdClick:this.onTdClick.bind(this),
             onTdContext:this.onTdContext.bind(this),
             onComponentDrop:this.onComponentDrop.bind(this),
-            onComponentContext:this.onComponentContext.bind(this)
+            onComponentContext:this.onComponentContext.bind(this),
+            afterUpdateStyle:this.afterUpdateStyle.bind(this)
         };
-        let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId);
+        let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
         this.setState({tableObj:tableObj2});
     }
 
@@ -152,6 +153,7 @@ class FormPage extends Component{
                 <div className="abc-form-container-body">
                     {/*<OptionDataAddTool/>*/}
                     {/*<NumberSetter/>*/}
+
                     <div className="abc-form-container-body-table">
                         {node}
                     </div>

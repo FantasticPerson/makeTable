@@ -2,7 +2,7 @@
  * Created by wdd on 2016/11/30.
  */
 import React,{Component,PropTypes} from 'react'
-import {stringifyRGBAObj} from '../data-helper'
+import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class TextAreaMaker extends Object{
     constructor(id,tdId,styleArr,styleId,onComponentClick){
@@ -17,6 +17,7 @@ export default class TextAreaMaker extends Object{
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.getNode = getNode;
         this.setStyle = setStyle;
+        this.onContextMenuShow = onContextMenuShow;
     }
 }
 
@@ -26,64 +27,42 @@ export function setStyle(styleArr){
 
 
 export function onSetStyleConfirm(style,item){
-    if(style.fontSize) {
-        item.style.fontSize = style.fontSize+'px';
-    }
-    if(style.color) {
-        item.style.color = stringifyRGBAObj(style.color);
-    }
-    if(style.fontFamily) {
-        item.style.fontFamily = style.fontFamily;
-    }
-    if(style.marginTop){
-        item.style.marginTop = style.marginTop + 'px';
-    }
-    if(style.marginLeft){
-        item.style.marginLeft = style.marginTop + 'px';
-    }
-    if(style.width){
-        item.style.width = style.width + 'px'
-    }
-    if(style.height){
-        item.style.height = style.height + 'px';
-    }
+    setItemStyle(item,style);
     this.style = {...this.style,...style};
+}
+
+
+export function onContextMenuShow(item,pageX,pageY){
+    let cStyle = this.styleArr.find((item)=>{
+        return item.id == this.styleId;
+    });
+    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    this.onContextMenu({
+        type:this.type,
+        id:this.id,
+        tdId:this.tdId,
+        pageX:pageX,
+        pageY:pageY,
+        style:{...style1,...this.style},
+        value:this.value,
+        onConfirm:this.onSetStyleConfirm.bind(this),
+        cTarget:item
+    });
 }
 
 export function getNode(index){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
-    let style = {color:stringifyRGBAObj(cStyle.fontColor),fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize+'px'};
-    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
-    let pStyle = {};
-    if(this.style.color){
-        pStyle.color = stringifyRGBAObj(this.style.color);
-    }
-    if(this.style.fontSize){
-        pStyle.fontSize = this.style.fontSize + 'px';
-    }
-    if(this.style.fontFamily){
-        pStyle.fontFamily = this.style.fontFamily;
-    }
-    if(this.style.marginLeft){
-        pStyle.marginLeft = this.style.marginLeft + 'px';
-    }
-    if(this.style.marginTop){
-        pStyle.marginTop = this.style.marginTop + 'px';
-    }
-    if(this.style.width){
-        pStyle.width = this.style.width + 'px';
-    }
-    if(this.style.height){
-        pStyle.height = this.style.width + 'px';
-    }
     return (
-        <textarea style={{...style,...pStyle}} key={index} onClick={(e)=>{e.stopPropagation()}} onContextMenu={(e)=>{
-            e.preventDefault();
-            e.stopPropagation();
-            {/*this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY});*/}
-            this.onContextMenu({type:this.type,id:this.id,tdId:this.tdId,pageX:e.pageX,pageY:e.pageY,style:{...style1,...this.style},value:this.value,onConfirm:this.onSetStyleConfirm.bind(this),cTarget:e.currentTarget});
+        <textarea style={getStyleObj(cStyle,this.style)} key={index} onClick={
+            (e)=>{
+                e.stopPropagation();
+                {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
+            }} onContextMenu={(e)=>{
+                e.stopPropagation();
+                {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
+                this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
         }}/>
     )
 }

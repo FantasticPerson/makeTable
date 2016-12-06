@@ -7,13 +7,15 @@ import React,{Component,PropTypes} from 'react';
 import {stringifyRGBAObj} from './data-helper'
 
 export default class tableMaker extends Object {
-    constructor(posInfo, functionArray, styleArr, styleId) {
+    constructor(posInfo, functionArray, styleArr, styleId,dispatch) {
         super();
         this.id = 0;
         this.styleId = styleId;
         this.styleArr = styleArr;
         this.posInfo = posInfo;
+        this.dispatch = dispatch;
 
+        this.header = new tableHeadMaker(posInfo.col,'江苏省文稿厅拟文稿纸',styleArr,styleId);
         this.registerFunc = registerFunc;
         this.registerFunc(functionArray);
         this.initTds = initTds;
@@ -22,11 +24,12 @@ export default class tableMaker extends Object {
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle} = functionArray;
     this.onTdClick = onTdClick;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
     this.onComponentContext = onComponentContext;
+    this.afterUpdateStyle = afterUpdateStyle;
     this.getNode = getNode;
     this.merge = merge;
     this.split = split;
@@ -48,9 +51,10 @@ export function initTds(){
                 onTdClick:this.onTdClick,
                 onTdContext:this.onTdContext,
                 onComponentDrop:this.onComponentDrop,
-                onComponentContext:this.onComponentContext
+                onComponentContext:this.onComponentContext,
+                afterUpdateStyle:this.afterUpdateStyle
             };
-            tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray)
+            tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray,this.dispatch)
         }
     }
     this.tds = tdArr;
@@ -163,7 +167,7 @@ export function split(id){
         const {x,y} = tdItem.posInfo;
         if((this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >= 0) || (this.tds[y+1][x] && this.tds[y+1][x].mockType >=2)){
             let xLength = 0,yLength =0;
-            if([1,3].indexOf(this.tds[y][x+1].mockType) >=0){
+            if(this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >=0){
                 for(let i = x+1;i<this.tds[y].length;i++){
                     if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
                         this.tds[y][i].mockType = 0;
@@ -173,7 +177,7 @@ export function split(id){
                     }
                 }
             }
-            if(this.tds[y+1][x].mockType >=2){
+            if(this.tds[y+1][x] && this.tds[y+1][x].mockType >=2){
                 for(let i = y+1;i<this.tds.length;i++){
                     if(this.tds[i][x].mockType >=2 ){
                         this.tds[i][x].mockType = 0;
@@ -200,6 +204,8 @@ export function setTdSize(){
     let xLength = this.tds[0].length;
     let yLength = this.tds.length;
     for(let i = 0;i<yLength;i++){
+        let totalXLength = 0;
+        let arr = [],arrTds = [];
         for(let j=0;j<xLength;j++){
             if(this.tds[i][j].mockType == 0) {
                 let cWidth = 1, cHeight = 1;
@@ -217,12 +223,40 @@ export function setTdSize(){
                         break;
                     }
                 }
+                totalXLength += cWidth;
                 this.tds[i][j].posInfo.cCol = cWidth;
                 this.tds[i][j].posInfo.tCol = xLength;
                 this.tds[i][j].posInfo.cRow = cHeight;
+                this.tds[i][j].posInfo.cRowFix = false;
                 this.tds[i][j].posInfo.tRow = yLength;
+                arrTds.push(this.tds[i][j]);
+
             }
         }
+        let isTheSame = true;
+        if(xLength == totalXLength){
+            for(let f=1;f<arrTds.length;f++){
+                if(arrTds[f].posInfo.cRow > 1 && arrTds[f-1].posInfo.cRow > 1){
+                    if(arrTds[f].posInfo.cRow != arrTds[f-1].posInfo.cRow){
+                        isTheSame = false;
+                        break;
+                    }
+                } else {
+                    isTheSame = false;
+                    break;
+                }
+            }
+        } else {
+            isTheSame = false;
+        }
+        if(isTheSame){
+            console.log('step in the same');
+            for(let k=0;k<arrTds.length;k++){
+                arrTds[k].posInfo.cRowFix = true;
+            }
+        }
+        console.log(totalXLength);
+
     }
     console.log(this.tds);
 }
@@ -255,14 +289,19 @@ export function getNode(ids){
             trArr.push(<tr key={index}>{tdArr2}</tr>);
         }
     });
+    let headerNode = this.header.getNode();
     const {width,height} = this.posInfo;
     let style = {width:width+'px',height:height+'px'};
-    style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
+    style.border = '0';
     return (
-        <table  style={style}>
-            <tbody>
-                {trArr}
-            </tbody>
-        </table>
+        <div>
+            <div style={{fontSize:'32px',color:'red',height:'50px',lineHeight:'50px',textAlign:'center',fontWeight:'bold'}}>{'江苏省文稿厅拟文稿纸'}</div>
+            <table  style={style}>
+                <tbody>
+                    {headerNode}
+                    {trArr}
+                </tbody>
+            </table>
+        </div>
     );
 }

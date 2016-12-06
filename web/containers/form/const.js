@@ -2,10 +2,10 @@
  * Created by wdd on 2016/11/23.
  */
 export const formDefaultStyle = [{
-    borderColor:{r: '241', g: '112', b: '19', a: '1'},
+    borderColor:{r: '255', g: '0', b: '0', a: '1'},
     borderSize:1,
-    fontColor:{r:'0',g:'0',b:'0',a:'1'},
-    fontSize:12,
+    fontColor:{r:'255',g:'0',b:'0',a:'1'},
+    fontSize:20,
     fontFamily:'SimSun',
     isDefault:true,
     name:'样式一',
@@ -39,3 +39,4 @@ export const componentText = 'text';
 export const componentInput = 'input';
 export const componentTextArea = 'textArea';
 export const componentDropBox = 'dropBox';
+export const componentTd = 'td';

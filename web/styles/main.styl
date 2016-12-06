@@ -22,6 +22,7 @@
 @import "./containers/formToolbarStyleEditorText.styl"
 @import "./containers/formToolbarStyleEditorOptionData.styl"
 @import "./containers/formComponentTextStyleEditor.styl"
+@import "./containers/formComponentClickConfirmModal.styl"
 
 body
   background-color #ffffff
@@ -38,10 +39,8 @@ div
 
 table
   border-spacing 0
+  border-collapse collapse
 
-input[type='text']:disabled
-  background-color #FFFFFF
+input[type='text']
   border 0
-
-textarea
-  resize none
+  border-bottom 1px #cccccc dotted
