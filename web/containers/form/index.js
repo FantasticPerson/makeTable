@@ -98,7 +98,7 @@ class FormPage extends Component{
 
     generateTable(num1, num2){
         const {formStyleList,formStyleId,dispatch} = this.props;
-        let posInfo = {row:num1,col:num2,width:820,height:900};
+        let posInfo = {row:num1,col:num2,width:820,height:962};
         let functionArray = {
             onTdClick:this.onTdClick.bind(this),
             onTdContext:this.onTdContext.bind(this),

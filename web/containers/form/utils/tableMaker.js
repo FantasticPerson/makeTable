@@ -15,7 +15,6 @@ export default class tableMaker extends Object {
         this.posInfo = posInfo;
         this.dispatch = dispatch;
 
-        this.header = new tableHeadMaker(posInfo.col,'江苏省文稿厅拟文稿纸',styleArr,styleId);
         this.registerFunc = registerFunc;
         this.registerFunc(functionArray);
         this.initTds = initTds;
@@ -60,6 +59,7 @@ export function initTds(){
             tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray,this.dispatch)
         }
     }
+    this.header = new tableHeadMaker(col,'',this.styleArr,this.styleId,this.onComponentContext,this.afterUpdateStyle);
     this.tds = tdArr;
 }
 
@@ -91,6 +91,7 @@ export function setStyle(styleArr){
             this.tds[i][j].setStyle(styleArr);
         }
     }
+    this.header.setStyle(styleArr);
 }
 
 export function merge(tdArr){
@@ -138,19 +139,33 @@ export function merge(tdArr){
             return item1[0] -item2[0];
         })
     }
-    for(let i=1;i<pointArr2.length;i++){
-        let arr1 = pointArr2[i],arr2=pointArr2[i-1];
-        let startX1 = arr1[0][0],startX2 = arr2[0][0];
-        let endX1 = arr1[arr1.length-1][0],endX2 = arr2[arr2.length-1][0];
-        if(startX1 != startX2 || endX2 != endX1 || (endX1 -startX1 != endX2 - startX2)){
+    if(pointArr2.length == 1){
+        let startX = pointArr2[0][0][0],endX=pointArr2[0][pointArr2[0].length-1][0];
+        if(endX -startX +1 != pointArr2[0].length){
             return false;
         }
+    } else {
+        for (let i = 1; i < pointArr2.length; i++) {
+            let arr1 = pointArr2[i], arr2 = pointArr2[i - 1];
+            let startX1 = arr1[0][0], startX2 = arr2[0][0];
+            let endX1 = arr1[arr1.length - 1][0], endX2 = arr2[arr2.length - 1][0];
+            if (startX1 != startX2 || endX2 != endX1 || (endX1 - startX1 != endX2 - startX2) || (endX2 - startX2 + 1 != arr2.length)) {
+                return false;
+            }
+        }
     }
-    for(let i =1 ;i<pointArr2[0].length;i++){
-        let startY1 = pointArr2[0][i][1],startY2 = pointArr2[0][i-1][1];
-        let endY1 = pointArr2[pointArr2.length-1][i][1],endY2 = pointArr2[pointArr2.length-1][i-1][1];
-        if(startY1 != startY2 || endY2 != endY1 || (endY1-startY1 != endY2 - startY2)){
+    if(pointArr2[0].length == 1){
+        let startY = pointArr2[0][0][1],endY=pointArr2[pointArr2.length-1][0][1];
+        if(endY - startY + 1 != pointArr2.length){
             return false;
+        }
+    } else {
+        for (let i = 1; i < pointArr2[0].length; i++) {
+            let startY1 = pointArr2[0][i][1], startY2 = pointArr2[0][i - 1][1];
+            let endY1 = pointArr2[pointArr2.length - 1][i][1], endY2 = pointArr2[pointArr2.length - 1][i - 1][1];
+            if (startY1 != startY2 || endY2 != endY1 || (endY1 - startY1 != endY2 - startY2) || (endY2-startY2+1 != pointArr2.length)) {
+                return false;
+            }
         }
     }
     let minX = pointArr2[0][0][0],minY = pointArr2[0][0][1];
@@ -305,7 +320,7 @@ export function getNode(ids){
     style.border = '0';
     return (
         <div>
-            <div style={{fontSize:'32px',color:'red',height:'50px',lineHeight:'50px',textAlign:'center',fontWeight:'bold'}}>{'江苏省文稿厅拟文稿纸'}</div>
+            {/*<div style={{fontSize:'32px',color:'red',height:'50px',lineHeight:'50px',textAlign:'center',fontWeight:'bold'}}>{'江苏省文稿厅拟文稿纸'}</div>*/}
             <table  style={style}>
                 <tbody>
                     {headerNode}

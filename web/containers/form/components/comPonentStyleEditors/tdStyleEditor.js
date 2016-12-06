@@ -8,7 +8,7 @@ import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import TextPicker from '../stylePickerItems/styleTextPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import {fontFamilyList,textAlignPosition} from '../../const'
-import {stringifyRGBAObj,getStyleSet} from '../../utils/data-helper'
+import {getStyleSet} from '../../utils/data-helper'
 
 export default class TextStyleEditor extends Component{
     constructor(){
