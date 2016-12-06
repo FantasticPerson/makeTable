@@ -20,7 +20,7 @@ export default class tdMaker extends Object{
         this.posInfo=posInfo;
         this.styleArr = styleArr;
         this.styleId = styleId;
-        this.style = {};
+        this.style = {textAlign:'center'};
         this.componentId = 0;
         this.componentArray = [];
         this.dispatch = dispatch;
@@ -35,27 +35,38 @@ export default class tdMaker extends Object{
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent} = functionArray;
     this.onTdClick = onTdClick;
     this.onComponentContext = onComponentContext;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
     this.afterUpdateStyle = afterUpdateStyle;
+    this.onDeleteComponent = onDeleteComponent;
     this.setComponentStyle = setComponentStyle;
     this.insertComponent = insertComponent;
     this.getNode = getNode;
     this.setStyle = setStyle;
+    this.deleteComponent = deleteComponent;
 }
 
 export function insertComponent(type,styleArr,styleId){
     if(type == componentText){
-        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
     } else if(type == componentInput){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
     } else if(type == componentTextArea){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
     } else if(type == componentDropBox){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext))
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
+    }
+}
+
+export function deleteComponent(id){
+    let component = this.componentArray.find((item)=>{
+        return item.id == id;
+    });
+    if(component){
+        this.componentArray.splice(this.componentArray.indexOf(component),1);
     }
 }
 
@@ -123,7 +134,7 @@ export function getNode(tdIds,index=0){
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td colSpan={col} key={index} rowSpan={row} style={{...getStyle,textAlign:'center'}} onClick={(e)=>{
+        return (<td colSpan={col} key={index} rowSpan={row} style={getStyle} onClick={(e)=>{
                     this.onTdClick(this.id);
                     /*if(e.component){
                         this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{

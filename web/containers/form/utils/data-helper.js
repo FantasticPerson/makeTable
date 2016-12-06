@@ -37,6 +37,9 @@ export function checkArrayEqual(arr1,arr2){
 export function getStyleObj(obj1,ob2){
     let style = {color:stringifyRGBAObj(obj1.fontColor),fontFamily:obj1.fontFamily,fontSize:obj1.fontSize+'px'};
     let pStyle = {};
+    if(ob2.textAlign){
+        pStyle.textAlign = ob2.textAlign;
+    }
     if(ob2.color){
         pStyle.color = stringifyRGBAObj(ob2.color);
     }

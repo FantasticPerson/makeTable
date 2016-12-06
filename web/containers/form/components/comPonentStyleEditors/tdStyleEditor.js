@@ -7,7 +7,7 @@ import NumberPicker from '../stylePickerItems/styleNumberPicker'
 import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import TextPicker from '../stylePickerItems/styleTextPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
-import {fontFamilyList} from '../../const'
+import {fontFamilyList,textAlignPosition} from '../../const'
 import {stringifyRGBAObj} from '../../utils/data-helper'
 
 export default class TextStyleEditor extends Component{
@@ -17,7 +17,7 @@ export default class TextStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {textPicker,colorPicker,numberPicker,dropBoxPicker,numberSetter1,numberSetter2} = this.refs;
+        const {textPicker,colorPicker,numberPicker,dropBoxPicker,numberSetter1,numberSetter2,dropBoxPicker2} = this.refs;
         let cStyle = {};
         if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
             cStyle.color = colorPicker.getValue();
@@ -27,6 +27,9 @@ export default class TextStyleEditor extends Component{
         }
         if(dropBoxPicker.getValue() != style.fontFamily){
             cStyle.fontFamily = dropBoxPicker.getValue();
+        }
+        if(!style.textAlign || style.textAlign != dropBoxPicker2.getValue()){
+            cStyle.textAlign = dropBoxPicker2.getValue();
         }
         // if((!style.width || style.width && style.width != numberSetter1.getValue()) && numberSetter1.getValue() != ''){
         //     cStyle.width = numberSetter1.getValue();
@@ -58,6 +61,7 @@ export default class TextStyleEditor extends Component{
                 {/*<NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>*/}
                 {/*<NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>*/}
                 <DropBoxPicker ref="dropBoxPicker" selectedValue={cStyle ? cStyle.fontFamily:null} title="文字字体" groupData={fontFamilyList}/>
+                <DropBoxPicker ref="dropBoxPicker2" selectedValue={cStyle ? cStyle.textAlign:null} title="子元素布局" groupData={textAlignPosition}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>

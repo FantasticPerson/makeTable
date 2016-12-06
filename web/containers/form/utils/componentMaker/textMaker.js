@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class TextMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,dispatch){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete){
         super();
         this.tdId = tdId;
         this.id = id;
@@ -16,6 +16,7 @@ export default class TextMaker extends Object{
         this.styleId = styleId;
         this.onContextMenu = onComponentClick;
         this.dispatch = dispatch;
+        this.onDelete = onDelete;
         this.getNode = getNode;
         this.setStyle = setStyle;
         this.onSetStyleConfirm = onSetStyleConfirm;
@@ -49,6 +50,7 @@ export function onContextMenuShow(item,pageX,pageY){
         style:{...style1,...this.style},
         value:this.value,
         onConfirm:this.onSetStyleConfirm.bind(this),
+        onDelete:this.onDelete,
         cTarget:item
     });
 }

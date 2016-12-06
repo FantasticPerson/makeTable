@@ -48,6 +48,13 @@ export default class TextAreaStyleEditor extends Component{
         onClose();
     }
 
+
+    onDeleteClick(){
+        const {onClose,onDelete,tdId,id} = this.props.posInfo;
+        onClose();
+        onDelete(tdId,id);
+    }
+
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
@@ -67,6 +74,7 @@ export default class TextAreaStyleEditor extends Component{
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>
+                    <div className="abc-form-component-text-style-editor-cancel-btn"  style={{marginLeft:'150px'}} onClick={()=>{this.onDeleteClick()}}>{'删除'}</div>
                 </div>
             </div>
         )

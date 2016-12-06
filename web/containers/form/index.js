@@ -49,6 +49,15 @@ class FormPage extends Component{
         }
     }
 
+    deleteComponent(tdId,componentId){
+        const {tableObj} = this.state;
+        if(tableObj){
+            tableObj.deleteComponent(tdId,componentId);
+            this.setState({tableObj: tableObj});
+        }
+
+    }
+
     onComponentDrop(tdId,componentType){
         console.log(tdId,componentType);
         const {tableObj} = this.state;
@@ -95,7 +104,8 @@ class FormPage extends Component{
             onTdContext:this.onTdContext.bind(this),
             onComponentDrop:this.onComponentDrop.bind(this),
             onComponentContext:this.onComponentContext.bind(this),
-            afterUpdateStyle:this.afterUpdateStyle.bind(this)
+            afterUpdateStyle:this.afterUpdateStyle.bind(this),
+            onDeleteComponent:this.deleteComponent.bind(this)
         };
         let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
         this.setState({tableObj:tableObj2});

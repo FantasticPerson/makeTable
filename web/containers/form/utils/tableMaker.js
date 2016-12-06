@@ -24,7 +24,7 @@ export default class tableMaker extends Object {
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent} = functionArray;
     this.onTdClick = onTdClick;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
@@ -38,6 +38,8 @@ export function registerFunc(functionArray){
     this.setStyle = setStyle;
     this.insertComponent = insertComponent;
     this.setComponentStyle = setComponentStyle;
+    this.deleteComponent = deleteComponent;
+    this.onDeleteComponent = onDeleteComponent;
 }
 
 export function initTds(){
@@ -52,7 +54,8 @@ export function initTds(){
                 onTdContext:this.onTdContext,
                 onComponentDrop:this.onComponentDrop,
                 onComponentContext:this.onComponentContext,
-                afterUpdateStyle:this.afterUpdateStyle
+                afterUpdateStyle:this.afterUpdateStyle,
+                onDeleteComponent:this.onDeleteComponent
             };
             tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray,this.dispatch)
         }
@@ -64,6 +67,13 @@ export function insertComponent(tdId,componentType,styleArr,styleId){
     let tdItem = this.getItemById(tdId);
     if(tdItem){
         tdItem.insertComponent(componentType,styleArr,styleId);
+    }
+}
+
+export function deleteComponent(tdId,componentId){
+    let item = this.getItemById(tdId);
+    if(item){
+        item.deleteComponent(componentId);
     }
 }
 

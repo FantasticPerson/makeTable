@@ -23,6 +23,12 @@ export const fontFamilyList = [
     {value:'Microsoft YaHei',text:'微软雅黑体'},
 ];
 
+export const textAlignPosition = [
+    {value:'center',text:'center'},
+    {value:'right',text:'right'},
+    {value:'left',text:'left'}
+];
+
 export const editElement = 'element';
 export const editDisplay = 'display';
 export const editPreview = 'preview';

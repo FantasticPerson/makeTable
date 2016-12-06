@@ -6,7 +6,7 @@ import {componentInput} from '../../const'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class InputMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete){
         super();
         this.tdId = tdId;
         this.id = id;
@@ -15,6 +15,7 @@ export default class InputMaker extends Object{
         this.styleArr = styleArr;
         this.styleId = styleId;
         this.onContextMenu = onComponentClick;
+        this.onDelete = onDelete;
         this.value = "点击编辑内容";
         this.getNode = getNode;
         this.setStyle = setStyle;
@@ -47,6 +48,7 @@ export function onContextMenuShow(item,pageX,pageY){
         style:{...style1,...this.style},
         value:this.value,
         onConfirm:this.onSetStyleConfirm.bind(this),
+        onDelete:this.onDelete,
         cTarget:item
     });
 }
@@ -67,6 +69,7 @@ export function getNode(index){
                 {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
             }} onContextMenu={(e)=>{
                 e.stopPropagation();
+                e.preventDefault();
                 this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
                 {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
             }}
