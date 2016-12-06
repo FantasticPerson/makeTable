@@ -8,7 +8,7 @@ import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import OptionDataPicker from '../stylePickerItems/styleOptionDataSetPicker'
 import {fontFamilyList} from '../../const'
-import {stringifyRGBAObj,checkArrayEqual} from '../../utils/data-helper'
+import {getStyleSet,getArrayCopy} from '../../utils/data-helper'
 
 export default class DropBoxStyleEditor extends Component{
     constructor(){
@@ -18,31 +18,17 @@ export default class DropBoxStyleEditor extends Component{
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
         const {numberSetter1,numberSetter2,colorPicker,numberPicker,numberPicker1,numberPicker2,dropBoxPicker,optionDataPicker} = this.refs;
-        let cStyle = {};
-        if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
-            cStyle.color = colorPicker.getValue();
-        }
-        if(numberPicker.getValue() != style.fontSize){
-            cStyle.fontSize = numberPicker.getValue();
-        }
-        if(dropBoxPicker.getValue() != style.fontFamily){
-            cStyle.fontFamily = dropBoxPicker.getValue();
-        }
-        if(!style.marginTop || (style.marginTop != numberPicker1.getValue())){
-            cStyle.marginTop = numberPicker1.getValue();
-        }
-        if(!style.marginLeft || (style.marginLeft != numberPicker2.getValue())){
-            cStyle.marginLeft = numberPicker2.getValue();
-        }
-        if((!style.width || style.width != numberSetter1.getValue()) && numberSetter1.getValue() != ''){
-            cStyle.width = numberSetter1.getValue();
-        }
-        if((!style.height || style.height != numberSetter2.getValue()) && numberSetter2.getValue() != ''){
-            cStyle.height = numberSetter2.getValue();
-        }
-        if((!style.dataArray || !checkArrayEqual(style.dataArray,optionDataPicker.getValue())) && optionDataPicker.getValue().length >0){
-            cStyle.dataArray = optionDataPicker.getValue();
-        }
+        let cStyle = getStyleSet(style,{
+            color:colorPicker.getValue(),
+            fontSize:numberPicker.getValue(),
+            fontFamily:dropBoxPicker.getValue(),
+            marginTop:numberPicker1.getValue(),
+            marginLeft:numberPicker2.getValue(),
+            width:numberSetter1.getValue(),
+            height:numberSetter2.getValue(),
+            dataArray:optionDataPicker.getValue()
+        });
+        console.log(cStyle);
         onConfirm(cStyle,item);
         onClose();
     }
@@ -69,7 +55,7 @@ export default class DropBoxStyleEditor extends Component{
                 <div className="abc-form-component-text-style-editor-container-header">
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
-                <OptionDataPicker ref='optionDataPicker' dataArray={cStyle ? cStyle.dataArray : null} title="设置选项"/>
+                <OptionDataPicker ref='optionDataPicker' dataArray={cStyle ? getArrayCopy(cStyle.dataArray) : null} title="设置选项"/>
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>

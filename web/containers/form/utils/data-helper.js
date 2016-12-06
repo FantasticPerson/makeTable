@@ -18,7 +18,7 @@ export function stringifyRGBAObj(obj){
 }
 
 export function checkArrayEqual(arr1,arr2){
-    if(arr1.length != arr2.length){
+    if(arr1.length != arr2.length && arr1.length != 0){
         return false;
     }
     for(let i=0;i<arr1.length;i++){
@@ -87,4 +87,44 @@ export function setItemStyle(item,style){
     if(style.height) {
         item.style.height = style.height + 'px';
     }
+}
+
+export function getStyleSet(style,styleObj){
+    let cStyle = {};
+    if(styleObj.color && stringifyRGBAObj(styleObj.color) != stringifyRGBAObj(style.color)){
+        cStyle.color = styleObj.color;
+    }
+    if(styleObj.fontSize && style.fontSize != styleObj.fontSize){
+        cStyle.fontSize = styleObj.fontSize;
+    }
+    if(styleObj.fontFamily && style.fontFamily != styleObj.fontFamily ){
+        cStyle.fontFamily = styleObj.fontFamily;
+    }
+    if(styleObj.marginTop && style.marginTop != styleObj.marginTop){
+        cStyle.marginTop = styleObj.marginTop;
+    }
+    if(styleObj.marginLeft && style.marginLeft != styleObj.marginLeft){
+        cStyle.marginLeft = styleObj.marginLeft;
+    }
+    if(styleObj.width && style.width != styleObj.width){
+        cStyle.width = styleObj.width;
+    }
+    if(styleObj.height && style.height != styleObj.height){
+        cStyle.height = styleObj.height;
+    }
+    if(styleObj.dataArray && (!style.dataArray || !checkArrayEqual(style.dataArray,styleObj.dataArray)) && styleObj.dataArray.length>0){
+        cStyle.dataArray = styleObj.dataArray;
+    }
+    if(styleObj.textAlign && (!style.textAlign || style.textAlign != styleObj.textAlign)){
+        cStyle.textAlign = styleObj.textAlign
+    }
+    return cStyle;
+}
+
+export function getArrayCopy(arr){
+    let arr1 = [];
+    for(let i=0;i<arr.length;i++){
+        arr1[i] = arr[i];
+    }
+    return arr1;
 }

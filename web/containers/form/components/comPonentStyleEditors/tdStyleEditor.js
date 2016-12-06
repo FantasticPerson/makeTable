@@ -8,7 +8,7 @@ import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import TextPicker from '../stylePickerItems/styleTextPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import {fontFamilyList,textAlignPosition} from '../../const'
-import {stringifyRGBAObj} from '../../utils/data-helper'
+import {stringifyRGBAObj,getStyleSet} from '../../utils/data-helper'
 
 export default class TextStyleEditor extends Component{
     constructor(){
@@ -17,26 +17,13 @@ export default class TextStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {textPicker,colorPicker,numberPicker,dropBoxPicker,numberSetter1,numberSetter2,dropBoxPicker2} = this.refs;
-        let cStyle = {};
-        if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
-            cStyle.color = colorPicker.getValue();
-        }
-        if(numberPicker.getValue() != style.fontSize){
-            cStyle.fontSize = numberPicker.getValue();
-        }
-        if(dropBoxPicker.getValue() != style.fontFamily){
-            cStyle.fontFamily = dropBoxPicker.getValue();
-        }
-        if(!style.textAlign || style.textAlign != dropBoxPicker2.getValue()){
-            cStyle.textAlign = dropBoxPicker2.getValue();
-        }
-        // if((!style.width || style.width && style.width != numberSetter1.getValue()) && numberSetter1.getValue() != ''){
-        //     cStyle.width = numberSetter1.getValue();
-        // }
-        // if((!style.width || style.width && style.width != numberSetter2.getValue()) && numberSetter2.getValue() != ''){
-        //     cStyle.height = numberSetter2.getValue();
-        // }
+        const {textPicker,colorPicker,numberPicker,dropBoxPicker,dropBoxPicker2} = this.refs;
+        let cStyle = getStyleSet(style,{
+            color:colorPicker.getValue(),
+            fontSize:numberPicker.getValue(),
+            fontFamily:dropBoxPicker.getValue(),
+            textAlign:dropBoxPicker2.getValue()
+        });
         onConfirm(cStyle,textPicker.getValue(),item);
         onClose();
     }

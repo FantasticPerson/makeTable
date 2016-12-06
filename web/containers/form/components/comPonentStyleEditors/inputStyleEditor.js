@@ -7,7 +7,7 @@ import NumberPicker from '../stylePickerItems/styleNumberPicker'
 import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import {fontFamilyList} from '../../const'
-import {stringifyRGBAObj} from '../../utils/data-helper'
+import {getStyleSet} from '../../utils/data-helper'
 
 export default class TextStyleEditor extends Component{
     constructor(){
@@ -17,28 +17,15 @@ export default class TextStyleEditor extends Component{
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
         const {colorPicker,numberPicker,numberPicker1,numberPicker2,dropBoxPicker,numberSetter1,numberSetter2} = this.refs;
-        let cStyle = {};
-        if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
-            cStyle.color = colorPicker.getValue();
-        }
-        if(numberPicker.getValue() != style.fontSize){
-            cStyle.fontSize = numberPicker.getValue();
-        }
-        if(dropBoxPicker.getValue() != style.fontFamily){
-            cStyle.fontFamily = dropBoxPicker.getValue();
-        }
-        if((!style.marginTop || style.marginTop != numberPicker2.getValue()) && numberPicker2.getValue() != ''){
-            cStyle.marginTop = numberPicker2.getValue();
-        }
-        if((!style.marginLeft || style.marginLeft != numberPicker1.getValue()) && numberPicker1.getValue() != ''){
-            cStyle.marginLeft = numberPicker1.getValue();
-        }
-        if(!style.width || style.width != numberSetter1.getValue()){
-            cStyle.width = numberSetter1.getValue();
-        }
-        if(!style.height || style.height != numberSetter2.getValue()){
-            cStyle.height = numberSetter2.getValue();
-        }
+        let cStyle = getStyleSet(style,{
+            fontSize:numberPicker.getValue(),
+            fontFamily:dropBoxPicker.getValue(),
+            marginTop:numberPicker2.getValue(),
+            marginLeft:numberPicker1.getValue(),
+            width:numberSetter1.getValue(),
+            height:numberSetter2.getValue(),
+            color:colorPicker.getValue()
+        });
         onConfirm(cStyle,item);
         onClose();
     }
@@ -57,7 +44,6 @@ export default class TextStyleEditor extends Component{
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
-        let textValue = posInfo.textValue;
         return(
             <div className="abc-form-component-text-style-editor-container" style={{marginTop:posInfo.pageY,marginLeft:posInfo.pageX}}>
                 <div className="abc-form-component-text-style-editor-container-header">

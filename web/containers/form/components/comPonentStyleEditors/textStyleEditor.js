@@ -8,7 +8,7 @@ import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import TextPicker from '../stylePickerItems/styleTextPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import {fontFamilyList} from '../../const'
-import {stringifyRGBAObj} from '../../utils/data-helper'
+import {stringifyRGBAObj,getStyleSet} from '../../utils/data-helper'
 
 export default class TextStyleEditor extends Component{
     constructor(){
@@ -18,29 +18,15 @@ export default class TextStyleEditor extends Component{
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
         const {textPicker,colorPicker,numberPicker,numberPicker1,numberPicker2,dropBoxPicker,numberSetter1,numberSetter2} = this.refs;
-        let cStyle = {};
-        if(stringifyRGBAObj(colorPicker.getValue()) != stringifyRGBAObj(style.color)){
-            cStyle.color = colorPicker.getValue();
-        }
-        if(numberPicker.getValue() != style.fontSize){
-            cStyle.fontSize = numberPicker.getValue();
-        }
-        if(dropBoxPicker.getValue() != style.fontFamily){
-            cStyle.fontFamily = dropBoxPicker.getValue();
-        }
-        console.log(numberPicker1.getValue());
-        if(!style.marginTop || (style.marginTop != numberPicker1.getValue())){
-            cStyle.marginTop = numberPicker1.getValue();
-        }
-        if(!style.marginLeft || (style.marginLeft != numberPicker2.getValue())){
-            cStyle.marginLeft = numberPicker2.getValue();
-        }
-        if((!style.width || style.width && style.width != numberSetter1.getValue()) && numberSetter1.getValue() != ''){
-            cStyle.width = numberSetter1.getValue();
-        }
-        if((!style.width || style.width && style.width != numberSetter2.getValue()) && numberSetter2.getValue() != ''){
-            cStyle.height = numberSetter2.getValue();
-        }
+        let cStyle = getStyleSet(style,{
+            color:colorPicker.getValue(),
+            fontSize:numberPicker.getValue(),
+            fontFamily:dropBoxPicker.getValue(),
+            marginTop:numberPicker1.getValue(),
+            marginLeft:numberPicker2.getValue(),
+            width:numberSetter1.getValue(),
+            height:numberSetter2.getValue()
+        });
         onConfirm(cStyle,textPicker.getValue(),item);
         onClose();
     }
