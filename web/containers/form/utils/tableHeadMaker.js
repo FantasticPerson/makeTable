@@ -50,7 +50,6 @@ export function onSetStyleConfirm(style,text,item){
     }
     this.style = {...this.style,...style};
     this.afterUpdateStyle();
-    // item.innerHTML = text;
 }
 
 export function getNode(){

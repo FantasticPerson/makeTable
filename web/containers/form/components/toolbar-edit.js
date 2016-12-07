@@ -5,6 +5,8 @@ import React,{Component,PropTypes} from 'react'
 import ToolBarEditDisplay from './toolbar-edit-display'
 import ComponentPicker from './componentPicker'
 import {editElement,editDisplay,editPreview,editSource} from '../const'
+import * as OverLayNames from '../../../constants/OverLayNames'
+import {showOverLayByName} from '../../../actions/view'
 
 export default class ToolBarEdit extends Component{
     constructor(){
@@ -26,13 +28,20 @@ export default class ToolBarEdit extends Component{
     }
 
     onEditToolClick(name){
-        let cTool = this.state.cTool;
-        if(cTool.indexOf(name) >= 0){
-            cTool.splice(cTool.indexOf(name),1);
+        if(name == 'preview'){
+            const {dispatch} = this.props.data;
+            if(document.getElementsByTagName('table')[0]) {
+                dispatch(showOverLayByName(OverLayNames.PREVIEW, {dispatch}));
+            }
         } else {
-            cTool.push(name);
+            let cTool = this.state.cTool;
+            if (cTool.indexOf(name) >= 0) {
+                cTool.splice(cTool.indexOf(name), 1);
+            } else {
+                cTool.push(name);
+            }
+            this.setState({cTool: cTool});
         }
-        this.setState({cTool:cTool});
     }
 
     confirmClick(name){
@@ -69,11 +78,11 @@ export default class ToolBarEdit extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-edit-container-body-preview"
-                         style={{backgroundColor:styleArr[cTool.indexOf(editPreview) >= 0 ? 0 : 1].color1}}
+                         style={{backgroundColor:styleArr[1].color1}}
                          onClick={()=>{this.onEditToolClick('preview')}}>
                         <div className="true-form-edit-preview-icon abc-form-tool-bar-edit-container-body-item-icon"></div>
                         <div className="abc-form-tool-bar-edit-container-body-item-text"
-                             style={{color:styleArr[cTool.indexOf(editPreview) >= 0 ? 0 : 1].color2}}>
+                             style={{color:styleArr[1].color2}}>
                             {'预览'}
                         </div>
                     </div>

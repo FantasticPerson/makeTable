@@ -22,7 +22,7 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
-export function getNode(index){
+export function getNode(index,isRelease){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });

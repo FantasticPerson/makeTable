@@ -1,15 +1,13 @@
 /**
  * Created by wdd on 2016/11/24.
  */
-import React,{Component,PropTypes} from 'react';
+import React,{Component,PropTypes} from 'react'
 import TextMaker from './componentMaker/textMaker'
 import InputMaker from './componentMaker/inputMaker'
-import TextAreaMaker from './componentMaker/textAreaMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
+import TextAreaMaker from './componentMaker/textAreaMaker'
+import {stringifyRGBAObj,getStyleObj} from './data-helper'
 import {componentText,componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
-import {stringifyRGBAObj,setItemStyle,getStyleObj} from './data-helper'
-import {showOverLayByName,removeOverLayByName} from '../../../actions/view'
-import * as OverLayNames from '../../../constants/OverLayNames'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch){

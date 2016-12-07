@@ -4,7 +4,6 @@
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
-import {stringifyRGBAObj} from './data-helper'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch) {
@@ -275,15 +274,11 @@ export function setTdSize(){
             isTheSame = false;
         }
         if(isTheSame){
-            console.log('step in the same');
             for(let k=0;k<arrTds.length;k++){
                 arrTds[k].posInfo.cRowFix = true;
             }
         }
-        console.log(totalXLength);
-
     }
-    console.log(this.tds);
 }
 
 export function getItemById(id){
@@ -298,9 +293,6 @@ export function getItemById(id){
 }
 
 export function getNode(ids){
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
     let trArr = [];
     this.tds.map((tdSub,index)=>{
         let tdArr2 = [];
@@ -320,7 +312,6 @@ export function getNode(ids){
     style.border = '0';
     return (
         <div>
-            {/*<div style={{fontSize:'32px',color:'red',height:'50px',lineHeight:'50px',textAlign:'center',fontWeight:'bold'}}>{'江苏省文稿厅拟文稿纸'}</div>*/}
             <table  style={style}>
                 <tbody>
                     {headerNode}

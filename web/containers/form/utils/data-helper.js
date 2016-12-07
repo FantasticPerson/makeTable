@@ -68,7 +68,6 @@ export function getStyleObj(obj1,ob2){
 }
 
 export function setItemStyle(item,style){
-    console.log(style);
     if(style.fontSize) {
         item.style.fontSize = style.fontSize+'px';
     }
@@ -89,6 +88,9 @@ export function setItemStyle(item,style){
     }
     if(style.height) {
         item.style.height = style.height + 'px';
+    }
+    if(style.fontWeight){
+        item.style.fontWeight = style.fontWeight;
     }
 }
 
@@ -120,6 +122,9 @@ export function getStyleSet(style,styleObj){
     }
     if(styleObj.textAlign && (!style.textAlign || style.textAlign != styleObj.textAlign)){
         cStyle.textAlign = styleObj.textAlign
+    }
+    if(styleObj.fontWeight && style.fontWeight != styleObj.fontWeight){
+        cStyle.fontWeight = styleObj.fontWeight;
     }
     return cStyle;
 }

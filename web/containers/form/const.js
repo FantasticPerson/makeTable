@@ -29,6 +29,11 @@ export const textAlignPosition = [
     {value:'left',text:'left'}
 ];
 
+export const fontWeightValues = [
+    {value:'normal',text:'normal'},
+    {value:'bolder',text:'bolder'}
+];
+
 export const editElement = 'element';
 export const editDisplay = 'display';
 export const editPreview = 'preview';
