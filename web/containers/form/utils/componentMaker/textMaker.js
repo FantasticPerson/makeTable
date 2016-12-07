@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class TextMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,tdStyle){
         super();
         this.tdId = tdId;
         this.id = id;
@@ -14,6 +14,7 @@ export default class TextMaker extends Object{
         this.style = {};
         this.styleArr = styleArr;
         this.styleId = styleId;
+        this.tdStyle = tdStyle;
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;
         this.getNode = getNode;
@@ -21,11 +22,21 @@ export default class TextMaker extends Object{
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.onContextMenuShow = onContextMenuShow;
         this.onClickShow = onClickShow;
+        this.setTdStyle = setTdStyle;
+        this.setValue = setValue;
     }
 }
 
 export function setStyle(styleArr){
     this.styleArr = styleArr;
+}
+
+export function setTdStyle(style){
+    this.tdStyle = style;
+}
+
+export function setValue(value){
+    this.value = value;
 }
 
 export function onSetStyleConfirm(style,text,item){
@@ -61,14 +72,16 @@ export function getNode(index){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
+    console.log(this.tdStyle);
     return (
-        <span style={getStyleObj(cStyle,this.style)} key={index} onClick={(e)=>{
+        <span style={getStyleObj(cStyle,this.tdStyle)} key={index} onClick={(e)=>{
             e.stopPropagation();
             {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
         }} onContextMenu={(e)=>{
             e.preventDefault();
-            e.stopPropagation();
-            this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
+            {/*e.stopPropagation();*/}
+            e.component = {item:e.currentTarget,obj:this,value:this.value};
+            {/*this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);*/}
             {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
         }}
         >{this.value}</span>

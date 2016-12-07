@@ -49,7 +49,7 @@ export function registerFunc(functionArray){
 
 export function insertComponent(type,styleArr,styleId){
     if(type == componentText){
-        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
+        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.style))
     } else if(type == componentInput){
         this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
     } else if(type == componentTextArea){
@@ -85,20 +85,29 @@ export function setStyle(styleArr){
 }
 
 export function onSetStyleConfirm(style,text,item){
-    if(this.value != text){
-        this.value = text;
-    }
+    // if(this.value != text){
+    //     this.value = text;
+    // }
     this.style = {...this.style,...style};
+
+
+    if(item.nodeData){
+        this.componentArray.map(item=>{
+            item.setTdStyle(this.style);
+        });
+        // item.nodeData.setTdStyle(this.style);
+        item.nodeData.setValue(text);
+    }
     this.afterUpdateStyle();
     // item.innerHTML = text;
 }
 
-export function onContextMenuShow(item,pageX,pageY) {
+export function onContextMenuShow(item,pageX,pageY,component=null) {
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
     let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
-    this.onComponentContext({
+    let data = {
         type:componentTd,
         id:this.id,
         tdId:this.tdId,
@@ -108,7 +117,14 @@ export function onContextMenuShow(item,pageX,pageY) {
         value:this.value,
         onConfirm:this.onSetStyleConfirm.bind(this),
         cTarget:item
-    });
+    };
+    if(component && component.value){
+        data.value = component.value;
+    }
+    if(component && component.obj){
+        data.cTarget = {item:data.cTarget,nodeData:component.obj};
+    }
+    this.onComponentContext(data);
 }
 
 export function getNode(tdIds,index=0){
@@ -154,11 +170,16 @@ export function getNode(tdIds,index=0){
                     }} onContextMenu={(e)=>{
                         e.preventDefault();
                         {/*e.stopPropagation();*/}
-                        if(bgColor == '#eeeeee'){
-                            this.onTdContext({pageX: e.pageX, pageY: e.pageY});
+                        if(e.component){
+                            this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);
                         } else {
-                            this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
+                            if (bgColor == '#eeeeee') {
+                                this.onTdContext({pageX: e.pageX, pageY: e.pageY});
+                            } else {
+                                this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
+                            }
                         }
+                        e.component = null;
                         /*if(e.component){
                             this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{
                                 cb:function(num){
@@ -181,8 +202,7 @@ export function getNode(tdIds,index=0){
                         e.preventDefault()
                     }} onDrop={(e)=>{
                         this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                    }}>{this.value}
-                {components}
+                    }}>{components}
         </td>)
     }
     return null;
