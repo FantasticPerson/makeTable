@@ -24,8 +24,19 @@ export default class TextStyleEditor extends Component{
             fontFamily:dropBoxPicker.getValue(),
             textAlign:dropBoxPicker2.getValue()
         });
-        onConfirm(cStyle,textPicker.getValue(),item);
+        let value = textPicker ? textPicker.getValue() : '';
+        onConfirm(cStyle,value,item);
         onClose();
+    }
+
+    renderTextPicker(){
+        const {item} = this.props.posInfo;
+        if(item.nodeData){
+            let textValue = this.props.posInfo.textValue;
+            return (
+                <TextPicker ref='textPicker' text={textValue} title="设置内容"/>
+            )
+        }
     }
 
     onCancelClick(){
@@ -45,7 +56,7 @@ export default class TextStyleEditor extends Component{
                 <div className="abc-form-component-text-style-editor-container-header">
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
-                <TextPicker ref='textPicker' text={textValue} title="设置内容"/>
+                {this.renderTextPicker()}
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
                 {/*<NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>*/}
