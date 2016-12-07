@@ -23,6 +23,7 @@ export default class ComponentRightClickModal extends Component{
 
     renderComponentEditor(){
         const {data,cancel,confirm} = this.props.data;
+
         if(data.type == componentText){
             return   <TextStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
         } else if(data.type == componentInput){

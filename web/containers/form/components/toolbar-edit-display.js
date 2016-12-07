@@ -27,13 +27,13 @@ export default class ToolBarEditDisplay extends Component{
                     <div className="abc-form-tool-bar-edit-display-container-body-row">
                         <div className="abc-form-tool-bar-edit-display-container-body-row-text">{'行数:'}</div>
                         <div className="abc-form-tool-bar-edit-display-container-body-row-picker">
-                            <NumberPicker ref="numberPicker1"/>
+                            <NumberPicker value={16} ref="numberPicker1"/>
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-edit-display-container-body-col">
                         <div className="abc-form-tool-bar-edit-display-container-body-col-text">{'列数:'}</div>
                         <div className="abc-form-tool-bar-edit-display-container-body-col-picker">
-                            <NumberPicker ref="numberPicker2"/>
+                            <NumberPicker value={7} ref="numberPicker2"/>
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-edit-confirm-btn" onClick={()=>{this.onConfirmClick()}}>{'插入'}</div>

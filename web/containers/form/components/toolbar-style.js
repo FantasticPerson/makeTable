@@ -44,7 +44,12 @@ export default class ToolbarStyle extends Component{
     onClickHandler(name){
         const {subName} = this.state;
         let name2 = subName == name ? null : name;
-        this.setState({subName:name2});
+        this.setState({subName:null});
+        if(name2 != null){
+            setTimeout(function(){
+                this.setState({subName:name2});
+            }.bind(this),20);
+        }
     }
 
     render(){

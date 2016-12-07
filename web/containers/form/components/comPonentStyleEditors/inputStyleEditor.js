@@ -44,8 +44,10 @@ export default class TextStyleEditor extends Component{
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
+        let marginTop = window.innerHeight < 491 + posInfo.pageY ? (window.innerHeight - 491 > 0 ? window.innerHeight - 491 : 0) : posInfo.pageY;
+        let marginLeft = window.innerWidth < 302 + posInfo.pageX ? (window.innerWidth-302>0?window.innerWidth-302:0) : posInfo.pageX;
         return(
-            <div className="abc-form-component-text-style-editor-container" style={{marginTop:posInfo.pageY,marginLeft:posInfo.pageX}}>
+            <div className="abc-form-component-text-style-editor-container" style={{marginTop:marginTop,marginLeft:marginLeft}}>
                 <div className="abc-form-component-text-style-editor-container-header">
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
