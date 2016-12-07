@@ -14,11 +14,11 @@ export default class ToolbarStyle extends Component{
     }
 
     onStyleItemClick(id){
-        const {onUpdateStyle} = this.props;
+        const {afterUpdateStyle} = this.props;
         this.props.dispatch(formAction.updateCurrentStyleId(id));
         this.setState({subName:null});
         setTimeout(function(){
-            onUpdateStyle();
+            afterUpdateStyle();
         }.bind(this),20)
     }
 

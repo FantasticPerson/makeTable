@@ -5,6 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import StyleColorPicker from './stylePickerItems/styleColorPicker'
 import StyleNumberPicker from './stylePickerItems/styleNumberPicker'
 import StyleDropBoxPicker from './stylePickerItems/styleDropBoxPicker'
+import TextPicker from './stylePickerItems/styleTextPicker'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
 import {fontFamilyList} from '../const'
 
@@ -16,11 +17,11 @@ export default class ToolbarStyleEditor extends Component{
 
     onConformClick(){
         const {formStyle,onUpdateStyle,subName,onClickClose} = this.props;
-        const {colorPicker,colorPicker2,numberPicker1,numberPicker2,dropBoxSelector} = this.refs;
+        const {colorPicker,colorPicker2,numberPicker1,numberPicker2,dropBoxSelector,textPicker} = this.refs;
         let arr = [];
         if(subName == 'viewAdd'){
             let style = {};
-            style.name = this.formStyle.name;
+            style.name = '默认';
             style.id = this.formStyle.id;
             style.borderColor = colorPicker.getValue();
             style.fontSize = numberPicker2.getValue();
@@ -41,7 +42,7 @@ export default class ToolbarStyleEditor extends Component{
                     style.fontSize = numberPicker2.getValue();
                     style.borderSize = numberPicker1.getValue();
                     style.isDefault = formStyle.list[i].isDefault;
-                    style.name = formStyle.list[i].name;
+                    style.name = textPicker.getValue();
                     style.fontColor = colorPicker2.getValue();
                     style.fontFamily = dropBoxSelector.getValue();
                     arr.push(style);
@@ -89,6 +90,7 @@ export default class ToolbarStyleEditor extends Component{
                 <div className="abc-form-tool-bar-style-editor-container-header">
                     <div className="abc-form-tool-bar-style-editor-container-header-text">{title}</div>
                 </div>
+                <TextPicker ref='textPicker' title="名字" text={formStyleItem ? formStyleItem.name : '默认'}/>
                 <StyleColorPicker ref='colorPicker' title="边框颜色" color={(formStyleItem ? formStyleItem.borderColor : null)}/>
                 <StyleNumberPicker ref='numberPicker1' title="边框粗细" size={(formStyleItem?formStyleItem.borderSize:null)} unit="(单位:px)"/>
                 <StyleColorPicker ref='colorPicker2' title="文字颜色" color={(formStyleItem ? formStyleItem.fontColor : null)}/>
