@@ -18,7 +18,7 @@ export default class tdMaker extends Object{
         this.posInfo=posInfo;
         this.styleArr = styleArr;
         this.styleId = styleId;
-        this.style = {textAlign:'center'};
+        this.style = {textAlign:'center',height:'60',showBorder:[true,true,true,true]};
         this.componentId = 0;
         this.componentArray = [];
         this.dispatch = dispatch;
@@ -138,13 +138,38 @@ export function getNode(tdIds,index=0){
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
         let row = (cRowFix || cCol == tCol) ? 1 : cRow;
-        let style = {width,height};
-        style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
+        let style = {};
+        // style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
         style.backgroundColor = bgColor;
         style.width = width+'px';
-        style.height = height+'px';
+        // style.width = cCol /tCol * 100 + '%';
+        // style.height = height+'px';
+        // style.height = cRow /tRow * 100+'%';
+        const {showBorder} = this.style;
+        if(showBorder[0]) {
+            style.borderTop = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+        } else {
+            style.borderTopWidth = 0;
+        }
+        if(showBorder[1]) {
+            style.borderBottom = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+        } else {
+            style.borderBottomWidth = 0;
+        }
+        if(showBorder[2]) {
+            style.borderLeft = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+        } else{
+            style.borderLeftWidth = 0;
+        }
+        if(showBorder[3]) {
+            style.borderRight = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+        }else {
+            style.borderRightWidth = 0;
+        }
+        // console.log(style);
         let getStyle = {...getStyleObj(cStyle,this.style),...style};
 
+        console.log(getStyle);
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });

@@ -40,7 +40,7 @@ export function onContextMenuShow(item,pageX,pageY) {
         style:{...style1,...this.style},
         value:this.title,
         onConfirm:this.onSetStyleConfirm.bind(this),
-        cTarget:item
+        cTarget:{nodeData:item}
     });
 }
 

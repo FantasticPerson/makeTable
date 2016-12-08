@@ -170,6 +170,10 @@ export function merge(tdArr){
     let minX = pointArr2[0][0][0],minY = pointArr2[0][0][1];
     let maxX = pointArr2[0][pointArr2[0].length-1][0],maxY = pointArr2[pointArr2.length-1][0][1];
 
+    let forRecoverArray = [];
+    for(let i=minX+1;i<maxX+1;i++){
+
+    }
     for(let i = minX+1;i<maxX+1;i++){
         this.tds[minY][i].mockType = 1;
     }
@@ -183,6 +187,10 @@ export function merge(tdArr){
     }
     this.setTdSize();
     return true;
+}
+
+export function checkIsValid(){
+
 }
 
 export function split(id){
@@ -231,7 +239,10 @@ export function setTdSize(){
         let totalXLength = 0;
         let arr = [],arrTds = [];
         for(let j=0;j<xLength;j++){
+            let maxHeight = -1,minHeight = 1000;
+            let validNum = 0;
             if(this.tds[i][j].mockType == 0) {
+                validNum++;
                 let cWidth = 1, cHeight = 1;
                 for(let k=j+1;k<xLength;k++){
                     if([1,3].indexOf(this.tds[i][k].mockType) >= 0){
@@ -240,6 +251,7 @@ export function setTdSize(){
                         break;
                     }
                 }
+
                 for(let l=i+1;l<yLength;l++){
                     if([2,4].indexOf(this.tds[l][j].mockType) >= 0){
                         cHeight += 1;
@@ -247,6 +259,8 @@ export function setTdSize(){
                         break;
                     }
                 }
+                maxHeight = maxHeight < cHeight ? cHeight : maxHeight;
+                minHeight = minHeight > cHeight ? cHeight : minHeight;
                 totalXLength += cWidth;
                 this.tds[i][j].posInfo.cCol = cWidth;
                 this.tds[i][j].posInfo.tCol = xLength;
@@ -308,7 +322,7 @@ export function getNode(ids){
     });
     let headerNode = this.header.getNode();
     const {width,height} = this.posInfo;
-    let style = {width:width+'px',height:height+'px'};
+    let style = {width:width+'px'};
     style.border = '0';
     return (
         <div>

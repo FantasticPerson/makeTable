@@ -11,6 +11,7 @@ import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 import OptionDataAddTool from '../../components/optionDataAddTool'
 import NumberSetter from '../../components/numberSetter'
+import RadioSelector from '../../components/checkSelector'
 
 class FormPage extends Component{
     constructor(){
@@ -97,6 +98,7 @@ class FormPage extends Component{
     }
 
     generateTable(num1, num2){
+        this.tdIds = [];
         const {formStyleList,formStyleId,dispatch} = this.props;
         let posInfo = {row:num1,col:num2,width:820,height:962};
         let functionArray = {
@@ -163,7 +165,7 @@ class FormPage extends Component{
                 <div className="abc-form-container-body">
                     {/*<OptionDataAddTool/>*/}
                     {/*<NumberSetter/>*/}
-
+                    {/*<RadioSelector/>*/}
                     <div className="abc-form-container-body-table">
                         {node}
                     </div>
