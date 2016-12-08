@@ -18,12 +18,14 @@ export default class TextStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {textPicker,colorPicker,numberPicker,dropBoxPicker,dropBoxPicker2,checkBoxPicker2} = this.refs;
+        const {textPicker,colorPicker,numberPicker,dropBoxPicker,dropBoxPicker2,checkBoxPicker2,numberSetter1,numberSetter2} = this.refs;
         let cStyle = getStyleSet(style,{
             color:colorPicker.getValue(),
             fontSize:numberPicker.getValue(),
             fontFamily:dropBoxPicker.getValue(),
-            textAlign:dropBoxPicker2.getValue()
+            textAlign:dropBoxPicker2.getValue(),
+            width:numberSetter1.getValue(),
+            height:numberSetter2.getValue()
         });
         cStyle.showBorder = checkBoxPicker2.getValue();
         let value = textPicker ? textPicker.getValue() : '';
@@ -62,8 +64,8 @@ export default class TextStyleEditor extends Component{
                 <CheckBoxPicker title='显示边框' ref="checkBoxPicker2" dataArray={showBorderArray} selectedArray={cStyle ? cStyle.showBorder : []}/>
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
-                {/*<NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>*/}
-                {/*<NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>*/}
+                <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>
+                <NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>
                 <DropBoxPicker ref="dropBoxPicker" selectedValue={cStyle ? cStyle.fontFamily:null} title="文字字体" groupData={fontFamilyList}/>
                 <DropBoxPicker ref="dropBoxPicker2" selectedValue={cStyle ? cStyle.textAlign:null} title="子元素布局" groupData={textAlignPosition}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>

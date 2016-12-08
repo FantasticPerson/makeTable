@@ -133,7 +133,7 @@ export function getNode(tdIds,index=0){
             return item.id == this.styleId;
         });
         const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix} = this.posInfo;
-        let height = cRow / tRow * tHeight;
+        // let height = cRow / tRow * tHeight;
         let width = cCol / tCol * tWidth;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
@@ -167,13 +167,15 @@ export function getNode(tdIds,index=0){
             style.borderRightWidth = 0;
         }
         // console.log(style);
-        let getStyle = {...getStyleObj(cStyle,this.style),...style};
+        let getStyle = getStyleObj(cStyle,this.style);
+        style.width = getStyle.width ? getStyle.width : style.width;
+        let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
 
         console.log(getStyle);
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td colSpan={col} key={index} rowSpan={row} style={getStyle} onClick={(e)=>{
+        return (<td colSpan={col} key={index} rowSpan={row} style={getStyle2} onClick={(e)=>{
                     this.onTdClick(this.id);
                     /*if(e.component){
                         this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{
