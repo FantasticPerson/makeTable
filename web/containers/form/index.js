@@ -147,6 +147,16 @@ class FormPage extends Component{
         this.props.dispatch(removeOverLayByName(overLayNames.FORM_MENU_MODAL));
     }
 
+    exportData(){
+        const {tableObj} = this.state;
+        if(tableObj){
+            let ll = tableObj.exportData();
+            let str = JSON.stringify(ll);
+            console.log(str);
+            console.log(JSON.parse(str));
+            // console.log(tableObj.exportData());
+        }
+    }
 
     render(){
         const {tableObj} = this.state;
@@ -163,6 +173,7 @@ class FormPage extends Component{
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body">
+                    <div onClick={()=>{this.exportData()}}>export</div>
                     {/*<OptionDataAddTool/>*/}
                     {/*<NumberSetter/>*/}
                     {/*<RadioSelector/>*/}

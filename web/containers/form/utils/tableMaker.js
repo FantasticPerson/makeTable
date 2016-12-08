@@ -37,6 +37,7 @@ export function registerFunc(functionArray){
     this.insertComponent = insertComponent;
     this.setComponentStyle = setComponentStyle;
     this.deleteComponent = deleteComponent;
+    this.exportData = exportData;
     this.onDeleteComponent = onDeleteComponent;
 }
 
@@ -91,6 +92,21 @@ export function setStyle(styleArr){
         }
     }
     this.header.setStyle(styleArr);
+}
+
+export function exportData(){
+    const tds = this.tds.map(item=>{
+        return item.map(item2=>{
+            return item2.exportData();
+        })
+    });
+    return {
+        tds:tds,
+        id:this.id,
+        styleId:this.styleId,
+        styleArr:this.styleArr,
+        posInfo:this.posInfo
+    }
 }
 
 export function merge(tdArr){
@@ -268,7 +284,6 @@ export function setTdSize(){
                 this.tds[i][j].posInfo.cRowFix = false;
                 this.tds[i][j].posInfo.tRow = yLength;
                 arrTds.push(this.tds[i][j]);
-
             }
         }
         let isTheSame = true;

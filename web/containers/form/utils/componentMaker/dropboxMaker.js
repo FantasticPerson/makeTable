@@ -19,6 +19,7 @@ export default class DropBoxMaker extends Object{
         this.setStyle = setStyle;
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.onContextMenuShow = onContextMenuShow;
+        this.exportData = exportData;
     }
 }
 
@@ -56,6 +57,16 @@ export function onContextMenuShow(item,pageX,pageY){
         onDelete:this.onDelete,
         cTarget:item
     });
+}
+
+export function exportData(){
+    return {
+        tdId:this.tdId,
+        id:this.id,
+        type:this.type,
+        style:this.style,
+        styleId:this.styleId
+    };
 }
 
 export function getNode(index){

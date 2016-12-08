@@ -22,6 +22,7 @@ export default class InputMaker extends Object{
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.onContextMenuShow = onContextMenuShow;
         this.onClickShow = onClickShow;
+        this.exportData = exportData;
     }
 }
 
@@ -55,6 +56,17 @@ export function onContextMenuShow(item,pageX,pageY){
 
 export function onClickShow(item){
     item.focus();
+}
+
+export function exportData(){
+    return {
+        tdId:this.tdId,
+        id:this.id,
+        type:componentInput,
+        style:this.style,
+        styleId:this.styleId,
+        value:this.value
+    }
 }
 
 export function getNode(index){

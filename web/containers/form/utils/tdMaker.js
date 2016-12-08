@@ -45,12 +45,14 @@ export function registerFunc(functionArray){
     this.getNode = getNode;
     this.setStyle = setStyle;
     this.deleteComponent = deleteComponent;
+    this.exportData = exportData;
 }
 
 export function insertComponent(type,styleArr,styleId){
-    if(type == componentText){
-        this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.style))
-    } else if(type == componentInput){
+    // if(type == componentText){
+    //     this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.style))
+    // } else
+    if(type == componentInput){
         this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
     } else if(type == componentTextArea){
         this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
@@ -74,6 +76,22 @@ export function setComponentStyle(id,style){
     });
     if(component){
         component.setStyle(style);
+    }
+}
+
+export function exportData(){
+    let componentsData = this.componentArray.map((item)=>{
+        return item.exportData();
+    });
+    return {
+        components:componentsData,
+        id:this.id,
+        mockType:this.mockType,
+        styleId:this.styleId,
+        style:this.style,
+        componentId:this.componentId,
+        posInfo:this.posInfo,
+        value:this.value
     }
 }
 
@@ -149,29 +167,29 @@ export function getNode(tdIds,index=0){
         if(showBorder[0]) {
             style.borderTop = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         } else {
-            style.borderTopWidth = 0;
+            style.borderTopColor = "#FFF";
         }
         if(showBorder[1]) {
             style.borderBottom = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         } else {
-            style.borderBottomWidth = 0;
+            style.borderBottomColor = "#FFF";
         }
         if(showBorder[2]) {
             style.borderLeft = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         } else{
-            style.borderLeftWidth = 0;
+            style.borderLeftColor = "#FFF";
         }
         if(showBorder[3]) {
             style.borderRight = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         }else {
-            style.borderRightWidth = 0;
+            style.borderRightColor = "#FFF";
         }
         // console.log(style);
         let getStyle = getStyleObj(cStyle,this.style);
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
 
-        console.log(getStyle);
+        // console.log(getStyle);
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
