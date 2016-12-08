@@ -69,6 +69,7 @@ export function onClickShow(item){
 }
 
 export function getNode(index){
+    return;
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });

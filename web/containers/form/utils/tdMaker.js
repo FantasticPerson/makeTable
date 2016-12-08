@@ -85,19 +85,19 @@ export function setStyle(styleArr){
 }
 
 export function onSetStyleConfirm(style,text,item){
-    // if(this.value != text){
-    //     this.value = text;
-    // }
+    if(this.value != text){
+        this.value = text;
+    }
     this.style = {...this.style,...style};
 
 
-    if(item.nodeData){
-        this.componentArray.map(item=>{
-            item.setTdStyle(this.style);
-        });
+    // if(item.nodeData){
+    //     this.componentArray.map(item=>{
+    //         item.setTdStyle(this.style);
+    //     });
         // item.nodeData.setTdStyle(this.style);
-        item.nodeData.setValue(text);
-    }
+        // item.nodeData.setValue(text);
+    // }
     this.afterUpdateStyle();
     // item.innerHTML = text;
 }
@@ -229,7 +229,7 @@ export function getNode(tdIds,index=0){
                         e.preventDefault()
                     }} onDrop={(e)=>{
                         this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                    }}>{components}
+                    }}>{this.value}{components}
         </td>)
     }
     return null;

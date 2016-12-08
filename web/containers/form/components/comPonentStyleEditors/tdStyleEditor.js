@@ -27,18 +27,31 @@ export default class TextStyleEditor extends Component{
             width:numberSetter1.getValue(),
             height:numberSetter2.getValue()
         });
-        cStyle.showBorder = checkBoxPicker2.getValue();
+        if(checkBoxPicker2) {
+            cStyle.showBorder = checkBoxPicker2.getValue();
+        }
         let value = textPicker ? textPicker.getValue() : '';
         onConfirm(cStyle,value,item);
         onClose();
     }
 
     renderTextPicker(){
-        const {item} = this.props.posInfo;
-        if(item.nodeData){
+        // const {item} = this.props.posInfo;
+        // if(item.nodeData){
             let textValue = this.props.posInfo.textValue;
             return (
                 <TextPicker ref='textPicker' text={textValue} title="设置内容"/>
+            );
+        // }
+    }
+
+    renderCheckBoxBorder(){
+        const {item} = this.props.posInfo;
+        if(!item.nodeData){
+            const {posInfo} = this.props;
+            let cStyle = posInfo.style;
+            return(
+                <CheckBoxPicker title='显示边框' ref="checkBoxPicker2" dataArray={showBorderArray} selectedArray={cStyle ? cStyle.showBorder : []}/>
             )
         }
     }
@@ -61,7 +74,8 @@ export default class TextStyleEditor extends Component{
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
                 {this.renderTextPicker()}
-                <CheckBoxPicker title='显示边框' ref="checkBoxPicker2" dataArray={showBorderArray} selectedArray={cStyle ? cStyle.showBorder : []}/>
+                {this.renderCheckBoxBorder()}
+                {/*<CheckBoxPicker title='显示边框' ref="checkBoxPicker2" dataArray={showBorderArray} selectedArray={cStyle ? cStyle.showBorder : []}/>*/}
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>
