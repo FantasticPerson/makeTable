@@ -6,19 +6,38 @@ import {getStyleObj} from './data-helper'
 import {componentTd} from '../const'
 
 export default class tableHeadMaker extends Object{
-    constructor(colSpan,title,styleArr,styleId,onComponentContext,afterUpdateStyle){
+    constructor(colSpan,title,styleArr,styleId,onComponentContext,afterUpdateStyle,recoverData){
         super();
-        this.styleArr = styleArr;
-        this.styleId = styleId;
-        this.style = {textAlign:'center',height:'66',fontWeight:'bold',fontSize:'32'};
-        this.title = '右击编辑内容';
-        this.colSpan = colSpan;
-        this.onComponentContext = onComponentContext;
-        this.afterUpdateStyle = afterUpdateStyle;
-        this.onContextMenuShow = onContextMenuShow;
-        this.onSetStyleConfirm = onSetStyleConfirm;
-        this.getNode = getNode;
-        this.setStyle = setStyle;
+        if(!recoverData) {
+            this.styleArr = styleArr;
+            this.styleId = styleId;
+            this.style = {textAlign: 'center', height: '66', fontWeight: 'bold', fontSize: '32'};
+            this.title = '右击编辑内容';
+            this.colSpan = colSpan;
+            this.onComponentContext = onComponentContext;
+            this.afterUpdateStyle = afterUpdateStyle;
+            this.onContextMenuShow = onContextMenuShow;
+            this.onSetStyleConfirm = onSetStyleConfirm;
+            this.getNode = getNode;
+            this.setStyle = setStyle;
+            this.exportData = exportData;
+        } else {
+            // styleId:this.styleId,
+            //     title:this.title,
+            //     style:this.style
+            this.styleArr = styleArr;
+            this.styleId = recoverData.styleId;
+            this.style = recoverData.style;
+            this.title = recoverData.title;
+            this.colSpan = colSpan;
+            this.onComponentContext = onComponentContext;
+            this.afterUpdateStyle = afterUpdateStyle;
+            this.onContextMenuShow = onContextMenuShow;
+            this.onSetStyleConfirm = onSetStyleConfirm;
+            this.getNode = getNode;
+            this.setStyle = setStyle;
+            this.exportData = exportData;
+        }
     }
 }
 
@@ -50,6 +69,14 @@ export function onSetStyleConfirm(style,text,item){
     }
     this.style = {...this.style,...style};
     this.afterUpdateStyle();
+}
+
+export function exportData(){
+    return {
+        styleId:this.styleId,
+        title:this.title,
+        style:this.style
+    }
 }
 
 export function getNode(){

@@ -6,18 +6,36 @@ import tableHeadMaker from './tableHeadMaker'
 import React,{Component,PropTypes} from 'react';
 
 export default class tableMaker extends Object {
-    constructor(posInfo, functionArray, styleArr, styleId,dispatch) {
+    constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
         super();
-        this.id = 0;
-        this.styleId = styleId;
-        this.styleArr = styleArr;
-        this.posInfo = posInfo;
-        this.dispatch = dispatch;
+        if(!recoverData) {
+            this.id = 0;
+            this.styleId = styleId;
+            this.styleArr = styleArr;
+            this.posInfo = posInfo;
+            this.dispatch = dispatch;
 
-        this.registerFunc = registerFunc;
-        this.registerFunc(functionArray);
-        this.initTds = initTds;
-        this.initTds();
+            this.registerFunc = registerFunc;
+            this.registerFunc(functionArray);
+            this.initTds = initTds;
+            this.initTds(recoverData);
+        } else {
+            // tds:tds,
+            //     id:this.id,
+            //     styleId:this.styleId,
+            //     styleArr:this.styleArr,
+            //     posInfo:this.posInfo
+            this.recoverData = recoverData;
+            this.id = recoverData.id;
+            this.styleId = recoverData.styleId;
+            this.styleArr = styleArr;
+            this.posInfo = recoverData.posInfo;
+            this.dispatch = dispatch;
+            this.registerFunc = registerFunc;
+            this.registerFunc(functionArray);
+            this.initTds = initTds;
+            this.initTds(recoverData);
+        }
     }
 }
 
@@ -41,26 +59,57 @@ export function registerFunc(functionArray){
     this.onDeleteComponent = onDeleteComponent;
 }
 
-export function initTds(){
-    let tdArr = [];
-    const {row, col, width, height} = this.posInfo;
-    for (let i = 0; i < row; i++) {
-        tdArr[i] = [];
-        for (let j = 0; j < col; j++) {
-            let posInfo = {x: j, y: i, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
-            let functionArray = {
-                onTdClick:this.onTdClick,
-                onTdContext:this.onTdContext,
-                onComponentDrop:this.onComponentDrop,
-                onComponentContext:this.onComponentContext,
-                afterUpdateStyle:this.afterUpdateStyle,
-                onDeleteComponent:this.onDeleteComponent
-            };
-            tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray,this.dispatch)
+export function recoverData() {
+
+}
+
+export function initTds(recoverData){
+    if(!recoverData) {
+        let tdArr = [];
+        const {row, col, width, height} = this.posInfo;
+        for (let i = 0; i < row; i++) {
+            tdArr[i] = [];
+            for (let j = 0; j < col; j++) {
+                let posInfo = {x: j, y: i, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
+                let functionArray = {
+                    onTdClick: this.onTdClick,
+                    onTdContext: this.onTdContext,
+                    onComponentDrop: this.onComponentDrop,
+                    onComponentContext: this.onComponentContext,
+                    afterUpdateStyle: this.afterUpdateStyle,
+                    onDeleteComponent: this.onDeleteComponent
+                };
+                tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch)
+            }
         }
+        this.header = new tableHeadMaker(col, '', this.styleArr, this.styleId, this.onComponentContext, this.afterUpdateStyle);
+        this.tds = tdArr;
+    } else {
+        let functionArray = {
+            onTdClick: this.onTdClick,
+            onTdContext: this.onTdContext,
+            onComponentDrop: this.onComponentDrop,
+            onComponentContext: this.onComponentContext,
+            afterUpdateStyle: this.afterUpdateStyle,
+            onDeleteComponent: this.onDeleteComponent
+        };
+        let tds = recoverData.tds;
+        let arr = [];
+        tds.map(item=>{
+            arr.push(item.map(item2=>{
+                return new tdMaker(null,null,this.styleArr,null,null,functionArray,this.dispatch,item2);
+            }))
+        });
+        this.tds = arr;
+
+        let headData = recoverData.header;
+
+        // this.header = new tableHeadMaker(col, '', this.styleArr, this.styleId, this.onComponentContext, this.afterUpdateStyle);
+        const {row, col, width, height} = this.posInfo;
+        this.header = new tableHeadMaker(col,'',this.styleArr,headData.styleId,this.onComponentContext, this.afterUpdateStyle,headData);
+        // console.log(arr);
+        // this.tds = tdArr
     }
-    this.header = new tableHeadMaker(col,'',this.styleArr,this.styleId,this.onComponentContext,this.afterUpdateStyle);
-    this.tds = tdArr;
 }
 
 export function insertComponent(tdId,componentType,styleArr,styleId){
@@ -101,10 +150,11 @@ export function exportData(){
         })
     });
     return {
+        header:this.header.exportData(),
         tds:tds,
         id:this.id,
         styleId:this.styleId,
-        styleArr:this.styleArr,
+        // styleArr:this.styleArr,
         posInfo:this.posInfo
     }
 }

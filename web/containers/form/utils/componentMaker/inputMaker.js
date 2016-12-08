@@ -6,23 +6,46 @@ import {componentInput} from '../../const'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class InputMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
         super();
-        this.tdId = tdId;
-        this.id = id;
-        this.type = componentInput;
-        this.style = {};
-        this.styleArr = styleArr;
-        this.styleId = styleId;
-        this.onContextMenu = onComponentClick;
-        this.onDelete = onDelete;
-        this.value = "点击编辑内容";
-        this.getNode = getNode;
-        this.setStyle = setStyle;
-        this.onSetStyleConfirm = onSetStyleConfirm;
-        this.onContextMenuShow = onContextMenuShow;
-        this.onClickShow = onClickShow;
-        this.exportData = exportData;
+        if(!recoverData) {
+            this.tdId = tdId;
+            this.id = id;
+            this.type = componentInput;
+            this.style = {};
+            this.styleArr = styleArr;
+            this.styleId = styleId;
+            this.onContextMenu = onComponentClick;
+            this.onDelete = onDelete;
+            this.value = "点击编辑内容";
+            this.getNode = getNode;
+            this.setStyle = setStyle;
+            this.onSetStyleConfirm = onSetStyleConfirm;
+            this.onContextMenuShow = onContextMenuShow;
+            this.onClickShow = onClickShow;
+            this.exportData = exportData;
+        } else {
+            this.onContextMenu = onComponentClick;
+            this.onDelete = onDelete;
+            this.style = recoverData.style;
+            this.styleArr = styleArr;
+            this.tdId = tdId;
+            this.id = recoverData.id;
+            this.type = componentInput;
+            this.styleId = recoverData.styleId;
+            this.value = recoverData.value;
+            this.getNode = getNode;
+            this.setStyle = setStyle;
+            this.onSetStyleConfirm = onSetStyleConfirm;
+            this.onContextMenuShow = onContextMenuShow;
+            this.onClickShow = onClickShow;
+            this.exportData = exportData;
+            // id:this.id,
+            //     type:componentInput,
+            //     style:this.style,
+            //     styleId:this.styleId,
+            //     value:this.value
+        }
     }
 }
 
@@ -60,7 +83,7 @@ export function onClickShow(item){
 
 export function exportData(){
     return {
-        tdId:this.tdId,
+        // tdId:this.tdId,
         id:this.id,
         type:componentInput,
         style:this.style,

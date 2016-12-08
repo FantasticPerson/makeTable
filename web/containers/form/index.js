@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import * as overLayNames from '../../constants/OverLayNames'
 import ToolBar from './components/toolbar'
 import tableMaker from './utils/tableMaker'
-import {formDefaultStyle} from './const'
+import {formDefaultStyle,tableRecoverData} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 import OptionDataAddTool from '../../components/optionDataAddTool'
@@ -18,6 +18,7 @@ class FormPage extends Component{
         super();
         this.state = {tableObj:null};
         this.tdIds = [];
+        this.tableDataTosave = null;
     }
 
     onTdClick(id){
@@ -149,12 +150,54 @@ class FormPage extends Component{
 
     exportData(){
         const {tableObj} = this.state;
+        const {formStyleId,formStyleMaxId,formStyleList} = this.props;
         if(tableObj){
             let ll = tableObj.exportData();
+            ll.currentStyleId = formStyleId;
+            ll.formStyleMaxId = formStyleMaxId;
+            ll.formStyleList = formStyleList;
             let str = JSON.stringify(ll);
+            this.tableDataTosave = str;
             console.log(str);
             console.log(JSON.parse(str));
             // console.log(tableObj.exportData());
+        }
+    }
+
+    importData(){
+        if(this.tableDataTosave){
+            let tableData = JSON.parse(this.tableDataTosave);
+            // let tableData =JSON.parse(tableRecoverData);
+            const {currentStyleId,formStyleMaxId,formStyleList} = tableData;
+            // this.styleId = recoverData.styleId;
+            // this.styleArr = recoverData.styleArr;
+            this.props.dispatch(updateStyleList(formStyleList));
+            this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            this.props.dispatch(updateMaxId(formStyleMaxId));
+
+            setTimeout(function(){
+                this.tdIds = [];
+                const {formStyleList,formStyleId,dispatch} = this.props;
+                let functionArray = {
+                    onTdClick:this.onTdClick.bind(this),
+                    onTdContext:this.onTdContext.bind(this),
+                    onComponentDrop:this.onComponentDrop.bind(this),
+                    onComponentContext:this.onComponentContext.bind(this),
+                    afterUpdateStyle:this.afterUpdateStyle.bind(this),
+                    onDeleteComponent:this.deleteComponent.bind(this)
+                };
+                let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,tableData);
+                console.log(tableObj2);
+
+                this.setState({tableObj:tableObj2});
+                // console.log(this.state.tableObj);
+                // this.setState({tableObj:tableObj2});
+
+            }.bind(this),20);
+
+            // const {formStyleList,formStyleId,dispatch} = this.props;
+            // let tableData = JSON.parse(this.tableDataTosave);
+            // let tableObj = new tableMaker(null,null,null,null,dispatch,tableData);
         }
     }
 
@@ -173,7 +216,8 @@ class FormPage extends Component{
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body">
-                    <div onClick={()=>{this.exportData()}}>export</div>
+                    {/*<div onClick={()=>{this.exportData()}}>export</div>*/}
+                    {/*<div onClick={()=>{this.importData()}}>import</div>*/}
                     {/*<OptionDataAddTool/>*/}
                     {/*<NumberSetter/>*/}
                     {/*<RadioSelector/>*/}

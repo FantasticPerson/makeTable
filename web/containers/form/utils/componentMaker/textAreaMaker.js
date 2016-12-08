@@ -5,21 +5,39 @@ import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class TextAreaMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
         super();
-        this.tdId = tdId;
-        this.id = id;
-        this.type = 'textArea';
-        this.style = {rows:3,cols:20};
-        this.styleArr = styleArr;
-        this.styleId = styleId;
-        this.onContextMenu = onComponentClick;
-        this.onDelete = onDelete;
-        this.onSetStyleConfirm = onSetStyleConfirm;
-        this.getNode = getNode;
-        this.setStyle = setStyle;
-        this.onContextMenuShow = onContextMenuShow;
-        this.exportData = exportData;
+        if(!recoverData) {
+            this.tdId = tdId;
+            this.id = id;
+            this.type = 'textArea';
+            this.style = {rows: 3, cols: 20};
+            this.styleArr = styleArr;
+            this.styleId = styleId;
+            this.onContextMenu = onComponentClick;
+            this.onDelete = onDelete;
+            this.onSetStyleConfirm = onSetStyleConfirm;
+            this.getNode = getNode;
+            this.setStyle = setStyle;
+            this.onContextMenuShow = onContextMenuShow;
+            this.exportData = exportData;
+        } else {
+            this.onContextMenu = onComponentClick;
+            this.onDelete = onDelete;
+            this.style = recoverData.style;
+            this.styleArr = styleArr;
+            this.tdId = tdId;
+            this.id = recoverData.id;
+            this.type = 'textArea';
+            this.styleId = recoverData.styleId;
+            this.value = recoverData.value;
+            this.getNode = getNode;
+            this.setStyle = setStyle;
+            this.onSetStyleConfirm = onSetStyleConfirm;
+            this.onContextMenuShow = onContextMenuShow;
+            // this.onClickShow = onClickShow;
+            this.exportData = exportData;
+        }
     }
 }
 
