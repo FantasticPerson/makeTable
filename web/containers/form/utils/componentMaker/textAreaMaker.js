@@ -21,6 +21,7 @@ export default class TextAreaMaker extends Object{
             this.setStyle = setStyle;
             this.onContextMenuShow = onContextMenuShow;
             this.exportData = exportData;
+            this.value = '';
         } else {
             this.onContextMenu = onComponentClick;
             this.onDelete = onDelete;
@@ -78,7 +79,7 @@ export function exportData(){
         type:this.type,
         style:this.style,
         styleId:this.styleId,
-        value:this.refs.textArea.value,
+        value:this.value,
     };
 }
 
@@ -87,7 +88,11 @@ export function getNode(index){
         return item.id == this.styleId;
     });
     return (
-        <textarea ref='textArea' style={getStyleObj(cStyle,this.style)} key={index} onClick={
+        <textarea ref='textArea' style={getStyleObj(cStyle,this.style)} defaultValue={this.value} key={index}
+                  onChange={(e)=>{
+                      this.value = e.currentTarget.value;
+                  }}
+                  onClick={
             (e)=>{
                 e.stopPropagation();
                 {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
