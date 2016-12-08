@@ -8,44 +8,21 @@ import {getStyleObj,setItemStyle} from '../data-helper'
 export default class InputMaker extends Object{
     constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
         super();
-        if(!recoverData) {
-            this.tdId = tdId;
-            this.id = id;
-            this.type = componentInput;
-            this.style = {};
-            this.styleArr = styleArr;
-            this.styleId = styleId;
-            this.onContextMenu = onComponentClick;
-            this.onDelete = onDelete;
-            this.value = "点击编辑内容";
-            this.getNode = getNode;
-            this.setStyle = setStyle;
-            this.onSetStyleConfirm = onSetStyleConfirm;
-            this.onContextMenuShow = onContextMenuShow;
-            this.onClickShow = onClickShow;
-            this.exportData = exportData;
-        } else {
-            this.onContextMenu = onComponentClick;
-            this.onDelete = onDelete;
-            this.style = recoverData.style;
-            this.styleArr = styleArr;
-            this.tdId = tdId;
-            this.id = recoverData.id;
-            this.type = componentInput;
-            this.styleId = recoverData.styleId;
-            this.value = recoverData.value;
-            this.getNode = getNode;
-            this.setStyle = setStyle;
-            this.onSetStyleConfirm = onSetStyleConfirm;
-            this.onContextMenuShow = onContextMenuShow;
-            this.onClickShow = onClickShow;
-            this.exportData = exportData;
-            // id:this.id,
-            //     type:componentInput,
-            //     style:this.style,
-            //     styleId:this.styleId,
-            //     value:this.value
-        }
+        this.tdId = tdId;
+        this.onContextMenu = onComponentClick;
+        this.onDelete = onDelete;
+        this.getNode = getNode;
+        this.setStyle = setStyle;
+        this.onSetStyleConfirm = onSetStyleConfirm;
+        this.onContextMenuShow = onContextMenuShow;
+        this.onClickShow = onClickShow;
+        this.exportData = exportData;
+        this.styleArr = styleArr;
+        this.type = componentInput;
+        this.id = recoverData ? recoverData.id : id;
+        this.styleId = recoverData ? recoverData.styleId : styleId;
+        this.style = recoverData ? recoverData.style : {};
+        this.value = recoverData ? recoverData.value : "点击编辑内容";
     }
 }
 

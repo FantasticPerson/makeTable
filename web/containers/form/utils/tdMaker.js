@@ -12,59 +12,36 @@ import {componentText,componentInput,componentTextArea,componentDropBox,componen
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
         super();
-        if (!recoverData) {
-            this.state = {choose: false};
-            this.id = id;
-            this.mockType = mockType;
-            this.posInfo = posInfo;
-            this.styleArr = styleArr;
-            this.styleId = styleId;
-            this.style = {textAlign: 'center', height: '60', showBorder: [true, true, true, true]};
-            this.componentId = 0;
-            this.componentArray = [];
-            this.dispatch = dispatch;
-            this.value = '';
+        this.state = {choose: false};
+        this.id = recoverData ? recoverData.id : id;
+        this.posInfo = recoverData ? recoverData.posInfo : posInfo;
+        this.styleArr = styleArr;
+        this.style = recoverData ? recoverData.style : {
+            textAlign: 'center',
+            height: '60',
+            showBorder: [true, true, true, true]
+        };
+        this.mockType = recoverData ? recoverData.mockType : mockType;
+        this.value = recoverData ? recoverData.value : '';
+        this.componentId = recoverData ? recoverData.componentId : 0;
+        this.dispatch = dispatch;
+        this.styleId = styleId;
+        this.componentArray = [];
+        this.onContextMenuShow = onContextMenuShow;
+        this.onSetStyleConfirm = onSetStyleConfirm;
 
-            this.onContextMenuShow = onContextMenuShow;
-            this.onSetStyleConfirm = onSetStyleConfirm;
+        this.registerFunc = registerFunc;
+        this.registerFunc(functionArray);
 
-            this.registerFunc = registerFunc;
-            this.registerFunc(functionArray);
-        } else {
-            // components:componentsData,
-            //     id:this.id,
-            //     mockType:this.mockType,
-            //     styleId:this.styleId,
-            //     style:this.style,
-            //     componentId:this.componentId,
-            //     posInfo:this.posInfo,
-            //     value:this.value
-            this.id = recoverData.id;
-            this.mockType = recoverData.mockType;
-            this.posInfo = recoverData.posInfo;
-            this.styleId = recoverData.styleId;
-            this.componentId = recoverData.componentId;
-            this.value = recoverData.value;
-            this.dispatch = dispatch;
-            this.styleArr = styleArr;
-            this.style = recoverData.style;
-
-            this.onContextMenuShow = onContextMenuShow;
-            this.onSetStyleConfirm = onSetStyleConfirm;
-
-            this.registerFunc = registerFunc;
-            this.registerFunc(functionArray);
-
-            this.componentArray = [];
-
+        if(recoverData) {
             let components = recoverData.components;
-            components.map(item=>{
-                if(item.type == componentInput){
-                    this.componentArray.push(new InputMaker(null,this.id,this.styleArr,null,this.onComponentContext,this.onDeleteComponent,item))
-                } else if(item.type == componentTextArea){
-                    this.componentArray.push(new TextAreaMaker(null,this.id,this.styleArr,null,this.onComponentContext,this.onDeleteComponent,item))
-                } else if(item.type == componentDropBox){
-                    this.componentArray.push(new DropBoxMaker(null,this.id,this.styleArr,null,this.onComponentContext,this.onDeleteComponent,item))
+            components.map(item=> {
+                if (item.type == componentInput) {
+                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, item))
+                } else if (item.type == componentTextArea) {
+                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, item))
+                } else if (item.type == componentDropBox) {
+                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, item))
                 }
             })
         }

@@ -7,38 +7,20 @@ import {getStyleObj,setItemStyle} from '../data-helper'
 export default class TextAreaMaker extends Object{
     constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
         super();
-        if(!recoverData) {
-            this.tdId = tdId;
-            this.id = id;
-            this.type = 'textArea';
-            this.style = {rows: 3, cols: 20};
-            this.styleArr = styleArr;
-            this.styleId = styleId;
-            this.onContextMenu = onComponentClick;
-            this.onDelete = onDelete;
-            this.onSetStyleConfirm = onSetStyleConfirm;
-            this.getNode = getNode;
-            this.setStyle = setStyle;
-            this.onContextMenuShow = onContextMenuShow;
-            this.exportData = exportData;
-            this.value = '';
-        } else {
-            this.onContextMenu = onComponentClick;
-            this.onDelete = onDelete;
-            this.style = recoverData.style;
-            this.styleArr = styleArr;
-            this.tdId = tdId;
-            this.id = recoverData.id;
-            this.type = 'textArea';
-            this.styleId = recoverData.styleId;
-            this.value = recoverData.value;
-            this.getNode = getNode;
-            this.setStyle = setStyle;
-            this.onSetStyleConfirm = onSetStyleConfirm;
-            this.onContextMenuShow = onContextMenuShow;
-            // this.onClickShow = onClickShow;
-            this.exportData = exportData;
-        }
+        this.onContextMenu = onComponentClick;
+        this.onDelete = onDelete;
+        this.onSetStyleConfirm = onSetStyleConfirm;
+        this.getNode = getNode;
+        this.setStyle = setStyle;
+        this.onContextMenuShow = onContextMenuShow;
+        this.exportData = exportData;
+        this.tdId = tdId;
+        this.type = 'textArea';
+        this.id = recoverData ? recoverData.id : id;
+        this.styleArr = styleArr;
+        this.styleId = recoverData ? recoverData.styleId : styleId;
+        this.style = recoverData ? recoverData.style : {};
+        this.value = recoverData ? recoverData.value : '';
     }
 }
 
