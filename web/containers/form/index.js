@@ -9,15 +9,7 @@ import tableMaker from './utils/tableMaker'
 import {formDefaultStyle,getTableHtml} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
-import OptionDataAddTool from '../../components/optionDataAddTool'
-import NumberSetter from '../../components/numberSetter'
-import RadioSelector from '../../components/checkSelector'
 import saveAs from 'save-as'
-// import readAnyOneFile from
-// import readBlob from 'read-blob'
-// import readFile from 'read-file'
-// import fs from 'fs'
-// import readFile from 'read-file-utf8'
 
 class FormPage extends Component{
     constructor(){
@@ -69,7 +61,6 @@ class FormPage extends Component{
             tableObj.deleteComponent(tdId,componentId);
             this.setState({tableObj: tableObj});
         }
-
     }
 
     onComponentDrop(tdId,componentType){
@@ -161,12 +152,6 @@ class FormPage extends Component{
     }
 
     exportData(){
-        // var browsersavefile = require( 'browsersavefile' );
-
-        // var someHTML = [ '<div>HELLO WORLD</div>' ],
-        //     blobData = new Blob( someHTML, {type : 'text/html'});
-
-        // browsersavefile( 'my file', blobData );
         this.tdIds = [];
         const {tableObj} = this.state;
         if(tableObj) {
@@ -181,48 +166,17 @@ class FormPage extends Component{
                 this.tableDataTosave = JSON.stringify(ll);
                 let blob = new Blob([getTableHtml((document.getElementsByTagName('table')[0]).outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
                 saveAs(blob, 'hello world.html');
-                //file:///C:/Users/wdd/Downloads/hello%20world.html
-
-
-                // readFile('file:///C:/Users/wdd/Downloads/hello%20world.html', {encoding: 'utf8'},function(err, buffer) {
-                //     console.log(buffer);
-                // });
             }.bind(this), 20);
         }
     }
 
     importData(){
-        function readTextFile(file)
-        {
-            var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", file, false);
-            rawFile.onreadystatechange = function ()
-            {
-                if(rawFile.readyState === 4)
-                {
-                    if(rawFile.status === 200 || rawFile.status == 0)
-                    {
-                        var allText = rawFile.responseText;
-                        alert(allText);
-                    }
-                }
-            }
-            rawFile.send(null);
-        }
-        readTextFile('file:///D:/download/hello%20world%20(4).html');
-        // readFile('file:///D:/download/hello%20world%20(4).html',function (err, data) {
-        //     console.log(data);
-        // });
         if(this.tableDataTosave){
             let tableData = JSON.parse(this.tableDataTosave);
-            // let tableData =JSON.parse(tableRecoverData);
             const {currentStyleId,formStyleMaxId,formStyleList} = tableData;
-            // this.styleId = recoverData.styleId;
-            // this.styleArr = recoverData.styleArr;
             this.props.dispatch(updateStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
             this.props.dispatch(updateMaxId(formStyleMaxId));
-
             setTimeout(function(){
                 this.tdIds = [];
                 const {formStyleList,formStyleId,dispatch} = this.props;
@@ -235,17 +189,8 @@ class FormPage extends Component{
                     onDeleteComponent:this.deleteComponent.bind(this)
                 };
                 let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,tableData);
-                // console.log(tableObj2);
-
                 this.setState({tableObj:tableObj2});
-                // console.log(this.state.tableObj);
-                // this.setState({tableObj:tableObj2});
-
             }.bind(this),20);
-
-            // const {formStyleList,formStyleId,dispatch} = this.props;
-            // let tableData = JSON.parse(this.tableDataTosave);
-            // let tableObj = new tableMaker(null,null,null,null,dispatch,tableData);
         }
     }
 
@@ -260,35 +205,12 @@ class FormPage extends Component{
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
             generateTable:this.generateTable.bind(this)
         };
-        // let innerHeight = window.innerHeight;
-        // let height = (innerHeight - 60) + 'px';
         return(
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body" style={{height:height+'px',marginTop:'55px'}}>
-                    {/*<input type="file" multiple/>*/}
-                    {/*<input type="file" id="FileUpload" onChange={(e)=>{*/}
-                        {/*var theFiles = e.target.files;*/}
-                        {/*var relativePath = theFiles[0].webkitRelativePath;*/}
-                        {/*var folder = relativePath.split("/");*/}
-                        {/*alert(folder[0]);*/}
-                    {/*}} multiple />*/}
                     {/*<div onClick={()=>{this.exportData()}}>export</div>*/}
                     {/*<div onClick={()=>{this.importData()}}>import</div>*/}
-
-                    {/*var openFile = function(event) {*/}
-                    {/*var input = event.target;*/}
-
-                    {/*var reader = new FileReader();*/}
-                    {/*reader.onload = function(){*/}
-                    {/*var text = reader.result;*/}
-                    {/*var node = document.getElementById('output');*/}
-                    {/*node.innerText = text;*/}
-                    {/*console.log(reader.result.substring(0, 200));*/}
-                {/*};*/}
-                    {/*reader.readAsText(input.files[0]);*/}
-                {/*};*/}
-
                     {/*<input type='file' accept='text/html' onChange={(e)=>{*/}
                         {/*let input = e.target;*/}
                         {/*let reader = new FileReader();*/}

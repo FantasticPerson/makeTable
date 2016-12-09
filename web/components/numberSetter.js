@@ -17,15 +17,16 @@ export default class NumberSetter extends Component{
         const {number} = this.props;
         return (
             <div className="abc-number-picker-container">
-                <input type="text" className="abc-number-picker-container-input" ref="numberSetter" defaultValue={number ? number : ''}
-                   onKeyDown={(e)=>{
-                    let code = e.which;
-                    if ((code < 48 || code > 57) && code != 8 && code != 190) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-                }}/>
+                <input type="text" className="abc-number-picker-container-input" ref="numberSetter" defaultValue={number ? number : ''}/>
             </div>
         )
     }
+
+//     onKeyDown={(e)=>{
+//     let code = e.which;
+//     if ((code < 48 || code > 57) && code != 8 && code != 190) {
+//     e.preventDefault();
+//     e.stopPropagation();
+// }
+// }}
 }
