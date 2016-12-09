@@ -7,7 +7,8 @@ import NumberPicker from '../stylePickerItems/styleNumberPicker'
 import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
 import OptionDataPicker from '../stylePickerItems/styleOptionDataSetPicker'
-import {fontFamilyList,fontWeightValues} from '../../const'
+import {fontFamilyList,fontWeightValues,fontStyleArray} from '../../const'
+import CheckBoxPicker from '../stylePickerItems/styleCheckBoxArrayPicker'
 import {getStyleSet,getArrayCopy} from '../../utils/data-helper'
 
 export default class DropBoxStyleEditor extends Component{
@@ -17,7 +18,7 @@ export default class DropBoxStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {numberSetter1,numberSetter2,colorPicker,numberPicker,numberPicker1,dropBoxPicker1,numberPicker2,dropBoxPicker,optionDataPicker} = this.refs;
+        const {numberSetter1,numberSetter2,colorPicker,numberPicker,numberPicker1,checkBoxPicker3,dropBoxPicker1,numberPicker2,dropBoxPicker,optionDataPicker} = this.refs;
         let cStyle = getStyleSet(style,{
             color:colorPicker.getValue(),
             fontSize:numberPicker.getValue(),
@@ -27,9 +28,9 @@ export default class DropBoxStyleEditor extends Component{
             width:numberSetter1.getValue(),
             height:numberSetter2.getValue(),
             dataArray:optionDataPicker.getValue(),
-            fontWeight:dropBoxPicker1.getValue()
+            // fontWeight:dropBoxPicker1.getValue()
         });
-        console.log(cStyle);
+        cStyle.fontStyleArray = checkBoxPicker3.getValue();
         onConfirm(cStyle,item);
         onClose();
     }
@@ -49,7 +50,7 @@ export default class DropBoxStyleEditor extends Component{
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
-        let marginTop = window.innerHeight < 700 + posInfo.pageY ? (window.innerHeight - 700 > 0 ? window.innerHeight - 700  : 0) : posInfo.pageY;
+        let marginTop = window.innerHeight < 740 + posInfo.pageY ? (window.innerHeight - 740 > 0 ? window.innerHeight - 740  : 0) : posInfo.pageY;
         let marginLeft = window.innerWidth < 302 + posInfo.pageX ? (window.innerWidth-302>0?window.innerWidth-302:0) : posInfo.pageX;
         return(
             <div className="abc-form-component-text-style-editor-container" style={{marginTop:marginTop+'px',marginLeft:marginLeft+'px'}}>
@@ -58,8 +59,9 @@ export default class DropBoxStyleEditor extends Component{
                 </div>
                 <OptionDataPicker ref='optionDataPicker' dataArray={cStyle ? getArrayCopy(cStyle.dataArray) : null} title="设置选项"/>
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
+                <CheckBoxPicker title='字体样式' ref="checkBoxPicker3" dataArray={fontStyleArray} selectedArray={cStyle ? cStyle.fontStyleArray : []}/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
-                <DropBoxPicker ref="dropBoxPicker1" selectedValue={cStyle?cStyle.fontWeight:null} title="是否加粗" groupData={fontWeightValues}/>
+                {/*<DropBoxPicker ref="dropBoxPicker1" selectedValue={cStyle?cStyle.fontWeight:null} title="是否加粗" groupData={fontWeightValues}/>*/}
                 <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>
                 <NumberPicker ref='numberPicker1' min={0} size={cStyle ? cStyle.marginLeft : null} title="左间距" unit="(单位:px)"/>

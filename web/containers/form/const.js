@@ -38,6 +38,10 @@ export const showBorderArray = [
     '上','下','左','右'
 ];
 
+export const fontStyleArray= [
+    '加粗','斜体'
+];
+
 export const editElement = 'element';
 export const editDisplay = 'display';
 export const editPreview = 'preview';

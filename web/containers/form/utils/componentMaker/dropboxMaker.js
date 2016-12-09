@@ -19,7 +19,12 @@ export default class DropBoxMaker extends Object{
         this.type = 'dropBox';
         this.styleArr = styleArr;
         this.styleId = recoverData ? recoverData.styleId : styleId;
-        this.style = recoverData ? recoverData.style : {dataArray: ['右击编辑内容'], width: 80, height: 42};
+        this.style = recoverData ? recoverData.style : {
+            dataArray: ['右击编辑内容'],
+            width: 80,
+            height: 42,
+            fontStyleArray:[false,false]
+        };
     }
 }
 
@@ -36,7 +41,20 @@ export function onSetStyleConfirm(style,item){
         });
         item.innerHTML = innerHtmlStr;
     }
+    if(style.fontStyleArray){
+        if(style.fontStyleArray[0]){
+            item.style.fontWeight = 'bold';
+        } else {
+            item.style.fontWeight = 'normal';
+        }
+        if(style.fontStyleArray[1]){
+            item.style.fontStyle = 'italic';
+        } else {
+            item.style.fontStyle = 'normal';
+        }
+    }
     this.style = {...this.style,...style};
+    console.log(this.style);
 }
 
 
@@ -79,9 +97,19 @@ export function getNode(index){
             return <option key={index} value={item}>{item}</option>
         });
     }
-
+    let cStyle2 = getStyleObj(cStyle,this.style);
+    if(this.style.fontStyleArray[0]){
+        cStyle2.fontWeight = 'bold';
+    } else {
+        cStyle2.fontWeight = 'normal';
+    }
+    if(this.style.fontStyleArray[0]){
+        cStyle2.fontStyle = 'italic'
+    } else {
+        cStyle2.fontStyle = 'normal'
+    }
     return (
-        <select style={getStyleObj(cStyle,this.style)} key={index} onClick={(e)=>{
+        <select style={cStyle2} key={index} onClick={(e)=>{
             e.stopPropagation()
         }} onContextMenu={(e)=>{
             e.stopPropagation();

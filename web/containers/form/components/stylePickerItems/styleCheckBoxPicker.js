@@ -8,14 +8,19 @@ export default class StyleCheckBoxPicker extends Component{
         super();
     }
 
+    getValue(){
+        const {checkbox} = this.refs;
+        return checkbox.checked;
+    }
+
     render(){
-        const {title,text} = this.props;
+        const {title,text,value} = this.props;
         return (
             <div className="true-form-tool-bar-style-editor-font-family">
                 <div style={{marginTop:'5px'}} className="true-form-tool-bar-style-editor-font-family-text">{title}</div>
                 <div className="true-form-tool-bar-style-editor-font-family-container">
-                    <input type="checkbox"/>
-                    <div>{text}</div>
+                    <input ref={'checkbox'} defaultChecked={value} type="checkbox"/>
+                    <div>{text ? text : ''}</div>
                 </div>
             </div>
         )

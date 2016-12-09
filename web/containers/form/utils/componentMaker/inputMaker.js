@@ -21,7 +21,7 @@ export default class InputMaker extends Object{
         this.type = componentInput;
         this.id = recoverData ? recoverData.id : id;
         this.styleId = recoverData ? recoverData.styleId : styleId;
-        this.style = recoverData ? recoverData.style : {};
+        this.style = recoverData ? recoverData.style : {fontStyleArray:[false,false]};
         this.value = recoverData ? recoverData.value : "点击编辑内容";
     }
 }
@@ -32,6 +32,18 @@ export function setStyle(styleArr){
 
 export function onSetStyleConfirm(style,item){
     setItemStyle(item,style);
+    if(style.fontStyleArray){
+        if(style.fontStyleArray[0]){
+            item.style.fontWeight = 'bold';
+        } else {
+            item.style.fontWeight = 'normal';
+        }
+        if(style.fontStyleArray[1]){
+            item.style.fontStyle = 'italic';
+        } else {
+            item.style.fontStyle = 'normal';
+        }
+    }
     this.style = {...this.style,...style};
 }
 
@@ -74,8 +86,19 @@ export function getNode(index){
         return item.id == this.styleId;
     });
     let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    let cStyle2 = getStyleObj(cStyle,this.style);
+    if(this.style.fontStyleArray[0]){
+        cStyle2.fontWeight = 'bold';
+    } else {
+        cStyle2.fontWeight = 'normal';
+    }
+    if(this.style.fontStyleArray[1]){
+        cStyle2.fontStyle = 'italic';
+    } else {
+        cStyle2.fontStyle = 'normal';
+    }
     return (
-        <input type="text" style={getStyleObj(cStyle,this.style)} defaultValue={this.value}  key={index}
+        <input type="text" style={cStyle2} defaultValue={this.value}  key={index}
             onClick={(e)=>{
                 e.stopPropagation();
                 {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}

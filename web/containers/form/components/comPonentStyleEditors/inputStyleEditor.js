@@ -6,8 +6,9 @@ import ColorPicker from '../stylePickerItems/styleColorPicker'
 import NumberPicker from '../stylePickerItems/styleNumberPicker'
 import DropBoxPicker from '../stylePickerItems/styleDropBoxPicker'
 import NumberSetter from '../stylePickerItems/styleNumberSetter'
-import {fontFamilyList} from '../../const'
+import {fontFamilyList,fontStyleArray} from '../../const'
 import {getStyleSet} from '../../utils/data-helper'
+import CheckBoxPicker from '../stylePickerItems/styleCheckBoxArrayPicker'
 
 export default class TextStyleEditor extends Component{
     constructor(){
@@ -16,7 +17,7 @@ export default class TextStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.posInfo;
-        const {colorPicker,numberPicker,numberPicker1,numberPicker2,dropBoxPicker,numberSetter1,numberSetter2} = this.refs;
+        const {colorPicker,numberPicker,numberPicker1,numberPicker2,checkBoxPicker3,dropBoxPicker,numberSetter1,numberSetter2} = this.refs;
         let cStyle = getStyleSet(style,{
             fontSize:numberPicker.getValue(),
             fontFamily:dropBoxPicker.getValue(),
@@ -26,6 +27,7 @@ export default class TextStyleEditor extends Component{
             height:numberSetter2.getValue(),
             color:colorPicker.getValue()
         });
+        cStyle.fontStyleArray = checkBoxPicker3.getValue();
         onConfirm(cStyle,item);
         onClose();
     }
@@ -44,7 +46,7 @@ export default class TextStyleEditor extends Component{
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
-        let marginTop = window.innerHeight < 491 + posInfo.pageY ? (window.innerHeight - 491 > 0 ? window.innerHeight - 491 : 0) : posInfo.pageY;
+        let marginTop = window.innerHeight < 531 + posInfo.pageY ? (window.innerHeight - 531 > 0 ? window.innerHeight - 531 : 0) : posInfo.pageY;
         let marginLeft = window.innerWidth < 302 + posInfo.pageX ? (window.innerWidth-302>0?window.innerWidth-302:0) : posInfo.pageX;
         return(
             <div className="abc-form-component-text-style-editor-container" style={{marginTop:marginTop,marginLeft:marginLeft}}>
@@ -52,6 +54,7 @@ export default class TextStyleEditor extends Component{
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
                 <ColorPicker ref='colorPicker' color={cStyle ? cStyle.color : null} title="文字颜色"/>
+                <CheckBoxPicker title='字体样式' ref="checkBoxPicker3" dataArray={fontStyleArray} selectedArray={cStyle ? cStyle.fontStyleArray : []}/>
                 <NumberPicker ref='numberPicker' size={cStyle ? cStyle.fontSize : null} title="文字大小" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter1' number={cStyle ? cStyle.width : null} title="宽度:" unit="(单位:px)"/>
                 <NumberSetter ref='numberSetter2' number={cStyle ? cStyle.height : null} title="高度:" unit="(单位:px)"/>

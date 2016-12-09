@@ -19,7 +19,8 @@ export default class tdMaker extends Object{
         this.style = recoverData ? recoverData.style : {
             textAlign: 'center',
             height: '60',
-            showBorder: [true, true, true, true]
+            showBorder: [true, true, true, true],
+            fontStyleArray : [false,false]
         };
         this.mockType = recoverData ? recoverData.mockType : mockType;
         this.value = recoverData ? recoverData.value : '';
@@ -179,7 +180,7 @@ export function getNode(tdIds,index=0){
         // style.width = cCol /tCol * 100 + '%';
         // style.height = height+'px';
         // style.height = cRow /tRow * 100+'%';
-        const {showBorder} = this.style;
+        const {showBorder,fontStyleArray} = this.style;
         if(showBorder[0]) {
             style.borderTop = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         } else {
@@ -199,6 +200,16 @@ export function getNode(tdIds,index=0){
             style.borderRight = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         }else {
             style.borderRightColor = "#FFF";
+        }
+        if(fontStyleArray[0]){
+            style.fontWeight = 'bold';
+        } else {
+            style.fontWeight = 'normal';
+        }
+        if(fontStyleArray[1]) {
+            style.fontStyle = 'italic';
+        } else {
+            style.fontStyle = 'normal';
         }
         // console.log(style);
         let getStyle = getStyleObj(cStyle,this.style);

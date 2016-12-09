@@ -11,7 +11,7 @@ export default class tableHeadMaker extends Object{
         if(!recoverData) {
             this.styleArr = styleArr;
             this.styleId = styleId;
-            this.style = {textAlign: 'center', height: '66', fontWeight: 'bold', fontSize: '32'};
+            this.style = {textAlign: 'center', height: '66', fontSize: '32',fontStyleArray:[true,false]};
             this.title = '右击编辑内容';
             this.colSpan = colSpan;
             this.onComponentContext = onComponentContext;
@@ -84,6 +84,16 @@ export function getNode(){
         return item.id == this.styleId;
     });
     let getStyle = getStyleObj(cStyle,this.style);
+    if(this.style.fontStyleArray[0]){
+        getStyle.fontWeight = 'bold';
+    } else {
+        getStyle.fontWeight = 'normal';
+    }
+    if(this.style.fontStyleArray[1]){
+        getStyle.fontStyle = 'italic';
+    } else {
+        getStyle.fontStyle = 'normal';
+    }
     return (
         <tr>
             <td style={getStyle} colSpan={this.colSpan} onContextMenu={(e)=>{

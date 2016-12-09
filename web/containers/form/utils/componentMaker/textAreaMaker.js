@@ -19,7 +19,7 @@ export default class TextAreaMaker extends Object{
         this.id = recoverData ? recoverData.id : id;
         this.styleArr = styleArr;
         this.styleId = recoverData ? recoverData.styleId : styleId;
-        this.style = recoverData ? recoverData.style : {};
+        this.style = recoverData ? recoverData.style : {fontStyleArray:[false,false]};
         this.value = recoverData ? recoverData.value : '';
     }
 }
@@ -31,6 +31,18 @@ export function setStyle(styleArr){
 
 export function onSetStyleConfirm(style,item){
     setItemStyle(item,style);
+    if(style.fontStyleArray){
+        if(style.fontStyleArray[0]){
+            item.style.fontWeight = 'bold';
+        } else {
+            item.style.fontWeight = 'normal';
+        }
+        if(style.fontStyleArray[1]){
+            item.style.fontStyle = 'italic';
+        } else {
+            item.style.fontStyle = 'normal';
+        }
+    }
     this.style = {...this.style,...style};
 }
 
@@ -69,8 +81,19 @@ export function getNode(index){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
+    let cStyle2 = getStyleObj(cStyle,this.style);
+    if(this.style.fontStyleArray[0]){
+        cStyle2.fontWeight = 'bold';
+    } else {
+        cStyle2.fontWeight = 'normal';
+    }
+    if(this.style.fontStyleArray[1]){
+        cStyle2.fontStyle = 'italic';
+    } else {
+        cStyle2.fontStyle = 'normal';
+    }
     return (
-        <textarea ref='textArea' style={getStyleObj(cStyle,this.style)} defaultValue={this.value} key={index}
+        <textarea ref='textArea' style={cStyle2} defaultValue={this.value} key={index}
                   onChange={(e)=>{
                       this.value = e.currentTarget.value;
                   }}
