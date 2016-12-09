@@ -244,13 +244,15 @@ export function split(id){
                     }
                 }
             }
-            if(this.tds[y+1][x] && this.tds[y+1][x].mockType >=2){
-                for(let i = y+1;i<this.tds.length;i++){
-                    if(this.tds[i][x].mockType >=2 ){
-                        this.tds[i][x].mockType = 0;
-                        yLength++;
-                    } else {
-                        break;
+            if(y < this.tds.length -1) {
+                if (this.tds[y + 1][x] && this.tds[y + 1][x].mockType >= 2) {
+                    for (let i = y + 1; i < this.tds.length; i++) {
+                        if (this.tds[i][x].mockType >= 2) {
+                            this.tds[i][x].mockType = 0;
+                            yLength++;
+                        } else {
+                            break;
+                        }
                     }
                 }
             }

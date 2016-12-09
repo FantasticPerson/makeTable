@@ -22,8 +22,8 @@ export default class TextAreaStyleEditor extends Component{
             color:colorPicker.getValue(),
             fontSize:numberPicker.getValue(),
             fontFamily:dropBoxPicker.getValue(),
-            marginTop:numberPicker1.getValue(),
-            marginLeft:numberPicker2.getValue(),
+            marginLeft:numberPicker1.getValue(),
+            marginTop:numberPicker2.getValue(),
             width:numberSetter1.getValue(),
             height:numberSetter2.getValue()
         });

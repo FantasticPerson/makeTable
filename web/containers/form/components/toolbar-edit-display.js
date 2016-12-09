@@ -27,7 +27,7 @@ export default class ToolBarEditDisplay extends Component{
                     <div className="abc-form-tool-bar-edit-display-container-body-row">
                         <div className="abc-form-tool-bar-edit-display-container-body-row-text">{'行数:'}</div>
                         <div className="abc-form-tool-bar-edit-display-container-body-row-picker">
-                            <NumberPicker value={16} ref="numberPicker1"/>
+                            <NumberPicker value={12} ref="numberPicker1"/>
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-edit-display-container-body-col">

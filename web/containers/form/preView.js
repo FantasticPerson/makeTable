@@ -32,7 +32,7 @@ export default class Preview extends Component{
                 <div className="abc-base-modal-container-bg-radius" style={{
 
                 }}>
-                    <div onClick={()=>{
+                    <div style={{cursor:'pointer'}} onClick={()=>{
                         this.props.data.dispatch(removeOverLayByName(OverLayNames.PREVIEW));
                     }}>关闭</div>
                     <div className="to-show-table" style={{
