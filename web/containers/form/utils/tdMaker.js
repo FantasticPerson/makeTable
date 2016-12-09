@@ -220,7 +220,7 @@ export function getNode(tdIds,index=0){
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td colSpan={col} key={index} rowSpan={row} style={getStyle2} onClick={(e)=>{
+        return (<td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                     /*if(e.component){
                         this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{

@@ -36,7 +36,6 @@ export default class ToolbarRecover extends Component {
                         };
                         reader.readAsText(input.files[0]);
                     }}/>
-                    {/*<div className="abc-form-tool-bar-edit-confirm-btn" onClick={()=>{this.onConfirmClick()}}>{'插入'}</div>*/}
                 </div>
             </div>
         )
