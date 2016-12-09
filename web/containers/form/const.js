@@ -59,3 +59,13 @@ export const componentInput = 'input';
 export const componentTextArea = 'textArea';
 export const componentDropBox = 'dropBox';
 export const componentTd = 'td';
+
+export function getTableHtml(tableString,recoverData){
+    let string = "<html> <head> <title>表单元素说明</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto}input[type='text'] {border:0;border-bottom:1px #cccccc dotted}</style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";
+    string += tableString;
+    string += "</div> </body> <div class='recoverData' style='display: none'>";
+    string += recoverData;
+    string += "</div></html>"
+
+    return string;
+}

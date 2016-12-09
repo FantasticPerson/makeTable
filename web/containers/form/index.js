@@ -6,13 +6,13 @@ import {connect} from 'react-redux';
 import * as overLayNames from '../../constants/OverLayNames'
 import ToolBar from './components/toolbar'
 import tableMaker from './utils/tableMaker'
-import {formDefaultStyle,tableRecoverData} from './const'
+import {formDefaultStyle,getTableHtml} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 import OptionDataAddTool from '../../components/optionDataAddTool'
 import NumberSetter from '../../components/numberSetter'
 import RadioSelector from '../../components/checkSelector'
-// import saveAs from 'save-as'
+import saveAs from 'save-as'
 // import readBlob from 'read-blob'
 // import readFile from 'read-file'
 // import fs from 'fs'
@@ -177,8 +177,8 @@ class FormPage extends Component{
                 ll.formStyleMaxId = formStyleMaxId;
                 ll.formStyleList = formStyleList;
                 this.tableDataTosave = JSON.stringify(ll);
-                // let blob = new Blob([this.tableDataTosave], { type: 'text/plain;charset=utf-8' });
-                // saveAs(blob, 'hello world.html');
+                let blob = new Blob([getTableHtml((document.getElementsByTagName('table')[0]).outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
+                saveAs(blob, 'hello world.html');
                 //file:///C:/Users/wdd/Downloads/hello%20world.html
 
 

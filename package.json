@@ -32,6 +32,7 @@
     "redux-logger": "^2.6.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
+    "save-as": "^0.1.7",
     "stylus": "^0.54.5",
     "webpack": "^1.13.2"
   },
