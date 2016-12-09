@@ -157,7 +157,6 @@ class FormPage extends Component{
         if(tableObj) {
             const {formStyleId,formStyleMaxId,formStyleList} = this.props;
             this.setState({tableObj: tableObj});
-
             setTimeout(function () {
                 let ll = tableObj.exportData();
                 ll.currentStyleId = formStyleId;
@@ -170,9 +169,10 @@ class FormPage extends Component{
         }
     }
 
-    importData(){
-        if(this.tableDataTosave){
-            let tableData = JSON.parse(this.tableDataTosave);
+    importData(recoverData){
+        if(recoverData){
+            this.tableDataTosave = recoverData;
+            let tableData = JSON.parse(recoverData);
             const {currentStyleId,formStyleMaxId,formStyleList} = tableData;
             this.props.dispatch(updateStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
@@ -203,7 +203,9 @@ class FormPage extends Component{
         toolBarData = {
             ...toolBarData,
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
-            generateTable:this.generateTable.bind(this)
+            generateTable:this.generateTable.bind(this),
+            exportData:this.exportData.bind(this),
+            importData:this.importData.bind(this)
         };
         return(
             <div className="abc-form-container">

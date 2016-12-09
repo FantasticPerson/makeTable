@@ -4,6 +4,7 @@
 import React,{Component,PropTypes} from 'react';
 import ToolbarEdit from './toolbar-edit'
 import ToolbarStyle from './toolbar-style'
+import ToolbarRecover from './toolbar-recover'
 import {toolEdit,toolStyle,toolTool} from '../const'
 
 export default class ToolBar extends Component{
@@ -22,8 +23,18 @@ export default class ToolBar extends Component{
             } else if(name == toolStyle){
                 const {formStyle,afterUpdateStyle,dispatch} = this.props.data;
                 return (<ToolbarStyle key={index} dispatch={dispatch} formStyle={formStyle} afterUpdateStyle={afterUpdateStyle}/>);
+            } else if(name == toolTool){
+                const {formStyle,afterUpdateStyle,dispatch,importData} = this.props.data;
+                return (<ToolbarRecover key={index} dispatch={dispatch} importData={importData} onRecoverFinish={this.onRecoverFinish.bind(this)}/>)
             }
         });
+    }
+
+    onRecoverFinish(){
+        let subTool = this.state.subTool;
+        if(subTool.indexOf(toolTool) >= 0){
+            subTool.splice(subTool.indexOf(toolTool),1);
+        }
     }
 
     onToolClick(name){
@@ -37,7 +48,7 @@ export default class ToolBar extends Component{
     }
 
     render(){
-        const {style} = this.props.data;
+        const {style,exportData} = this.props.data;
         const {subTool} = this.state;
         let styleArray = [{color1:'#eef6fc',color2:'#6998d6'},{color1:'#FFFFFF',color2:'#000000'}];
         return(
@@ -63,8 +74,10 @@ export default class ToolBar extends Component{
                             </div>
                         </div>
                         <div className="abc-form-tool-bar-container-left-item"
-                             style={{backgroundColor:styleArray[subTool.indexOf(toolTool)>=0 ? 0 : 1].color1,visibility:'hidden'}}
-                             onClick={()=>{this.onToolClick(toolTool)}}>
+                             style={{backgroundColor:styleArray[subTool.indexOf(toolTool)>=0 ? 0 : 1].color1,marginLeft:'150px'}}
+                             onClick={()=>{
+                                 this.onToolClick(toolTool)
+                             }}>
                             <div className="true-form-tool-icon"></div>
                             <div className="abc-form-tool-bar-container-left-item-text"
                                  style={{color:styleArray[subTool.indexOf(toolTool)>=0 ? 0 : 1].color2}}>
@@ -73,9 +86,9 @@ export default class ToolBar extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-container-right">
-                        <div className="true-form-save-icon"></div>
-                        <div className="true-form-print-icon" style={{marginLeft:'20px'}}></div>
-                        <div className="true-form-question-icon" style={{marginLeft:'20px'}}></div>
+                        <div className="true-form-save-icon" style={{cursor:'pointer'}} onClick={(e)=>{exportData()}}></div>
+                        <div className="true-form-print-icon" style={{marginLeft:'20px',cursor:'pointer'}}></div>
+                        <div className="true-form-question-icon" style={{marginLeft:'20px',cursor:'pointer'}}></div>
                     </div>
                     {this.props.children}
                 </div>
