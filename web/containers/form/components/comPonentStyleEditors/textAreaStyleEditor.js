@@ -51,7 +51,7 @@ export default class TextAreaStyleEditor extends Component{
         let marginLeft = window.innerWidth < 302 + posInfo.pageX ? (window.innerWidth-302>0?window.innerWidth-302:0) : posInfo.pageX;
 
         return(
-            <div className="abc-form-component-text-style-editor-container" style={{marginTop:posInfo.pageY,marginLeft:posInfo.pageX}}>
+            <div className="abc-form-component-text-style-editor-container" style={{marginTop:marginTop,marginLeft:marginLeft}}>
                 <div className="abc-form-component-text-style-editor-container-header">
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>

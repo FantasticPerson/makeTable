@@ -12,6 +12,10 @@ import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/fo
 import OptionDataAddTool from '../../components/optionDataAddTool'
 import NumberSetter from '../../components/numberSetter'
 import RadioSelector from '../../components/checkSelector'
+// import saveAs from 'save-as'
+// import readBlob from 'read-blob'
+// import readFile from 'read-file'
+// import fs from 'fs'
 
 class FormPage extends Component{
     constructor(){
@@ -149,18 +153,33 @@ class FormPage extends Component{
     }
 
     exportData(){
+        // var browsersavefile = require( 'browsersavefile' );
+
+        // var someHTML = [ '<div>HELLO WORLD</div>' ],
+        //     blobData = new Blob( someHTML, {type : 'text/html'});
+
+        // browsersavefile( 'my file', blobData );
+        this.tdIds = [];
         const {tableObj} = this.state;
-        const {formStyleId,formStyleMaxId,formStyleList} = this.props;
-        if(tableObj){
-            let ll = tableObj.exportData();
-            ll.currentStyleId = formStyleId;
-            ll.formStyleMaxId = formStyleMaxId;
-            ll.formStyleList = formStyleList;
-            let str = JSON.stringify(ll);
-            this.tableDataTosave = str;
-            console.log(str);
-            console.log(JSON.parse(str));
-            // console.log(tableObj.exportData());
+        if(tableObj) {
+            const {formStyleId,formStyleMaxId,formStyleList} = this.props;
+            this.setState({tableObj: tableObj});
+
+            setTimeout(function () {
+                let ll = tableObj.exportData();
+                ll.currentStyleId = formStyleId;
+                ll.formStyleMaxId = formStyleMaxId;
+                ll.formStyleList = formStyleList;
+                this.tableDataTosave = JSON.stringify(ll);
+                // let blob = new Blob([this.tableDataTosave], { type: 'text/plain;charset=utf-8' });
+                // saveAs(blob, 'hello world.html');
+                //file:///C:/Users/wdd/Downloads/hello%20world.html
+
+
+                // readFile('file:///C:/Users/wdd/Downloads/hello%20world.html', {encoding: 'utf8'},function(err, buffer) {
+                //     console.log(buffer);
+                // });
+            }.bind(this), 20);
         }
     }
 
@@ -187,7 +206,7 @@ class FormPage extends Component{
                     onDeleteComponent:this.deleteComponent.bind(this)
                 };
                 let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,tableData);
-                console.log(tableObj2);
+                // console.log(tableObj2);
 
                 this.setState({tableObj:tableObj2});
                 // console.log(this.state.tableObj);
@@ -212,16 +231,25 @@ class FormPage extends Component{
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
             generateTable:this.generateTable.bind(this)
         };
+        let innerHeight = window.innerHeight;
+        let height = (innerHeight - 60) + 'px';
         return(
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
-                <div className="abc-form-container-body">
+                <div className="abc-form-container-body" style={{height:height,marginTop:'55px'}}>
+                    {/*<input type="file" multiple/>*/}
+                    {/*<input type="file" id="FileUpload" onChange={(e)=>{*/}
+                        {/*var theFiles = e.target.files;*/}
+                        {/*var relativePath = theFiles[0].webkitRelativePath;*/}
+                        {/*var folder = relativePath.split("/");*/}
+                        {/*alert(folder[0]);*/}
+                    {/*}} multiple />*/}
                     {/*<div onClick={()=>{this.exportData()}}>export</div>*/}
                     {/*<div onClick={()=>{this.importData()}}>import</div>*/}
                     {/*<OptionDataAddTool/>*/}
                     {/*<NumberSetter/>*/}
                     {/*<RadioSelector/>*/}
-                    <div className="abc-form-container-body-table">
+                    <div className="abc-form-container-body-table" style={{height:(innerHeight-80)+'px'}}>
                         {node}
                     </div>
                 </div>

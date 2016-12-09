@@ -50,7 +50,7 @@ export default class DropBoxStyleEditor extends Component{
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
-        let marginTop = window.innerHeight < 740 + posInfo.pageY ? (window.innerHeight - 740 > 0 ? window.innerHeight - 740  : 0) : posInfo.pageY;
+        let marginTop = window.innerHeight < 689 + posInfo.pageY ? (window.innerHeight - 689 > 0 ? window.innerHeight - 689  : 0) : posInfo.pageY;
         let marginLeft = window.innerWidth < 302 + posInfo.pageX ? (window.innerWidth-302>0?window.innerWidth-302:0) : posInfo.pageX;
         return(
             <div className="abc-form-component-text-style-editor-container" style={{marginTop:marginTop+'px',marginLeft:marginLeft+'px'}}>
