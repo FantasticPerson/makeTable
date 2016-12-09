@@ -64,8 +64,9 @@ export default class TextStyleEditor extends Component{
     render(){
         const {posInfo} = this.props;
         let cStyle = posInfo.style;
+        let height22 = posInfo.item.nodeData ? 476 : 516;
         let textValue = posInfo.textValue;
-        let marginTop = window.innerHeight < 370 + posInfo.pageY ? (window.innerHeight - 370 > 0 ? window.innerHeight - 370 : 0) : posInfo.pageY;
+        let marginTop = window.innerHeight < height22 + posInfo.pageY ? (window.innerHeight - height22 > 0 ? window.innerHeight - height22 : 0) : posInfo.pageY;
         let marginLeft = window.innerWidth < 302 + posInfo.pageX ? (window.innerWidth-302>0?window.innerWidth-302:0) : posInfo.pageX;
 
         return(
