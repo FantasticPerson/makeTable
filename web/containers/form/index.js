@@ -13,9 +13,11 @@ import OptionDataAddTool from '../../components/optionDataAddTool'
 import NumberSetter from '../../components/numberSetter'
 import RadioSelector from '../../components/checkSelector'
 import saveAs from 'save-as'
+// import readAnyOneFile from
 // import readBlob from 'read-blob'
 // import readFile from 'read-file'
 // import fs from 'fs'
+// import readFile from 'read-file-utf8'
 
 class FormPage extends Component{
     constructor(){
@@ -190,6 +192,27 @@ class FormPage extends Component{
     }
 
     importData(){
+        function readTextFile(file)
+        {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", file, false);
+            rawFile.onreadystatechange = function ()
+            {
+                if(rawFile.readyState === 4)
+                {
+                    if(rawFile.status === 200 || rawFile.status == 0)
+                    {
+                        var allText = rawFile.responseText;
+                        alert(allText);
+                    }
+                }
+            }
+            rawFile.send(null);
+        }
+        readTextFile('file:///D:/download/hello%20world%20(4).html');
+        // readFile('file:///D:/download/hello%20world%20(4).html',function (err, data) {
+        //     console.log(data);
+        // });
         if(this.tableDataTosave){
             let tableData = JSON.parse(this.tableDataTosave);
             // let tableData =JSON.parse(tableRecoverData);
@@ -252,9 +275,31 @@ class FormPage extends Component{
                     {/*}} multiple />*/}
                     {/*<div onClick={()=>{this.exportData()}}>export</div>*/}
                     {/*<div onClick={()=>{this.importData()}}>import</div>*/}
-                    {/*<OptionDataAddTool/>*/}
-                    {/*<NumberSetter/>*/}
-                    {/*<RadioSelector/>*/}
+
+                    {/*var openFile = function(event) {*/}
+                    {/*var input = event.target;*/}
+
+                    {/*var reader = new FileReader();*/}
+                    {/*reader.onload = function(){*/}
+                    {/*var text = reader.result;*/}
+                    {/*var node = document.getElementById('output');*/}
+                    {/*node.innerText = text;*/}
+                    {/*console.log(reader.result.substring(0, 200));*/}
+                {/*};*/}
+                    {/*reader.readAsText(input.files[0]);*/}
+                {/*};*/}
+
+                    {/*<input type='file' accept='text/html' onChange={(e)=>{*/}
+                        {/*let input = e.target;*/}
+                        {/*let reader = new FileReader();*/}
+                        {/*reader.onload=function(){*/}
+                            {/*let text = reader.result;*/}
+                            {/*console.log(text);*/}
+                            {/*let index = text.search(/<div class='recoverData' style='display: none'>/);*/}
+                            {/*let recoverData = text.slice(index+"<div class='recoverData' style='display: none'>".length,-("</div></html>".length));*/}
+                        {/*}*/}
+                        {/*reader.readAsText(input.files[0]);*/}
+                    {/*}}/>*/}
                     <div className="abc-form-container-body-table" style={{height:(height-20)+'px'}}>
                         {node}
                     </div>
