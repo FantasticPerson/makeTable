@@ -20,7 +20,7 @@ import RadioSelector from '../../components/checkSelector'
 class FormPage extends Component{
     constructor(){
         super();
-        this.state = {tableObj:null};
+        this.state = {tableObj:null,height:window.innerHeight - 60};
         this.tdIds = [];
         this.tableDataTosave = null;
     }
@@ -35,7 +35,13 @@ class FormPage extends Component{
         this.setState({tableObj: tableObj});
     }
 
+    handleResize(){
+        const {innerHeight} = window;
+        this.setState({height:innerHeight-60});
+    }
+
     componentDidMount(){
+        window.addEventListener('resize', this.handleResize.bind(this));
         this.props.dispatch(updateStyleList(formDefaultStyle));
         this.props.dispatch(updateCurrentStyleId(formDefaultStyle[0].id));
         this.props.dispatch(updateMaxId(formDefaultStyle[0].id));
@@ -221,7 +227,7 @@ class FormPage extends Component{
     }
 
     render(){
-        const {tableObj} = this.state;
+        const {tableObj,height} = this.state;
         const {dispatch,formStyleList,formStyleId,formStyleMaxId} = this.props;
         let node = tableObj ? tableObj.getNode(this.tdIds) : null;
         let formStyle = {list:formStyleList,id:formStyleId,maxId:formStyleMaxId};
@@ -231,12 +237,12 @@ class FormPage extends Component{
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
             generateTable:this.generateTable.bind(this)
         };
-        let innerHeight = window.innerHeight;
-        let height = (innerHeight - 60) + 'px';
+        // let innerHeight = window.innerHeight;
+        // let height = (innerHeight - 60) + 'px';
         return(
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
-                <div className="abc-form-container-body" style={{height:height,marginTop:'55px'}}>
+                <div className="abc-form-container-body" style={{height:height+'px',marginTop:'55px'}}>
                     {/*<input type="file" multiple/>*/}
                     {/*<input type="file" id="FileUpload" onChange={(e)=>{*/}
                         {/*var theFiles = e.target.files;*/}
@@ -249,7 +255,7 @@ class FormPage extends Component{
                     {/*<OptionDataAddTool/>*/}
                     {/*<NumberSetter/>*/}
                     {/*<RadioSelector/>*/}
-                    <div className="abc-form-container-body-table" style={{height:(innerHeight-80)+'px'}}>
+                    <div className="abc-form-container-body-table" style={{height:(height-20)+'px'}}>
                         {node}
                     </div>
                 </div>

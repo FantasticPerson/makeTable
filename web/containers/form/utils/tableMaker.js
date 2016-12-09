@@ -288,7 +288,6 @@ export function setTdSize(){
                         break;
                     }
                 }
-
                 for(let l=i+1;l<yLength;l++){
                     if([2,4].indexOf(this.tds[l][j].mockType) >= 0){
                         cHeight += 1;
