@@ -2,6 +2,7 @@
  * Created by wdd on 2016/12/2.
  */
 export function stringifyRGBAObj(obj){
+    return obj;
     if(obj) {
         let ownPropertyArray = Object.getOwnPropertyNames(obj);
         let propertyArray = ['r', 'g', 'b', 'a'];
@@ -18,6 +19,9 @@ export function stringifyRGBAObj(obj){
 }
 
 export function checkArrayEqual(arr1,arr2){
+    if(!arr1 || !arr2){
+        return false
+    }
     if(arr1.length != arr2.length && arr1.length != 0){
         return false;
     }
@@ -35,7 +39,12 @@ export function checkArrayEqual(arr1,arr2){
 }
 
 export function getStyleObj(obj1,ob2){
-    let style = {color:stringifyRGBAObj(obj1.fontColor),fontFamily:obj1.fontFamily,fontSize:obj1.fontSize+'px'};
+    let style = {
+        color:obj1.fontColor,
+        fontFamily:obj1.fontFamily,
+        fontSize:obj1.fontSize+'px',
+        fontStyleArray:obj1.fontStyleArray
+    };
     let pStyle = {};
     if(ob2.fontWeight){
         pStyle.fontWeight = ob2.fontWeight;
@@ -44,7 +53,7 @@ export function getStyleObj(obj1,ob2){
         pStyle.textAlign = ob2.textAlign;
     }
     if(ob2.color){
-        pStyle.color = stringifyRGBAObj(ob2.color);
+        pStyle.color = ob2.fontColor;
     }
     if(ob2.fontSize){
         pStyle.fontSize = ob2.fontSize + 'px';
@@ -63,6 +72,21 @@ export function getStyleObj(obj1,ob2){
     }
     if(ob2.height){
         pStyle.height = ob2.height + 'px';
+    }
+    if(ob2.fontStyleArray){
+        pStyle.fontStyleArray = ob2.fontStyleArray;
+    }
+    if(pStyle.fontStyleArray){
+        if(pStyle.fontStyleArray[0]){
+            pStyle.fontWeight = 'bold';
+        } else {
+            pStyle.fontWeight = 'normal';
+        }
+        if(pStyle.fontStyleArray[1]){
+            pStyle.fontStyle = 'italic'
+        } else {
+            pStyle.fontStyle = 'normal'
+        }
     }
     return {...style,...pStyle};
 }
@@ -91,6 +115,18 @@ export function setItemStyle(item,style){
     }
     if(style.fontWeight){
         item.style.fontWeight = style.fontWeight;
+    }
+    if(style.fontStyleArray){
+        if(style.fontStyleArray[0]){
+            item.style.fontWeight = 'bold';
+        } else {
+            item.style.fontWeight = 'normal';
+        }
+        if(style.fontStyleArray[1]){
+            item.style.fontStyle = 'italic';
+        } else {
+            item.style.fontStyle = 'normal';
+        }
     }
 }
 
@@ -125,6 +161,9 @@ export function getStyleSet(style,styleObj){
     }
     if(styleObj.fontWeight && style.fontWeight != styleObj.fontWeight){
         cStyle.fontWeight = styleObj.fontWeight;
+    }
+    if(styleObj.fontStyleArray && !checkArrayEqual(styleObj.fontStyleArray,style.fontStyleArray)){
+        cStyle.fontStyleArray = styleObj.fontStyleArray;
     }
     return cStyle;
 }

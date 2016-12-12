@@ -2,7 +2,7 @@
  * Created by wdd on 2016/11/29.
  */
 import React,{Component,PropTypes} from 'react'
-import {HuePicker,AlphaPicker} from 'react-color'
+import {HuePicker,AlphaPicker,Twitter} from 'react-color'
 import {stringifyRGBAObj} from '../containers/form/utils/data-helper'
 
 export default class ColorPicker extends Component{

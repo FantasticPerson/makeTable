@@ -20,7 +20,7 @@ export default class ItemSelector extends Component{
             return (<option key={index} value={item.value}>{item.text}</option>)
         });
         return (
-            <select style={{width:'120px',height:'30px'}} defaultValue={selectedValue} ref="itemSelector">
+            <select style={{width:'80px',height:'20px'}} defaultValue={selectedValue} ref="itemSelector">
                 {optionArr}
             </select>
         );

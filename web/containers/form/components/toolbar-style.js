@@ -4,7 +4,8 @@
 import React,{Component,PropTypes} from 'react'
 import ToolbarStyleItem from './toolbar-style-item'
 import * as formAction from '../../../actions/form'
-import ToolbarStyleEditor from './toolbar-style-editor'
+import ToolbarStyleEditor1 from './toolbar-style-editor1'
+
 import {styleViewAdd,styleViewModify} from '../const'
 
 export default class ToolbarStyle extends Component{
@@ -37,7 +38,7 @@ export default class ToolbarStyle extends Component{
         const {formStyle,afterUpdateStyle} = this.props;
         const {subName} = this.state;
         if(subName == styleViewAdd || subName == styleViewModify){
-            return (<ToolbarStyleEditor formStyle={formStyle} subName={subName} onUpdateStyle={afterUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>)
+            return <ToolbarStyleEditor1 formStyle={formStyle} subName={subName}  onUpdateStyle={afterUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>
         }
     }
 
@@ -73,7 +74,7 @@ export default class ToolbarStyle extends Component{
                         }}>{'修改'}</div>
                         <div className="abc-form-tool-bar-style-container-down-btn-add" onClick={()=>{
                             this.onClickHandler(styleViewAdd);
-                        }} style={{marginTop:'-30px',marginLeft:'80px'}}>{'添加'}</div>
+                        }} style={{marginTop:'-20px',marginLeft:'60px'}}>{'添加'}</div>
                     </div>
                 </div>
                 <div className="abc-form-tool-bar-style-sub-container">

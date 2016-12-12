@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import NumberPicker from '../../../../components/number-picker'
 
-export default class StyleNumberPicker extends Component{
+export default class StyleNumberPicker1 extends Component{
     constructor(){
         super();
     }
@@ -17,8 +17,18 @@ export default class StyleNumberPicker extends Component{
     render(){
         const {title,size,unit,max,min} = this.props;
         return(
-            <div className="abc-form-tool-bar-style-editor-number-container">
-                <div className="abc-form-tool-bar-style-editor-number-text">{title}</div>
+            <div style={{
+                flexDirection:'row',
+                alignItems:'center',
+                display:'inline-flex',
+                padding:'3px',
+                width:'150px'
+            }}>
+                <div  style={{
+                    marginTop: '3px',
+                    marginRight: '3px',
+                    width: '48px'
+                }}>{title}</div>
                 <div className="abc-form-tool-bar-style-editor-number-picker">
                     <NumberPicker maxNum={max} minNum={min} ref='numberPicker' value={(size?size:null)}/>
                 </div>

@@ -36,9 +36,9 @@ export default class NumberPicker extends Component{
     render(){
         const {number} = this.state;
         return (
-            <div className="abc-number-picker-container">
+            <div className="abc-number-picker-container" style={{border:'1px solid #ccc'}}>
                 <div className="abc-number-picker-text">{number}</div>
-                <div>
+                <div style={{display:'flex'}}>
                     <div className="abc-number-picker-add-btn" onClick={()=>{this.onClickAdd()}}>{'+'}</div>
                     <div className="abc-number-picker-delete-btn" onClick={()=>{this.onClickReduce()}}>{'-'}</div>
                 </div>

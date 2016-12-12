@@ -1,60 +1,26 @@
 @import '../common.styl'
-
-.true-form-number-picker-container
-  width 300px
-  height 300px
-
-.true-form-number-picker-input
-  width 200px
-
-.true-form-number-picker-add-btn
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 25px 25px 25px;
-  border-color: transparent transparent #b3b3b3 transparent;
-  transform scale(0.2)
-  cursor pointer
-
-.true-form-number-picker-reduce-btn
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 25px 25px 0 25px;
-  border-color: #b3b3b3 transparent transparent transparent;
-  transform scale(0.2)
-  cursor pointer
-  margin-top -17px
-
-.true-form-number-picker-btn-container
-  margin-top -28px
-  margin-left 170px
-
-
-.number-picker-delete-btn
-  margin-top 1px
-
-//-------------------------------------
 .abc-number-picker-container
   @extend .abc-flex-row-center-auto
-  width 120px
-  height 30px
+  width 80px
+  height 20px
   background-color #FFF
-  border 1px solid #999
 
 .abc-number-picker-add-btn
 .abc-number-picker-delete-btn
-  width 29px
-  height 13px
+  width 20px
+  height 20px
   background-color #EEE
   text-align center
   cursor pointer
+  line-height 20px
+
+.abc-number-picker-delete-btn
+  margin-left 2px
 
 .abc-number-picker-add-btn:hover
 .abc-number-picker-delete-btn:hover
   background-color #BBB
 
 .abc-number-picker-text
-  margin-left: 10px;
-  width: 80px;
-  font-size: 15px;
+  margin-left: 5px;
+  width: 33px;

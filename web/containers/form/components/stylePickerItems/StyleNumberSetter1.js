@@ -17,8 +17,18 @@ export default class StyleNumberSetter extends Component{
     render(){
         const {title,unit,number} = this.props;
         return(
-            <div className="abc-form-tool-bar-style-editor-number-container">
-                <div className="abc-form-tool-bar-style-editor-number-text">{title}</div>
+            <div style={{
+                flexDirection:'row',
+                alignItems:'center',
+                display:'inline-flex',
+                padding:'3px',
+                width:'150px'
+            }}>
+                <div  style={{
+                    marginTop: '3px',
+                    marginRight: '3px',
+                    width: '48px'
+                }}>{title}</div>
                 <div className="abc-form-tool-bar-style-editor-number-picker">
                     <NumberSetter number={number} ref='numberSetter'/>
                 </div>

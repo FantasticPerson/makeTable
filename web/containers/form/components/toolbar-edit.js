@@ -11,7 +11,7 @@ import {showOverLayByName} from '../../../actions/view'
 export default class ToolBarEdit extends Component{
     constructor(){
         super();
-        this.state={cTool:[]}
+        this.state={cTool:[editDisplay,editElement]}
     }
 
     renderSubTool(){

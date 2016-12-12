@@ -17,8 +17,18 @@ export default class StyleTextPicker extends Component{
     render(){
         const {title,text} = this.props;
         return(
-            <div className="abc-form-tool-bar-style-editor-text-container">
-                <div className="abc-form-tool-bar-style-editor-text-text">{title}</div>
+            <div  style={{
+                flexDirection:'row',
+                alignItems:'center',
+                display:'inline-flex',
+                padding:'3px',
+                width:'150px'
+            }}>
+                <div style={{
+                    marginTop: '3px',
+                    marginRight: '3px',
+                    width: '48px'
+                }}>{title}</div>
                 <div className="abc-form-tool-bar-style-editor-text-picker">
                     <input type="text" ref='textPicker' defaultValue={(text?text:null)}/>
                 </div>

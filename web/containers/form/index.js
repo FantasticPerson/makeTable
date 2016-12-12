@@ -11,6 +11,17 @@ import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
 import saveAs from 'save-as'
 
+import FontStyleEditor from './components/comPonentStyleEditors/fontStyleEditor'
+import BorderStyEditor from './components/comPonentStyleEditors/borderStyleEditor'
+import ComponentPositionStyleEditor from './components/comPonentStyleEditors/componentPositionStyleEditor'
+import TdPositionStyleEditor from './components/comPonentStyleEditors/tdPositionStyleEditor'
+
+import DropBoxStyleEditor from './components/comPonentStyleEditors/dropBoxStyleEditor1'
+import InputStyleEditor from './components/comPonentStyleEditors/inputStyleEditor1'
+import TdStyleEditor from './components/comPonentStyleEditors/tdStyleEditor1'
+import ComponentStyleEditor from './components/component-style-editor1'
+
+
 class FormPage extends Component{
     constructor(){
         super();
@@ -211,6 +222,16 @@ class FormPage extends Component{
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body" style={{height:height+'px',marginTop:'55px'}}>
+                    <div>
+                        {/*<FontStyleEditor/>*/}
+                        {/*<BorderStyEditor/>*/}
+                        {/*<ComponentPositionStyleEditor/>*/}
+                        {/*<TdPositionStyleEditor/>*/}
+                        {/*<DropBoxStyleEditor/>*/}
+                        {/*<InputStyleEditor/>*/}
+                        {/*<TdStyleEditor/>*/}
+                        {/*<ComponentStyleEditor/>*/}
+                    </div>
                     {/*<div onClick={()=>{this.exportData()}}>export</div>*/}
                     {/*<div onClick={()=>{this.importData()}}>import</div>*/}
                     {/*<input type='file' accept='text/html' onChange={(e)=>{*/}

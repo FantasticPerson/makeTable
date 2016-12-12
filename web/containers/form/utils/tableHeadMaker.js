@@ -11,7 +11,7 @@ export default class tableHeadMaker extends Object{
         if(!recoverData) {
             this.styleArr = styleArr;
             this.styleId = styleId;
-            this.style = {textAlign: 'center', height: '66', fontSize: '32',fontStyleArray:[true,false]};
+            this.style = {textAlign: 'center', height: '66',fontSize: 32,fontStyleArray:[true,false]};
             this.title = '右击编辑内容';
             this.colSpan = colSpan;
             this.onComponentContext = onComponentContext;
@@ -22,9 +22,6 @@ export default class tableHeadMaker extends Object{
             this.setStyle = setStyle;
             this.exportData = exportData;
         } else {
-            // styleId:this.styleId,
-            //     title:this.title,
-            //     style:this.style
             this.styleArr = styleArr;
             this.styleId = recoverData.styleId;
             this.style = recoverData.style;
@@ -38,6 +35,8 @@ export default class tableHeadMaker extends Object{
             this.setStyle = setStyle;
             this.exportData = exportData;
         }
+        this.propName = 'default';
+        this.propId = ''+this.id;
     }
 }
 
@@ -49,7 +48,13 @@ export function onContextMenuShow(item,pageX,pageY) {
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
-    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    let style1 = {
+        fontColor:cStyle.fontColor,
+        fontSize:cStyle.fontSize,
+        fontFamily:cStyle.fontFamily,
+        fontStyle:cStyle.fontStyle,
+        textAlign:cStyle.textAlign
+    };
     this.onComponentContext({
         type:componentTd,
         id:this.id,
@@ -58,16 +63,20 @@ export function onContextMenuShow(item,pageX,pageY) {
         pageY:pageY,
         style:{...style1,...this.style},
         value:this.title,
+        propName:this.propName,
+        propId:this.propId,
         onConfirm:this.onSetStyleConfirm.bind(this),
         cTarget:{nodeData:item}
     });
 }
 
-export function onSetStyleConfirm(style,text,item){
+export function onSetStyleConfirm(style,text,item,props){
     if(this.title != text){
         this.title = text;
     }
     this.style = {...this.style,...style};
+    this.propName = props.propName;
+    this.propId = props.propId;
     this.afterUpdateStyle();
 }
 

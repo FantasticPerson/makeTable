@@ -10,7 +10,7 @@ import {toolEdit,toolStyle,toolTool} from '../const'
 export default class ToolBar extends Component{
     constructor(){
         super();
-        this.state = {subTool:[]};
+        this.state = {subTool:[toolEdit]};
     }
 
     renderSubTool(){

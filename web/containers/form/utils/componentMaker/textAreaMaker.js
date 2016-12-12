@@ -21,6 +21,8 @@ export default class TextAreaMaker extends Object{
         this.styleId = recoverData ? recoverData.styleId : styleId;
         this.style = recoverData ? recoverData.style : {fontStyleArray:[false,false]};
         this.value = recoverData ? recoverData.value : '';
+        this.propName = 'default';
+        this.propId = ''+this.tdId+this.id;
     }
 }
 
@@ -28,30 +30,21 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
-
 export function onSetStyleConfirm(style,item){
     setItemStyle(item,style);
-    if(style.fontStyleArray){
-        if(style.fontStyleArray[0]){
-            item.style.fontWeight = 'bold';
-        } else {
-            item.style.fontWeight = 'normal';
-        }
-        if(style.fontStyleArray[1]){
-            item.style.fontStyle = 'italic';
-        } else {
-            item.style.fontStyle = 'normal';
-        }
-    }
     this.style = {...this.style,...style};
 }
-
 
 export function onContextMenuShow(item,pageX,pageY){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
-    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    let style1 = {
+        fontColor:cStyle.fontColor,
+        fontFamily:cStyle.fontFamily,
+        fontSize:cStyle.fontSize,
+        fontStyleArray:cStyle.fontStyleArray
+    };
     this.onContextMenu({
         type:this.type,
         id:this.id,
@@ -62,7 +55,9 @@ export function onContextMenuShow(item,pageX,pageY){
         value:this.value,
         onConfirm:this.onSetStyleConfirm.bind(this),
         onDelete:this.onDelete,
-        cTarget:item
+        cTarget:item,
+        propName:this.propName,
+        propId:this.propId
     });
 }
 
@@ -82,30 +77,17 @@ export function getNode(index){
         return item.id == this.styleId;
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
-    if(this.style.fontStyleArray[0]){
-        cStyle2.fontWeight = 'bold';
-    } else {
-        cStyle2.fontWeight = 'normal';
-    }
-    if(this.style.fontStyleArray[1]){
-        cStyle2.fontStyle = 'italic';
-    } else {
-        cStyle2.fontStyle = 'normal';
-    }
     return (
-        <textarea ref='textArea' style={cStyle2} defaultValue={this.value} key={index}
+        <textarea name={this.propName} id={this.propId} ref='textArea' style={cStyle2} defaultValue={this.value} key={index}
                   onChange={(e)=>{
                       this.value = e.currentTarget.value;
                   }}
-                  onClick={
-            (e)=>{
-                e.stopPropagation();
-                {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
-            }} onContextMenu={(e)=>{
-                e.stopPropagation();
-                e.preventDefault();
-                {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
-                this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
+                  onClick={(e)=>{
+                    e.stopPropagation();
+                  }} onContextMenu={(e)=>{
+                    e.stopPropagation();
+                    e.preventDefault();
+                    this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
         }}/>
     )
 }

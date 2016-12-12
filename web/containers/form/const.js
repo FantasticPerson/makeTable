@@ -2,14 +2,16 @@
  * Created by wdd on 2016/11/23.
  */
 export const formDefaultStyle = [{
-    borderColor:{r: '255', g: '0', b: '0', a: '1'},
+    borderColor:'red',
     borderSize:1,
-    fontColor:{r:'255',g:'0',b:'0',a:'1'},
+    fontColor:'red',
     fontSize:20,
     fontFamily:'SimSun',
     isDefault:true,
     name:'样式一',
-    id:1
+    id:1,
+    fontStyleArray:[false,false],
+    textAlign:'center'
 }];
 
 export const fontFamilyList = [
@@ -59,6 +61,14 @@ export const componentInput = 'input';
 export const componentTextArea = 'textArea';
 export const componentDropBox = 'dropBox';
 export const componentTd = 'td';
+
+export const editorNumberPicker = 'numberPicker';
+export const editorNumberSetter = 'numberSetter';
+export const editorColorPicker = 'colorPicker';
+export const editorDropBoxPicker = 'dropBoxPicker';
+export const editorCheckBoxPicker = 'checkBoxPicker';
+export const editorTextPicker = 'textPicker';
+export const editorOptionPicker = 'optionSetter';
 
 export function getTableHtml(tableString,recoverData){
     let string = "<html> <head> <title>表单元素说明</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto}input[type='text'] {border:0;border-bottom:1px #cccccc dotted}</style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";

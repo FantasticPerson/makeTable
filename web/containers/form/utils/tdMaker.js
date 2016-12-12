@@ -2,12 +2,11 @@
  * Created by wdd on 2016/11/24.
  */
 import React,{Component,PropTypes} from 'react'
-import TextMaker from './componentMaker/textMaker'
 import InputMaker from './componentMaker/inputMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import {stringifyRGBAObj,getStyleObj} from './data-helper'
-import {componentText,componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
+import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
@@ -17,10 +16,8 @@ export default class tdMaker extends Object{
         this.posInfo = recoverData ? recoverData.posInfo : posInfo;
         this.styleArr = styleArr;
         this.style = recoverData ? recoverData.style : {
-            textAlign: 'center',
             height: '60',
-            showBorder: [true, true, true, true],
-            fontStyleArray : [false,false]
+            showBorder: [true, true, true, true]
         };
         this.mockType = recoverData ? recoverData.mockType : mockType;
         this.value = recoverData ? recoverData.value : '';
@@ -28,6 +25,8 @@ export default class tdMaker extends Object{
         this.dispatch = dispatch;
         this.styleId = styleId;
         this.componentArray = [];
+        this.propName = 'default';
+        this.propId = ''+this.id;
         this.onContextMenuShow = onContextMenuShow;
         this.onSetStyleConfirm = onSetStyleConfirm;
 
@@ -66,9 +65,6 @@ export function registerFunc(functionArray){
 }
 
 export function insertComponent(type,styleArr,styleId){
-    // if(type == componentText){
-    //     this.componentArray.push(new TextMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.style))
-    // } else
     if(type == componentInput){
         this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
     } else if(type == componentTextArea){
@@ -119,29 +115,27 @@ export function setStyle(styleArr){
     }
 }
 
-export function onSetStyleConfirm(style,text,item){
+export function onSetStyleConfirm(style,text,item,props){
     if(this.value != text){
         this.value = text;
     }
     this.style = {...this.style,...style};
-
-
-    // if(item.nodeData){
-    //     this.componentArray.map(item=>{
-    //         item.setTdStyle(this.style);
-    //     });
-        // item.nodeData.setTdStyle(this.style);
-        // item.nodeData.setValue(text);
-    // }
+    this.propName = props.propName;
+    this.propId = props.propId;
     this.afterUpdateStyle();
-    // item.innerHTML = text;
 }
 
 export function onContextMenuShow(item,pageX,pageY,component=null) {
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
-    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
+    let style1 = {
+        fontColor:cStyle.fontColor,
+        fontFamily:cStyle.fontFamily,
+        fontSize:cStyle.fontSize,
+        fontStyleArray:cStyle.fontStyleArray,
+        textAlign:cStyle.textAlign
+    };
     let data = {
         type:componentTd,
         id:this.id,
@@ -151,7 +145,9 @@ export function onContextMenuShow(item,pageX,pageY,component=null) {
         style:{...style1,...this.style},
         value:this.value,
         onConfirm:this.onSetStyleConfirm.bind(this),
-        cTarget:item
+        cTarget:item,
+        propName:this.propName,
+        propId:this.propId
     };
     if(component && component.value){
         data.value = component.value;
@@ -174,13 +170,12 @@ export function getNode(tdIds,index=0){
         let col = tRow == cRow ? 1 : cCol;
         let row = (cRowFix || cCol == tCol) ? 1 : cRow;
         let style = {};
-        // style.border = cStyle.borderSize+'px solid '+stringifyRGBAObj(cStyle.borderColor);
         style.backgroundColor = bgColor;
         style.width = width+'px';
         // style.width = cCol /tCol * 100 + '%';
         // style.height = height+'px';
         // style.height = cRow /tRow * 100+'%';
-        const {showBorder,fontStyleArray} = this.style;
+        const {showBorder} = this.style;
         if(showBorder[0]) {
             style.borderTop = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
         } else {
@@ -201,26 +196,19 @@ export function getNode(tdIds,index=0){
         }else {
             style.borderRightColor = "#FFF";
         }
-        if(fontStyleArray[0]){
-            style.fontWeight = 'bold';
-        } else {
-            style.fontWeight = 'normal';
+        if(cStyle.textAlign){
+            style.textAlign = cStyle.textAlign;
         }
-        if(fontStyleArray[1]) {
-            style.fontStyle = 'italic';
-        } else {
-            style.fontStyle = 'normal';
+        if(this.style.textAlign){
+            style.textAlign = this.style.textAlign;
         }
-        // console.log(style);
         let getStyle = getStyleObj(cStyle,this.style);
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
-
-        // console.log(getStyle);
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
+        return (<td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                     /*if(e.component){
                         this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{

@@ -3,14 +3,12 @@
  */
 import React,{Component,PropTypes} from 'react'
 import BaseModal from '../../../components/BaseModal'
-import TextStyleEditor from './comPonentStyleEditors/textStyleEditor'
-import InputStyleEditor from './comPonentStyleEditors/inputStyleEditor'
-import TextAreaStyleEditor from './comPonentStyleEditors/textAreaStyleEditor'
-import DropBoxStyleEditor from './comPonentStyleEditors/dropBoxStyleEditor'
-import TdStyleEditor from './comPonentStyleEditors/tdStyleEditor'
 import * as overLayNames from '../../../constants/OverLayNames'
 import {removeOverLayByName} from '../../../actions/view'
 import {componentText,componentTextArea,componentInput,componentDropBox,componentTd} from '../const'
+import InputStyleEditor1 from './comPonentStyleEditors/inputStyleEditor1'
+import TdStyleEditor1 from './comPonentStyleEditors/tdStyleEditor1'
+import DropBoxStyleEditor1 from './comPonentStyleEditors/dropBoxStyleEditor1'
 
 export default class ComponentRightClickModal extends Component{
     constructor(){
@@ -23,17 +21,36 @@ export default class ComponentRightClickModal extends Component{
 
     renderComponentEditor(){
         const {data,cancel,confirm} = this.props.data;
-
+        let transferData = {
+            id:data.id,
+            type:data.type,
+            tdId:data.tdId,
+            pageX:data.pageX,
+            pageY:data.pageY,
+            style:data.style,
+            item:data.cTarget,
+            propName:data.propName,
+            propId:data.propId,
+            onClose:this.onCloseModal.bind(this),
+            onConfirm:data.onConfirm
+        };
         if(data.type == componentText){
-            return   <TextStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+            return <InputStyleEditor1/>
+            {/*return   <TextStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />*/}
         } else if(data.type == componentInput){
-            return   <InputStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+            return <InputStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
+
+            {/*return   <InputStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />*/}
         } else if(data.type == componentTextArea){
-            return   <TextAreaStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+            return <InputStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
+            {/*return   <TextAreaStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />*/}
+
         } else if(data.type == componentDropBox){
-            return   <DropBoxStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />
+            return <DropBoxStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
+            {/*return   <DropBoxStyleEditor posInfo={{onDelete:data.onDelete,onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}} />*/}
         } else if(data.type == componentTd){
-            return <TdStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}}/>
+            return <TdStyleEditor1 data={{textValue:data.value,...transferData}}/>
+            {/*return <TdStyleEditor posInfo={{onClose:this.onCloseModal.bind(this),type:data.type,id:data.id,tdId:data.tdId,pageX:data.pageX,pageY:data.pageY,style:data.style,textValue:data.value,onConfirm:data.onConfirm,item:data.cTarget}}/>*/}
         }
     }
 
