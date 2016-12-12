@@ -19,7 +19,6 @@ export default class TextStyleEditor extends Component{
             ...fontStylePicker.getValue(),
             ...componentStylePicker.getValue()
         });
-        console.log(cStyle);
         onConfirm(cStyle,item,itemInfoEditor.getValue());
         onClose();
     }
@@ -37,7 +36,6 @@ export default class TextStyleEditor extends Component{
 
     render(){
         const {style,pageX,pageY,propName,propId} = this.props.data;
-        console.log(style);
         // let cStyle = posInfo.style;
         let marginTop = window.innerHeight < 230 + pageY ? (window.innerHeight - 230 > 0 ? window.innerHeight - 230 : 0) : pageY;
         let marginLeft = window.innerWidth < 300 + pageX ? (window.innerWidth-300>0?window.innerWidth-300:0) : pageX;

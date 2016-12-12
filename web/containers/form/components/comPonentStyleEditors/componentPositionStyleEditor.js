@@ -22,7 +22,6 @@ export default class ComponentPositionStyleEditor extends Component{
 
     render(){
         const {style} = this.props.data;
-        console.log(style);
         return (
             <div style={{backgroundColor:'#FFF'}}>
                 <div style={{

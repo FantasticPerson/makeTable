@@ -21,7 +21,6 @@ export default class BorderStyleEditor extends Component{
 
     render(){
         const {style} = this.props.data;
-        console.log(style);
         return (
             <div  style={{backgroundColor:'#FFF'}}>
                 <StyleEditorItem ref="colorPicker" type={editorColorPicker} title="边框颜色" data={{color:style.borderColor}}/>

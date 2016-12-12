@@ -73,7 +73,6 @@ export function getNode(index){
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
-    console.log(this.tdStyle);
     return (
         <span style={getStyleObj(cStyle,this.tdStyle)} key={index} onClick={(e)=>{
             e.stopPropagation();

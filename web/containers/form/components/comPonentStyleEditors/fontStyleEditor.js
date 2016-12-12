@@ -28,7 +28,6 @@ export default class FontStyleEditor extends Component{
 
     render(){
         const {style} = this.props.data;
-        console.log(style);
         return (
             <div style={{backgroundColor:'#FFF'}}>
                 <StyleEditorItemPicker ref="fontColorPicker" type={editorColorPicker} title="文字颜色" data={{color:style.fontColor}}/>
