@@ -46,7 +46,6 @@ export default class TextStyleEditor extends Component{
         let height = item.nodeData ? '250px' : '280px';
         let marginTop = window.innerHeight < height + pageY ? (window.innerHeight - height > 0 ? window.innerHeight - height : 0) : pageY;
         let marginLeft = window.innerWidth < 300 + pageX ? (window.innerWidth-300>0?window.innerWidth-300:0) : pageX;
-
         return(
             <div className="abc-style-bg" style={{
                 width: '300px',

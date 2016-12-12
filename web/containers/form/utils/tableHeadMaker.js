@@ -49,7 +49,7 @@ export function onContextMenuShow(item,pageX,pageY) {
         return item.id == this.styleId;
     });
     let style1 = {
-        color:cStyle.fontColor,
+        color:cStyle.color,
         fontSize:cStyle.fontSize,
         fontFamily:cStyle.fontFamily,
         fontStyle:cStyle.fontStyle,
