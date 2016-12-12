@@ -3,7 +3,6 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {HuePicker,AlphaPicker,Twitter} from 'react-color'
-import {stringifyRGBAObj} from '../containers/form/utils/data-helper'
 
 export default class ColorPicker extends Component{
     constructor(){
@@ -28,7 +27,7 @@ export default class ColorPicker extends Component{
 
     render(){
         const {color} = this.state;
-        let style = {width:'20px',height:'20px',borderRadius:'3px',marginTop:'10px',backgroundColor:stringifyRGBAObj(color)};
+        let style = {width:'20px',height:'20px',borderRadius:'3px',marginTop:'10px',backgroundColor:color};
         return (
             <div style={{width:'200px'}}>
                 <HuePicker width={'200px'} color={color} onChange={this.onChange.bind(this)}/>

@@ -1,23 +1,6 @@
 /**
  * Created by wdd on 2016/12/2.
  */
-export function stringifyRGBAObj(obj){
-    return obj;
-    if(obj) {
-        let ownPropertyArray = Object.getOwnPropertyNames(obj);
-        let propertyArray = ['r', 'g', 'b', 'a'];
-        for (let i = 0; i < propertyArray.length; i++) {
-            if (ownPropertyArray.indexOf(propertyArray[i]) < 0) {
-                console.warn('invalid rgba obj');
-                return 'invalid';
-            }
-        }
-        return 'rgba('+obj.r+','+obj.g+','+obj.b+','+obj.a+')';
-    } else {
-        return null;
-    }
-}
-
 export function checkArrayEqual(arr1,arr2){
     if(!arr1 || !arr2){
         return false
@@ -99,7 +82,7 @@ export function setItemStyle(item,style){
         item.style.fontSize = style.fontSize+'px';
     }
     if(style.color) {
-        item.style.color = stringifyRGBAObj(style.color);
+        item.style.color = style.color;
     }
     if(style.fontFamily) {
         item.style.fontFamily = style.fontFamily;

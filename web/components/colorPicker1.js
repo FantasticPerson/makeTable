@@ -3,7 +3,6 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {HuePicker,AlphaPicker,Twitter} from 'react-color'
-import {stringifyRGBAObj} from '../containers/form/utils/data-helper'
 
 export default class ColorPicker1 extends Component{
     constructor(){

@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import InputMaker from './componentMaker/inputMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
-import {stringifyRGBAObj,getStyleObj} from './data-helper'
+import {getStyleObj} from './data-helper'
 import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
 
 export default class tdMaker extends Object{
@@ -177,22 +177,22 @@ export function getNode(tdIds,index=0){
         // style.height = cRow /tRow * 100+'%';
         const {showBorder} = this.style;
         if(showBorder[0]) {
-            style.borderTop = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+            style.borderTop = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
         } else {
             style.borderTopColor = "#FFF";
         }
         if(showBorder[1]) {
-            style.borderBottom = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+            style.borderBottom = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
         } else {
             style.borderBottomColor = "#FFF";
         }
         if(showBorder[2]) {
-            style.borderLeft = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+            style.borderLeft = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
         } else{
             style.borderLeftColor = "#FFF";
         }
         if(showBorder[3]) {
-            style.borderRight = cStyle.borderSize + 'px solid ' + stringifyRGBAObj(cStyle.borderColor);
+            style.borderRight = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
         }else {
             style.borderRightColor = "#FFF";
         }
