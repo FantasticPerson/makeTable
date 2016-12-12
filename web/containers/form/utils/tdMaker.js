@@ -210,59 +210,23 @@ export function getNode(tdIds,index=0){
         });
         return (<td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
-                    /*if(e.component){
-                        this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{
-                            cb:function(num){
-                                this.dispatch(removeOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL));
-                                if(num == 2){
-                                    const {obj,node} = e.component;
-                                    obj.onClickShow(node);
-                                } else {
-                                    this.onTdClick(this.id);
-                                }
-                                e.component = null;
-                            }.bind(this),
-                            data:e
-                        }))
+                }} onContextMenu={(e)=>{
+                    e.preventDefault();
+                    if(e.component){
+                        this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);
                     } else {
-                        this.onTdClick(this.id);
-                    }*/
-                    }} onContextMenu={(e)=>{
-                        e.preventDefault();
-                        {/*e.stopPropagation();*/}
-                        if(e.component){
-                            this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);
-                        } else {
-                            if (bgColor == '#eeeeee') {
-                                this.onTdContext({pageX: e.pageX, pageY: e.pageY});
-                            } else {
-                                this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
-                            }
-                        }
-                        e.component = null;
-                        /*if(e.component){
-                            this.dispatch(showOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL,{
-                                cb:function(num){
-                                    this.dispatch(removeOverLayByName(OverLayNames.COMPONENT_CLICK_CONFIRM_MODAL));
-                                    if(num == 2){
-                                        const {obj,node,pageX,pageY} = e.component;
-                                        obj.onContextMenuShow(node,pageX,pageY);
-                                    } else {
-                                        const {pageX,pageY} = e.component;
-                                        this.onTdContext({pageX, pageY});
-                                    }
-                                    e.component = null;
-                                }.bind(this),
-                                data:e
-                            }));
-                        } else {
+                        if (bgColor == '#eeeeee') {
                             this.onTdContext({pageX: e.pageX, pageY: e.pageY});
-                        }*/
-                    }} onDragOver={(e)=>{
-                        e.preventDefault()
-                    }} onDrop={(e)=>{
-                        this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                    }}>{this.value}{components}
+                        } else {
+                            this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
+                        }
+                    }
+                    e.component = null;
+                }} onDragOver={(e)=>{
+                    e.preventDefault()
+                }} onDrop={(e)=>{
+                    this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
+                }}>{this.value}{components}
         </td>)
     }
     return null;

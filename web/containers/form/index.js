@@ -211,29 +211,6 @@ class FormPage extends Component{
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body" style={{height:height+'px',marginTop:'55px'}}>
-                    <div>
-                        {/*<FontStyleEditor/>*/}
-                        {/*<BorderStyEditor/>*/}
-                        {/*<ComponentPositionStyleEditor/>*/}
-                        {/*<TdPositionStyleEditor/>*/}
-                        {/*<DropBoxStyleEditor/>*/}
-                        {/*<InputStyleEditor/>*/}
-                        {/*<TdStyleEditor/>*/}
-                        {/*<ComponentStyleEditor/>*/}
-                    </div>
-                    {/*<div onClick={()=>{this.exportData()}}>export</div>*/}
-                    {/*<div onClick={()=>{this.importData()}}>import</div>*/}
-                    {/*<input type='file' accept='text/html' onChange={(e)=>{*/}
-                        {/*let input = e.target;*/}
-                        {/*let reader = new FileReader();*/}
-                        {/*reader.onload=function(){*/}
-                            {/*let text = reader.result;*/}
-                            {/*console.log(text);*/}
-                            {/*let index = text.search(/<div class='recoverData' style='display: none'>/);*/}
-                            {/*let recoverData = text.slice(index+"<div class='recoverData' style='display: none'>".length,-("</div></html>".length));*/}
-                        {/*}*/}
-                        {/*reader.readAsText(input.files[0]);*/}
-                    {/*}}/>*/}
                     <div className="abc-form-container-body-table" style={{height:(height-20)+'px'}}>
                         {node}
                     </div>

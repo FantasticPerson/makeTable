@@ -88,6 +88,9 @@ export function getStyleObj(obj1,ob2){
             pStyle.fontStyle = 'normal'
         }
     }
+    if(ob2.showBorder){
+
+    }
     return {...style,...pStyle};
 }
 

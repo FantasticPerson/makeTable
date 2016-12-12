@@ -75,7 +75,6 @@ export function getTableHtml(tableString,recoverData){
     string += tableString;
     string += "</div> </body> <div class='recoverData' style='display: none'>";
     string += recoverData;
-    string += "</div></html>"
-
+    string += "</div></html>";
     return string;
 }

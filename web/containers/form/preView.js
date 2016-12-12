@@ -23,15 +23,9 @@ export default class Preview extends Component{
     }
 
     render(){
-        // let tableNode = document.getElementsByTagName('table')[0];
-        // console.log(tableNode);
-        // console.log(tableNode.toString());
         return(
             <BaseModal>
-                {/*<div className="abc-base-modal-container-bg-radius"></div>*/}
-                <div className="abc-base-modal-container-bg-radius" style={{
-
-                }}>
+                <div className="abc-base-modal-container-bg-radius" style={{}}>
                     <div style={{cursor:'pointer'}} onClick={()=>{
                         this.props.data.dispatch(removeOverLayByName(OverLayNames.PREVIEW));
                     }}>关闭</div>
@@ -42,7 +36,6 @@ export default class Preview extends Component{
                         flexDirection: 'row',
                         justifyContent: 'center'
                     }}>
-
                     </div>
                 </div>
             </BaseModal>
