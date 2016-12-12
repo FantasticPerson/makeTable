@@ -3,7 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import NumberPicker from '../../../../components/number-picker'
-import NumberSetter1 from '../../../../components/numberSetter1'
+import NumberSetter1 from '../../../../components/numberSetter'
 import CheckSelector from '../../../../components/checkSelector'
 import ItemSelector from '../../../../components/itemSelector'
 import ColorPicker1 from '../../../../components/colorPicker1'

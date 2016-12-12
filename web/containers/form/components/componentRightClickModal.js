@@ -6,9 +6,9 @@ import BaseModal from '../../../components/BaseModal'
 import * as overLayNames from '../../../constants/OverLayNames'
 import {removeOverLayByName} from '../../../actions/view'
 import {componentText,componentTextArea,componentInput,componentDropBox,componentTd} from '../const'
-import InputStyleEditor1 from './comPonentStyleEditors/inputStyleEditor1'
-import TdStyleEditor1 from './comPonentStyleEditors/tdStyleEditor1'
-import DropBoxStyleEditor1 from './comPonentStyleEditors/dropBoxStyleEditor1'
+import InputStyleEditor1 from './comPonentStyleEditors/inputStyleEditor'
+import TdStyleEditor1 from './comPonentStyleEditors/tdStyleEditor'
+import DropBoxStyleEditor1 from './comPonentStyleEditors/dropBoxStyleEditor'
 
 export default class ComponentRightClickModal extends Component{
     constructor(){

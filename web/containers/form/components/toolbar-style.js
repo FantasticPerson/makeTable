@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ToolbarStyleItem from './toolbar-style-item'
 import * as formAction from '../../../actions/form'
-import ToolbarStyleEditor1 from './toolbar-style-editor1'
+import ToolbarStyleEditor1 from './toolbar-style-editor'
 
 import {styleViewAdd,styleViewModify} from '../const'
 

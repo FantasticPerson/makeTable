@@ -9,8 +9,6 @@ export default class ColorPicker1 extends Component{
     constructor(){
         super();
         this.colorArr = ['red','#123','#654','#234112','#ABC','#DEF','black'];
-
-        // this.state = {color: {r: '241', g: '112', b: '19', a: '1'}}
         this.state = {color:'#red'}
     }
 
@@ -45,7 +43,6 @@ export default class ColorPicker1 extends Component{
             }></div>
         });
         const {color} = this.state;
-        let style = {width:'20px',height:'20px',borderRadius:'3px',marginTop:'10px',backgroundColor:stringifyRGBAObj(color)};
         return (
             <div style={{
                 display: 'flex',
@@ -53,13 +50,6 @@ export default class ColorPicker1 extends Component{
             }}>
                 {colorArr}
             </div>
-            // <div style={{width:'200px'}}>
-            //     <HuePicker width={'200px'} color={color} onChange={this.onChange.bind(this)}/>
-            //     <div style={{marginTop:'10px'}}>
-            //         <AlphaPicker width={'200px'} color={color} onChange={this.onChange.bind(this)}/>
-            //     </div>
-            //     <div style={style}></div>
-            // </div>
         );
     }
 }
