@@ -6,7 +6,7 @@ import React,{Component,PropTypes} from 'react'
 export default class NumberPicker extends Component{
     constructor() {
         super();
-        this.state = {number:1,max:50,min:1};
+        this.state = {number:0,max:50,min:0};
     }
 
     onClickAdd() {

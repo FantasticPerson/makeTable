@@ -87,10 +87,10 @@ export function setItemStyle(item,style){
     if(style.fontFamily) {
         item.style.fontFamily = style.fontFamily;
     }
-    if(style.marginTop){
+    if(style.marginTop || style.marginTop == 0){
         item.style.marginTop = style.marginTop + 'px';
     }
-    if(style.marginLeft){
+    if(style.marginLeft || style.marginLeft == 0){
         item.style.marginLeft = style.marginLeft + 'px';
     }
     if(style.width){
@@ -119,8 +119,8 @@ export function setItemStyle(item,style){
 export function getStyleSet(style,styleObj){
     console.log(style,styleObj);
     let cStyle = {};
-    if(styleObj.color && styleObj.fontColor != style.color){
-        cStyle.color = styleObj.fontColor;
+    if(styleObj.color && styleObj.color != style.color){
+        cStyle.color = styleObj.color;
     }
     if(styleObj.fontSize && style.fontSize != styleObj.fontSize){
         cStyle.fontSize = styleObj.fontSize;
@@ -128,10 +128,10 @@ export function getStyleSet(style,styleObj){
     if(styleObj.fontFamily && style.fontFamily != styleObj.fontFamily ){
         cStyle.fontFamily = styleObj.fontFamily;
     }
-    if(styleObj.marginTop && style.marginTop != styleObj.marginTop){
+    if((styleObj.marginTop || styleObj.marginTop == 0) && style.marginTop != styleObj.marginTop){
         cStyle.marginTop = styleObj.marginTop;
     }
-    if(styleObj.marginLeft && style.marginLeft != styleObj.marginLeft){
+    if((styleObj.marginLeft || styleObj.marginLeft == 0) && style.marginLeft != styleObj.marginLeft){
         cStyle.marginLeft = styleObj.marginLeft;
     }
     if(styleObj.width && style.width != styleObj.width){
