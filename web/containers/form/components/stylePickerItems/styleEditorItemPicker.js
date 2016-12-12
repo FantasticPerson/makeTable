@@ -61,7 +61,7 @@ export default class  StyleEditorItemPicker extends Component{
         if(type == editorOptionPicker){
             width = '280px'
         }
-        let marginTop = type == editorOptionPicker ? '-80px' : '3px';
+        let marginTop = type == editorOptionPicker ? '-95px' : '3px';
         return (
             <div style={{
                 flexDirection:'row',
