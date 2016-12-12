@@ -2,9 +2,9 @@
  * Created by wdd on 2016/11/23.
  */
 export const formDefaultStyle = [{
-    borderColor:'red',
+    borderColor:'#FF0000',
     borderSize:1,
-    color:'red',
+    color:'#FF0000',
     fontSize:20,
     fontFamily:'SimSun',
     isDefault:true,

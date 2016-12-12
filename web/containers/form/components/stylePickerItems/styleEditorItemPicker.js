@@ -57,7 +57,7 @@ export default class  StyleEditorItemPicker extends Component{
 
     render(){
         const {title,type} = this.props;
-        let width = (type == editorColorPicker ? '200px' : (type == editorTextPicker ? '250px' : '150px'));
+        let width = (type == editorColorPicker ? '250px' : (type == editorTextPicker ? '250px' : '150px'));
         if(type == editorOptionPicker){
             width = '280px'
         }

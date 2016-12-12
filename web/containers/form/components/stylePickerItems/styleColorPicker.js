@@ -22,7 +22,7 @@ export default class StyleColorPicker extends Component{
                 alignItems:'center',
                 display:'inline-flex',
                 padding:'3px',
-                width:'200px'
+                width:'250px'
             }}>
                 <div style={{
                     marginTop: '3px',

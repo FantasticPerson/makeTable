@@ -119,7 +119,7 @@ export function setItemStyle(item,style){
 export function getStyleSet(style,styleObj){
     console.log(style,styleObj);
     let cStyle = {};
-    if(styleObj.fontColor && styleObj.fontColor != style.color){
+    if(styleObj.color && styleObj.fontColor != style.color){
         cStyle.color = styleObj.fontColor;
     }
     if(styleObj.fontSize && style.fontSize != styleObj.fontSize){

@@ -19,7 +19,7 @@ export default class FontStyleEditor extends Component{
     getValue(){
         const {fontColorPicker,fontFamilyPicker,fontStylePicker,fontSizePicker} = this.refs;
         return {
-            fontColor:fontColorPicker.getValue(),
+            color:fontColorPicker.getValue(),
             fontFamily:fontFamilyPicker.getValue(),
             fontStyleArray:fontStylePicker.getValue(),
             fontSize:fontSizePicker.getValue()
