@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ToolBarEditDisplay from './toolbar-edit-display'
 import ComponentPicker from './componentPicker'
-import {editElement,editDisplay,editPreview,editSource} from '../const'
+import {editElement,editDisplay,editSource} from '../const'
 import * as OverLayNames from '../../../constants/OverLayNames'
 import {showOverLayByName} from '../../../actions/view'
 

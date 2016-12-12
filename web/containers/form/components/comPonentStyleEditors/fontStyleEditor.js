@@ -10,7 +10,6 @@ import {
     editorDropBoxPicker,
     editorColorPicker,
     editorNumberPicker} from '../../const'
-import {checkArrayEqual} from '../../utils/data-helper'
 
 export default class FontStyleEditor extends Component{
     constructor(){

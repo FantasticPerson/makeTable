@@ -2,10 +2,6 @@
  * Created by wdd on 2016/11/29.
  */
 import React,{Component,PropTypes} from 'react'
-import ColorPicker from '../../../components/colorPicker'
-import NumberPicker from '../../../components/number-picker'
-import ItemSelector from '../../../components/itemSelector'
-
 import FontStyleEditor from './comPonentStyleEditors/fontStyleEditor'
 import BorderStyleEditor from './comPonentStyleEditors/borderStyleEditor'
 import TextSetEditor from './comPonentStyleEditors/textSetEditor'

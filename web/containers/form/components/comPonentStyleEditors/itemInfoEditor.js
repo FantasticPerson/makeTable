@@ -3,7 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import StyleEditorItemPicker from '../stylePickerItems/styleEditorItemPicker'
-import {editorNumberSetter,editorNumberPicker} from '../../const'
+import {editorNumberSetter} from '../../const'
 
 export default class ItemInfoEditor extends Component{
     constructor(){

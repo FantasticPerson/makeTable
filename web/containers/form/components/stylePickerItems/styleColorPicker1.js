@@ -2,7 +2,6 @@
  * Created by wdd on 2016/12/1.
  */
 import React,{Component,PropTypes} from 'react'
-import ColorPicker from '../../../../components/colorPicker'
 import ColorPicker1 from '../../../../components/colorPicker1'
 
 export default class StyleColorPicker extends Component{

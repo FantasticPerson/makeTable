@@ -5,7 +5,6 @@ import React,{Component,PropTypes} from 'react'
 import ColorPicker from '../../../components/colorPicker'
 import NumberPicker from '../../../components/number-picker'
 import ItemSelector from '../../../components/itemSelector'
-import {updateStyleList,updateMaxId} from '../../../actions/form'
 
 export default class ComponentStyleTextEditor extends Component{
     constructor(){
