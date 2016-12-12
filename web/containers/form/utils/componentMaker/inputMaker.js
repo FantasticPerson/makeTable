@@ -33,6 +33,7 @@ export function setStyle(styleArr){
 }
 
 export function onSetStyleConfirm(style,item,props){
+    console.log(style);
     setItemStyle(item,style);
     this.style = {...this.style,...style};
     this.propName = props.propName;
@@ -44,7 +45,7 @@ export function onContextMenuShow(item,pageX,pageY){
         return item.id == this.styleId;
     });
     let style1 = {
-        fontColor:cStyle.fontColor,
+        color:cStyle.fontColor,
         fontFamily:cStyle.fontFamily,
         fontSize:cStyle.fontSize,
         fontStyleArray:cStyle.fontStyleArray

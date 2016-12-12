@@ -40,7 +40,7 @@ export function checkArrayEqual(arr1,arr2){
 
 export function getStyleObj(obj1,ob2){
     let style = {
-        color:obj1.fontColor,
+        color:obj1.color,
         fontFamily:obj1.fontFamily,
         fontSize:obj1.fontSize+'px',
         fontStyleArray:obj1.fontStyleArray
@@ -53,7 +53,7 @@ export function getStyleObj(obj1,ob2){
         pStyle.textAlign = ob2.textAlign;
     }
     if(ob2.color){
-        pStyle.color = ob2.fontColor;
+        pStyle.color = ob2.color;
     }
     if(ob2.fontSize){
         pStyle.fontSize = ob2.fontSize + 'px';
@@ -134,9 +134,10 @@ export function setItemStyle(item,style){
 }
 
 export function getStyleSet(style,styleObj){
+    console.log(style,styleObj);
     let cStyle = {};
-    if(styleObj.color && stringifyRGBAObj(styleObj.color) != stringifyRGBAObj(style.color)){
-        cStyle.color = styleObj.color;
+    if(styleObj.fontColor && styleObj.fontColor != style.color){
+        cStyle.color = styleObj.fontColor;
     }
     if(styleObj.fontSize && style.fontSize != styleObj.fontSize){
         cStyle.fontSize = styleObj.fontSize;

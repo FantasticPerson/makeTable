@@ -4,7 +4,7 @@
 export const formDefaultStyle = [{
     borderColor:'red',
     borderSize:1,
-    fontColor:'red',
+    color:'red',
     fontSize:20,
     fontFamily:'SimSun',
     isDefault:true,

@@ -49,7 +49,7 @@ export function onContextMenuShow(item,pageX,pageY) {
         return item.id == this.styleId;
     });
     let style1 = {
-        fontColor:cStyle.fontColor,
+        color:cStyle.fontColor,
         fontSize:cStyle.fontSize,
         fontFamily:cStyle.fontFamily,
         fontStyle:cStyle.fontStyle,
@@ -103,6 +103,7 @@ export function getNode(){
     } else {
         getStyle.fontStyle = 'normal';
     }
+    console.log(getStyle);
     return (
         <tr>
             <td style={getStyle} colSpan={this.colSpan} onContextMenu={(e)=>{
