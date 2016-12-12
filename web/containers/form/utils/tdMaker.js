@@ -130,7 +130,7 @@ export function onContextMenuShow(item,pageX,pageY,component=null) {
         return item.id == this.styleId;
     });
     let style1 = {
-        color:cStyle.fontColor,
+        color:cStyle.color,
         fontFamily:cStyle.fontFamily,
         fontSize:cStyle.fontSize,
         fontStyleArray:cStyle.fontStyleArray,
