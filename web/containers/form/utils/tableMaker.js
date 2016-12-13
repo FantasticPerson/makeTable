@@ -44,6 +44,7 @@ export function registerFunc(functionArray){
     this.setComponentStyle = setComponentStyle;
     this.deleteComponent = deleteComponent;
     this.exportData = exportData;
+    this.checkIsValid = checkIsValid;
     this.onDeleteComponent = onDeleteComponent;
 }
 
@@ -205,10 +206,16 @@ export function merge(tdArr){
     let minX = pointArr2[0][0][0],minY = pointArr2[0][0][1];
     let maxX = pointArr2[0][pointArr2[0].length-1][0],maxY = pointArr2[pointArr2.length-1][0][1];
 
-    let forRecoverArray = [];
-    for(let i=minX+1;i<maxX+1;i++){
-
+    let mockTypeArray = [];
+    for (let i = minY; i < maxY; i++) {
+        mockTypeArray.push([]);
+        for (let j = minX; j < maxX; j++) {
+            mockTypeArray[mockTypeArray.length - 1].push(this.tds[i][j].mockType);
+        }
     }
+
+    console.log(mockTypeArray);
+
     for(let i = minX+1;i<maxX+1;i++){
         this.tds[minY][i].mockType = 1;
     }
@@ -220,12 +227,26 @@ export function merge(tdArr){
             this.tds[j][i].mockType = 3;
         }
     }
+
+    console.log(this.checkIsValid());
+
     this.setTdSize();
     return true;
 }
 
 export function checkIsValid(){
-
+    for(let i=0;i<this.tds.length;i++){
+        let hasOne = false;
+        for(let j=0;j<this.tds[i].length;j++){
+            if(this.tds[i][j].mockType == 0){
+                hasOne = true;
+            }
+        }
+        if(!hasOne){
+            return false;
+        }
+    }
+    return true;
 }
 
 export function split(id){
@@ -360,7 +381,13 @@ export function getNode(ids){
     let style = {width:width+'px'};
     style.border = '0';
     return (
-        <div>
+        <div style={{
+            marginTop: '10px',
+            overflow: 'auto',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+        }}>
             <table  style={style}>
                 <tbody>
                     {headerNode}

@@ -2,15 +2,14 @@
  * Created by wdd on 2016/11/29.
  */
 import React,{Component,PropTypes} from 'react'
-import FontStyleEditor from './comPonentStyleEditors/fontStyleEditor'
-import BorderStyleEditor from './comPonentStyleEditors/borderStyleEditor'
-import TextSetEditor from './comPonentStyleEditors/textSetEditor'
+import FontStyleEditor from './styleEditorComponent/fontStyleEditor'
+import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
+import TextSetEditor from './styleEditorComponent/textSetEditor'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
 
 export default class ComponentStyleEditor extends Component{
     constructor(){
         super();
-        this.formStyle = {};
     }
 
     onConformClick(){
@@ -76,8 +75,8 @@ export default class ComponentStyleEditor extends Component{
         return(
             <div style={{
                 position: 'absolute',
-                marginLeft: '400px',
-                marginTop: '200px',
+                marginLeft: '175px',
+                marginTop: '240px',
                 backgroundColor: '#FFF',
                 border: '1px solid #eee',
                 width: '300px',

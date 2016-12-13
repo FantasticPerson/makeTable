@@ -2,7 +2,7 @@
  * Created by wdd on 2016/12/11.
  */
 import React,{Component,PropTypes} from 'react'
-import StyleEditorItem from '../stylePickerItems/styleEditorItemPicker'
+import StyleEditorItem from './itemPicker/styleEditorItemPicker'
 import {editorNumberPicker,editorDropBoxPicker,editorColorPicker,textAlignPosition} from '../../const'
 
 export default class BorderStyleEditor extends Component{

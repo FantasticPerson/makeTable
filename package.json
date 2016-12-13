@@ -16,8 +16,6 @@
   "dependencies": {
     "es6-promise": "^3.3.1",
     "isomorphic-fetch": "^2.2.1",
-    "jsx-to-string": "^0.2.16",
-    "m-numberpicker": "^1.0.2",
     "react": "15.3.2",
     "react-color": "^2.8.0",
     "react-custom-scrollbars": "^4.0.0",

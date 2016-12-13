@@ -2,7 +2,7 @@
  * Created by wdd on 2016/12/11.
  */
 import React,{Component,PropTypes} from 'react'
-import StyleEditorItemPicker from '../stylePickerItems/styleEditorItemPicker'
+import StyleEditorItemPicker from './itemPicker/styleEditorItemPicker'
 import {editorNumberSetter,editorNumberPicker} from '../../const'
 
 export default class ComponentPositionStyleEditor extends Component{

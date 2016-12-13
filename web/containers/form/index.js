@@ -211,8 +211,28 @@ class FormPage extends Component{
             <div className="abc-form-container">
                 <ToolBar data={toolBarData}/>
                 <div className="abc-form-container-body" style={{height:height+'px',marginTop:'55px'}}>
-                    <div className="abc-form-container-body-table" style={{height:(height-20)+'px'}}>
-                        {node}
+                    <div style={{
+                        width:"100%",
+                        height:(height-20)+'px',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }}>
+                        <div className="abc-form-container-body-table" style={{
+                            height:(height)+'px',
+                            marginTop:'-10px'
+                        }}>
+                        </div>
+                        <div style={{
+                            marginTop: -height+'px',
+                            height: height+'px',
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}>
+                            {node}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2,14 +2,8 @@
  * Created by wdd on 2016/12/10.
  */
 import React,{Component,PropTypes} from 'react'
-import StyleEditorItemPicker from '../stylePickerItems/styleEditorItemPicker'
-import {
-    fontStyleArray,
-    fontFamilyList,
-    editorCheckBoxPicker,
-    editorDropBoxPicker,
-    editorColorPicker,
-    editorNumberPicker} from '../../const'
+import StyleEditorItemPicker from './itemPicker/styleEditorItemPicker'
+import {fontStyleArray, fontFamilyList, editorCheckBoxPicker, editorDropBoxPicker, editorColorPicker, editorNumberPicker} from '../../const'
 
 export default class FontStyleEditor extends Component{
     constructor(){
@@ -52,8 +46,3 @@ export default class FontStyleEditor extends Component{
         )
     }
 }
-
-// width: 300px;
-// display: flex;
-// flex-direction: row;
-// justify-content: space-around;

@@ -3,10 +3,10 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {getStyleSet,getArrayCopy} from '../../utils/data-helper'
-import FontStyleEditor from './fontStyleEditor'
-import ComponentPositionStyleEditor from './componentPositionStyleEditor'
-import OptionDataEditor from './optionDataEditor'
-import ItemInfoEditor from './itemInfoEditor'
+import FontStyleEditor from '../styleEditorComponent/fontStyleEditor'
+import ComponentPositionStyleEditor from '../styleEditorComponent/componentPositionStyleEditor'
+import OptionDataEditor from '../styleEditorComponent/optionDataEditor'
+import ItemInfoEditor from '../styleEditorComponent/itemInfoEditor'
 
 export default class DropBoxStyleEditor extends Component{
     constructor(){

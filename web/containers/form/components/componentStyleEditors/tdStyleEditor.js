@@ -3,11 +3,11 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {getStyleSet} from '../../utils/data-helper'
-import FontStyleEditor from './fontStyleEditor'
-import TdPositionStyleEditor from './tdPositionStyleEditor'
-import ShowBorderEditor from './showBorderEditor'
-import TextSetEditor from './textSetEditor'
-import ItemInfoEditor from './itemInfoEditor'
+import FontStyleEditor from '../styleEditorComponent/fontStyleEditor'
+import TdPositionStyleEditor from '../styleEditorComponent/tdPositionStyleEditor'
+import ShowBorderEditor from '../styleEditorComponent/showBorderEditor'
+import TextSetEditor from '../styleEditorComponent/textSetEditor'
+import ItemInfoEditor from '../styleEditorComponent/itemInfoEditor'
 
 export default class TextStyleEditor extends Component{
     constructor(){

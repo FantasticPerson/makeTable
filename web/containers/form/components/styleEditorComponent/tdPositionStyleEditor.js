@@ -3,7 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {editorNumberSetter, editorDropBoxPicker,textAlignPosition} from '../../const'
-import StyleEditorItem from '../stylePickerItems/styleEditorItemPicker'
+import StyleEditorItem from './itemPicker/styleEditorItemPicker'
 
 export default class TdPositionStyleEditor extends Component{
     constructor(){

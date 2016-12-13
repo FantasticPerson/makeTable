@@ -103,7 +103,6 @@ export function getNode(){
     } else {
         getStyle.fontStyle = 'normal';
     }
-    console.log(getStyle);
     return (
         <tr>
             <td style={getStyle} colSpan={this.colSpan} onContextMenu={(e)=>{

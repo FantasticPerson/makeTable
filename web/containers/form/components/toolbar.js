@@ -49,7 +49,7 @@ export default class ToolBar extends Component{
 
     render(){
         const {style,exportData} = this.props.data;
-        const {subTool} = this.state;
+        const {subTool,marginLeft} = this.state;
         let styleArray = [{color1:'#eef6fc',color2:'#6998d6'},{color1:'#FFFFFF',color2:'#000000'}];
         return(
             <div>
@@ -64,15 +64,7 @@ export default class ToolBar extends Component{
                                 {'编辑'}
                             </div>
                         </div>
-                        <div className="abc-form-tool-bar-container-left-item"
-                             style={{backgroundColor:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color1,marginLeft:'150px'}}
-                             onClick={()=>{this.onToolClick(toolStyle)}}>
-                            <div className="true-form-custom-style-icon"></div>
-                            <div className="abc-form-tool-bar-container-left-item-text"
-                                 style={{color:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color2}}>
-                                {'自定义样式'}
-                            </div>
-                        </div>
+
                         <div className="abc-form-tool-bar-container-left-item"
                              style={{backgroundColor:styleArray[subTool.indexOf(toolTool)>=0 ? 0 : 1].color1,marginLeft:'150px'}}
                              onClick={()=>{
@@ -87,8 +79,17 @@ export default class ToolBar extends Component{
                     </div>
                     <div className="abc-form-tool-bar-container-right">
                         <div className="true-form-save-icon" style={{cursor:'pointer'}} onClick={(e)=>{exportData()}}></div>
-                        <div className="true-form-print-icon" style={{marginLeft:'20px',cursor:'pointer'}}></div>
-                        <div className="true-form-question-icon" style={{marginLeft:'20px',cursor:'pointer'}}></div>
+                        <div className="true-form-print-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
+                        <div className="true-form-question-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
+                        <div className="abc-form-tool-bar-container-left-item" ref="styleEditor"
+                             style={{backgroundColor:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color1,marginLeft:'20px'}}
+                             onClick={()=>{this.onToolClick(toolStyle)}}>
+                            <div className="true-form-custom-style-icon"></div>
+                            <div className="abc-form-tool-bar-container-left-item-text"
+                                 style={{color:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color2}}>
+                                {'自定义样式'}
+                            </div>
+                        </div>
                     </div>
                     {this.props.children}
                 </div>

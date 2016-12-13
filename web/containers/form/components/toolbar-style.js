@@ -11,7 +11,18 @@ import {styleViewAdd,styleViewModify} from '../const'
 export default class ToolbarStyle extends Component{
     constructor(){
         super();
-        this.state = {view_state:'loading',subName:null}
+        this.state = {view_state:'loading',subName:null,marginLeft:0}
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', this.handleResize.bind(this));
+        const {innerWidth} = window;
+        this.setState({marginLeft:innerWidth-486});
+    }
+
+    handleResize(){
+        const {innerWidth} = window;
+        this.setState({marginLeft:innerWidth-486});
     }
 
     onStyleItemClick(id){
@@ -55,7 +66,7 @@ export default class ToolbarStyle extends Component{
 
     render(){
         return (
-            <div>
+            <div style={{marginLeft:this.state.marginLeft}}>
                 <div className="abc-form-tool-bar-style-container">
                     <div className="abc-form-tool-bar-style-container-up">
                         <div className="abc-form-tool-bar-style-container-up-text-container">

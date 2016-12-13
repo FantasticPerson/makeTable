@@ -2,12 +2,12 @@
  * Created by wdd on 2016/12/11.
  */
 import React,{Component,PropTypes} from 'react'
-import NumberPicker from '../../../../components/number-picker'
-import NumberSetter1 from '../../../../components/numberSetter'
-import CheckSelector from '../../../../components/checkSelector'
-import ItemSelector from '../../../../components/itemSelector'
-import ColorPicker1 from '../../../../components/colorPicker1'
-import OptionDataAddTool from '../../../../components/optionDataAddTool'
+import NumberPicker from '../../../../../components/number-picker'
+import NumberSetter1 from '../../../../../components/numberSetter'
+import CheckSelector from '../../../../../components/checkSelector'
+import ItemSelector from '../../../../../components/itemSelector'
+import ColorPicker1 from '../../../../../components/colorPicker1'
+import OptionDataAddTool from '../../../../../components/optionDataAddTool'
 import{
     editorCheckBoxPicker,
     editorColorPicker,
@@ -15,7 +15,7 @@ import{
     editorNumberPicker,
     editorNumberSetter,
     editorTextPicker,
-    editorOptionPicker} from '../../const'
+    editorOptionPicker} from '../../../const'
 
 export default class  StyleEditorItemPicker extends Component{
     constructor(){

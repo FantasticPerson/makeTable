@@ -3,7 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {editorCheckBoxPicker,showBorderArray} from '../../const'
-import StyleEditorItemPicker from '../stylePickerItems/styleEditorItemPicker'
+import StyleEditorItemPicker from './itemPicker/styleEditorItemPicker'
 
 export default class ShowBorderEditor extends Component{
     constructor(){

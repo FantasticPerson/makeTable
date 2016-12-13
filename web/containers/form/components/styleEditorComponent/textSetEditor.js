@@ -3,7 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {editorTextPicker} from '../../const'
-import StyleEditorItemPicker from '../stylePickerItems/styleEditorItemPicker'
+import StyleEditorItemPicker from './itemPicker/styleEditorItemPicker'
 
 export default class TextSetEditor extends Component{
     constructor(){

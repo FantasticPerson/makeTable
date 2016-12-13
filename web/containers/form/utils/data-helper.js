@@ -117,7 +117,6 @@ export function setItemStyle(item,style){
 }
 
 export function getStyleSet(style,styleObj){
-    console.log(style,styleObj);
     let cStyle = {};
     if(styleObj.color && styleObj.color != style.color){
         cStyle.color = styleObj.color;

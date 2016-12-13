@@ -3,9 +3,9 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {getStyleSet} from '../../utils/data-helper'
-import FontStyleEditor from './fontStyleEditor'
-import ComponentPositionStyleEditor from './componentPositionStyleEditor'
-import ItemInfoEditor from './itemInfoEditor'
+import FontStyleEditor from '../styleEditorComponent/fontStyleEditor'
+import ComponentPositionStyleEditor from '../styleEditorComponent/componentPositionStyleEditor'
+import ItemInfoEditor from '../styleEditorComponent/itemInfoEditor'
 
 export default class TextStyleEditor extends Component{
     constructor(){
