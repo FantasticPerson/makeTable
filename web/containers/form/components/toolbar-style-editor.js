@@ -6,6 +6,7 @@ import FontStyleEditor from './styleEditorComponent/fontStyleEditor'
 import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
 import TextSetEditor from './styleEditorComponent/textSetEditor'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
+import {findItem} from '../utils/data-helper'
 
 export default class ComponentStyleEditor extends Component{
     constructor(){
@@ -62,13 +63,9 @@ export default class ComponentStyleEditor extends Component{
         const {formStyle,subName} = this.props;
         let formStyleItem = {};
         if(subName == 'viewAdd'){
-            formStyleItem = formStyle.list.find(function(item){
-                return item.isDefault;
-            });
+            formStyleItem = findItem(formStyle.list,'isDefault',true);
         } else {
-            formStyleItem = formStyle.list.find(function (item) {
-                return item.id == formStyle.id;
-            });
+            formStyleItem = findItem(formStyle.list,'id',formStyle.id);
         }
 
         let title = (subName == 'viewAdd' ? '添加样式' : '样式详情');

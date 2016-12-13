@@ -44,6 +44,20 @@ export function getStyleSingleObj(obj){
     return style;
 }
 
+export function findItem(arr,prop,value){
+    if(arr.find){
+        return arr.find(function(item){
+            return item[prop] == value;
+        })
+    } else {
+        for(let i=0;i<arr.length;i++){
+            if(arr[i][prop] == value){
+                return arr[i];
+            }
+        }
+    }
+}
+
 export function getStyleObj(obj1,ob2){
     let style = {
         color:obj1.color,
