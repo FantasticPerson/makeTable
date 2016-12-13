@@ -12,6 +12,7 @@ export default class RightClickMenuModal extends Component{
 
     render() {
         const {cancel} = this.props.data;
+        console.log(this.props.data.posInfo);
         return (
             <BaseModal bgClassName="right_click_menu_bg_class_name">
                 <div className="right_click_context_menu_container" onClick={()=>{cancel()}}>

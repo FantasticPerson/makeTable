@@ -108,8 +108,16 @@ export function getStyleObj(obj1,ob2){
             pStyle.fontStyle = 'normal'
         }
     }
-    if(ob2.showBorder){
-
+    let fontStyleA = ob2.fontStyleArray ? ob2.fontStyleArray : obj1.fontStyleArray;
+    if(fontStyleA[0]){
+        pStyle.fontWeight = 'bold';
+    } else {
+        pStyle.fontWeight = 'normal';
+    }
+    if(fontStyleA[1]){
+        pStyle.fontStyle = 'italic'
+    } else {
+        pStyle.fontStyle = 'normal'
     }
     return {...style,...pStyle};
 }
