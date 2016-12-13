@@ -35,7 +35,7 @@ export default class  StyleEditorItemPicker extends Component{
         } else if(type == editorColorPicker){
             return <ColorPicker1 ref="pickerItem" color={data.color ? data.color : null}/>
         } else if(type == editorTextPicker){
-            return <input ref='pickerItem' type="text" defaultValue={(data.text?data.text:'')}/>
+            return <input style={{borderBottom: '1px solid #333'}} ref='pickerItem' type="text" defaultValue={(data.text?data.text:'')}/>
         } else if(type == editorOptionPicker){
             return <OptionDataAddTool ref='pickerItem' dataArray={data.dataArray ? data.dataArray:[]}/>
         }
