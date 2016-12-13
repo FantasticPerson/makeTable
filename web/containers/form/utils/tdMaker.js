@@ -208,7 +208,7 @@ export function getNode(tdIds,index=0){
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onClick={(e)=>{
+        return (<td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();

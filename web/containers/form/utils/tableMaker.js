@@ -45,6 +45,8 @@ export function registerFunc(functionArray){
     this.deleteComponent = deleteComponent;
     this.exportData = exportData;
     this.checkIsValid = checkIsValid;
+    this.getItemWidth = getItemWidth;
+    this.getItemHeight = getItemHeight;
     this.onDeleteComponent = onDeleteComponent;
 }
 
@@ -228,21 +230,48 @@ export function merge(tdArr){
         }
     }
 
-    console.log(this.checkIsValid());
+    // console.log(this.checkIsValid());
 
     this.setTdSize();
     return true;
 }
 
 export function checkIsValid(){
-    for(let i=0;i<this.tds.length;i++){
-        let hasOne = false;
-        for(let j=0;j<this.tds[i].length;j++){
-            if(this.tds[i][j].mockType == 0){
-                hasOne = true;
+    for(let i=0;i<this.tds[0].length;i++){
+        let minWidth = 1000;
+        let maxWidth = -1;
+        for(let j=0;j<this.tds.length;j++){
+            let width = this.getItemWidth(this.tds[j][i]);
+            if(minWidth > width){
+                minWidth = width;
+            }
+            if(maxWidth < width){
+                maxWidth = width;
             }
         }
-        if(!hasOne){
+        if(minWidth >1 && minWidth == maxWidth){
+            i = i + minWidth -1;
+        }
+        if(maxWidth == 0 || (minWidth > 1 && minWidth != maxWidth)){
+            return false;
+        }
+    }
+    for(let i=0;i<this.tds[0].length;i++){
+        let minHeight = 1000;
+        let maxHeight = -1;
+        for(let j=0;j<this.tds.length;j++){
+            let height = this.getItemWidth(this.tds[j][i]);
+            if(minHeight > height){
+                minHeight = height;
+            }
+            if(maxHeight < height){
+                maxHeight = height;
+            }
+        }
+        if(minHeight > 1 && minHeight == maxHeight){
+            i = i + minHeight -1;
+        }
+        if(maxHeight == 0 || (minHeight > 1 && minHeight != maxHeight)){
             return false;
         }
     }
@@ -290,6 +319,42 @@ export function split(id){
     }
 }
 
+export function getItemWidth(item){
+    if(item.mockType > 0){
+        return 0;
+    }
+    const {x,y} = item.posInfo;
+    let length = this.tds[y].length;
+    let tWidth = 1;
+    for(let i =x+1;i<length;i++){
+        if([1,3].indexOf(this.tds[y][i].mockType) > 0){
+            tWidth++;
+        } else {
+            break;
+        }
+    }
+    return tWidth;
+}
+
+export function getItemHeight(item){
+    if(item.mockType > 0){
+        return 0;
+    }
+    const {x,y} = item.posInfo;
+    let length  = this.tds.length;
+    let tHeight = 1;
+    for(let i = y+1;i<length;i++){
+        if([2,3].indexOf(this.tds[i][x]) > 0){
+            tHeight++;
+        } else {
+            break;
+        }
+    }
+    return tHeight;
+}
+
+
+
 export function setTdSize(){
     let xLength = this.tds[0].length;
     let yLength = this.tds.length;
@@ -310,7 +375,7 @@ export function setTdSize(){
                     }
                 }
                 for(let l=i+1;l<yLength;l++){
-                    if([2,4].indexOf(this.tds[l][j].mockType) >= 0){
+                    if([2,3].indexOf(this.tds[l][j].mockType) >= 0){
                         cHeight += 1;
                     } else {
                         break;

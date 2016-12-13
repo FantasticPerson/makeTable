@@ -8,7 +8,18 @@ import * as overLayNames from '../constants/OverLayNames'
 export function showOverLayByName(overLayName,data = null){
     return (dispatch,getState)=>{
         let list = getState().view.overLayList.map((item)=> {return item;});
-        let item = list.find(function(item){return item.name == overLayName});
+        //let item = list.find(function(item){return item.name == overLayName});
+        let item;
+        if(list.find){
+            item = list.find(function(item){return item.name == overLayName});
+        } else {
+            for(let i=0;i<list.length;i++){
+                if(list[i].name == overLayName){
+                    item = list[i];
+                    break;
+                }
+            }
+        }
         if(item){
             return;
         }
