@@ -16,7 +16,7 @@ export default class ToolbarRecover extends Component {
                     height: '70px',
                     backgroundColor: '#fff',
                     border: '1px solid #eee',
-                    marginLeft: '455px',
+                    marginLeft: '215px',
                     marginTop: '46px',
                     posInfo:'inherit'
                 }}>

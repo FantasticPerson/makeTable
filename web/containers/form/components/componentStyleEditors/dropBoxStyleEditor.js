@@ -51,9 +51,9 @@ export default class DropBoxStyleEditor extends Component{
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
                 <OptionDataEditor ref="optionDataEditor1" data={{dataArray:getArrayCopy(style.dataArray ? style.dataArray : [])}}/>
-                <FontStyleEditor ref="fontStyle1" data={{style:style}}/>
-                <ComponentPositionStyleEditor ref="positionEditor" data={{style:style}}/>
                 <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
+                <ComponentPositionStyleEditor ref="positionEditor" data={{style:style}}/>
+                <FontStyleEditor ref="fontStyle1" data={{style:style}}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>

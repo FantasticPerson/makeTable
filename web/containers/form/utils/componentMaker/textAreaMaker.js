@@ -19,7 +19,7 @@ export default class TextAreaMaker extends Object{
         this.id = recoverData ? recoverData.id : id;
         this.styleArr = styleArr;
         this.styleId = recoverData ? recoverData.styleId : styleId;
-        this.style = recoverData ? recoverData.style : {fontStyleArray:[false,false]};
+        this.style = recoverData ? recoverData.style : {fontStyleArray:[false,false],width:120,height:55};
         this.value = recoverData ? recoverData.value : '';
         this.propName = 'default';
         this.propId = ''+this.tdId+this.id;

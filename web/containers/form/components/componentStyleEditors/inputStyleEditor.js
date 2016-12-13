@@ -48,9 +48,9 @@ export default class TextStyleEditor extends Component{
                 <div className="abc-form-component-text-style-editor-container-header">
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
-                <FontStyleEditor ref="fontStylePicker" data={{style:style}}/>
-                <ComponentPositionStyleEditor ref="componentStylePicker" data={{style:style}}/>
                 <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
+                <ComponentPositionStyleEditor ref="componentStylePicker" data={{style:style}}/>
+                <FontStyleEditor ref="fontStylePicker" data={{style:style}}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>

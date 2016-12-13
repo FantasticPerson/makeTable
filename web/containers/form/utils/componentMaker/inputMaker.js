@@ -21,7 +21,7 @@ export default class InputMaker extends Object{
         this.type = componentInput;
         this.id = recoverData ? recoverData.id : id;
         this.styleId = recoverData ? recoverData.styleId : styleId;
-        this.style = recoverData ? recoverData.style : {};
+        this.style = recoverData ? recoverData.style : {width:120,height:25.33};
         this.value = recoverData ? recoverData.value : "点击编辑内容";
         this.propName = 'default';
         this.propId = ''+this.tdId+this.id;

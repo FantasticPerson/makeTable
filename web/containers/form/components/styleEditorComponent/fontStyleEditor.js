@@ -24,7 +24,6 @@ export default class FontStyleEditor extends Component{
         const {style} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <StyleEditorItemPicker ref="fontColorPicker" type={editorColorPicker} title="文字颜色" data={{color:style.color}}/>
                 <div style={{
                     width:'300px',
                     display:'flex',
@@ -42,6 +41,7 @@ export default class FontStyleEditor extends Component{
                 }}>
                     <StyleEditorItemPicker ref="fontSizePicker" type={editorNumberPicker} title="文字大小" data={{size:style.fontSize}}/>
                 </div>
+                <StyleEditorItemPicker ref="fontColorPicker" type={editorColorPicker} title="文字颜色" data={{color:style.color}}/>
             </div>
         )
     }

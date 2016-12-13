@@ -21,6 +21,29 @@ export function checkArrayEqual(arr1,arr2){
     return true;
 }
 
+export function getStyleSingleObj(obj){
+    // borderColor:'#FF0000',
+    //     borderSize:1,
+    //     color:'#FF0000',
+    //     fontSize:20,
+    //     fontFamily:'SimSun',
+    //     isDefault:true,
+    //     name:'样式一',
+    //     id:1,
+    //     fontStyleArray:[false,false],
+    //     textAlign:'center'
+    let style = {};
+    style.border = obj.borderSize + 'px solid ' + obj.borderColor;
+    style.color = obj.color;
+    style.fontSize = obj.fontSize + 'px';
+    style.fontFamily = obj.fontFamily;
+    style.textAlign = obj.textAlign;
+    style.fontStyle = obj.fontStyleArray[1] ? 'italic' : 'normal';
+    style.fontWeight = obj.fontStyleArray[0] ? 'bold' : 'normal';
+
+    return style;
+}
+
 export function getStyleObj(obj1,ob2){
     let style = {
         color:obj1.color,

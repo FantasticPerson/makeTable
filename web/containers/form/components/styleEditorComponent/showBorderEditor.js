@@ -25,7 +25,7 @@ export default class ShowBorderEditor extends Component{
                     flexDirection:'row',
                     justifyContent:'space-between'
                 }}>
-                    <StyleEditorItemPicker ref="itemPicker" type={editorCheckBoxPicker} title="文字字体"  data={{valueArray:showBorderArray,selectedArray:selectedArray ? selectedArray : []}}/>
+                    <StyleEditorItemPicker ref="itemPicker" type={editorCheckBoxPicker} title="显示边框"  data={{valueArray:showBorderArray,selectedArray:selectedArray ? selectedArray : []}}/>
                 </div>
             </div>
         )
