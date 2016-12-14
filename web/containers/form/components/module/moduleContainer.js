@@ -14,7 +14,7 @@ export default class ModuleContainer extends Component{
 
         let moduleItemArray = moduleArray.map((item,index)=>{
             return (
-                <div style={{
+                <div key={index} style={{
                     width: '180px',
                     height: '250px',
                     display: 'flex',

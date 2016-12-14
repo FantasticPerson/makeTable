@@ -185,16 +185,16 @@ export function getNode(tdIds,index=0){
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();
-                    if(e.component){
-                        this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);
-                    } else {
+                    {/*if(e.component){*/}
+                        {/*this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);*/}
+                    {/*} else {*/}
                         if (bgColor == '#eeeeee') {
                             this.onTdContext({pageX: e.pageX, pageY: e.pageY});
                         } else {
                             this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
                         }
-                    }
-                    e.component = null;
+                    {/*}*/}
+                    {/*e.component = null;*/}
                 }} onDragOver={(e)=>{
                     e.preventDefault()
                 }} onDrop={(e)=>{
