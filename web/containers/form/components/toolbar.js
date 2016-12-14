@@ -81,7 +81,13 @@ export default class ToolBar extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-container-right">
-                        <div className="true-form-save-icon" style={{cursor:'pointer'}} onClick={(e)=>{exportData()}}></div>
+                        <div className="true-form-save-icon-container" onClick={(e)=>{exportData()}}>
+                            <div className="true-form-save-icon" style={{width:'14px',height:'14px'}} ></div>
+                            <div className="abc-form-tool-bar-container-left-item-text"
+                                 style={{color:'#000000'}}>
+                                {'保存'}
+                            </div>
+                        </div>
                         <div className="true-form-print-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
                         <div className="true-form-question-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
                         <div className="abc-form-tool-bar-container-left-item" style={{
@@ -89,7 +95,13 @@ export default class ToolBar extends Component{
                             marginLeft: '20px'
                         }} onClick={()=>{
                             showModuleView();
-                        }}>{'模板'}</div>
+                        }}>
+                            <div className="true-form-tool-bar-style-style-1" style={{width:'14px',height:'18px'}}></div>
+                            <div className="abc-form-tool-bar-container-left-item-text"
+                                 style={{color:'#000000'}}>
+                                {'模板'}
+                            </div>
+                        </div>
                         <div className="abc-form-tool-bar-container-left-item" ref="styleEditor"
                              style={{backgroundColor:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color1,marginLeft:'20px'}}
                              onClick={()=>{this.onToolClick(toolStyle)}}>

@@ -57,13 +57,14 @@ export default class  StyleEditorItemPicker extends Component{
 
     render(){
         const {title,type} = this.props;
-        let width = (type == editorColorPicker ? '250px' : (type == editorTextPicker ? '250px' : '150px'));
+        let width = (type == editorColorPicker ? '250px' : (type == editorTextPicker ? '250px' : '144px'));
         if(type == editorOptionPicker){
             width = '280px'
         }
         if(type == editorCheckBoxPicker && title != '文字样式'){
             width = '200px';
         }
+
         let marginTop = type == editorOptionPicker ? '-95px' : '3px';
         return (
             <div style={{
@@ -76,7 +77,7 @@ export default class  StyleEditorItemPicker extends Component{
                 <div  style={{
                     marginTop: marginTop,
                     marginRight: '3px',
-                    width: '48px'
+                    width: '50px'
                 }}>{title}</div>
                 <div className="abc-form-tool-bar-style-editor-drop-box-picker">
                     {this.renderEditor()}

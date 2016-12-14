@@ -11,7 +11,7 @@ let BUILD_TIME_STR = buildDate.toString();
 
 function headerEmbedJs(options) {
     return `
-      window.__APP_NAME__ = "true.form";
+      window.__APP_NAME__ = "中威可视化布局系统";
       window.__VERSION__ = "0.0.1";
       window.__APP_ENV__ = "dev";
       window.__DEBUG__ = ${DEV_CONST.APP_DEBUG};
@@ -78,7 +78,7 @@ function htmlWebpackPluginConfig(options) {
     }
 
     return {
-        title: 'true.form',
+        title: '中威可视化布局系统',
         version: '0.0.1',
         favicon: DEV_CONST.ASSETS_ICONS_16X16_ICON,
         minify: minifyConfig(),

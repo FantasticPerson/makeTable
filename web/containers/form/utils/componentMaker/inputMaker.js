@@ -22,7 +22,7 @@ export default class InputMaker extends Object{
         this.id = recoverData ? recoverData.id : id;
         this.styleId = recoverData ? recoverData.styleId : styleId;
         this.style = recoverData ? recoverData.style : {width:120,height:25.33};
-        this.value = recoverData ? recoverData.value : "点击编辑内容";
+        this.value = recoverData ? recoverData.value : "";
         this.propName = 'default';
         this.propId = ''+this.tdId+this.id;
     }
@@ -86,14 +86,16 @@ export function getNode(index){
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
     return (
-        <input name={this.propName} id={this.propId} type="text" style={{...cStyle2,textAlign:'left'}} defaultValue={this.value}  key={index}
+        <input name={this.propName} ref='input' id={this.propId} type="text" style={{...cStyle2,textAlign:'left'}} defaultValue={this.value}  key={index}
             onClick={(e)=>{
                 e.stopPropagation();
             }} onContextMenu={(e)=>{
                 e.stopPropagation();
                 e.preventDefault();
                 this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
-            }}
+            }} onChange={(e)=>{
+                this.value = e.currentTarget.value;
+        }}
         />
     )
 }

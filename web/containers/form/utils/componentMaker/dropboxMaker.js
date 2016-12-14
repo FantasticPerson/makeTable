@@ -20,7 +20,7 @@ export default class DropBoxMaker extends Object{
         this.styleArr = styleArr;
         this.styleId = recoverData ? recoverData.styleId : styleId;
         this.style = recoverData ? recoverData.style : {
-            dataArray: ['右击编辑内容'],
+            dataArray: [],
             width: 80,
             height: 42
         };
