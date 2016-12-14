@@ -3,6 +3,7 @@
  */
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import {push} from 'react-router-redux'
 import * as overLayNames from '../constants/OverLayNames';
 
 class App extends Component {
@@ -17,6 +18,11 @@ class App extends Component {
             }
         });
     }
+
+    // componentDidMount(){
+    //     this.props.dispatch(push('formPage'));
+    // }
+
     render(){
         return (
             <div id="react-app">

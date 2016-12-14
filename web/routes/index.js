@@ -14,7 +14,11 @@ const index = {
     childRoutes:[
         demoPage,
         formPage
-    ]
+    ],
+    indexRoute: {
+        onEnter: (nextState, replace)=>replace('/formPage')
+    }
+
 };
 
 export default index;
