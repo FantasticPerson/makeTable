@@ -81,16 +81,15 @@ export default class ToolBar extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-container-right">
-                        <div className="abc-form-tool-bar-container-left-item" style={{
-                            width: '50px',
-                            marginLeft: '20px',
-                            marginRight:'20px'
-                        }} onClick={()=>{
-                            showModuleView();
-                        }}>{'模板'}</div>
                         <div className="true-form-save-icon" style={{cursor:'pointer'}} onClick={(e)=>{exportData()}}></div>
                         <div className="true-form-print-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
                         <div className="true-form-question-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
+                        <div className="abc-form-tool-bar-container-left-item" style={{
+                            width: '50px',
+                            marginLeft: '20px'
+                        }} onClick={()=>{
+                            showModuleView();
+                        }}>{'模板'}</div>
                         <div className="abc-form-tool-bar-container-left-item" ref="styleEditor"
                              style={{backgroundColor:styleArray[subTool.indexOf(toolStyle)>=0 ? 0 : 1].color1,marginLeft:'20px'}}
                              onClick={()=>{this.onToolClick(toolStyle)}}>
