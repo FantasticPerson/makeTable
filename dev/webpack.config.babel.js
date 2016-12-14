@@ -11,7 +11,7 @@ let BUILD_TIME_STR = buildDate.toString();
 
 function headerEmbedJs(options) {
     return `
-      window.__APP_NAME__ = "dandan.wu";
+      window.__APP_NAME__ = "true.form";
       window.__VERSION__ = "0.0.1";
       window.__APP_ENV__ = "dev";
       window.__DEBUG__ = ${DEV_CONST.APP_DEBUG};
