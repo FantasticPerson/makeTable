@@ -22,12 +22,7 @@ export default class ItemInfoEditor extends Component{
         const {propName,propId} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="numberSetter1" type={editorNumberSetter} title="name" data={{number:propName}}/>
                     <StyleEditorItemPicker ref="numberSetter2" type={editorNumberSetter} title="id" data={{number:propId}}/>
                 </div>

@@ -24,21 +24,11 @@ export default class ComponentPositionStyleEditor extends Component{
         const {style} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="numberSetter1" type={editorNumberSetter} title="宽度" data={{number:style.width ? style.width : null}}/>
                     <StyleEditorItemPicker ref="numberSetter2" type={editorNumberSetter} title="高度" data={{number:style.height ? style.height : null}}/>
                 </div>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="numberPicker1" type={editorNumberPicker} title="左间距" data={{size:style.marginLeft ? style.marginLeft : null}}/>
                     <StyleEditorItemPicker ref="numberPicker2" type={editorNumberPicker} title="上间距" data={{size:style.marginTop ? style.marginTop : null}}/>
                 </div>

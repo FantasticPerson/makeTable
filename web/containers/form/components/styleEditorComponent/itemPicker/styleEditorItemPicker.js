@@ -61,7 +61,7 @@ export default class  StyleEditorItemPicker extends Component{
         if(type == editorOptionPicker){
             width = '280px'
         }
-        if(type == editorCheckBoxPicker){
+        if(type == editorCheckBoxPicker && title != '文字样式'){
             width = '200px';
         }
         let marginTop = type == editorOptionPicker ? '-95px' : '3px';

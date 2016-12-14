@@ -19,12 +19,7 @@ export default class OptionDataEditor extends Component{
         const {dataArray} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="itemPicker" type={editorOptionPicker} title="编辑选项"  data={{dataArray:dataArray}}/>
                 </div>
             </div>

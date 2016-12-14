@@ -23,16 +23,9 @@ export default class TdPositionStyleEditor extends Component{
         const {style} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItem ref="numberSetter1" type={editorNumberSetter} title="宽度" data={{number:style.width ? style.width : null}}/>
                     <StyleEditorItem ref="numberSetter2" type={editorNumberSetter} title="高度" data={{number:style.height ? style.height : null}}/>
-                </div>
-                <div>
                     <StyleEditorItem ref="dropBoxPicker" type={editorDropBoxPicker} title="元素布局" data={{groupData:textAlignPosition,selectedValue:style.textAlign}}/>
                 </div>
             </div>

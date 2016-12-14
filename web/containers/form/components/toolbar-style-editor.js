@@ -72,12 +72,12 @@ export default class ComponentStyleEditor extends Component{
         return(
             <div style={{
                 position: 'absolute',
-                marginLeft: '175px',
+                marginLeft: '25px',
                 marginTop: '240px',
                 backgroundColor: '#FFF',
                 border: '1px solid #eee',
-                width: '300px',
-                height: '220px',
+                width: '452px',
+                height: '300px',
                 webkitBoxShadow: '-1px 1px 4px 0 rgba(0, 0, 0, 0.2)'
             }}>
                 <div className="abc-form-tool-bar-style-editor-container-header">

@@ -19,12 +19,7 @@ export default class ShowBorderEditor extends Component{
         const {selectedArray} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="itemPicker" type={editorCheckBoxPicker} title="显示边框"  data={{valueArray:showBorderArray,selectedArray:selectedArray ? selectedArray : []}}/>
                 </div>
             </div>

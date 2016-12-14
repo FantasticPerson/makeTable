@@ -24,24 +24,14 @@ export default class FontStyleEditor extends Component{
         const {style} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
+                <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="fontFamilyPicker" type={editorDropBoxPicker} title="文字字体" data={{groupData:fontFamilyList,selectedValue:style.fontFamily}}/>
+                    <StyleEditorItemPicker ref="fontSizePicker" type={editorNumberPicker} title="文字大小" data={{size:style.fontSize}}/>
                     <StyleEditorItemPicker ref="fontStylePicker" type={editorCheckBoxPicker} title="文字样式" data={{valueArray:fontStyleArray,selectedArray:style.fontStyleArray}}/>
                 </div>
-                <div style={{
-                    width:'300px',
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-between'
-                }}>
-                    <StyleEditorItemPicker ref="fontSizePicker" type={editorNumberPicker} title="文字大小" data={{size:style.fontSize}}/>
-                </div>
+                <div className="style-component-item-style">
                 <StyleEditorItemPicker ref="fontColorPicker" type={editorColorPicker} title="文字颜色" data={{color:style.color}}/>
+                </div>
             </div>
         )
     }
