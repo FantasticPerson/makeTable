@@ -61,7 +61,7 @@ export default class OptionDataAddTool extends Component{
         return (
             <div className="abc-option-data-add-container">
                 <div className="abc-option-data-add-add-container">
-                    <input style={{height:'20px',width:'130px',borderBottom:'1px solid #333'}} type="text" ref={'keyText'}/>
+                    <input style={{height:'20px',width:'130px',border:'1px solid rgb(204, 204, 204)'}} type="text" ref={'keyText'}/>
                     <div className="abc-option-data-data-add-btn" onClick={()=>{this.onAddClick()}}>{'添加'}</div>
                 </div>
                 <div className="abc-option-data-array-container">
