@@ -78,7 +78,7 @@ function htmlWebpackPluginConfig(options) {
     }
 
     return {
-        title: 'dandan.wu',
+        title: 'true.form',
         version: '0.0.1',
         favicon: DEV_CONST.ASSETS_ICONS_16X16_ICON,
         minify: minifyConfig(),
