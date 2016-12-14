@@ -123,7 +123,7 @@ export function setItemStyle(item,style){
     }
     if(style.fontStyleArray){
         item.style.fontWeight = style.fontStyleArray[0] ? 'bold' : 'normal';
-        item.style.fontStyle = style.fontStyleArray[1] ? 'bold' : 'normal';
+        item.style.fontStyle = style.fontStyleArray[1] ? 'italic' : 'normal';
     }
 }
 
