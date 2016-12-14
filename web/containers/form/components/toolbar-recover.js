@@ -17,7 +17,7 @@ export default class ToolbarRecover extends Component {
                     backgroundColor: '#fff',
                     border: '1px solid #eee',
                     marginLeft: '215px',
-                    marginTop: '46px',
+                    marginTop: '55px',
                     posInfo:'inherit'
                 }}>
                 <div className="abc-form-tool-bar-edit-display-container-header">

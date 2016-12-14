@@ -77,7 +77,8 @@ export default class ComponentStyleEditor extends Component{
                 backgroundColor: '#FFF',
                 border: '1px solid #eee',
                 width: '300px',
-                height: '220px'
+                height: '220px',
+                webkitBoxShadow: '-1px 1px 4px 0 rgba(0, 0, 0, 0.2)'
             }}>
                 <div className="abc-form-tool-bar-style-editor-container-header">
                     <div className="abc-form-tool-bar-style-editor-container-header-text">{title}</div>
