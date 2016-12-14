@@ -78,7 +78,7 @@ export function getNode(index){
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
     return (
-        <textarea name={this.propName} id={this.propId} ref='textArea' style={cStyle2} defaultValue={this.value} key={index}
+        <textarea name={this.propName} id={this.propId} ref='textArea' style={{...cStyle2,textAlign:'left'}} defaultValue={this.value} key={index}
                   onChange={(e)=>{
                       this.value = e.currentTarget.value;
                   }}

@@ -48,7 +48,7 @@ export default class ToolBar extends Component{
     }
 
     render(){
-        const {style,exportData} = this.props.data;
+        const {style,exportData,showModuleView} = this.props.data;
         const {subTool,marginLeft} = this.state;
         let styleArray = [{color1:'#eef6fc',color2:'#6998d6'},{color1:'#FFFFFF',color2:'#000000'}];
         return(
@@ -78,6 +78,13 @@ export default class ToolBar extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-container-right">
+                        <div className="abc-form-tool-bar-container-left-item" style={{
+                            width: '50px',
+                            marginLeft: '20px',
+                            marginRight:'20px'
+                        }} onClick={()=>{
+                            showModuleView();
+                        }}>{'模板'}</div>
                         <div className="true-form-save-icon" style={{cursor:'pointer'}} onClick={(e)=>{exportData()}}></div>
                         <div className="true-form-print-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>
                         <div className="true-form-question-icon" style={{marginLeft:'20px',cursor:'pointer',display:'none'}}></div>

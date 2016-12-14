@@ -6,15 +6,16 @@ import {connect} from 'react-redux';
 import * as overLayNames from '../../constants/OverLayNames'
 import ToolBar from './components/toolbar'
 import tableMaker from './utils/tableMaker'
-import {formDefaultStyle,getTableHtml} from './const'
+import {formDefaultStyle,getTableHtml,tableModuleArray} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
+import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
 
 class FormPage extends Component{
     constructor(){
         super();
-        this.state = {tableObj:null,height:window.innerHeight - 60};
+        this.state = {tableObj:null,height:window.innerHeight - 60,showModuleView:false};
         this.tdIds = [];
         this.tableDataTosave = null;
     }
@@ -170,6 +171,44 @@ class FormPage extends Component{
         }
     }
 
+    showModuleView(){
+        const {showModuleView} =this.state;
+        this.setState({showModuleView:!showModuleView})
+    }
+
+    renderContent(){
+        const {showModuleView} = this.state;
+        if(showModuleView){
+            return <ModuleContainer moduleArray={tableModuleArray} importDataFromModule={this.importDataFromModule.bind(this)}/>
+        } else {
+            const {tableObj} = this.state;
+            if(tableObj){
+                return tableObj.getNode(this.tdIds);
+            }
+        }
+    }
+
+    importDataFromModule(data){
+        const {currentStyleId,formStyleMaxId,formStyleList} = data;
+        this.props.dispatch(updateStyleList(formStyleList));
+        this.props.dispatch(updateCurrentStyleId(currentStyleId));
+        this.props.dispatch(updateMaxId(formStyleMaxId));
+        setTimeout(function(){
+            this.tdIds = [];
+            const {formStyleList,dispatch} = this.props;
+            let functionArray = {
+                onTdClick:this.onTdClick.bind(this),
+                onTdContext:this.onTdContext.bind(this),
+                onComponentDrop:this.onComponentDrop.bind(this),
+                onComponentContext:this.onComponentContext.bind(this),
+                afterUpdateStyle:this.afterUpdateStyle.bind(this),
+                onDeleteComponent:this.deleteComponent.bind(this)
+            };
+            let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,data);
+            this.setState({tableObj:tableObj2,showModuleView:false});
+        }.bind(this),20);
+    }
+
     importData(recoverData){
         if(recoverData){
             this.tableDataTosave = recoverData;
@@ -196,9 +235,8 @@ class FormPage extends Component{
     }
 
     render(){
-        const {tableObj,height} = this.state;
+        const {height} = this.state;
         const {dispatch,formStyleList,formStyleId,formStyleMaxId} = this.props;
-        let node = tableObj ? tableObj.getNode(this.tdIds) : null;
         let formStyle = {list:formStyleList,id:formStyleId,maxId:formStyleMaxId};
         let toolBarData = {formStyle:formStyle,dispatch:dispatch,style:{position:'absolute'}};
         toolBarData = {
@@ -206,7 +244,8 @@ class FormPage extends Component{
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
             generateTable:this.generateTable.bind(this),
             exportData:this.exportData.bind(this),
-            importData:this.importData.bind(this)
+            importData:this.importData.bind(this),
+            showModuleView:this.showModuleView.bind(this)
         };
         return(
             <div className="abc-form-container">
@@ -232,7 +271,7 @@ class FormPage extends Component{
                             display: 'flex',
                             justifyContent: 'center'
                         }}>
-                            {node}
+                            {this.renderContent()}
                         </div>
                     </div>
                 </div>

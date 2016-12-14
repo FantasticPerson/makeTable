@@ -22,16 +22,6 @@ export function checkArrayEqual(arr1,arr2){
 }
 
 export function getStyleSingleObj(obj){
-    // borderColor:'#FF0000',
-    //     borderSize:1,
-    //     color:'#FF0000',
-    //     fontSize:20,
-    //     fontFamily:'SimSun',
-    //     isDefault:true,
-    //     name:'样式一',
-    //     id:1,
-    //     fontStyleArray:[false,false],
-    //     textAlign:'center'
     let style = {};
     style.border = obj.borderSize + 'px solid ' + obj.borderColor;
     style.color = obj.color;
@@ -58,68 +48,55 @@ export function findItem(arr,prop,value){
     }
 }
 
-export function getStyleObj(obj1,ob2){
+export function getStyleObj(obj1,obj2){
     let style = {
         color:obj1.color,
         fontFamily:obj1.fontFamily,
-        fontSize:obj1.fontSize+'px',
-        fontStyleArray:obj1.fontStyleArray
+        fontSize:obj1.fontSize,
+        fontStyleArray:obj1.fontStyleArray,
+        borderSize:obj1.borderSize,
+        borderColor:obj1.borderColor,
+        textAlign:obj1.textAlign
     };
-    let pStyle = {};
-    if(ob2.fontWeight){
-        pStyle.fontWeight = ob2.fontWeight;
+    let pStyle = {...style,...obj2};
+    if(pStyle.marginLeft){
+        pStyle.marginLeft = pStyle.marginLeft + 'px';
     }
-    if(ob2.textAlign){
-        pStyle.textAlign = ob2.textAlign;
+    if(pStyle.marginTop){
+        pStyle.marginTop = pStyle.marginTop + 'px';
     }
-    if(ob2.color){
-        pStyle.color = ob2.color;
+    if(pStyle.width){
+        pStyle.width = pStyle.width + 'px';
     }
-    if(ob2.fontSize){
-        pStyle.fontSize = ob2.fontSize + 'px';
+    if(pStyle.height){
+        pStyle.height = pStyle.height + 'px';
     }
-    if(ob2.fontFamily){
-        pStyle.fontFamily = ob2.fontFamily;
-    }
-    if(ob2.marginLeft){
-        pStyle.marginLeft = ob2.marginLeft + 'px';
-    }
-    if(ob2.marginTop){
-        pStyle.marginTop = ob2.marginTop + 'px';
-    }
-    if(ob2.width){
-        pStyle.width = ob2.width + 'px';
-    }
-    if(ob2.height){
-        pStyle.height = ob2.height + 'px';
-    }
-    if(ob2.fontStyleArray){
-        pStyle.fontStyleArray = ob2.fontStyleArray;
-    }
-    if(pStyle.fontStyleArray){
-        if(pStyle.fontStyleArray[0]){
-            pStyle.fontWeight = 'bold';
+    if(pStyle.showBorder){
+        if(pStyle.showBorder[0]) {
+            pStyle.borderTop = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
         } else {
-            pStyle.fontWeight = 'normal';
+            pStyle.borderTopColor = "#FFF";
         }
-        if(pStyle.fontStyleArray[1]){
-            pStyle.fontStyle = 'italic'
+        if(pStyle.showBorder[1]) {
+            pStyle.borderBottom = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
         } else {
-            pStyle.fontStyle = 'normal'
+            style.borderBottomColor = "#FFF";
+        }
+        if(pStyle.showBorder[2]) {
+            pStyle.borderLeft = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
+        } else{
+            style.borderLeftColor = "#FFF";
+        }
+        if(pStyle.showBorder[3]) {
+            pStyle.borderRight = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
+        }else {
+            pStyle.borderRightColor = "#FFF";
         }
     }
-    let fontStyleA = ob2.fontStyleArray ? ob2.fontStyleArray : obj1.fontStyleArray;
-    if(fontStyleA[0]){
-        pStyle.fontWeight = 'bold';
-    } else {
-        pStyle.fontWeight = 'normal';
-    }
-    if(fontStyleA[1]){
-        pStyle.fontStyle = 'italic'
-    } else {
-        pStyle.fontStyle = 'normal'
-    }
-    return {...style,...pStyle};
+    pStyle.fontSize = pStyle.fontSize + 'px';
+    pStyle.fontWeight = pStyle.fontStyleArray[0] ? 'bold' : 'normal';
+    pStyle.fontStyle = pStyle.fontStyleArray[1] ? 'italic' : 'normal';
+    return pStyle;
 }
 
 export function setItemStyle(item,style){
@@ -144,20 +121,9 @@ export function setItemStyle(item,style){
     if(style.height) {
         item.style.height = style.height + 'px';
     }
-    if(style.fontWeight){
-        item.style.fontWeight = style.fontWeight;
-    }
     if(style.fontStyleArray){
-        if(style.fontStyleArray[0]){
-            item.style.fontWeight = 'bold';
-        } else {
-            item.style.fontWeight = 'normal';
-        }
-        if(style.fontStyleArray[1]){
-            item.style.fontStyle = 'italic';
-        } else {
-            item.style.fontStyle = 'normal';
-        }
+        item.style.fontWeight = style.fontStyleArray[0] ? 'bold' : 'normal';
+        item.style.fontStyle = style.fontStyleArray[1] ? 'bold' : 'normal';
     }
 }
 
@@ -184,14 +150,11 @@ export function getStyleSet(style,styleObj){
     if(styleObj.height && style.height != styleObj.height){
         cStyle.height = styleObj.height;
     }
+    if(styleObj.textAlign && style.textAlign != styleObj.textAlign){
+        cStyle.textAlign = styleObj.textAlign;
+    }
     if(styleObj.dataArray && (!style.dataArray || !checkArrayEqual(style.dataArray,styleObj.dataArray)) && styleObj.dataArray.length>0){
         cStyle.dataArray = styleObj.dataArray;
-    }
-    if(styleObj.textAlign && (!style.textAlign || style.textAlign != styleObj.textAlign)){
-        cStyle.textAlign = styleObj.textAlign
-    }
-    if(styleObj.fontWeight && style.fontWeight != styleObj.fontWeight){
-        cStyle.fontWeight = styleObj.fontWeight;
     }
     if(styleObj.fontStyleArray && !checkArrayEqual(styleObj.fontStyleArray,style.fontStyleArray)){
         cStyle.fontStyleArray = styleObj.fontStyleArray;

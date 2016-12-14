@@ -16,7 +16,7 @@ export default class tdMaker extends Object{
         this.posInfo = recoverData ? recoverData.posInfo : posInfo;
         this.styleArr = styleArr;
         this.style = recoverData ? recoverData.style : {
-            height: '60',
+            height: 60,
             showBorder: [true, true, true, true]
         };
         this.mockType = recoverData ? recoverData.mockType : mockType;
@@ -175,34 +175,7 @@ export function getNode(tdIds,index=0){
         // style.width = cCol /tCol * 100 + '%';
         // style.height = height+'px';
         // style.height = cRow /tRow * 100+'%';
-        const {showBorder} = this.style;
-        if(showBorder[0]) {
-            style.borderTop = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
-        } else {
-            style.borderTopColor = "#FFF";
-        }
-        if(showBorder[1]) {
-            style.borderBottom = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
-        } else {
-            style.borderBottomColor = "#FFF";
-        }
-        if(showBorder[2]) {
-            style.borderLeft = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
-        } else{
-            style.borderLeftColor = "#FFF";
-        }
-        if(showBorder[3]) {
-            style.borderRight = cStyle.borderSize + 'px solid ' + cStyle.borderColor;
-        }else {
-            style.borderRightColor = "#FFF";
-        }
-        if(cStyle.textAlign){
-            style.textAlign = cStyle.textAlign;
-        }
-        if(this.style.textAlign){
-            style.textAlign = this.style.textAlign;
-        }
-        let getStyle = getStyleObj(cStyle,this.style);
+        let getStyle = getStyleObj(cStyle,{...this.style});
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         const components = this.componentArray.map((item,index)=>{
