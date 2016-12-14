@@ -53,7 +53,10 @@ export default class ToolBar extends Component{
         let styleArray = [{color1:'#eef6fc',color2:'#6998d6'},{color1:'#FFFFFF',color2:'#000000'}];
         return(
             <div>
-                <div className="abc-form-tool-bar-container" style={style}>
+                <div className="abc-form-tool-bar-container abc-common-box-shadow" style={{
+                    ...style,
+                    boxShadow:'-2px 2px 8px 0 rgba(0,0,0,0.4)'
+                }}>
                     <div className="abc-form-tool-bar-container-left">
                         <div className="abc-form-tool-bar-container-left-item"
                              style={{backgroundColor:styleArray[subTool.indexOf(toolEdit)>=0 ? 0 : 1].color1}}
