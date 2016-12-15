@@ -20,11 +20,15 @@ class FormPage extends Component{
         this.tableDataTosave = null;
     }
 
-    onTdClick(id){
-        if(this.tdIds.indexOf(id) >= 0){
-            this.tdIds.splice(this.tdIds.indexOf(id),1);
-        } else if(this.tdIds.indexOf(id) < 0){
-            this.tdIds.push(id);
+    onTdClick(id,isEdit=false){
+        if(!isEdit) {
+            if (this.tdIds.indexOf(id) >= 0) {
+                this.tdIds.splice(this.tdIds.indexOf(id), 1);
+            } else if (this.tdIds.indexOf(id) < 0) {
+                this.tdIds.push(id);
+            }
+        } else {
+            this.tdIds = [];
         }
         const {tableObj} = this.state;
         this.setState({tableObj: tableObj});

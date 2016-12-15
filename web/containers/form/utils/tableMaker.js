@@ -59,7 +59,7 @@ export function initTds(recoverData){
         onComponentContext: this.onComponentContext,
         afterUpdateStyle: this.afterUpdateStyle,
         onDeleteComponent: this.onDeleteComponent,
-        deleteRow:this.deleteRow
+        deleteRow:this.deleteRow.bind(this)
     };
     const {row, col, width, height} = this.posInfo;
     if(!recoverData) {
@@ -329,7 +329,7 @@ export function getItemWidth(item){
     let length = this.tds[y].length;
     let tWidth = 1;
     for(let i =x+1;i<length;i++){
-        if([1,3].indexOf(this.tds[y][i].mockType) > 0){
+        if([1,3].indexOf(this.tds[y][i].mockType) >= 0){
             tWidth++;
         } else {
             break;
@@ -346,7 +346,7 @@ export function getItemHeight(item){
     let length  = this.tds.length;
     let tHeight = 1;
     for(let i = y+1;i<length;i++){
-        if([2,3].indexOf(this.tds[i][x]) > 0){
+        if([2,3].indexOf(this.tds[i][x].mockType) >= 0){
             tHeight++;
         } else {
             break;
@@ -430,7 +430,32 @@ export function getItemById(id){
 }
 
 export function deleteRow(id){
+    let item = this.getItemById(id);
+    if(item && item.mockType == 0){
+        let iHeight = this.getItemHeight(item);
+        const {x,y} = item.posInfo;
+        let tdArr = this.tds[y];
+        let i = 0;
+        while (i<tdArr.length){
+            let item = this.tds[y][i];
+            let width1 = this.getItemWidth(item);
+            let height1 = this.getItemHeight(item);
 
+            console.log(width1);
+            if(height1 != iHeight){
+                return false;
+            }
+            i = i+width1;
+        }
+        this.tds.splice(y,iHeight);
+        for(let i=y;i<this.tds.length;i++){
+            for(let j=0;j<this.tds[i].length;j++){
+                this.tds[i][j].posInfo.y -= iHeight;
+            }
+        }
+        this.onTdClick(-1,true);
+        console.log(this.tds);
+    }
 }
 
 export function getNode(ids){

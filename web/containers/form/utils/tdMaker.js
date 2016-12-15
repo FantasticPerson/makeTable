@@ -50,13 +50,14 @@ export default class tdMaker extends Object{
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,deleteRow} = functionArray;
     this.onTdClick = onTdClick;
     this.onComponentContext = onComponentContext;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
     this.afterUpdateStyle = afterUpdateStyle;
     this.onDeleteComponent = onDeleteComponent;
+    this.deleteRow = deleteRow;
     this.setComponentStyle = setComponentStyle;
     this.insertComponent = insertComponent;
     this.getNode = getNode;
@@ -196,7 +197,7 @@ export function getNode(tdIds,index=0){
                         {/*this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);*/}
                     {/*} else {*/}
                         if (bgColor == '#eeeeee') {
-                            this.onTdContext({pageX: e.pageX, pageY: e.pageY,id:this.id});
+                            this.onTdContext({pageX: e.pageX, pageY: e.pageY,id:this.id,deleteRow:this.deleteRow});
                         } else {
                             this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
                         }

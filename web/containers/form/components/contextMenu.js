@@ -10,8 +10,9 @@ export default class ContextMenu extends Component{
 
     render(){
         const {posInfo,merge,split,cancel} = this.props.data;
-        const {pageX,pageY} = posInfo;
-        let marginTop = window.innerHeight < 92 + pageY ? (window.innerHeight - 92 > 0 ? window.innerHeight - 92 : 0) : pageY;
+        console.log(posInfo);
+        const {pageX,pageY,deleteRow,id} = posInfo;
+        let marginTop = window.innerHeight < 96 + pageY ? (window.innerHeight - 96 > 0 ? window.innerHeight - 96 : 0) : pageY;
         let marginLeft = window.innerWidth < 152 + pageX ? (window.innerWidth-152>0?window.innerWidth-152:0) : pageX;
 
         return (
@@ -22,7 +23,7 @@ export default class ContextMenu extends Component{
                 <div className="abc-form-context-menu-split" onClick={()=>{split()}}>
                     <div className="abc-form-context-menu-split-text">{'拆分选中的单元格'}</div>
                 </div>
-                <div className="abc-form-context-menu-close">
+                <div className="abc-form-context-menu-close" onClick={()=>{deleteRow(id)}}>
                     <div className="abc-form-context-menu-close-text">{'删除行'}</div>
                 </div>
                 <div className="abc-form-context-menu-close" onClick={()=>{cancel()}}>
