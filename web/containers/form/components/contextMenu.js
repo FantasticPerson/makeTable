@@ -22,6 +22,9 @@ export default class ContextMenu extends Component{
                 <div className="abc-form-context-menu-split" onClick={()=>{split()}}>
                     <div className="abc-form-context-menu-split-text">{'拆分选中的单元格'}</div>
                 </div>
+                <div className="abc-form-context-menu-close">
+                    <div className="abc-form-context-menu-close-text">{'删除行'}</div>
+                </div>
                 <div className="abc-form-context-menu-close" onClick={()=>{cancel()}}>
                     <div className="abc-form-context-menu-close-text">{'取消'}</div>
                 </div>

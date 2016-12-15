@@ -27,6 +27,7 @@ export default class tdMaker extends Object{
         this.componentArray = [];
         this.propName = 'default';
         this.propId = ''+this.id;
+        this.hasChanged = false;
         this.onContextMenuShow = onContextMenuShow;
         this.onSetStyleConfirm = onSetStyleConfirm;
 
@@ -108,8 +109,11 @@ export function exportData(){
     }
 }
 
-export function setStyle(styleArr){
+export function setStyle(styleArr,styleId){
     this.styleArr = styleArr;
+    if(!this.hasChanged){
+        this.styleId = styleId;
+    }
     for(let i=0;i<this.componentArray.length;i++){
         this.componentArray[i].setStyle(styleArr);
     }
@@ -118,6 +122,9 @@ export function setStyle(styleArr){
 export function onSetStyleConfirm(style,text,item,props){
     if(this.value != text){
         this.value = text;
+        if(!this.hasChanged && this.value != ''){
+            this.hasChanged = true;
+        }
     }
     this.style = {...this.style,...style};
     this.propName = props.propName;
@@ -189,7 +196,7 @@ export function getNode(tdIds,index=0){
                         {/*this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);*/}
                     {/*} else {*/}
                         if (bgColor == '#eeeeee') {
-                            this.onTdContext({pageX: e.pageX, pageY: e.pageY});
+                            this.onTdContext({pageX: e.pageX, pageY: e.pageY,id:this.id});
                         } else {
                             this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
                         }

@@ -77,8 +77,8 @@ class FormPage extends Component{
     afterUpdateStyle(){
         const {tableObj} = this.state;
         if(tableObj){
-            const {formStyleList} = this.props;
-            tableObj.setStyle(formStyleList);
+            const {formStyleList,formStyleId} = this.props;
+            tableObj.setStyle(formStyleList,formStyleId);
             this.setState({tableObj: tableObj})
         }
     }

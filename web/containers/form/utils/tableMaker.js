@@ -47,6 +47,7 @@ export function registerFunc(functionArray){
     this.checkIsValid = checkIsValid;
     this.getItemWidth = getItemWidth;
     this.getItemHeight = getItemHeight;
+    this.deleteRow = deleteRow;
     this.onDeleteComponent = onDeleteComponent;
 }
 
@@ -57,7 +58,8 @@ export function initTds(recoverData){
         onComponentDrop: this.onComponentDrop,
         onComponentContext: this.onComponentContext,
         afterUpdateStyle: this.afterUpdateStyle,
-        onDeleteComponent: this.onDeleteComponent
+        onDeleteComponent: this.onDeleteComponent,
+        deleteRow:this.deleteRow
     };
     const {row, col, width, height} = this.posInfo;
     if(!recoverData) {
@@ -106,11 +108,11 @@ export function setComponentStyle(tdId,componentId,style){
     }
 }
 
-export function setStyle(styleArr){
+export function setStyle(styleArr,styleId){
     this.styleArr = styleArr;
     for(let i=0;i<this.tds.length;i++){
         for(let j=0;j<this.tds[i].length;j++){
-            this.tds[i][j].setStyle(styleArr);
+            this.tds[i][j].setStyle(styleArr,styleId);
         }
     }
     this.header.setStyle(styleArr);
@@ -425,6 +427,10 @@ export function getItemById(id){
         }
     }
     return null;
+}
+
+export function deleteRow(id){
+
 }
 
 export function getNode(ids){
