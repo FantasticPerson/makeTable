@@ -10,7 +10,6 @@ export default class ContextMenu extends Component{
 
     render(){
         const {posInfo,merge,split,cancel} = this.props.data;
-        console.log(posInfo);
         const {pageX,pageY,deleteTd,id,addTd} = posInfo;
         let marginTop = window.innerHeight < 274 + pageY ? (window.innerHeight - 274 > 0 ? window.innerHeight - 274 : 0) : pageY;
         let marginLeft = window.innerWidth < 152 + pageX ? (window.innerWidth-152>0?window.innerWidth-152:0) : pageX;

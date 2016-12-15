@@ -33,7 +33,6 @@ export function setStyle(styleArr){
 }
 
 export function onSetStyleConfirm(style,item,props){
-    console.log(style);
     setItemStyle(item,style);
     this.style = {...this.style,...style};
     this.propName = props.propName;

@@ -440,6 +440,7 @@ export function addTd(id,isRow,isBefore) {
     let item = this.getItemById(id);
     if(item){
         if(isRow){
+            let length = this.tds[0].length;
             let iHeight = this.getItemHeight(item);
             const {x,y} = item.posInfo;
             let tdArr = this.tds[y];
@@ -459,7 +460,7 @@ export function addTd(id,isRow,isBefore) {
                 this.tds.splice(y,0,[]);
             }
             let insertY = isBefore ? y : y+1;
-            for (let i = 0; i < this.tds[0].length; i++) {
+            for (let i = 0; i < length; i++) {
                 this.tds[insertY][i] = this.createTd(i, insertY, null);
             }
             let startY = isBefore ? y+1 : y+2;
@@ -491,7 +492,6 @@ export function addTd(id,isRow,isBefore) {
                 }
             }
             this.onTdClick(-1, true);
-            console.log(this.tds);
         }
     }
 }
@@ -542,7 +542,6 @@ export function deleteTd(id,isRow){
                 }
             }
             this.onTdClick(-1,true);
-            console.log(this.tds);
         }
     }
 }

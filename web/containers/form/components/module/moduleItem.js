@@ -12,7 +12,6 @@ export default class ModuleItem extends Component{
         const {data,classNames,importDataFromModule} = this.props;
         return(
             <div style={{cursor:'pointer'}} className={classNames} onDoubleClick={()=>{
-               console.log(data);
                 importDataFromModule(data);
             }}>
             </div>
