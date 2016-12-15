@@ -47,7 +47,7 @@ export function registerFunc(functionArray){
     this.checkIsValid = checkIsValid;
     this.getItemWidth = getItemWidth;
     this.getItemHeight = getItemHeight;
-    this.deleteRow = deleteRow;
+    this.deleteTd = deleteTd;
     this.onDeleteComponent = onDeleteComponent;
 }
 
@@ -59,7 +59,7 @@ export function initTds(recoverData){
         onComponentContext: this.onComponentContext,
         afterUpdateStyle: this.afterUpdateStyle,
         onDeleteComponent: this.onDeleteComponent,
-        deleteRow:this.deleteRow.bind(this)
+        deleteTd:this.deleteTd.bind(this)
     };
     const {row, col, width, height} = this.posInfo;
     if(!recoverData) {
@@ -355,8 +355,6 @@ export function getItemHeight(item){
     return tHeight;
 }
 
-
-
 export function setTdSize(){
     let xLength = this.tds[0].length;
     let yLength = this.tds.length;
@@ -429,32 +427,54 @@ export function getItemById(id){
     return null;
 }
 
-export function deleteRow(id){
+export function deleteTd(id,isRow){
     let item = this.getItemById(id);
-    if(item && item.mockType == 0){
-        let iHeight = this.getItemHeight(item);
-        const {x,y} = item.posInfo;
-        let tdArr = this.tds[y];
-        let i = 0;
-        while (i<tdArr.length){
-            let item = this.tds[y][i];
-            let width1 = this.getItemWidth(item);
-            let height1 = this.getItemHeight(item);
+    if(item && item.mockType == 0) {
+        if (isRow) {
+            let iHeight = this.getItemHeight(item);
+            const {y} = item.posInfo;
+            let tdArr = this.tds[y];
+            let i = 0;
+            while (i < tdArr.length) {
+                let item = this.tds[y][i];
+                let width1 = this.getItemWidth(item);
+                let height1 = this.getItemHeight(item);
 
-            console.log(width1);
-            if(height1 != iHeight){
-                return false;
+                if (height1 != iHeight) {
+                    return false;
+                }
+                i = i + width1;
             }
-            i = i+width1;
-        }
-        this.tds.splice(y,iHeight);
-        for(let i=y;i<this.tds.length;i++){
-            for(let j=0;j<this.tds[i].length;j++){
-                this.tds[i][j].posInfo.y -= iHeight;
+            this.tds.splice(y, iHeight);
+            for (let i = y; i < this.tds.length; i++) {
+                for (let j = 0; j < this.tds[i].length; j++) {
+                    this.tds[i][j].posInfo.y -= iHeight;
+                }
             }
+            this.onTdClick(-1, true);
+            console.log(this.tds);
+        } else {
+            let iWidth = this.getItemWidth(item);
+            const {x,y} = item.posInfo;
+            let i=0;
+            while (i<this.tds.length){
+                let item = this.tds[i][x];
+                let width1 = this.getItemWidth(item);
+                let height1 = this.getItemHeight(item);
+                if(iWidth != width1){
+                    return false;
+                }
+                i += height1;
+            }
+            for(let i=0;i<this.tds.length;i++){
+                this.tds[i].splice(x,iWidth);
+                for(let j=x;j<this.tds[i].length;j++){
+                    this.tds[i][j].posInfo.x -= iWidth;
+                }
+            }
+            this.onTdClick(-1,true);
+            console.log(this.tds);
         }
-        this.onTdClick(-1,true);
-        console.log(this.tds);
     }
 }
 
