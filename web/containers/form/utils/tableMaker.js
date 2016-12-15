@@ -34,6 +34,7 @@ export function registerFunc(functionArray){
     this.onComponentDrop = onComponentDrop;
     this.onComponentContext = onComponentContext;
     this.afterUpdateStyle = afterUpdateStyle;
+    this.onDeleteComponent = onDeleteComponent;
     this.getNode = getNode;
     this.merge = merge;
     this.split = split;
@@ -48,10 +49,34 @@ export function registerFunc(functionArray){
     this.getItemWidth = getItemWidth;
     this.getItemHeight = getItemHeight;
     this.deleteTd = deleteTd;
-    this.onDeleteComponent = onDeleteComponent;
+    this.createTd = createTd;
+    this.addTd = addTd;
 }
 
 export function initTds(recoverData){
+    const {row, col} = this.posInfo;
+    let tdArr = [];
+    if(!recoverData) {
+        for (let i = 0; i < row; i++) {
+            tdArr[i] = [];
+            for (let j = 0; j < col; j++) {
+                tdArr[i][j] = this.createTd(j,i,null);
+            }
+        }
+    } else {
+        recoverData.tds.map(item=>{
+            tdArr.push(item.map(item2=>{
+                return this.createTd(null,null,item2);
+            }))
+        });
+    }
+    let headData = recoverData ? recoverData.header : null;
+    let styleId = headData ? headData.styleId : this.styleId;
+    this.header = new tableHeadMaker(col,'',this.styleArr,styleId,this.onComponentContext, this.afterUpdateStyle,headData);
+    this.tds = tdArr;
+}
+
+export function createTd(x,y,recoverData){
     let functionArray = {
         onTdClick: this.onTdClick,
         onTdContext: this.onTdContext,
@@ -59,31 +84,15 @@ export function initTds(recoverData){
         onComponentContext: this.onComponentContext,
         afterUpdateStyle: this.afterUpdateStyle,
         onDeleteComponent: this.onDeleteComponent,
-        deleteTd:this.deleteTd.bind(this)
+        deleteTd:this.deleteTd.bind(this),
+        addTd:this.addTd.bind(this)
     };
-    const {row, col, width, height} = this.posInfo;
     if(!recoverData) {
-        let tdArr = [];
-        for (let i = 0; i < row; i++) {
-            tdArr[i] = [];
-            for (let j = 0; j < col; j++) {
-                let posInfo = {x: j, y: i, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
-                tdArr[i][j] = new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch)
-            }
-        }
-        this.header = new tableHeadMaker(col, '', this.styleArr, this.styleId, this.onComponentContext, this.afterUpdateStyle);
-        this.tds = tdArr;
+        const {row, col, width, height} = this.posInfo;
+        let posInfo = {x: x, y: y, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
+        return new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch);
     } else {
-        let tds = recoverData.tds;
-        let arr = [];
-        tds.map(item=>{
-            arr.push(item.map(item2=>{
-                return new tdMaker(null,null,this.styleArr,this.styleId,null,functionArray,this.dispatch,item2);
-            }))
-        });
-        this.tds = arr;
-        let headData = recoverData.header;
-        this.header = new tableHeadMaker(col,'',this.styleArr,headData.styleId,this.onComponentContext, this.afterUpdateStyle,headData);
+        return new tdMaker(null,null,this.styleArr,this.styleId,null,functionArray,this.dispatch,recoverData);
     }
 }
 
@@ -321,8 +330,8 @@ export function split(id){
     }
 }
 
-export function getItemWidth(item){
-    if(item.mockType > 0){
+export function getItemWidth(item,ignoreMock = false){
+    if(item.mockType > 0 && !ignoreMock){
         return 0;
     }
     const {x,y} = item.posInfo;
@@ -338,8 +347,8 @@ export function getItemWidth(item){
     return tWidth;
 }
 
-export function getItemHeight(item){
-    if(item.mockType > 0){
+export function getItemHeight(item,ignoreMock = false){
+    if(item.mockType > 0 && !ignoreMock){
         return 0;
     }
     const {x,y} = item.posInfo;
@@ -425,6 +434,57 @@ export function getItemById(id){
         }
     }
     return null;
+}
+
+export function addTd(id,isRow,isBefore) {
+    let item = this.getItemById(id);
+    if(item){
+        if(isRow){
+            // if(isBefore){
+            //
+            // } else {
+                let iHeight = this.getItemHeight(item);
+                const {x,y} = item.posInfo;
+                let tdArr = this.tds[y];
+                let i = 0;
+                while(i<tdArr.length){
+                    let item = tdArr[i];
+                    let width1 = this.getItemWidth(item,true);
+                    let height1 = this.getItemHeight(item,true);
+                    if(height1 != iHeight){
+                        return false;
+                    }
+                    i += width1;
+                }
+                if(!isBefore) {
+                    this.tds.splice(y + 1, 0, []);
+                } else {
+                    this.tds.splice(y,0,[]);
+                }
+                let insertY = isBefore ? y : y+1;
+                for (let i = 0; i < this.tds[0].length; i++) {
+                    this.tds[insertY][i] = this.createTd(i, insertY, null);
+                }
+                let startY = isBefore ? y+1 : y+2;
+                for (let i = startY; i < this.tds.length; i++) {
+                    for (let j = 0; j < this.tds[i].length; j++) {
+                        this.tds[i][j].posInfo.y += 1;
+                    }
+                }
+                console.log(this.tds);
+                // } else {
+                //     this.tds.splice(y,0,[]);
+                // }
+                this.onTdClick(-1, true);
+            // }
+        } else {
+            if(isBefore){
+
+            } else {
+
+            }
+        }
+    }
 }
 
 export function deleteTd(id,isRow){
