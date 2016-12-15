@@ -440,49 +440,58 @@ export function addTd(id,isRow,isBefore) {
     let item = this.getItemById(id);
     if(item){
         if(isRow){
-            // if(isBefore){
-            //
-            // } else {
-                let iHeight = this.getItemHeight(item);
-                const {x,y} = item.posInfo;
-                let tdArr = this.tds[y];
-                let i = 0;
-                while(i<tdArr.length){
-                    let item = tdArr[i];
-                    let width1 = this.getItemWidth(item,true);
-                    let height1 = this.getItemHeight(item,true);
-                    if(height1 != iHeight){
-                        return false;
-                    }
-                    i += width1;
+            let iHeight = this.getItemHeight(item);
+            const {x,y} = item.posInfo;
+            let tdArr = this.tds[y];
+            let i = 0;
+            while(i<tdArr.length){
+                let item = tdArr[i];
+                let width1 = this.getItemWidth(item,true);
+                let height1 = this.getItemHeight(item,true);
+                if(height1 != iHeight){
+                    return false;
                 }
-                if(!isBefore) {
-                    this.tds.splice(y + 1, 0, []);
-                } else {
-                    this.tds.splice(y,0,[]);
-                }
-                let insertY = isBefore ? y : y+1;
-                for (let i = 0; i < this.tds[0].length; i++) {
-                    this.tds[insertY][i] = this.createTd(i, insertY, null);
-                }
-                let startY = isBefore ? y+1 : y+2;
-                for (let i = startY; i < this.tds.length; i++) {
-                    for (let j = 0; j < this.tds[i].length; j++) {
-                        this.tds[i][j].posInfo.y += 1;
-                    }
-                }
-                console.log(this.tds);
-                // } else {
-                //     this.tds.splice(y,0,[]);
-                // }
-                this.onTdClick(-1, true);
-            // }
-        } else {
-            if(isBefore){
-
-            } else {
-
+                i += width1;
             }
+            if(!isBefore) {
+                this.tds.splice(y + 1, 0, []);
+            } else {
+                this.tds.splice(y,0,[]);
+            }
+            let insertY = isBefore ? y : y+1;
+            for (let i = 0; i < this.tds[0].length; i++) {
+                this.tds[insertY][i] = this.createTd(i, insertY, null);
+            }
+            let startY = isBefore ? y+1 : y+2;
+            for (let i = startY; i < this.tds.length; i++) {
+                for (let j = 0; j < this.tds[i].length; j++) {
+                    this.tds[i][j].posInfo.y += 1;
+                }
+            }
+            this.onTdClick(-1, true);
+        } else {
+            let iWidth = this.getItemWidth(item);
+            const {x,y} = item.posInfo;
+            let i=0;
+            while (i<this.tds.length){
+                let item = this.tds[i][x];
+                let width1 = this.getItemWidth(item);
+                let height1 = this.getItemHeight(item);
+                if(iWidth != width1){
+                    return false;
+                }
+                i += height1;
+            }
+            let insertX = isBefore ? x : x+1;
+            let startX = isBefore ? x+1 : x+2;
+            for(let i=0;i<this.tds.length;i++){
+                this.tds[i].splice(insertX,0,this.createTd(insertX, i, null));
+                for(let j=startX;j<this.tds[i].length;j++){
+                    this.tds[i][j].posInfo.x += 1;
+                }
+            }
+            this.onTdClick(-1, true);
+            console.log(this.tds);
         }
     }
 }
