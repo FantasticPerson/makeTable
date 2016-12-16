@@ -1,6 +1,8 @@
 /**
  * Created by wdd on 2016/11/23.
  */
+import {htmlLint} from './utils/data-helper'
+
 export const formDefaultStyle = [{
     borderColor:'#FF0000',
     borderSize:1,
@@ -76,7 +78,8 @@ export function getTableHtml(tableString,recoverData){
     string += "</div> </body> <div class='recoverData' style='display: none'>";
     string += recoverData;
     string += "</div></html>";
-    return string;
+
+    return htmlLint(string);
 }
 
 export const tableModuleArray = [

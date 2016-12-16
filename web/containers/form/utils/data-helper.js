@@ -21,6 +21,68 @@ export function checkArrayEqual(arr1,arr2){
     return true;
 }
 
+export function htmlLint(htmlString){
+    let tempStr = htmlString;
+    let arr = tempStr.match(/<\/?[^>]+>/g);
+    let arr2 = [];
+    let index = 0;
+    let reg1 = new RegExp(/<\/.+>/);
+    let reg2 = new RegExp(/\S+/);
+    let reg3 = new RegExp(/<[^\/]+>/);
+    let reg4 = new RegExp(/<!--.+-->/);
+    let reg5 = new RegExp(/<meta.+>/);
+    let reg6 = new RegExp(/<input.+>/);
+    for(let i=0;i<arr.length;i++){
+        let index2 = tempStr.indexOf(arr[i],index);
+        if(arr[i] == '<style>' && arr[i+1] == '</style>'){
+            let index3 = tempStr.indexOf(arr[i],index);
+            let index4 = tempStr.indexOf(arr[i+1],index);
+        }
+        if(index < index2){
+            let str = tempStr.substr(index,index2-index);
+            if(reg2.test(str) && !reg4.test(str)) {
+                arr2.push(str);
+            }
+        }
+        if(!reg4.test(arr[i])) {
+            arr2.push(arr[i]);
+        }
+        index = index2 + arr[i].length;
+    }
+    let resultStr = '';
+    let grade = 0;
+    let isLastAdd = false;
+    for(let i=0;i<arr2.length;i++){
+        if(reg5.test(arr2[i])){
+            isLastAdd = false;
+        }
+        else if(reg6.test(arr2[i])){
+            grade++;
+            isLastAdd = false;
+        }
+        else if(reg1.test(arr2[i])){
+            if(!isLastAdd) {
+                grade--;
+            }
+            isLastAdd = false;
+        } else if(reg3.test(arr2[i])){
+            if(isLastAdd) {
+                grade++;
+            }
+            isLastAdd = true;
+        }
+        resultStr+= '\r\n'+ getTab(grade) + arr2[i];
+    }
+    function getTab(num){
+        let str = '';
+        for(let i=0;i<num;i++){
+            str += '\t';
+        }
+        return str;
+    }
+    return resultStr;
+}
+
 export function getStyleSingleObj(obj){
     let style = {};
     style.border = obj.borderSize + 'px solid ' + obj.borderColor;
