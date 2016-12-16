@@ -7,6 +7,8 @@ import DropBoxMaker from './componentMaker/dropboxMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import {getStyleObj} from './data-helper'
 import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
+import * as operationTypes from '../utils/history/operationType'
+import cloneObj from 'clone-object'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
@@ -38,11 +40,11 @@ export default class tdMaker extends Object{
             let components = recoverData.components;
             components.map(item=> {
                 if (item.type == componentInput) {
-                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent,this.afterUpdateStyle, item))
+                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory, item))
                 } else if (item.type == componentTextArea) {
-                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,item))
+                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,item))
                 } else if (item.type == componentDropBox) {
-                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,item))
+                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,item))
                 }
             })
         }
@@ -50,7 +52,7 @@ export default class tdMaker extends Object{
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,deleteTd,addTd} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,deleteTd,addTd,addNewHistory} = functionArray;
     this.onTdClick = onTdClick;
     this.onComponentContext = onComponentContext;
     this.onTdContext = onTdContext;
@@ -59,6 +61,7 @@ export function registerFunc(functionArray){
     this.onDeleteComponent = onDeleteComponent;
     this.deleteTd = deleteTd;
     this.addTd = addTd;
+    this.addNewHistory = addNewHistory;
     this.setComponentStyle = setComponentStyle;
     this.insertComponent = insertComponent;
     this.getNode = getNode;
@@ -68,21 +71,27 @@ export function registerFunc(functionArray){
 }
 
 export function insertComponent(type,styleArr,styleId){
+    let beforeTd = cloneObj(this);
     if(type == componentInput){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle))
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
     } else if(type == componentTextArea){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle))
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
     } else if(type == componentDropBox){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle))
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
+    }
+    if(type == componentInput || type == componentTextArea || type == componentDropBox){
+        this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
     }
 }
 
 export function deleteComponent(id){
+    let beforeTd = cloneObj(this);
     let component = this.componentArray.find((item)=>{
         return item.id == id;
     });
     if(component){
         this.componentArray.splice(this.componentArray.indexOf(component),1);
+        this.addNewHistory(operationTypes.DEL_ITEM,{obj:beforeTd});
     }
 }
 
@@ -128,6 +137,7 @@ export function onSetStyleConfirm(style,text,item,props){
             this.hasChanged = true;
         }
     }
+    this.addNewHistory(operationTypes.SET_TD_STYLE,{id:this.id,style:this.style});
     this.style = {...this.style,...style};
     this.propName = props.propName;
     this.propId = props.propId;

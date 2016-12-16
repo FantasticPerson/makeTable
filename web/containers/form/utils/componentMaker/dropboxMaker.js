@@ -3,12 +3,14 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
+import * as optionTypes from '../../utils/history/operationType'
 
 export default class DropBoxMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,addHistoryItem,recoverData){
         super();
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;
+        this.addHistoryItem = addHistoryItem;
         this.getNode = getNode;
         this.setStyle = setStyle;
         this.onSetStyleConfirm = onSetStyleConfirm;
@@ -45,6 +47,7 @@ export function onSetStyleConfirm(style,item,props){
     // }
     this.propName = props.name;
     this.propId = props.id;
+    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:this.style,propName:this.propName,propId:this.propId});
     this.style = {...this.style,...style};
     this.afterUpdateStyle();
 }

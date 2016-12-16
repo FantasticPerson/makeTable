@@ -3,17 +3,19 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
+import * as optionTypes from '../../utils/history/operationType'
 
 export default class TextAreaMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,addHistoryItem,recoverData){
         super();
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;
-        this.onSetStyleConfirm = onSetStyleConfirm;
-        this.getNode = getNode;
-        this.setStyle = setStyle;
+        this.addHistoryItem = addHistoryItem;
         this.onContextMenuShow = onContextMenuShow;
+        this.onSetStyleConfirm = onSetStyleConfirm;
         this.exportData = exportData;
+        this.setStyle = setStyle;
+        this.getNode = getNode;
         this.tdId = tdId;
         this.type = 'textArea';
         this.id = recoverData ? recoverData.id : id;
@@ -32,6 +34,7 @@ export function setStyle(styleArr){
 
 export function onSetStyleConfirm(style,item){
     setItemStyle(item,style);
+    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:this.style,propName:this.propName,propId:this.propId});
     this.style = {...this.style,...style};
 }
 

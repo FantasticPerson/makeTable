@@ -9,6 +9,7 @@ import tableMaker from './utils/tableMaker'
 import {formDefaultStyle,getTableHtml,tableModuleArray} from './const'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
 import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
+import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
 
@@ -17,6 +18,8 @@ class FormPage extends Component{
         super();
         this.state = {tableObj:null,height:window.innerHeight - 60,showModuleView:false};
         this.tdIds = [];
+        this.historyList = [];
+        this.backHistoryList = [];
         this.tableDataTosave = null;
     }
 
@@ -106,6 +109,26 @@ class FormPage extends Component{
         }
     }
 
+    addNewHistory(type,data){
+        // let item = new HistoryItem(type,data);
+        this.historyList.push(new HistoryItem(type,data));
+        console.log(this.historyList);
+    }
+
+    goBack(){
+        let item = this.historyList.pop();
+        this.backHistoryList.push(item);
+    }
+
+    cancelGoBack(){
+        let item = this.backHistoryList.pop();
+        this.historyList.push(item);
+    }
+
+    handleRecover(){
+
+    }
+
     generateTable(num1, num2){
         this.tdIds = [];
         const {formStyleList,formStyleId,dispatch} = this.props;
@@ -116,7 +139,8 @@ class FormPage extends Component{
             onComponentDrop:this.onComponentDrop.bind(this),
             onComponentContext:this.onComponentContext.bind(this),
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
-            onDeleteComponent:this.deleteComponent.bind(this)
+            onDeleteComponent:this.deleteComponent.bind(this),
+            addNewHistory:this.addNewHistory.bind(this)
         };
         let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
         this.setState({tableObj:tableObj2});
@@ -206,7 +230,8 @@ class FormPage extends Component{
                 onComponentDrop:this.onComponentDrop.bind(this),
                 onComponentContext:this.onComponentContext.bind(this),
                 afterUpdateStyle:this.afterUpdateStyle.bind(this),
-                onDeleteComponent:this.deleteComponent.bind(this)
+                onDeleteComponent:this.deleteComponent.bind(this),
+                addNewHistory:this.addNewHistory.bind(this)
             };
             let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,data);
             this.setState({tableObj:tableObj2,showModuleView:false});
@@ -249,7 +274,9 @@ class FormPage extends Component{
             generateTable:this.generateTable.bind(this),
             exportData:this.exportData.bind(this),
             importData:this.importData.bind(this),
-            showModuleView:this.showModuleView.bind(this)
+            showModuleView:this.showModuleView.bind(this),
+            addNewHistory:this.addNewHistory.bind(this)
+
         };
         return(
             <div className="abc-form-container">

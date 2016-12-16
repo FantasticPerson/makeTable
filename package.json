@@ -14,6 +14,7 @@
     "build": "NODE_ENV=production webpack --progress --profile --colors --config ./dev/webpack.config.babel.js"
   },
   "dependencies": {
+    "clone-object": "^0.1.0",
     "es6-promise": "^3.3.1",
     "isomorphic-fetch": "^2.2.1",
     "react": "15.3.2",

@@ -4,27 +4,31 @@
 import React,{Component,PropTypes} from 'react'
 import {componentInput} from '../../const'
 import {getStyleObj,setItemStyle} from '../data-helper'
+import * as optionTypes from '../../utils/history/operationType'
 
 export default class InputMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,addHistoryItem,recoverData){
         super();
         this.tdId = tdId;
         this.onContextMenu = onComponentClick;
+        this.addHistoryItem = addHistoryItem;
+        this.afterUpdateStyle = afterUpdateStyle;
         this.onDelete = onDelete;
+        this.styleArr = styleArr;
+        this.type = componentInput;
+        this.id = recoverData ? recoverData.id : id;
+        this.style = recoverData ? recoverData.style : {width:120,height:25.33};
+        this.value = recoverData ? recoverData.value : "";
+        this.propId = ''+this.tdId+this.id;
+        this.styleId = recoverData ? recoverData.styleId : styleId;
+        this.propName = 'default';
+
         this.getNode = getNode;
         this.setStyle = setStyle;
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.onContextMenuShow = onContextMenuShow;
         this.onClickShow = onClickShow;
         this.exportData = exportData;
-        this.styleArr = styleArr;
-        this.type = componentInput;
-        this.id = recoverData ? recoverData.id : id;
-        this.styleId = recoverData ? recoverData.styleId : styleId;
-        this.style = recoverData ? recoverData.style : {width:120,height:25.33};
-        this.value = recoverData ? recoverData.value : "";
-        this.propName = 'default';
-        this.propId = ''+this.tdId+this.id;
     }
 }
 
@@ -32,8 +36,14 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
+export function recoverStyle(style){
+    this.style = style;
+    this.afterUpdateStyle();
+}
+
 export function onSetStyleConfirm(style,item,props){
     setItemStyle(item,style);
+    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:this.style,propId:this.propId,propName:this.propName});
     this.style = {...this.style,...style};
     this.propName = props.propName;
     this.propId = props.propId;

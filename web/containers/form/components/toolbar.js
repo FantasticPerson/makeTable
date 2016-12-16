@@ -17,12 +17,12 @@ export default class ToolBar extends Component{
         const {subTool} = this.state;
         return subTool.map((name,index)=>{
             if(name == toolEdit){
-                const {generateTable,dispatch} = this.props.data;
+                const {generateTable,dispatch,addNewHistory} = this.props.data;
                 let toolbarEditData = {dispatch,generateTable};
                 return (<ToolbarEdit key={index} data={toolbarEditData}/>);
             } else if(name == toolStyle){
-                const {formStyle,afterUpdateStyle,dispatch} = this.props.data;
-                return (<ToolbarStyle key={index} dispatch={dispatch} formStyle={formStyle} afterUpdateStyle={afterUpdateStyle}/>);
+                const {formStyle,afterUpdateStyle,dispatch,addNewHistory} = this.props.data;
+                return (<ToolbarStyle key={index} dispatch={dispatch} formStyle={formStyle} afterUpdateStyle={afterUpdateStyle} addNewHistory={addNewHistory}/>);
             } else if(name == toolTool){
                 const {formStyle,afterUpdateStyle,dispatch,importData} = this.props.data;
                 return (<ToolbarRecover key={index} dispatch={dispatch} importData={importData} onRecoverFinish={this.onRecoverFinish.bind(this)}/>)

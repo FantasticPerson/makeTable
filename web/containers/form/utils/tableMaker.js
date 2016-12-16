@@ -1,9 +1,11 @@
 /**
  * Created by wdd on 2016/11/24.
  */
+import React,{Component,PropTypes} from 'react';
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
-import React,{Component,PropTypes} from 'react';
+import cloneObj from 'clone-object'
+import * as operationTypes from './history/operationType'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
@@ -28,13 +30,14 @@ export default class tableMaker extends Object {
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,addNewHistory} = functionArray;
     this.onTdClick = onTdClick;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
     this.onComponentContext = onComponentContext;
     this.afterUpdateStyle = afterUpdateStyle;
     this.onDeleteComponent = onDeleteComponent;
+    this.addNewHistory = addNewHistory;
     this.getNode = getNode;
     this.merge = merge;
     this.split = split;
@@ -84,6 +87,7 @@ export function createTd(x,y,recoverData){
         onComponentContext: this.onComponentContext,
         afterUpdateStyle: this.afterUpdateStyle,
         onDeleteComponent: this.onDeleteComponent,
+        addNewHistory:this.addNewHistory,
         deleteTd:this.deleteTd.bind(this),
         addTd:this.addTd.bind(this)
     };
@@ -144,6 +148,8 @@ export function exportData(){
 
 export function merge(tdArr){
     let pointsArr = [];
+    let beforeTds = cloneObj(this.tds);
+    console.log(beforeTds);
     tdArr.map(id=>{
         let item = this.getItemById(id);
         let xLength = 1,yLength=1;
@@ -244,6 +250,7 @@ export function merge(tdArr){
     // console.log(this.checkIsValid());
 
     this.setTdSize();
+    this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});
     return true;
 }
 
@@ -290,6 +297,7 @@ export function checkIsValid(){
 }
 
 export function split(id){
+    let beforeData = cloneObj(this.tds);
     let tdItem = this.getItemById(id);
     if(tdItem){
         const {x,y} = tdItem.posInfo;
@@ -326,6 +334,7 @@ export function split(id){
             return false;
         }
         this.setTdSize();
+        this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeData});
         return true;
     }
 }
@@ -437,6 +446,7 @@ export function getItemById(id){
 }
 
 export function addTd(id,isRow,isBefore) {
+    let beforeTds = cloneObj(this.tds);
     let item = this.getItemById(id);
     if(item){
         if(isRow){
@@ -470,6 +480,7 @@ export function addTd(id,isRow,isBefore) {
                 }
             }
             this.onTdClick(-1, true);
+            this.addNewHistory(operationTypes.ADD_TDS,{tds:beforeTds});
         } else {
             let iWidth = this.getItemWidth(item);
             const {x,y} = item.posInfo;
@@ -491,12 +502,14 @@ export function addTd(id,isRow,isBefore) {
                     this.tds[i][j].posInfo.x += 1;
                 }
             }
+            this.addNewHistory(operationTypes.ADD_TDS,{tds:beforeTds});
             this.onTdClick(-1, true);
         }
     }
 }
 
 export function deleteTd(id,isRow){
+    let beforeTds = cloneObj(this.tds);
     let item = this.getItemById(id);
     if(item && item.mockType == 0) {
         if (isRow) {
@@ -521,7 +534,7 @@ export function deleteTd(id,isRow){
                 }
             }
             this.onTdClick(-1, true);
-            console.log(this.tds);
+            this.addNewHistory(operationTypes.DEL_TDS,{tds:beforeTds});
         } else {
             let iWidth = this.getItemWidth(item);
             const {x,y} = item.posInfo;
@@ -542,6 +555,7 @@ export function deleteTd(id,isRow){
                 }
             }
             this.onTdClick(-1,true);
+            this.addNewHistory(operationTypes.DEL_TDS,{tds:beforeTds});
         }
     }
 }

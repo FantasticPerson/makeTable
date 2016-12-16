@@ -5,6 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import ToolbarStyleItem from './toolbar-style-item'
 import * as formAction from '../../../actions/form'
 import ToolbarStyleEditor1 from './toolbar-style-editor'
+import * as operationType from '../utils/history/operationType'
 
 import {styleViewAdd,styleViewModify} from '../const'
 
@@ -25,9 +26,11 @@ export default class ToolbarStyle extends Component{
         this.setState({marginLeft:innerWidth-486});
     }
 
-    onStyleItemClick(id){
-        const {afterUpdateStyle} = this.props;
-        this.props.dispatch(formAction.updateCurrentStyleId(id));
+    onStyleItemClick(id2){
+        const {afterUpdateStyle,addNewHistory} = this.props;
+        const {id} = this.props.formStyle;
+        addNewHistory(operationType.CHOOSE_STYLE,{styleId: id});
+        this.props.dispatch(formAction.updateCurrentStyleId(id2));
         this.setState({subName:null});
         setTimeout(function(){
             afterUpdateStyle();
@@ -46,10 +49,10 @@ export default class ToolbarStyle extends Component{
     }
 
     renderSubView(){
-        const {formStyle,afterUpdateStyle} = this.props;
+        const {formStyle,afterUpdateStyle,addNewHistory} = this.props;
         const {subName} = this.state;
         if(subName == styleViewAdd || subName == styleViewModify){
-            return <ToolbarStyleEditor1 formStyle={formStyle} subName={subName}  onUpdateStyle={afterUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>
+            return <ToolbarStyleEditor1 formStyle={formStyle} addNewHistory={addNewHistory} subName={subName}  onUpdateStyle={afterUpdateStyle} dispatch={this.props.dispatch} onClickClose={this.onCloseStyleEditor.bind(this)}/>
         }
     }
 

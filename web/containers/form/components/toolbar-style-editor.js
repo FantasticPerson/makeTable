@@ -7,6 +7,8 @@ import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
 import TextSetEditor from './styleEditorComponent/textSetEditor'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
 import {findItem} from '../utils/data-helper'
+import * as operationTypes from '../utils/history/operationType'
+import cloneObj from 'clone-object'
 
 export default class ComponentStyleEditor extends Component{
     constructor(){
@@ -14,11 +16,12 @@ export default class ComponentStyleEditor extends Component{
     }
 
     onConformClick(){
-        const {formStyle,onUpdateStyle,subName,onClickClose} = this.props;
+        const {formStyle,onUpdateStyle,subName,onClickClose,addNewHistory} = this.props;
         const {namePicker,fontStyleEditor,borderStyleEditor} = this.refs;
 
         let arr = [];
         if(subName == 'viewAdd'){
+            let beforeList = cloneObj(formStyle.list);
             let style = {
                 name:namePicker.getValue(),
                 ...borderStyleEditor.getValue(),
@@ -30,8 +33,11 @@ export default class ComponentStyleEditor extends Component{
                 arr.push(formStyle.list[i]);
             }
             arr.push(style);
-            this.props.dispatch(updateMaxId(style.id))
+            this.props.dispatch(updateMaxId(style.id));
+            addNewHistory(operationTypes.ADD_STYLE,{list:beforeList});
+
         } else {
+            let beforeList = cloneObj(formStyle.list);
             for (let i = 0; i < formStyle.list.length; i++) {
                 if (formStyle.list[i].id == formStyle.id) {
                     let style = {
@@ -46,6 +52,7 @@ export default class ComponentStyleEditor extends Component{
                     arr.push(formStyle.list[i]);
                 }
             }
+            addNewHistory(operationTypes.SET_STYLE,{list:beforeList});
         }
         this.props.dispatch(updateStyleList(arr));
         onClickClose();
@@ -78,7 +85,7 @@ export default class ComponentStyleEditor extends Component{
                 border: '1px solid #eee',
                 width: '452px',
                 height: '300px',
-                webkitBoxShadow: '-1px 1px 4px 0 rgba(0, 0, 0, 0.2)'
+                WebkitBoxShadow: '-1px 1px 4px 0 rgba(0, 0, 0, 0.2)'
             }}>
                 <div className="abc-form-tool-bar-style-editor-container-header">
                     <div className="abc-form-tool-bar-style-editor-container-header-text">{title}</div>
