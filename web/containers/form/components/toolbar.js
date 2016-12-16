@@ -48,7 +48,7 @@ export default class ToolBar extends Component{
     }
 
     render(){
-        const {style,exportData,showModuleView} = this.props.data;
+        const {style,exportData,showModuleView,goBack} = this.props.data;
         const {subTool,marginLeft} = this.state;
         let styleArray = [{color1:'#eef6fc',color2:'#6998d6'},{color1:'#FFFFFF',color2:'#000000'}];
         return(
@@ -81,7 +81,7 @@ export default class ToolBar extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-container-right">
-                        <div className="true-form-save-icon-container" onClick={(e)=>{exportData()}}>
+                        <div className="true-form-save-icon-container" onClick={(e)=>{goBack()}}>
                             <div className="true-form-save-icon" style={{width:'14px',height:'14px'}} ></div>
                             <div className="abc-form-tool-bar-container-left-item-text"
                                  style={{color:'#000000'}}>

@@ -1,6 +1,8 @@
 /**
  * Created by wdd on 2016/12/2.
  */
+import cloneObj from 'clone-object'
+
 export function checkArrayEqual(arr1,arr2){
     if(!arr1 || !arr2){
         return false
@@ -19,6 +21,14 @@ export function checkArrayEqual(arr1,arr2){
         }
     }
     return true;
+}
+
+export function cloneDataArray(arr){
+    let arr2 = [];
+    for(let i = 0;i<arr.length;i++){
+        arr2.push(cloneObj(arr[i]))
+    }
+    return arr2;
 }
 
 export function htmlLint(htmlString){

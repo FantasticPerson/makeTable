@@ -12,6 +12,7 @@ import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/fo
 import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
+import * as operationType from './utils/history/operationType'
 
 class FormPage extends Component{
     constructor(){
@@ -117,7 +118,35 @@ class FormPage extends Component{
 
     goBack(){
         let item = this.historyList.pop();
-        this.backHistoryList.push(item);
+        if(item) {
+            this.backHistoryList.push(item);
+            const {CHOOSE_STYLE, ADD_STYLE, SET_STYLE} = operationType;
+            if ([CHOOSE_STYLE, ADD_STYLE, SET_STYLE].indexOf(item.type) >= 0) {
+
+            }
+            if (item.type == CHOOSE_STYLE) {
+                this.props.dispatch(updateCurrentStyleId(item.data.styleId));
+                console.log(item.data.styleId);
+                setTimeout(function () {
+                    this.afterUpdateStyle();
+                }.bind(this), 20)
+
+            } else if (item.type == ADD_STYLE) {
+                this.props.dispatch(updateStyleList(item.data.list));
+                setTimeout(function(){
+                    this.afterUpdateStyle();
+                }.bind(this),20)
+
+            } else if (item.type == SET_STYLE) {
+                this.props.dispatch(updateStyleList(item.data.list));
+                setTimeout(function () {
+                    this.afterUpdateStyle();
+                }.bind(this),20)
+            }
+
+            console.log(item);
+            console.log('goBack');
+        }
     }
 
     cancelGoBack(){
@@ -275,7 +304,8 @@ class FormPage extends Component{
             exportData:this.exportData.bind(this),
             importData:this.importData.bind(this),
             showModuleView:this.showModuleView.bind(this),
-            addNewHistory:this.addNewHistory.bind(this)
+            addNewHistory:this.addNewHistory.bind(this),
+            goBack:this.goBack.bind(this)
 
         };
         return(

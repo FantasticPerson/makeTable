@@ -6,7 +6,7 @@ import FontStyleEditor from './styleEditorComponent/fontStyleEditor'
 import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
 import TextSetEditor from './styleEditorComponent/textSetEditor'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
-import {findItem} from '../utils/data-helper'
+import {findItem,cloneDataArray} from '../utils/data-helper'
 import * as operationTypes from '../utils/history/operationType'
 import cloneObj from 'clone-object'
 
@@ -21,7 +21,7 @@ export default class ComponentStyleEditor extends Component{
 
         let arr = [];
         if(subName == 'viewAdd'){
-            let beforeList = cloneObj(formStyle.list);
+            let beforeList = cloneDataArray(formStyle.list);
             let style = {
                 name:namePicker.getValue(),
                 ...borderStyleEditor.getValue(),
@@ -37,7 +37,7 @@ export default class ComponentStyleEditor extends Component{
             addNewHistory(operationTypes.ADD_STYLE,{list:beforeList});
 
         } else {
-            let beforeList = cloneObj(formStyle.list);
+            let beforeList = cloneDataArray(formStyle.list);
             for (let i = 0; i < formStyle.list.length; i++) {
                 if (formStyle.list[i].id == formStyle.id) {
                     let style = {
