@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class TextAreaMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,recoverData){
         super();
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;

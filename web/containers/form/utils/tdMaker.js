@@ -38,11 +38,11 @@ export default class tdMaker extends Object{
             let components = recoverData.components;
             components.map(item=> {
                 if (item.type == componentInput) {
-                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, item))
+                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent,this.afterUpdateStyle, item))
                 } else if (item.type == componentTextArea) {
-                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, item))
+                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,item))
                 } else if (item.type == componentDropBox) {
-                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, item))
+                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,item))
                 }
             })
         }
@@ -69,11 +69,11 @@ export function registerFunc(functionArray){
 
 export function insertComponent(type,styleArr,styleId){
     if(type == componentInput){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle))
     } else if(type == componentTextArea){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle))
     } else if(type == componentDropBox){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent))
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle))
     }
 }
 

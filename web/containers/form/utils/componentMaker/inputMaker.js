@@ -6,7 +6,7 @@ import {componentInput} from '../../const'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class InputMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,recoverData){
         super();
         this.tdId = tdId;
         this.onContextMenu = onComponentClick;

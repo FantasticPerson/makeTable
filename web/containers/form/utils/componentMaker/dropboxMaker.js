@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import {getStyleObj,setItemStyle} from '../data-helper'
 
 export default class DropBoxMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,recoverData){
         super();
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;
@@ -13,6 +13,7 @@ export default class DropBoxMaker extends Object{
         this.setStyle = setStyle;
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.onContextMenuShow = onContextMenuShow;
+        this.afterUpdateStyle = afterUpdateStyle;
         this.exportData = exportData;
         this.tdId = tdId;
         this.id = recoverData ? recoverData.id : id;
@@ -35,16 +36,17 @@ export function setStyle(styleArr){
 
 export function onSetStyleConfirm(style,item,props){
     setItemStyle(item,style);
-    if(style.dataArray) {
-        let innerHtmlStr = "";
-        style.dataArray.map((item, index)=> {
-            innerHtmlStr += '<option key='+index +' value='+item+'>'+item+'</option>';
-        });
-        item.innerHTML = innerHtmlStr;
-    }
+    // if(style.dataArray) {
+    //     let innerHtmlStr = "";
+    //     style.dataArray.map((item, index)=> {
+    //         innerHtmlStr += '<option key='+index +' value='+item+'>'+item+'</option>';
+    //     });
+    //     item.innerHTML = innerHtmlStr;
+    // }
     this.propName = props.name;
     this.propId = props.id;
     this.style = {...this.style,...style};
+    this.afterUpdateStyle();
 }
 
 export function onContextMenuShow(item,pageX,pageY){
