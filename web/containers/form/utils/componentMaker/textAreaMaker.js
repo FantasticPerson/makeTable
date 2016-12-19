@@ -44,9 +44,10 @@ export function goBack(data){
 }
 
 export function onSetStyleConfirm(style,item){
-    setItemStyle(item,style);
+    // setItemStyle(item,style);
     this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:cloneData(this.style),propName:this.propName,propId:this.propId});
     this.style = {...this.style,...style};
+    this.afterUpdateStyle();
 }
 
 export function onContextMenuShow(item,pageX,pageY){

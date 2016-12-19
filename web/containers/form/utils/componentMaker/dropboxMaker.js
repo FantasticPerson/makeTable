@@ -11,25 +11,26 @@ export default class DropBoxMaker extends Object{
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;
         this.addHistoryItem = addHistoryItem;
-        this.getNode = getNode;
-        this.setStyle = setStyle;
-        this.onSetStyleConfirm = onSetStyleConfirm;
-        this.onContextMenuShow = onContextMenuShow;
         this.afterUpdateStyle = afterUpdateStyle;
-        this.exportData = exportData;
-        this.goBack = goBack;
         this.tdId = tdId;
         this.id = recoverData ? recoverData.id : id;
         this.type = 'dropBox';
         this.styleArr = styleArr;
         this.styleId = recoverData ? recoverData.styleId : styleId;
+        this.propName = 'default';
+        this.propId = ''+this.tdId+this.id;
         this.style = recoverData ? recoverData.style : {
             dataArray: [],
             width: 80,
             height: 42
         };
-        this.propName = 'default';
-        this.propId = ''+this.tdId+this.id;
+
+        this.getNode = getNode;
+        this.setStyle = setStyle;
+        this.onSetStyleConfirm = onSetStyleConfirm;
+        this.onContextMenuShow = onContextMenuShow;
+        this.exportData = exportData;
+        this.goBack = goBack;
     }
 }
 
@@ -46,7 +47,7 @@ export function goBack(data){
 }
 
 export function onSetStyleConfirm(style,item,props){
-    setItemStyle(item,style);
+    // setItemStyle(item,style);
     // if(style.dataArray) {
     //     let innerHtmlStr = "";
     //     style.dataArray.map((item, index)=> {

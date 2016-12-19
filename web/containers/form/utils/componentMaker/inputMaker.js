@@ -27,7 +27,6 @@ export default class InputMaker extends Object{
         this.setStyle = setStyle;
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.onContextMenuShow = onContextMenuShow;
-        this.onClickShow = onClickShow;
         this.exportData = exportData;
         this.goBack = goBack;
     }
@@ -46,11 +45,12 @@ export function goBack(data){
 }
 
 export function onSetStyleConfirm(style,item,props){
-    setItemStyle(item,style);
+    // setItemStyle(item,style);
     this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:cloneData(this.style),propId:this.propId,propName:this.propName});
     this.style = {...this.style,...style};
     this.propName = props.propName;
     this.propId = props.propId;
+    this.afterUpdateStyle();
 }
 
 export function onContextMenuShow(item,pageX,pageY){
@@ -79,10 +79,6 @@ export function onContextMenuShow(item,pageX,pageY){
     });
 }
 
-export function onClickShow(item){
-    item.focus();
-}
-
 export function exportData(){
     return {
         id:this.id,
@@ -98,9 +94,10 @@ export function getNode(index){
         return item.id == this.styleId;
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
-    console.log({color:cStyle2.color,...cStyle2,textAlign:'left'});
+    let resultStyle = {color:cStyle2.color,...cStyle2,textAlign:'left'};
+    //console.log(resultStyle);
     return (
-        <input name={this.propName} ref='input' id={this.propId} type="text" style={{color:cStyle2.color,...cStyle2,textAlign:'left'}} defaultValue={this.value}  key={index}
+        <input name={this.propName} ref='input' id={this.propId} type="text" style={resultStyle} defaultValue={this.value}  key={index}
             onClick={(e)=>{
                 e.stopPropagation();
             }} onContextMenu={(e)=>{
