@@ -120,32 +120,49 @@ class FormPage extends Component{
         let item = this.historyList.pop();
         if(item) {
             this.backHistoryList.push(item);
-            const {CHOOSE_STYLE, ADD_STYLE, SET_STYLE} = operationType;
-            if ([CHOOSE_STYLE, ADD_STYLE, SET_STYLE].indexOf(item.type) >= 0) {
-
-            }
-            if (item.type == CHOOSE_STYLE) {
+            if (item.type == operationType.CHOOSE_STYLE) {
                 this.props.dispatch(updateCurrentStyleId(item.data.styleId));
                 console.log(item.data.styleId);
                 setTimeout(function () {
                     this.afterUpdateStyle();
-                }.bind(this), 20)
-
-            } else if (item.type == ADD_STYLE) {
+                }.bind(this), 20);
+                return;
+            }
+            if (item.type == operationType.ADD_STYLE) {
                 this.props.dispatch(updateStyleList(item.data.list));
                 setTimeout(function(){
                     this.afterUpdateStyle();
-                }.bind(this),20)
-
-            } else if (item.type == SET_STYLE) {
+                }.bind(this),20);
+                return;
+            }
+            if (item.type == operationType.SET_STYLE) {
                 this.props.dispatch(updateStyleList(item.data.list));
                 setTimeout(function () {
                     this.afterUpdateStyle();
-                }.bind(this),20)
+                }.bind(this),20);
+                return;
             }
+            const {MERGE_TDS,SPLIT_TDS,ADD_TDS,DEL_TDS} = operationType;
+            if([MERGE_TDS,SPLIT_TDS,ADD_TDS,DEL_TDS].indexOf(item.type) >= 0){
+                const {tableObj} = this.state;
+                if(tableObj){
+                    tableObj.goBack(item);
+                }
+                this.afterUpdateStyle();
+                return;
+            }
+            const {SET_TD_STYLE,ADD_ITEM,DEL_ITEM,ITEM_SET_STYLE} = operationType;
+            if([SET_TD_STYLE,ADD_ITEM,DEL_ITEM,ITEM_SET_STYLE].indexOf(item.type) >= 0){
+                const {tableObj} = this.state;
+                if(tableObj){
+                    tableObj.tdGoBack(item);
+                }
+                this.afterUpdateStyle();
+                return;
+            }
+            if(item.type == operationType.ITEM_SET_STYLE){
 
-            console.log(item);
-            console.log('goBack');
+            }
         }
     }
 

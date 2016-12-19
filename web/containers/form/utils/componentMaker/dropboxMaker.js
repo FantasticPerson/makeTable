@@ -2,7 +2,7 @@
  * Created by wdd on 2016/12/1.
  */
 import React,{Component,PropTypes} from 'react'
-import {getStyleObj,setItemStyle} from '../data-helper'
+import {getStyleObj,setItemStyle,cloneData} from '../data-helper'
 import * as optionTypes from '../../utils/history/operationType'
 
 export default class DropBoxMaker extends Object{
@@ -17,6 +17,7 @@ export default class DropBoxMaker extends Object{
         this.onContextMenuShow = onContextMenuShow;
         this.afterUpdateStyle = afterUpdateStyle;
         this.exportData = exportData;
+        this.goBack = goBack;
         this.tdId = tdId;
         this.id = recoverData ? recoverData.id : id;
         this.type = 'dropBox';
@@ -36,6 +37,14 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
+export function goBack(data){
+    const {style,propName,propId} = data.data;
+    this.propName = propName;
+    this.propId = propId;
+    this.style = style;
+    this.afterUpdateStyle();
+}
+
 export function onSetStyleConfirm(style,item,props){
     setItemStyle(item,style);
     // if(style.dataArray) {
@@ -47,7 +56,7 @@ export function onSetStyleConfirm(style,item,props){
     // }
     this.propName = props.name;
     this.propId = props.id;
-    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:this.style,propName:this.propName,propId:this.propId});
+    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:cloneData(this.style),propName:this.propName,propId:this.propId});
     this.style = {...this.style,...style};
     this.afterUpdateStyle();
 }

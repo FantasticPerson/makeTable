@@ -2,7 +2,7 @@
  * Created by wdd on 2016/11/30.
  */
 import React,{Component,PropTypes} from 'react'
-import {getStyleObj,setItemStyle} from '../data-helper'
+import {getStyleObj,setItemStyle,cloneData} from '../data-helper'
 import * as optionTypes from '../../utils/history/operationType'
 
 export default class TextAreaMaker extends Object{
@@ -11,6 +11,7 @@ export default class TextAreaMaker extends Object{
         this.onContextMenu = onComponentClick;
         this.onDelete = onDelete;
         this.addHistoryItem = addHistoryItem;
+        this.afterUpdateStyle = afterUpdateStyle;
         this.onContextMenuShow = onContextMenuShow;
         this.onSetStyleConfirm = onSetStyleConfirm;
         this.exportData = exportData;
@@ -25,6 +26,8 @@ export default class TextAreaMaker extends Object{
         this.value = recoverData ? recoverData.value : '';
         this.propName = 'default';
         this.propId = ''+this.tdId+this.id;
+
+        this.goBack = goBack;
     }
 }
 
@@ -32,9 +35,17 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
+export function goBack(data){
+    const {style,propName,propId} = data.data;
+    this.propName = propName;
+    this.propId = propId;
+    this.style = style;
+    this.afterUpdateStyle();
+}
+
 export function onSetStyleConfirm(style,item){
     setItemStyle(item,style);
-    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:this.style,propName:this.propName,propId:this.propId});
+    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:cloneData(this.style),propName:this.propName,propId:this.propId});
     this.style = {...this.style,...style};
 }
 

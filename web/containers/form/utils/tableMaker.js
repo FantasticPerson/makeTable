@@ -4,8 +4,8 @@
 import React,{Component,PropTypes} from 'react';
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
-import cloneObj from 'clone-object'
 import * as operationTypes from './history/operationType'
+import {cloneDataArray} from '../utils/data-helper'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
@@ -54,6 +54,8 @@ export function registerFunc(functionArray){
     this.deleteTd = deleteTd;
     this.createTd = createTd;
     this.addTd = addTd;
+    this.goBack = goBack;
+    this.tdGoBack = tdGoBack;
 }
 
 export function initTds(recoverData){
@@ -148,7 +150,7 @@ export function exportData(){
 
 export function merge(tdArr){
     let pointsArr = [];
-    let beforeTds = cloneObj(this.tds);
+    let beforeTds = cloneDataArray(this.tds);
     console.log(beforeTds);
     tdArr.map(id=>{
         let item = this.getItemById(id);
@@ -297,7 +299,7 @@ export function checkIsValid(){
 }
 
 export function split(id){
-    let beforeData = cloneObj(this.tds);
+    let beforeData = cloneDataArray(this.tds);
     let tdItem = this.getItemById(id);
     if(tdItem){
         const {x,y} = tdItem.posInfo;
@@ -334,8 +336,25 @@ export function split(id){
             return false;
         }
         this.setTdSize();
-        this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeData});
+        this.addNewHistory(operationTypes.SPLIT_TDS,{tds:beforeData});
         return true;
+    }
+}
+
+export function goBack(item){
+    this.tds = item.data.tds;
+}
+
+export function tdGoBack(data){
+    if(data.type != operationTypes.ITEM_SET_STYLE) {
+        const {x, y} = data.data.obj.posInfo;
+        this.tds[y][x] = data.data.obj;
+    } else {
+        const {tdId,id} = data.data;
+        let item = this.getItemById(tdId);
+        if(item){
+            item.goBack(data);
+        }
     }
 }
 
@@ -446,7 +465,7 @@ export function getItemById(id){
 }
 
 export function addTd(id,isRow,isBefore) {
-    let beforeTds = cloneObj(this.tds);
+    let beforeTds = cloneDataArray(this.tds);
     let item = this.getItemById(id);
     if(item){
         if(isRow){
@@ -509,7 +528,7 @@ export function addTd(id,isRow,isBefore) {
 }
 
 export function deleteTd(id,isRow){
-    let beforeTds = cloneObj(this.tds);
+    let beforeTds = cloneDataArray(this.tds);
     let item = this.getItemById(id);
     if(item && item.mockType == 0) {
         if (isRow) {

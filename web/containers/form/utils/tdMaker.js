@@ -5,10 +5,9 @@ import React,{Component,PropTypes} from 'react'
 import InputMaker from './componentMaker/inputMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
-import {getStyleObj} from './data-helper'
+import {getStyleObj,cloneData} from './data-helper'
 import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
 import * as operationTypes from '../utils/history/operationType'
-import cloneObj from 'clone-object'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
@@ -68,10 +67,11 @@ export function registerFunc(functionArray){
     this.setStyle = setStyle;
     this.deleteComponent = deleteComponent;
     this.exportData = exportData;
+    this.goBack = goBack;
 }
 
 export function insertComponent(type,styleArr,styleId){
-    let beforeTd = cloneObj(this);
+    let beforeTd = cloneData(this);
     if(type == componentInput){
         this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
     } else if(type == componentTextArea){
@@ -85,7 +85,7 @@ export function insertComponent(type,styleArr,styleId){
 }
 
 export function deleteComponent(id){
-    let beforeTd = cloneObj(this);
+    let beforeTd = cloneData(this);
     let component = this.componentArray.find((item)=>{
         return item.id == id;
     });
@@ -142,6 +142,16 @@ export function onSetStyleConfirm(style,text,item,props){
     this.propName = props.propName;
     this.propId = props.propId;
     this.afterUpdateStyle();
+}
+
+export function goBack(data){
+    const {id} = data.data;
+    let componentItem = this.componentArray.find((item)=>{
+        return item.id == id;
+    });
+    if(componentItem){
+        componentItem.goBack(data);
+    }
 }
 
 export function onContextMenuShow(item,pageX,pageY,component=null) {

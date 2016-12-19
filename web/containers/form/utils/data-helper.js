@@ -1,7 +1,7 @@
 /**
  * Created by wdd on 2016/12/2.
  */
-import cloneObj from 'clone-object'
+import cloneObj from 'fastest-clone'
 
 export function checkArrayEqual(arr1,arr2){
     if(!arr1 || !arr2){
@@ -24,11 +24,21 @@ export function checkArrayEqual(arr1,arr2){
 }
 
 export function cloneDataArray(arr){
-    let arr2 = [];
-    for(let i = 0;i<arr.length;i++){
-        arr2.push(cloneObj(arr[i]))
+    let tempArr = [];
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] instanceof Array) {
+            tempArr.push(cloneDataArray(arr[i]));
+        } else {
+            let outputArr = cloneObj.cloneArray([arr[i]]);
+            tempArr.push(outputArr[0]);
+        }
     }
-    return arr2;
+    return tempArr;
+}
+
+export function cloneData(obj){
+    let outputArr = cloneObj.cloneArray([obj]);
+    return outputArr[0];
 }
 
 export function htmlLint(htmlString){
@@ -44,10 +54,6 @@ export function htmlLint(htmlString){
     let reg6 = new RegExp(/<input.+>/);
     for(let i=0;i<arr.length;i++){
         let index2 = tempStr.indexOf(arr[i],index);
-        if(arr[i] == '<style>' && arr[i+1] == '</style>'){
-            let index3 = tempStr.indexOf(arr[i],index);
-            let index4 = tempStr.indexOf(arr[i+1],index);
-        }
         if(index < index2){
             let str = tempStr.substr(index,index2-index);
             if(reg2.test(str) && !reg4.test(str)) {
@@ -71,14 +77,10 @@ export function htmlLint(htmlString){
             isLastAdd = false;
         }
         else if(reg1.test(arr2[i])){
-            if(!isLastAdd) {
-                grade--;
-            }
+            grade = isLastAdd ? grade : grade-1;
             isLastAdd = false;
         } else if(reg3.test(arr2[i])){
-            if(isLastAdd) {
-                grade++;
-            }
+            grade = isLastAdd ? grade+1 : grade;
             isLastAdd = true;
         }
         resultStr+= '\r\n'+ getTab(grade) + arr2[i];
@@ -201,37 +203,41 @@ export function setItemStyle(item,style){
 
 export function getStyleSet(style,styleObj){
     let cStyle = {};
-    if(styleObj.color && styleObj.color != style.color){
-        cStyle.color = styleObj.color;
-    }
-    if(styleObj.fontSize && style.fontSize != styleObj.fontSize){
-        cStyle.fontSize = styleObj.fontSize;
-    }
-    if(styleObj.fontFamily && style.fontFamily != styleObj.fontFamily ){
-        cStyle.fontFamily = styleObj.fontFamily;
-    }
-    if((styleObj.marginTop || styleObj.marginTop == 0) && style.marginTop != styleObj.marginTop){
-        cStyle.marginTop = styleObj.marginTop;
-    }
-    if((styleObj.marginLeft || styleObj.marginLeft == 0) && style.marginLeft != styleObj.marginLeft){
-        cStyle.marginLeft = styleObj.marginLeft;
-    }
-    if(styleObj.width && style.width != styleObj.width){
-        cStyle.width = styleObj.width;
-    }
-    if(styleObj.height && style.height != styleObj.height){
-        cStyle.height = styleObj.height;
-    }
-    if(styleObj.textAlign && style.textAlign != styleObj.textAlign){
-        cStyle.textAlign = styleObj.textAlign;
-    }
-    if(styleObj.dataArray && (!style.dataArray || !checkArrayEqual(style.dataArray,styleObj.dataArray)) && styleObj.dataArray.length>0){
-        cStyle.dataArray = styleObj.dataArray;
-    }
-    if(styleObj.fontStyleArray && !checkArrayEqual(styleObj.fontStyleArray,style.fontStyleArray)){
-        cStyle.fontStyleArray = styleObj.fontStyleArray;
-    }
+    applyProp(styleObj,style,cStyle,'color');
+    applyProp(styleObj,style,cStyle,'fontSize');
+    applyProp(styleObj,style,cStyle,'fontFamily');
+    applyProp(styleObj,style,cStyle,'width');
+    applyProp(styleObj,style,cStyle,'height');
+    applyProp(styleObj,style,cStyle,'textAlign');
+    applyProp1(styleObj,style,cStyle,'marginTop');
+    applyProp1(styleObj,style,cStyle,'marginLeft');
+    applyPropArr(styleObj,style,cStyle,'fontStyleArray');
+    applyPropArr1(styleObj,style,cStyle,'dataArray');
     return cStyle;
+}
+
+export function applyProp(obj1,obj2,obj3,prop){
+    if(obj1[prop] && obj1[prop] != obj2[prop]){
+        obj3[prop] = obj1[prop];
+    }
+}
+
+export function applyProp1(obj1,obj2,obj3,prop){
+    if((obj1[prop] || obj1[prop] == 0) && obj1[prop] != obj2[prop]){
+        obj3[prop] = obj1[prop];
+    }
+}
+
+export function applyPropArr1(obj1,obj2,obj3,prop){
+    if(obj1[prop] && (!obj2[prop] || !checkArrayEqual(obj1[prop],obj2[prop])) && obj1[prop].length>0){
+        obj3[prop] = obj1[prop];
+    }
+}
+
+export function applyPropArr(obj1,obj2,obj3,prop){
+    if(obj1[prop] && !checkArrayEqual(obj1[prop],obj2[prop])){
+        obj3[prop] = obj1[prop];
+    }
 }
 
 export function getArrayCopy(arr){

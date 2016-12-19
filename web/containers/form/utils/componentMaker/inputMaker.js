@@ -3,7 +3,7 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {componentInput} from '../../const'
-import {getStyleObj,setItemStyle} from '../data-helper'
+import {getStyleObj,setItemStyle,cloneData} from '../data-helper'
 import * as optionTypes from '../../utils/history/operationType'
 
 export default class InputMaker extends Object{
@@ -29,6 +29,7 @@ export default class InputMaker extends Object{
         this.onContextMenuShow = onContextMenuShow;
         this.onClickShow = onClickShow;
         this.exportData = exportData;
+        this.goBack = goBack;
     }
 }
 
@@ -36,14 +37,17 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
-export function recoverStyle(style){
+export function goBack(data){
+    const {style,propId,propName} = data.data;
     this.style = style;
+    this.propName = propName;
+    this.propId = propId;
     this.afterUpdateStyle();
 }
 
 export function onSetStyleConfirm(style,item,props){
     setItemStyle(item,style);
-    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:this.style,propId:this.propId,propName:this.propName});
+    this.addHistoryItem(optionTypes.ITEM_SET_STYLE,{tdId:this.tdId,id:this.id,style:cloneData(this.style),propId:this.propId,propName:this.propName});
     this.style = {...this.style,...style};
     this.propName = props.propName;
     this.propId = props.propId;
@@ -94,8 +98,9 @@ export function getNode(index){
         return item.id == this.styleId;
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
+    console.log({color:cStyle2.color,...cStyle2,textAlign:'left'});
     return (
-        <input name={this.propName} ref='input' id={this.propId} type="text" style={{...cStyle2,textAlign:'left'}} defaultValue={this.value}  key={index}
+        <input name={this.propName} ref='input' id={this.propId} type="text" style={{color:cStyle2.color,...cStyle2,textAlign:'left'}} defaultValue={this.value}  key={index}
             onClick={(e)=>{
                 e.stopPropagation();
             }} onContextMenu={(e)=>{
