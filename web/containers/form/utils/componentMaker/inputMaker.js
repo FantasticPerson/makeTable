@@ -7,11 +7,12 @@ import {getStyleObj,setItemStyle,cloneData} from '../data-helper'
 import * as optionTypes from '../../utils/history/operationType'
 
 export default class InputMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,addHistoryItem,recoverData){
+    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,afterUpdateStyle,addHistoryItem,addNewCancelHistory,recoverData){
         super();
         this.tdId = tdId;
         this.onContextMenu = onComponentClick;
         this.addHistoryItem = addHistoryItem;
+        this.addNewCancelHistory = addNewCancelHistory;
         this.afterUpdateStyle = afterUpdateStyle;
         this.onDelete = onDelete;
         this.styleArr = styleArr;
@@ -36,7 +37,16 @@ export function setStyle(styleArr){
     this.styleArr = styleArr;
 }
 
-export function goBack(data){
+export function goBack(data,isCancel=false){
+    if(!isCancel) {
+        this.addNewCancelHistory(optionTypes.ITEM_SET_STYLE, {
+            tdId: this.tdId,
+            id: this.id,
+            style: cloneData(this.style),
+            propId: this.propId,
+            propName: this.propName
+        });
+    }
     const {style,propId,propName} = data.data;
     this.style = style;
     this.propName = propName;

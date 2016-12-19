@@ -13,6 +13,7 @@ import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
 import * as operationType from './utils/history/operationType'
+import {cloneData} from './utils/data-helper'
 
 class FormPage extends Component{
     constructor(){
@@ -116,10 +117,14 @@ class FormPage extends Component{
         console.log(this.historyList);
     }
 
+    addNewCancelHistory(type,data){
+        this.backHistoryList.push(new HistoryItem(type,data));
+        console.log(this.backHistoryList);
+    }
+
     goBack(){
         let item = this.historyList.pop();
         if(item) {
-            this.backHistoryList.push(item);
             if (item.type == operationType.CHOOSE_STYLE) {
                 this.props.dispatch(updateCurrentStyleId(item.data.styleId));
                 console.log(item.data.styleId);
@@ -158,10 +163,6 @@ class FormPage extends Component{
                     tableObj.tdGoBack(item);
                 }
                 this.afterUpdateStyle();
-                return;
-            }
-            if(item.type == operationType.ITEM_SET_STYLE){
-
             }
         }
     }
@@ -169,10 +170,6 @@ class FormPage extends Component{
     cancelGoBack(){
         let item = this.backHistoryList.pop();
         this.historyList.push(item);
-    }
-
-    handleRecover(){
-
     }
 
     generateTable(num1, num2){
@@ -186,7 +183,8 @@ class FormPage extends Component{
             onComponentContext:this.onComponentContext.bind(this),
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
             onDeleteComponent:this.deleteComponent.bind(this),
-            addNewHistory:this.addNewHistory.bind(this)
+            addNewHistory:this.addNewHistory.bind(this),
+            addNewCancelHistory:this.addNewCancelHistory.bind(this)
         };
         let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
         this.setState({tableObj:tableObj2});
@@ -277,7 +275,8 @@ class FormPage extends Component{
                 onComponentContext:this.onComponentContext.bind(this),
                 afterUpdateStyle:this.afterUpdateStyle.bind(this),
                 onDeleteComponent:this.deleteComponent.bind(this),
-                addNewHistory:this.addNewHistory.bind(this)
+                addNewHistory:this.addNewHistory.bind(this),
+                addNewCancelHistory:this.addNewCancelHistory.bind(this)
             };
             let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,data);
             this.setState({tableObj:tableObj2,showModuleView:false});

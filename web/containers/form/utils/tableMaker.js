@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react';
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import * as operationTypes from './history/operationType'
-import {cloneDataArray} from '../utils/data-helper'
+import {cloneDataArray,cloneData} from '../utils/data-helper'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
@@ -30,7 +30,7 @@ export default class tableMaker extends Object {
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,addNewHistory} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,addNewHistory,addNewCancelHistory} = functionArray;
     this.onTdClick = onTdClick;
     this.onTdContext = onTdContext;
     this.onComponentDrop = onComponentDrop;
@@ -38,6 +38,7 @@ export function registerFunc(functionArray){
     this.afterUpdateStyle = afterUpdateStyle;
     this.onDeleteComponent = onDeleteComponent;
     this.addNewHistory = addNewHistory;
+    this.addNewCancelHistory = addNewCancelHistory;
     this.getNode = getNode;
     this.merge = merge;
     this.split = split;
@@ -90,6 +91,7 @@ export function createTd(x,y,recoverData){
         afterUpdateStyle: this.afterUpdateStyle,
         onDeleteComponent: this.onDeleteComponent,
         addNewHistory:this.addNewHistory,
+        addNewCancelHistory:this.addNewCancelHistory,
         deleteTd:this.deleteTd.bind(this),
         addTd:this.addTd.bind(this)
     };
@@ -341,13 +343,21 @@ export function split(id){
     }
 }
 
-export function goBack(item){
+export function goBack(item,isCancel=false){
+    if(!isCancel) {
+        let beforeTds = cloneDataArray(this.tds);
+        this.addNewCancelHistory(item.type, {tds: beforeTds});
+    }
     this.tds = item.data.tds;
 }
 
-export function tdGoBack(data){
+export function tdGoBack(data,isCancel=false){
     if(data.type != operationTypes.ITEM_SET_STYLE) {
         const {x, y} = data.data.obj.posInfo;
+        if(!isCancel) {
+            let beforeTd = cloneData(this.tds[y][x]);
+            this.addNewCancelHistory(data.type, {obj: beforeTd});
+        }
         this.tds[y][x] = data.data.obj;
     } else {
         const {tdId,id} = data.data;

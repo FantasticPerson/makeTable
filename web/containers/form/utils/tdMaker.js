@@ -6,8 +6,9 @@ import InputMaker from './componentMaker/inputMaker'
 import DropBoxMaker from './componentMaker/dropboxMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import {getStyleObj,cloneData} from './data-helper'
-import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
 import * as operationTypes from '../utils/history/operationType'
+import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
+import {XmlEntities} from 'html-entities'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
@@ -39,11 +40,11 @@ export default class tdMaker extends Object{
             let components = recoverData.components;
             components.map(item=> {
                 if (item.type == componentInput) {
-                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory, item))
+                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory, item))
                 } else if (item.type == componentTextArea) {
-                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,item))
+                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory,item))
                 } else if (item.type == componentDropBox) {
-                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,item))
+                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory,item))
                 }
             })
         }
@@ -51,7 +52,7 @@ export default class tdMaker extends Object{
 }
 
 export function registerFunc(functionArray){
-    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,deleteTd,addTd,addNewHistory} = functionArray;
+    const {onTdClick,onTdContext,onComponentDrop,onComponentContext,afterUpdateStyle,onDeleteComponent,deleteTd,addTd,addNewHistory,addNewCancelHistory} = functionArray;
     this.onTdClick = onTdClick;
     this.onComponentContext = onComponentContext;
     this.onTdContext = onTdContext;
@@ -61,6 +62,7 @@ export function registerFunc(functionArray){
     this.deleteTd = deleteTd;
     this.addTd = addTd;
     this.addNewHistory = addNewHistory;
+    this.addNewCancelHistory = addNewCancelHistory;
     this.setComponentStyle = setComponentStyle;
     this.insertComponent = insertComponent;
     this.getNode = getNode;
@@ -73,11 +75,11 @@ export function registerFunc(functionArray){
 export function insertComponent(type,styleArr,styleId){
     let beforeTd = cloneData(this);
     if(type == componentInput){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
+        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory))
     } else if(type == componentTextArea){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
+        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory))
     } else if(type == componentDropBox){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory))
+        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory.addNewCancelHistory))
     }
     if(type == componentInput || type == componentTextArea || type == componentDropBox){
         this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
@@ -137,19 +139,22 @@ export function onSetStyleConfirm(style,text,item,props){
             this.hasChanged = true;
         }
     }
-    this.addNewHistory(operationTypes.SET_TD_STYLE,{id:this.id,style:this.style});
+    this.addNewHistory(operationTypes.SET_TD_STYLE,{id:this.id,propName:this.propName,propId:this.propId,style:cloneData(this.style)});
+    this.propName = props.name;
+    this.propId = props.id;
     this.style = {...this.style,...style};
-    this.propName = props.propName;
-    this.propId = props.propId;
     this.afterUpdateStyle();
 }
 
-export function goBack(data){
+export function goBack(data,isCancel=false){
     const {id} = data.data;
     let componentItem = this.componentArray.find((item)=>{
         return item.id == id;
     });
     if(componentItem){
+        if(!isCancel){
+            this.addNewCancelHistory(data.type,{id:this.id,style:cloneData(this.style)});
+        }
         componentItem.goBack(data);
     }
 }
@@ -193,7 +198,6 @@ export function getNode(tdIds,index=0){
             return item.id == this.styleId;
         });
         const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix} = this.posInfo;
-        // let height = cRow / tRow * tHeight;
         let width = cCol / tCol * tWidth;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
@@ -201,35 +205,38 @@ export function getNode(tdIds,index=0){
         let style = {};
         style.backgroundColor = bgColor;
         style.width = width+'px';
-        // style.width = cCol /tCol * 100 + '%';
-        // style.height = height+'px';
-        // style.height = cRow /tRow * 100+'%';
         let getStyle = getStyleObj(cStyle,{...this.style});
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
+
+        // if(index == 0) {
+            // let enties = new XmlEntities();
+            // console.log(enties.decode('&nbsp;'));
+            // let outPut = enties.decode('&nbsp;');
+            // console.log(enties.encode(' "\'&©®'));
+            // let text = this.value.replace(' ', outPut);
+        // }
+        // console.log(text);
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        return (<td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
+        return (
+            <td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();
-                    {/*if(e.component){*/}
-                        {/*this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY,e.component);*/}
-                    {/*} else {*/}
-                        if (bgColor == '#eeeeee') {
-                            this.onTdContext({pageX: e.pageX, pageY: e.pageY,id:this.id,deleteTd:this.deleteTd,addTd:this.addTd});
-                        } else {
-                            this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
-                        }
-                    {/*}*/}
-                    {/*e.component = null;*/}
+                    if (bgColor == '#eeeeee') {
+                        this.onTdContext({pageX: e.pageX, pageY: e.pageY,id:this.id,deleteTd:this.deleteTd,addTd:this.addTd});
+                    } else {
+                        this.onContextMenuShow(e.currentTarget, e.pageX, e.pageY);
+                    }
                 }} onDragOver={(e)=>{
-                    e.preventDefault()
+                    e.preventDefault();
                 }} onDrop={(e)=>{
                     this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
                 }}>{this.value}{components}
-        </td>)
+            </td>
+        )
     }
     return null;
 }
