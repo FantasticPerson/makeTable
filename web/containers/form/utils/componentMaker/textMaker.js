@@ -10,7 +10,7 @@ export default class TextMaker1 extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
         super(id,tdId,styleArr,styleId,funcArray,recoverData);
         this.type = componentText;
-        this.value = recoverData ? recoverData.value : "啦啦啦啦";
+        this.value = recoverData ? recoverData.value : "右击编辑";
         this.style = recoverData ? recoverData.style : {width:120,height:25.33};
         this.getNode = getNode;
     }

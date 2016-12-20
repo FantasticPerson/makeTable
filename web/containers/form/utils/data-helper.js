@@ -1,7 +1,6 @@
 /**
  * Created by wdd on 2016/12/2.
  */
-import cloneObj from 'fastest-clone'
 import clone from 'clone'
 
 export function checkArrayEqual(arr1,arr2){
@@ -30,7 +29,7 @@ export function cloneDataArray(arr){
         if(arr[i] instanceof Array) {
             tempArr.push(cloneDataArray(arr[i]));
         } else {
-            tempArr.push(clone([arr[i]]));
+            tempArr.push(clone(arr[i]));
         }
     }
     return tempArr;
