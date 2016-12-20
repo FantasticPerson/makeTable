@@ -153,7 +153,6 @@ export function exportData(){
 export function merge(tdArr){
     let pointsArr = [];
     let beforeTds = cloneDataArray(this.tds);
-    console.log(beforeTds);
     tdArr.map(id=>{
         let item = this.getItemById(id);
         let xLength = 1,yLength=1;
@@ -250,8 +249,6 @@ export function merge(tdArr){
             this.tds[j][i].mockType = 3;
         }
     }
-
-    // console.log(this.checkIsValid());
 
     this.setTdSize();
     this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});

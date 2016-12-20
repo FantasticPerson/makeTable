@@ -25,7 +25,6 @@ export default class TextStyleEditor extends Component{
         if(showBorder) {
             cStyle.showBorder = showBorder.getValue();
         }
-        console.log(cStyle);
         let value = textPicker ? textPicker.getValue() : '';
         onConfirm(cStyle,value,item,itemInfoEditor.getValue());
         onClose();

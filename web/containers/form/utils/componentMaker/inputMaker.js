@@ -22,7 +22,6 @@ export function getNode(index){
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
     let resultStyle = {color:cStyle2.color,...cStyle2,textAlign:'left'};
-    //console.log(resultStyle);
     return (
         <input name={this.propName} ref='input' id={this.propId} type="text" style={resultStyle} defaultValue={this.value}  key={index}
                onClick={(e)=>{

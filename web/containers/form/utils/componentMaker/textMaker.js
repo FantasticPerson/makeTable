@@ -22,7 +22,6 @@ export function getNode(index){
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
     let resultStyle = {color:cStyle2.color,...cStyle2,textAlign:'left'};
-    console.log(this.value);
     return (
         <input name={this.propName} disabled="disabled" ref='input' id={this.propId} type="text" style={{...resultStyle,borderWidth:'0',textAlign:'center'}} value={this.value}  key={index}
                onClick={(e)=>{

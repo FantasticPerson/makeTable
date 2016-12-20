@@ -73,7 +73,6 @@ export function onSetStyleConfirm(style,item,props,value){
 }
 
 export function onContextMenuShow(item,pageX,pageY){
-    console.log(this.type);
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });

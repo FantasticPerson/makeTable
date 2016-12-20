@@ -98,9 +98,7 @@ export function insertComponent(type,styleArr,styleId){
     } else {
         return;
     }
-    // if(type == componentInput || type == componentTextArea || type == componentDropBox){
-        this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
-    // }
+    this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
 }
 
 export function deleteComponent(id){
@@ -228,9 +226,6 @@ export function getNode(tdIds,index=0){
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        if(this.id == 0){
-            console.log(components);
-        }
         return (
             <td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);

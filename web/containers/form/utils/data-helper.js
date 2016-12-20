@@ -30,8 +30,6 @@ export function cloneDataArray(arr){
         if(arr[i] instanceof Array) {
             tempArr.push(cloneDataArray(arr[i]));
         } else {
-            // let outputArrutArr = cloneObj.cloneArray([arr[i]]);
-            // tempArr.push(outputArr[0]);
             tempArr.push(clone([arr[i]]));
         }
     }
@@ -39,13 +37,7 @@ export function cloneDataArray(arr){
 }
 
 export function cloneData(obj){
-    try {
-        return clone(obj);
-        // let outputArr = cloneObj.cloneArray([obj]);
-        // return outputArr[0];
-    } catch (err){
-        console.error(err);
-    }
+    return clone(obj);
 }
 
 export function htmlLint(htmlString){

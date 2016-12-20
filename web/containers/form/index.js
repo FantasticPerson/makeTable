@@ -127,7 +127,6 @@ class FormPage extends Component{
         if(item) {
             if (item.type == operationType.CHOOSE_STYLE) {
                 this.props.dispatch(updateCurrentStyleId(item.data.styleId));
-                console.log(item.data.styleId);
                 setTimeout(function () {
                     this.afterUpdateStyle();
                 }.bind(this), 20);
@@ -237,7 +236,6 @@ class FormPage extends Component{
                 ll.formStyleList = formStyleList;
                 this.tableDataTosave = JSON.stringify(ll);
                 let blob = new Blob([getTableHtml((document.getElementsByTagName('table')[0]).outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
-                // console.log([getTableHtml((document.getElementsByTagName('table')[0]).outerHTML,this.tableDataTosave)]);
                 saveAs(blob, 'hello world.html');
             }.bind(this), 20);
         }
