@@ -2,13 +2,14 @@
  * Created by wdd on 2016/11/24.
  */
 import React,{Component,PropTypes} from 'react'
-import InputMaker from './componentMaker/inputMaker'
-import DropBoxMaker from './componentMaker/dropboxMaker'
+import TextMaker from './componentMaker/textMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
+import InputMaker from './componentMaker/inputMaker'
+import DropBoxMaker from './componentMaker/dropBoxMaker'
+
 import {getStyleObj,cloneData} from './data-helper'
 import * as operationTypes from '../utils/history/operationType'
-import {componentInput,componentTextArea,componentDropBox,componentTd} from '../const'
-import {XmlEntities} from 'html-entities'
+import {componentInput,componentTextArea,componentDropBox,componentTd,componentText} from '../const'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
@@ -40,11 +41,13 @@ export default class tdMaker extends Object{
             let components = recoverData.components;
             components.map(item=> {
                 if (item.type == componentInput) {
-                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory, item))
+                    this.componentArray.push(new InputMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
                 } else if (item.type == componentTextArea) {
-                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory,item))
+                    this.componentArray.push(new TextAreaMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item))
                 } else if (item.type == componentDropBox) {
-                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, this.onComponentContext, this.onDeleteComponent, this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory,item))
+                    this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentText){
+                    this.componentArray.push(new TextMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
                 }
             })
         }
@@ -75,11 +78,13 @@ export function registerFunc(functionArray){
 export function insertComponent(type,styleArr,styleId){
     let beforeTd = cloneData(this);
     if(type == componentInput){
-        this.componentArray.push(new InputMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory))
+        this.componentArray.push(new InputMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentTextArea){
-        this.componentArray.push(new TextAreaMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory,this.addNewCancelHistory))
+        this.componentArray.push(new TextAreaMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}))
     } else if(type == componentDropBox){
-        this.componentArray.push(new DropBoxMaker(this.componentId++,this.id,styleArr,styleId,this.onComponentContext,this.onDeleteComponent,this.afterUpdateStyle,this.addNewHistory.addNewCancelHistory))
+        this.componentArray.push(new DropBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+    } else if(type == componentText){
+        this.componentArray.push(new TextMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     }
     if(type == componentInput || type == componentTextArea || type == componentDropBox){
         this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
@@ -208,15 +213,6 @@ export function getNode(tdIds,index=0){
         let getStyle = getStyleObj(cStyle,{...this.style});
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
-
-        // if(index == 0) {
-            // let enties = new XmlEntities();
-            // console.log(enties.decode('&nbsp;'));
-            // let outPut = enties.decode('&nbsp;');
-            // console.log(enties.encode(' "\'&©®'));
-            // let text = this.value.replace(' ', outPut);
-        // }
-        // console.log(text);
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
@@ -234,7 +230,7 @@ export function getNode(tdIds,index=0){
                     e.preventDefault();
                 }} onDrop={(e)=>{
                     this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                }}>{this.value}{components}
+                }}>{components}
             </td>
         )
     }

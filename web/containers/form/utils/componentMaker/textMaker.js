@@ -1,89 +1,39 @@
 /**
- * Created by wdd on 2016/11/30.
+ * Created by wdd on 2016/12/20.
  */
 import React,{Component,PropTypes} from 'react'
-import {getStyleObj,setItemStyle} from '../data-helper'
+import ComponentMaker from './baseComponent/componentMaker'
+import {componentText} from '../../const'
+import {getStyleObj} from '../data-helper'
 
-export default class TextMaker extends Object{
-    constructor(id,tdId,styleArr,styleId,onComponentClick,onDelete,tdStyle){
-        super();
-        this.tdId = tdId;
-        this.id = id;
-        this.type = 'text';
-        this.value = "右击编辑内容";
-        this.style = {};
-        this.styleArr = styleArr;
-        this.styleId = styleId;
-        this.tdStyle = tdStyle;
-        this.onContextMenu = onComponentClick;
-        this.onDelete = onDelete;
+export default class TextMaker1 extends ComponentMaker{
+    constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
+        super(id,tdId,styleArr,styleId,funcArray,recoverData);
+        this.type = componentText;
+        this.value = recoverData ? recoverData.value : "啦啦啦啦";
+        this.style = recoverData ? recoverData.style : {width:120,height:25.33};
         this.getNode = getNode;
-        this.setStyle = setStyle;
-        this.onSetStyleConfirm = onSetStyleConfirm;
-        this.onContextMenuShow = onContextMenuShow;
-        this.onClickShow = onClickShow;
-        this.setTdStyle = setTdStyle;
-        this.setValue = setValue;
     }
 }
 
-export function setStyle(styleArr){
-    this.styleArr = styleArr;
-}
-
-export function setTdStyle(style){
-    this.tdStyle = style;
-}
-
-export function setValue(value){
-    this.value = value;
-}
-
-export function onSetStyleConfirm(style,text,item){
-    item.innerHTML = text;
-    setItemStyle(item,style);
-    this.style = {...this.style,...style};
-    this.value = text;
-}
-
-export function onContextMenuShow(item,pageX,pageY){
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
-    let style1 = {color:cStyle.fontColor,fontFamily:cStyle.fontFamily,fontSize:cStyle.fontSize};
-    this.onContextMenu({
-        type:this.type,
-        id:this.id,
-        tdId:this.tdId,
-        pageX:pageX,
-        pageY:pageY,
-        style:{...style1,...this.style},
-        value:this.value,
-        onConfirm:this.onSetStyleConfirm.bind(this),
-        onDelete:this.onDelete,
-        cTarget:item
-    });
-}
-
-export function onClickShow(item){
-}
-
 export function getNode(index){
-    return;
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });
+    let cStyle2 = getStyleObj(cStyle,this.style);
+    let resultStyle = {color:cStyle2.color,...cStyle2,textAlign:'left'};
+    console.log(this.value);
     return (
-        <span style={getStyleObj(cStyle,this.tdStyle)} key={index} onClick={(e)=>{
+        <input name={this.propName} disabled="disabled" ref='input' id={this.propId} type="text" style={{...resultStyle,borderWidth:'0',textAlign:'center'}} value={this.value}  key={index}
+               onClick={(e)=>{
+                   e.stopPropagation();
+               }} onContextMenu={(e)=>{
             e.stopPropagation();
-            {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
-        }} onContextMenu={(e)=>{
             e.preventDefault();
-            {/*e.stopPropagation();*/}
-            e.component = {item:e.currentTarget,obj:this,value:this.value};
-            {/*this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);*/}
-            {/*e.component = {obj:this,node:e.currentTarget,pageX:e.pageX,pageY:e.pageY};*/}
+            this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
+        }} onChange={(e)=>{
+            this.value = e.currentTarget.value;
         }}
-        >{this.value}</span>
+        />
     )
 }

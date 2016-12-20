@@ -32,20 +32,19 @@ export default class ComponentRightClickModal extends Component{
             propName:data.propName,
             propId:data.propId,
             onClose:this.onCloseModal.bind(this),
-            onConfirm:data.onConfirm
+            onConfirm:data.onConfirm,
+            textValue:data.value
         };
         if(data.type == componentText){
-            return <InputStyleEditor1/>
+            return <InputStyleEditor1  data={{onDelete:data.onDelete,...transferData}}/>
         } else if(data.type == componentInput){
             return <InputStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
-
         } else if(data.type == componentTextArea){
             return <InputStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
-
         } else if(data.type == componentDropBox){
             return <DropBoxStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
         } else if(data.type == componentTd){
-            return <TdStyleEditor1 data={{textValue:data.value,...transferData}}/>
+            return <TdStyleEditor1 data={transferData}/>
         }
     }
 
