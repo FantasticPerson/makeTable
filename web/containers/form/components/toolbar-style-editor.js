@@ -8,7 +8,6 @@ import TextSetEditor from './styleEditorComponent/textSetEditor'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
 import {findItem,cloneDataArray} from '../utils/data-helper'
 import * as operationTypes from '../utils/history/operationType'
-import cloneObj from 'clone-object'
 
 export default class ComponentStyleEditor extends Component{
     constructor(){
