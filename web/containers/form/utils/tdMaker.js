@@ -6,10 +6,12 @@ import TextMaker from './componentMaker/textMaker'
 import TextAreaMaker from './componentMaker/textAreaMaker'
 import InputMaker from './componentMaker/inputMaker'
 import DropBoxMaker from './componentMaker/dropBoxMaker'
+import CheckBoxMaker from './componentMaker/checkBoxMaker'
+import RadioBoxMaker from './componentMaker/radioBoxMaker'
 
 import {getStyleObj,cloneData} from './data-helper'
 import * as operationTypes from '../utils/history/operationType'
-import {componentInput,componentTextArea,componentDropBox,componentTd,componentText} from '../const'
+import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox} from '../const'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
@@ -48,6 +50,10 @@ export default class tdMaker extends Object{
                     this.componentArray.push(new DropBoxMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
                 } else if(item.type == componentText){
                     this.componentArray.push(new TextMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentCheckBox){
+                    this.componentArray.push(new CheckBoxMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentRadioBox){
+                    this.componentArray.push(new RadioBoxMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
                 }
             })
         }
@@ -85,6 +91,10 @@ export function insertComponent(type,styleArr,styleId){
         this.componentArray.push(new DropBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentText){
         this.componentArray.push(new TextMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+    } else if(type == componentCheckBox){
+        this.componentArray.push(new CheckBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+    } else if(type == componentRadioBox){
+        this.componentArray.push(new RadioBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     }
     if(type == componentInput || type == componentTextArea || type == componentDropBox){
         this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});

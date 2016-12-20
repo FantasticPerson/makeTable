@@ -207,7 +207,9 @@ export function getStyleSet(style,styleObj){
     applyProp(styleObj,style,cStyle,'fontSize');
     applyProp(styleObj,style,cStyle,'fontFamily');
     applyProp(styleObj,style,cStyle,'width');
+    applyProp(styleObj,style,cStyle,'width1');
     applyProp(styleObj,style,cStyle,'height');
+    applyProp(styleObj,style,cStyle,'height1');
     applyProp(styleObj,style,cStyle,'textAlign');
     applyProp1(styleObj,style,cStyle,'marginTop');
     applyProp1(styleObj,style,cStyle,'marginLeft');

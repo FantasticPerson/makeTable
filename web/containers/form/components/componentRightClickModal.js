@@ -5,10 +5,11 @@ import React,{Component,PropTypes} from 'react'
 import BaseModal from '../../../components/BaseModal'
 import * as overLayNames from '../../../constants/OverLayNames'
 import {removeOverLayByName} from '../../../actions/view'
-import InputStyleEditor1 from './comPonentStyleEditors/inputStyleEditor'
-import TdStyleEditor1 from './comPonentStyleEditors/tdStyleEditor'
-import DropBoxStyleEditor1 from './comPonentStyleEditors/dropBoxStyleEditor'
-import {componentText,componentTextArea,componentInput,componentDropBox,componentTd} from '../const'
+import TdStyleEditor from './componentStyleEditors/tdStyleEditor'
+import InputStyleEditor from './componentStyleEditors/inputStyleEditor'
+import DropBoxStyleEditor from './componentStyleEditors/dropBoxStyleEditor'
+import CheckBoxStyleEditor from './componentStyleEditors/checkBoxStyleEditor'
+import {componentText,componentTextArea,componentInput,componentDropBox,componentTd,componentRadioBox,componentCheckBox} from '../const'
 
 export default class ComponentRightClickModal extends Component{
     constructor(){
@@ -35,16 +36,14 @@ export default class ComponentRightClickModal extends Component{
             onConfirm:data.onConfirm,
             textValue:data.value
         };
-        if(data.type == componentText){
-            return <InputStyleEditor1  data={{onDelete:data.onDelete,...transferData}}/>
-        } else if(data.type == componentInput){
-            return <InputStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
-        } else if(data.type == componentTextArea){
-            return <InputStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
+        if(data.type == componentText || data.type == componentInput || data.type == componentTextArea){
+            return <InputStyleEditor data={{onDelete:data.onDelete,...transferData}}/>
         } else if(data.type == componentDropBox){
-            return <DropBoxStyleEditor1 data={{onDelete:data.onDelete,...transferData}}/>
+            return <DropBoxStyleEditor data={{onDelete:data.onDelete,...transferData}}/>
         } else if(data.type == componentTd){
-            return <TdStyleEditor1 data={transferData}/>
+            return <TdStyleEditor data={transferData}/>
+        } else if(data.type == componentCheckBox || data.type == componentRadioBox){
+            return <CheckBoxStyleEditor data={{onDelete:data.onDelete,...transferData}}/>
         }
     }
 

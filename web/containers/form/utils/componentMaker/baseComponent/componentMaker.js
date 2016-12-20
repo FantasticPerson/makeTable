@@ -3,7 +3,7 @@
  */
 import {cloneData} from '../../data-helper'
 import * as optionTypes from '../../history/operationType'
-import {componentText} from '../../../const'
+import {componentText,componentCheckBox,componentRadioBox} from '../../../const'
 
 export default class ComponentMaker extends Object{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
@@ -63,8 +63,7 @@ export function onSetStyleConfirm(style,item,props,value){
         propName: this.propName,
         value:this.value
     });
-    if(this.type == componentText){
-        console.log(value);
+    if(this.type == componentText || this.type == componentCheckBox || this.type == componentRadioBox){
         this.value = value;
     }
     this.style = {...this.style,...style};
@@ -74,6 +73,7 @@ export function onSetStyleConfirm(style,item,props,value){
 }
 
 export function onContextMenuShow(item,pageX,pageY){
+    console.log(this.type);
     let cStyle = this.styleArr.find((item)=>{
         return item.id == this.styleId;
     });

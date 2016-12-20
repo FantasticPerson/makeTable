@@ -11,19 +11,38 @@ export default class ComponentPositionStyleEditor extends Component{
     }
 
     getValue(){
-        const {numberSetter1,numberSetter2,numberPicker1,numberPicker2} = this.refs;
-        return {
+        const {numberSetter1,numberSetter2,numberPicker1,numberPicker2,numberSetter3,numberSetter4} = this.refs;
+        let result = {
             width:numberSetter1.getValue(),
             height:numberSetter2.getValue(),
             marginLeft:numberPicker1.getValue(),
             marginTop:numberPicker2.getValue()
+        };
+        if(numberSetter3 && numberSetter4){
+            return {
+                ...result,
+                width1:numberSetter3.getValue(),
+                height1:numberSetter4.getValue()
+            }
         }
+        return result;
+    }
+
+    renderChooseBoxSize(){
+        const {width1,height1} = this.props.data.style;
+        return(
+            <div className="style-component-item-style">
+                <StyleEditorItemPicker ref="numberSetter3" type={editorNumberSetter} title="选择框宽" data={{number:width1}}/>
+                <StyleEditorItemPicker ref="numberSetter4" type={editorNumberSetter} title="选择框高" data={{number:height1}}/>
+            </div>
+        )
     }
 
     render(){
         const {style} = this.props.data;
         return (
             <div style={{backgroundColor:'#FFF'}}>
+                {this.renderChooseBoxSize()}
                 <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="numberSetter1" type={editorNumberSetter} title="宽度" data={{number:style.width ? style.width : null}}/>
                     <StyleEditorItemPicker ref="numberSetter2" type={editorNumberSetter} title="高度" data={{number:style.height ? style.height : null}}/>

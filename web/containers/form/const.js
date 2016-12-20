@@ -62,6 +62,8 @@ export const componentText = 'text';
 export const componentInput = 'input';
 export const componentTextArea = 'textArea';
 export const componentDropBox = 'dropBox';
+export const componentCheckBox = 'checkBox';
+export const componentRadioBox = 'radioBox';
 export const componentTd = 'td';
 
 export const editorNumberPicker = 'numberPicker';
