@@ -95,10 +95,12 @@ export function insertComponent(type,styleArr,styleId){
         this.componentArray.push(new CheckBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentRadioBox){
         this.componentArray.push(new RadioBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+    } else {
+        return;
     }
-    if(type == componentInput || type == componentTextArea || type == componentDropBox){
+    // if(type == componentInput || type == componentTextArea || type == componentDropBox){
         this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
-    }
+    // }
 }
 
 export function deleteComponent(id){
@@ -226,6 +228,9 @@ export function getNode(tdIds,index=0){
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
+        if(this.id == 0){
+            console.log(components);
+        }
         return (
             <td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);

@@ -17,7 +17,7 @@ export default class TextStyleEditor extends Component{
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.data;
         const {textPicker,fontPicker,tdPosPicker,showBorder,itemInfoEditor} = this.refs;
-        let resultStyle = {...tdPosPicker};
+        let resultStyle = {...tdPosPicker.getValue()};
         if(fontPicker){
             resultStyle = {...resultStyle,...fontPicker.getValue()}
         }
@@ -25,6 +25,7 @@ export default class TextStyleEditor extends Component{
         if(showBorder) {
             cStyle.showBorder = showBorder.getValue();
         }
+        console.log(cStyle);
         let value = textPicker ? textPicker.getValue() : '';
         onConfirm(cStyle,value,item,itemInfoEditor.getValue());
         onClose();
