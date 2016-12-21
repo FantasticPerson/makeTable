@@ -228,7 +228,7 @@ class FormPage extends Component{
                 ll.formStyleList = formStyleList;
                 this.tableDataTosave = JSON.stringify(ll);
                 let blob = new Blob([getTableHtml((document.getElementsByTagName('table')[0]).outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
-                saveAs(blob, 'hello world.html');
+                saveAs(blob, 'form.html');
             }.bind(this), 20);
         }
     }

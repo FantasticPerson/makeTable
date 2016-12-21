@@ -32,6 +32,8 @@ export function getNode(index){
             e.stopPropagation();
             e.preventDefault();
             this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
+        }} onDoubleClick={(e)=>{
+            e.stopPropagation();
         }}/>
     )
 }

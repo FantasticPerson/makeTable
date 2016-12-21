@@ -32,6 +32,8 @@ export function getNode(index){
             this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
         }} onChange={(e)=>{
             this.value = e.currentTarget.value;
+        }} onDoubleClick={(e)=>{
+            e.stopPropagation();
         }}
         />
     )

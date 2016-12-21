@@ -75,7 +75,7 @@ export const editorTextPicker = 'textPicker';
 export const editorOptionPicker = 'optionSetter';
 
 export function getTableHtml(tableString,recoverData){
-    let string = "<html> <head> <title>表单元素说明</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto} input[type='text']:disabled {background-color:#FFF} input[type='text'] {border:0;border-bottom:1px #cccccc dotted} input[type='checkbox']{margin:0;padding: 0;} body{margin:0} </style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";
+    let string = "<html> <head> <title>表单</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto} input[type='text']:disabled {background-color:#FFF} input[type='text'] {border:0;border-bottom:1px #cccccc dotted} input[type='checkbox']{margin:0;padding: 0;} body{margin:0} </style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";
     string += tableString;
     string += "</div> </body> <div class='recoverData' style='display: none'>";
     string += recoverData;

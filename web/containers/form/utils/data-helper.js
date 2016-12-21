@@ -50,6 +50,7 @@ export function htmlLint(htmlString){
     let reg4 = new RegExp(/<!--.+-->/);
     let reg5 = new RegExp(/<meta.+>/);
     let reg6 = new RegExp(/<input.+>/);
+    let reg7 = new RegExp(/<\/textarea>/);
     for(let i=0;i<arr.length;i++){
         let index2 = tempStr.indexOf(arr[i],index);
         if(index < index2){
@@ -83,7 +84,17 @@ export function htmlLint(htmlString){
             grade = isLastAdd ? grade+1 : grade;
             isLastAdd = true;
         }
-        resultStr+= '\r\n'+ getTab(grade) + arr2[i];
+        if(i > 0 && arr2[i-1] && arr2[i+1]){
+            if(arr2[i-1].indexOf("<textarea") >= 0 && arr2[i+1].indexOf("</textarea") >= 0){
+                resultStr += arr2[i];
+                continue;
+            }
+        }
+        if(reg7.test(arr2[i])){
+            resultStr += arr2[i];
+        } else {
+            resultStr += '\r\n' + getTab(grade) + arr2[i];
+        }
     }
     function getTab(num){
         let str = '';
