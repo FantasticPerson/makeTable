@@ -33,8 +33,20 @@ export default class NumberPicker extends Component{
     }
 
     onChange(e){
+        const {max,min,number} = this.state;
         const {input} = this.refs;
-        this.setState({number:Number(input.value)})
+        if(!isNaN(Number(input.value))){
+            if(input.value != "") {
+                if (input.value <= max && input.value >= min) {
+                    this.setState({number: Number(input.value)})
+                } else {
+                    input.value = number;
+                }
+            }
+        } else {
+            input.value = this.state.number;
+            this.setState({number:Number(input.value)})
+        }
     }
 
     componentDidMount(){
