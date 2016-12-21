@@ -8,6 +8,7 @@ import ComponentPositionStyleEditor from '../styleEditorComponent/componentPosit
 import ItemInfoEditor from '../styleEditorComponent/itemInfoEditor'
 import {componentText} from '../../const'
 import TextSetEditor from '../styleEditorComponent/textSetEditor'
+import BorderColorEditor from '../styleEditorComponent/borderColorEditor'
 
 export default class TextStyleEditor extends Component{
     constructor(){
@@ -16,11 +17,18 @@ export default class TextStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.data;
-        const {fontStylePicker,componentStylePicker,itemInfoEditor,textPicker2} = this.refs;
-        let cStyle = getStyleSet(style,{
+        const {fontStylePicker,componentStylePicker,itemInfoEditor,textPicker2,borderColorPicker} = this.refs;
+        let resultObj = {
             ...fontStylePicker.getValue(),
             ...componentStylePicker.getValue(),
-        });
+        };
+        if(borderColorPicker){
+            resultObj = {
+                ...resultObj,
+                ...borderColorPicker.getValue()
+            }
+        }
+        let cStyle = getStyleSet(style,resultObj);
         onConfirm(cStyle,item,itemInfoEditor.getValue(),(textPicker2 ? textPicker2.getValue() : ''));
         onClose();
     }
@@ -45,9 +53,16 @@ export default class TextStyleEditor extends Component{
         }
     }
 
+    renderBorderColor(){
+        const {type,style} = this.props.data;
+        if(type != componentText){
+            return <BorderColorEditor ref="borderColorPicker" data={{style:style}}/>
+        }
+    }
+
     render(){
         const {style,pageX,pageY,propName,propId,type} = this.props.data;
-        let height = type == componentText ? 364 : 319;
+        let height = 364;
         let marginTop = window.innerHeight < height + pageY ? (window.innerHeight - height > 0 ? window.innerHeight - height : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
@@ -64,6 +79,7 @@ export default class TextStyleEditor extends Component{
                 <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
                 <ComponentPositionStyleEditor ref="componentStylePicker" data={{style:style}}/>
                 <FontStyleEditor ref="fontStylePicker" data={{style:style}}/>
+                {this.renderBorderColor()}
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>

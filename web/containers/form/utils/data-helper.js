@@ -204,6 +204,7 @@ export function setItemStyle(item,style){
 export function getStyleSet(style,styleObj){
     let cStyle = {};
     applyProp(styleObj,style,cStyle,'color');
+    applyProp(styleObj,style,cStyle,'borderColor');
     applyProp(styleObj,style,cStyle,'fontSize');
     applyProp(styleObj,style,cStyle,'fontFamily');
     applyProp(styleObj,style,cStyle,'width');

@@ -7,6 +7,7 @@ import FontStyleEditor from '../styleEditorComponent/fontStyleEditor'
 import ComponentPositionStyleEditor from '../styleEditorComponent/componentPositionStyleEditor'
 import OptionDataEditor from '../styleEditorComponent/optionDataEditor'
 import ItemInfoEditor from '../styleEditorComponent/itemInfoEditor'
+import BorderColorEditor from '../styleEditorComponent/borderColorEditor'
 
 export default class DropBoxStyleEditor extends Component{
     constructor(){
@@ -15,10 +16,11 @@ export default class DropBoxStyleEditor extends Component{
 
     onConformClick(){
         const {onConfirm,item,onClose,style} = this.props.data;
-        const {optionDataEditor1,fontStyle1,positionEditor,itemInfoEditor} = this.refs;
+        const {optionDataEditor1,fontStyle1,positionEditor,itemInfoEditor,borderColorEditor} = this.refs;
         let cStyle = getStyleSet(style,{
             ...fontStyle1.getValue(),
             ...positionEditor.getValue(),
+            ...borderColorEditor.getValue(),
             dataArray:optionDataEditor1.getValue()
         });
         onConfirm(cStyle,item,itemInfoEditor.getValue());
@@ -38,12 +40,12 @@ export default class DropBoxStyleEditor extends Component{
 
     render(){
         const {style,pageX,pageY,propName,propId} = this.props.data;
-        let marginTop = window.innerHeight < 474 + pageY ? (window.innerHeight - 474 > 0 ? window.innerHeight - 474  : 0) : pageY;
+        let marginTop = window.innerHeight < 519 + pageY ? (window.innerHeight - 519 > 0 ? window.innerHeight - 519  : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
             <div className="abc-style-bg" style={{
                 width: '452px',
-                height: '470px',
+                height: '515px',
                 marginTop:marginTop,
                 marginLeft:marginLeft
             }}>
@@ -54,6 +56,7 @@ export default class DropBoxStyleEditor extends Component{
                 <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
                 <ComponentPositionStyleEditor ref="positionEditor" data={{style:style}}/>
                 <FontStyleEditor ref="fontStyle1" data={{style:style}}/>
+                <BorderColorEditor ref="borderColorEditor" data={{style:style}}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>

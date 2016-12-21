@@ -80,7 +80,8 @@ export function onContextMenuShow(item,pageX,pageY){
         color:cStyle.color,
         fontFamily:cStyle.fontFamily,
         fontSize:cStyle.fontSize,
-        fontStyleArray:cStyle.fontStyleArray
+        fontStyleArray:cStyle.fontStyleArray,
+        borderColor:cStyle.borderColor
     };
     this.onContextMenu({
         id:this.id,
