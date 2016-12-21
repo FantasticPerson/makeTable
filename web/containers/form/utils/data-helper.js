@@ -71,7 +71,9 @@ export function htmlLint(htmlString){
             isLastAdd = false;
         }
         else if(reg6.test(arr2[i])){
-            grade++;
+            if(isLastAdd) {
+                grade++;
+            }
             isLastAdd = false;
         }
         else if(reg1.test(arr2[i])){

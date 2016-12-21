@@ -28,9 +28,9 @@ export const fontFamilyList = [
 ];
 
 export const textAlignPosition = [
-    {value:'center',text:'center'},
-    {value:'right',text:'right'},
-    {value:'left',text:'left'}
+    {value:'center',text:'居中'},
+    {value:'right',text:'居右'},
+    {value:'left',text:'居左'}
 ];
 
 export const fontWeightValues = [
@@ -75,7 +75,7 @@ export const editorTextPicker = 'textPicker';
 export const editorOptionPicker = 'optionSetter';
 
 export function getTableHtml(tableString,recoverData){
-    let string = "<html> <head> <title>表单元素说明</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto}input[type='text'] {border:0;border-bottom:1px #cccccc dotted}</style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";
+    let string = "<html> <head> <title>表单元素说明</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto} input[type='text']:disabled {background-color:#FFF} input[type='text'] {border:0;border-bottom:1px #cccccc dotted} input[type='checkbox']{margin:0;padding: 0;} body{margin:0} </style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";
     string += tableString;
     string += "</div> </body> <div class='recoverData' style='display: none'>";
     string += recoverData;

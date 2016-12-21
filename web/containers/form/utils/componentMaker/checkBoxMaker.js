@@ -10,7 +10,7 @@ export default class CheckBoxMaker extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
         super(id,tdId,styleArr,styleId,funcArray,recoverData);
         this.type = componentCheckBox;
-        this.value = '编辑';
+        this.value = recoverData ? recoverData.value:'编辑';
         this.style = recoverData ? recoverData.style : {width1:13,height1:13,width:50,height:25};
         this.getNode = getNode;
     }

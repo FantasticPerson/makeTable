@@ -13,7 +13,6 @@ import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
 import * as operationType from './utils/history/operationType'
-import {cloneData} from './utils/data-helper'
 
 class FormPage extends Component{
     constructor(){
@@ -132,16 +131,9 @@ class FormPage extends Component{
                 }.bind(this), 20);
                 return;
             }
-            if (item.type == operationType.ADD_STYLE) {
+            if (item.type == operationType.ADD_STYLE || item.type == operationType.SET_STYLE) {
                 this.props.dispatch(updateStyleList(item.data.list));
                 setTimeout(function(){
-                    this.afterUpdateStyle();
-                }.bind(this),20);
-                return;
-            }
-            if (item.type == operationType.SET_STYLE) {
-                this.props.dispatch(updateStyleList(item.data.list));
-                setTimeout(function () {
                     this.afterUpdateStyle();
                 }.bind(this),20);
                 return;
@@ -298,7 +290,9 @@ class FormPage extends Component{
                     onComponentDrop:this.onComponentDrop.bind(this),
                     onComponentContext:this.onComponentContext.bind(this),
                     afterUpdateStyle:this.afterUpdateStyle.bind(this),
-                    onDeleteComponent:this.deleteComponent.bind(this)
+                    onDeleteComponent:this.deleteComponent.bind(this),
+                    addNewHistory:this.addNewHistory.bind(this),
+                    addNewCancelHistory:this.addNewCancelHistory.bind(this)
                 };
                 let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,tableData);
                 this.setState({tableObj:tableObj2});
