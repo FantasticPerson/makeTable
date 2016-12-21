@@ -7,7 +7,7 @@ import FontStyleEditor from '../styleEditorComponent/fontStyleEditor'
 import ComponentPositionStyleEditor from '../styleEditorComponent/componentPositionStyleEditor'
 import ItemInfoEditor from '../styleEditorComponent/itemInfoEditor'
 import {componentText} from '../../const'
-import TextSetEditor from '../styleEditorComponent/textSetEditor'
+import TextAreaSetEditor from '../styleEditorComponent/textAreaEditor'
 import BorderColorEditor from '../styleEditorComponent/borderColorEditor'
 
 export default class TextStyleEditor extends Component{
@@ -48,7 +48,7 @@ export default class TextStyleEditor extends Component{
         const {type,textValue} = this.props.data;
         if(type == componentText){
             return (
-                <TextSetEditor ref="textPicker2" data={{text:textValue,title:''}}/>
+                <TextAreaSetEditor ref="textPicker2" data={{text:textValue,title:''}}/>
             )
         }
     }
@@ -62,7 +62,7 @@ export default class TextStyleEditor extends Component{
 
     render(){
         const {style,pageX,pageY,propName,propId,type} = this.props.data;
-        let height = 364;
+        let height = type == componentText ? 384 : 364;
         let marginTop = window.innerHeight < height + pageY ? (window.innerHeight - height > 0 ? window.innerHeight - height : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(

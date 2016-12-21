@@ -22,7 +22,7 @@ export function getNode(index){
     });
     let style = getStyleObj(cStyle,this.style);
     return[
-        <input type="checkbox" style={{width:this.style.width1,height:this.style.height1}} key={index} onClick={(e)=>{
+        <input type="checkbox" name={this.propName} id={this.propId} style={{width:this.style.width1,height:this.style.height1}} key={index} onClick={(e)=>{
              e.stopPropagation()
         }} onContextMenu={(e)=>{
              e.stopPropagation();

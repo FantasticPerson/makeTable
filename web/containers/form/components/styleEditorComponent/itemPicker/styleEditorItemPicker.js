@@ -15,7 +15,8 @@ import{
     editorNumberPicker,
     editorNumberSetter,
     editorTextPicker,
-    editorOptionPicker} from '../../../const'
+    editorOptionPicker,
+    editorTextAreaPicker} from '../../../const'
 
 export default class  StyleEditorItemPicker extends Component{
     constructor(){
@@ -38,6 +39,8 @@ export default class  StyleEditorItemPicker extends Component{
             return <input style={{border: '1px solid rgb(204, 204, 204)'}} ref='pickerItem' type="text" defaultValue={(data.text?data.text:'')}/>
         } else if(type == editorOptionPicker){
             return <OptionDataAddTool ref='pickerItem' dataArray={data.dataArray ? data.dataArray:[]}/>
+        } else if(editorTextAreaPicker){
+            return <textarea style={{border: '1px solid rgb(204, 204, 204)',resize:'none'}} ref='pickerItem' defaultValue={(data.text?data.text:'')}/>
         }
     }
 
@@ -50,7 +53,7 @@ export default class  StyleEditorItemPicker extends Component{
             return pickerItem.getColor();
         } else if(type == editorCheckBoxPicker || type == editorDropBoxPicker || type == editorOptionPicker){
             return pickerItem.getValue();
-        } else if(type == editorTextPicker){
+        } else if(type == editorTextPicker || type == editorTextAreaPicker){
             return pickerItem.value;
         }
     }
@@ -58,7 +61,7 @@ export default class  StyleEditorItemPicker extends Component{
     render(){
         const {title,type} = this.props;
         let width = (type == editorColorPicker ? '250px' : (type == editorTextPicker ? '250px' : '144px'));
-        if(type == editorOptionPicker){
+        if(type == editorOptionPicker || type == editorTextAreaPicker){
             width = '280px'
         }
         if(type == editorCheckBoxPicker && title != '文字样式'){
