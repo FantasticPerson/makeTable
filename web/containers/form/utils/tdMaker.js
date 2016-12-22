@@ -223,7 +223,7 @@ export function getNode(tdIds,index=0){
         let getStyle = getStyleObj(cStyle,{...this.style});
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
-        getStyle2.width = Math.ceil(width) - (getStyle2.borderSize+2)+'px';
+        getStyle2.width = getStyle2.width ? getStyle2.width : Math.ceil(width) - (getStyle2.borderSize+2)+'px';
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });

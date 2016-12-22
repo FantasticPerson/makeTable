@@ -234,9 +234,10 @@ class FormPage extends Component{
                 for(let i=0;i<tds.length;i++){
                     const {width,height} = tds[i].style;
                     const {clientWidth,clientHeight} = tds[i];
-                    console.log(width.slice(0,-2),height.slice(0,-2));
                     if(width.slice(0,-2) < (Math.ceil(clientWidth) - borderWidth -2) ){
                         tds[i].style.width = Math.ceil(clientWidth) - borderWidth -2 + 'px';
+                    } else if(width.slice(0,-2) > (Math.ceil(clientWidth)) ){
+                        tds[i].style.width =  Math.ceil(clientWidth) - borderWidth -2 + 'px';
                     }
                     if(height.slice(0,-2) < (Math.ceil(clientHeight) - borderWidth -2)){
                         tds[i].style.height = Math.ceil(tds[i].clientHeight) - borderWidth - 2 + 'px';
@@ -319,33 +320,61 @@ class FormPage extends Component{
     }
 
     importData(recoverData){
-        if(recoverData){
-            this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL,{content:'继续会丢失当前的工作，确认继续吗？',cb:function(isTrue) {
-                if(isTrue){
-                    this.tableDataTosave = recoverData;
-                    let tableData = JSON.parse(recoverData);
-                    const {currentStyleId,formStyleMaxId,formStyleList} = tableData;
-                    this.props.dispatch(updateStyleList(formStyleList));
-                    this.props.dispatch(updateCurrentStyleId(currentStyleId));
-                    this.props.dispatch(updateMaxId(formStyleMaxId));
-                    setTimeout(function(){
-                        this.tdIds = [];
-                        const {formStyleList,formStyleId,dispatch} = this.props;
-                        let functionArray = {
-                            onTdClick:this.onTdClick.bind(this),
-                            onTdContext:this.onTdContext.bind(this),
-                            onComponentDrop:this.onComponentDrop.bind(this),
-                            onComponentContext:this.onComponentContext.bind(this),
-                            afterUpdateStyle:this.afterUpdateStyle.bind(this),
-                            onDeleteComponent:this.deleteComponent.bind(this),
-                            addNewHistory:this.addNewHistory.bind(this),
-                            addNewCancelHistory:this.addNewCancelHistory.bind(this)
-                        };
-                        let tableObj2 = new tableMaker(null,functionArray,formStyleList,null,dispatch,tableData);
-                        this.setState({tableObj:tableObj2});
-                    }.bind(this),20);
-                }
-            }.bind(this)}));
+        const {tableObj} = this.state;
+        if(recoverData) {
+            if (tableObj) {
+                this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL, {
+                    content: '继续会丢失当前的工作，确认继续吗？', cb: function (isTrue) {
+                        if (isTrue) {
+                            this.tableDataTosave = recoverData;
+                            let tableData = JSON.parse(recoverData);
+                            const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
+                            this.props.dispatch(updateStyleList(formStyleList));
+                            this.props.dispatch(updateCurrentStyleId(currentStyleId));
+                            this.props.dispatch(updateMaxId(formStyleMaxId));
+                            setTimeout(function () {
+                                this.tdIds = [];
+                                const {formStyleList, formStyleId, dispatch} = this.props;
+                                let functionArray = {
+                                    onTdClick: this.onTdClick.bind(this),
+                                    onTdContext: this.onTdContext.bind(this),
+                                    onComponentDrop: this.onComponentDrop.bind(this),
+                                    onComponentContext: this.onComponentContext.bind(this),
+                                    afterUpdateStyle: this.afterUpdateStyle.bind(this),
+                                    onDeleteComponent: this.deleteComponent.bind(this),
+                                    addNewHistory: this.addNewHistory.bind(this),
+                                    addNewCancelHistory: this.addNewCancelHistory.bind(this)
+                                };
+                                let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
+                                this.setState({tableObj: tableObj2});
+                            }.bind(this), 20);
+                        }
+                    }.bind(this)
+                }));
+            }
+        } else {
+            this.tableDataTosave = recoverData;
+            let tableData = JSON.parse(recoverData);
+            const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
+            this.props.dispatch(updateStyleList(formStyleList));
+            this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            this.props.dispatch(updateMaxId(formStyleMaxId));
+            setTimeout(function () {
+                this.tdIds = [];
+                const {formStyleList, formStyleId, dispatch} = this.props;
+                let functionArray = {
+                    onTdClick: this.onTdClick.bind(this),
+                    onTdContext: this.onTdContext.bind(this),
+                    onComponentDrop: this.onComponentDrop.bind(this),
+                    onComponentContext: this.onComponentContext.bind(this),
+                    afterUpdateStyle: this.afterUpdateStyle.bind(this),
+                    onDeleteComponent: this.deleteComponent.bind(this),
+                    addNewHistory: this.addNewHistory.bind(this),
+                    addNewCancelHistory: this.addNewCancelHistory.bind(this)
+                };
+                let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
+                this.setState({tableObj: tableObj2});
+            }.bind(this), 20);
         }
     }
 
