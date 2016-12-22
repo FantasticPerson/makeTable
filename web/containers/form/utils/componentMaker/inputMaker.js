@@ -10,7 +10,7 @@ export default class InputMaker extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
         super(id,tdId,styleArr,styleId,funcArray,recoverData);
         this.type = componentInput;
-        this.style = recoverData ? recoverData.style : {width:120,height:25.33};
+        this.style = recoverData ? recoverData.style : {width:120,height:26};
         this.value = recoverData ? recoverData.value : "";
         this.getNode = getNode;
     }
