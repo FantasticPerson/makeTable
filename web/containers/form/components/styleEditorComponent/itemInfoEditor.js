@@ -23,8 +23,8 @@ export default class ItemInfoEditor extends Component{
         return (
             <div style={{backgroundColor:'#FFF'}}>
                 <div className="style-component-item-style">
-                    <StyleEditorItemPicker ref="numberSetter1" type={editorNumberSetter} title="name" data={{number:propName}}/>
-                    <StyleEditorItemPicker ref="numberSetter2" type={editorNumberSetter} title="id" data={{number:propId}}/>
+                    <StyleEditorItemPicker ref="numberSetter1" type={editorNumberSetter} title="name" data={{number:propName,beNumber:false}}/>
+                    <StyleEditorItemPicker ref="numberSetter2" type={editorNumberSetter} title="id" data={{number:propId,beNumber:false}}/>
                 </div>
             </div>
         )

@@ -28,7 +28,7 @@ export default class  StyleEditorItemPicker extends Component{
         if(type == editorNumberPicker){
             return <NumberPicker ref="pickerItem" value={data ? data.size : 0}/>
         } else if(type == editorNumberSetter){
-            return <NumberSetter1 ref="pickerItem" number={data ? data.number : 0}/>
+            return <NumberSetter1 ref="pickerItem" number={data ? data.number : 0} beNumber={data ? (data.beNumber != undefined ? data.beNumber : true) : true}/>
         } else if(type == editorCheckBoxPicker){
             return <CheckSelector ref="pickerItem" valueArray={data.valueArray} selectedArray={data.selectedArray}/>
         } else if(type == editorDropBoxPicker){
