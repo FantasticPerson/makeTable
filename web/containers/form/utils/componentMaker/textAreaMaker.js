@@ -22,18 +22,18 @@ export function getNode(index){
     });
     let cStyle2 = getStyleObj(cStyle,this.style);
     return (
-        <textarea name={this.propName} id={this.propId} ref='textArea' style={{...cStyle2,textAlign:'left'}} defaultValue={this.value} key={index}
-                  onChange={(e)=>{
-                      this.value = e.currentTarget.value;
-                  }}
-                  onClick={(e)=>{
-                      e.stopPropagation();
-                  }} onContextMenu={(e)=>{
-            e.stopPropagation();
-            e.preventDefault();
+        <textarea name={this.propName} id={this.propId} ref='textArea' style={{...cStyle2,textAlign:'left',resize:'none'}} defaultValue={this.value} key={index}
+            onChange={(e)=>{
+                this.value = e.currentTarget.value;
+            }}
+            onClick={(e)=>{
+                e.stopPropagation();
+            }} onContextMenu={(e)=>{
+                e.stopPropagation();
+                e.preventDefault();
             this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
-        }} onDoubleClick={(e)=>{
-            e.stopPropagation();
-        }}/>
+            }} onDoubleClick={(e)=>{
+                e.stopPropagation();
+            }}/>
     )
 }

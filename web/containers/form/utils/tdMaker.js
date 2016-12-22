@@ -219,15 +219,16 @@ export function getNode(tdIds,index=0){
         let row = (cRowFix || cCol == tCol) ? 1 : cRow;
         let style = {};
         style.backgroundColor = bgColor;
-        style.width = width+'px';
+        // style.width = width+'px';
         let getStyle = getStyleObj(cStyle,{...this.style});
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
+        getStyle2.width = Math.ceil(width) - (getStyle2.borderSize+2)+'px';
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
         return (
-            <td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
+            <td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={{...getStyle2}} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();

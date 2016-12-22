@@ -57,6 +57,7 @@ export function registerFunc(functionArray){
     this.addTd = addTd;
     this.goBack = goBack;
     this.tdGoBack = tdGoBack;
+    this.getBorderWidth = getBorderWidth;
 }
 
 export function initTds(recoverData){
@@ -584,6 +585,16 @@ export function deleteTd(id,isRow){
             this.addNewHistory(operationTypes.DEL_TDS,{tds:beforeTds});
         }
     }
+}
+
+export function getBorderWidth(){
+    let style = this.styleArr.find(function (item) {
+        return item.id == this.styleId;
+    }.bind(this));
+    if(style){
+        return style.borderSize;
+    }
+    return 0;
 }
 
 export function getNode(ids){
