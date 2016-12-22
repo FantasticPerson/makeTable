@@ -12,9 +12,9 @@ export default class ComponentMaker extends Object{
         this.tdId = tdId;
         this.styleId = recoverData ? recoverData.styleId : styleId;
         this.styleArr = styleArr;
-        this.propId = ''+this.tdId+this.id;
-        this.propName = 'default';
-        this.propZname = 'default';
+        this.propId = recoverData ? recoverData.propId : ''+this.tdId+this.id;
+        this.propName = recoverData ? recoverData.propName : 'default';
+        this.propZname = recoverData ? recoverData.propZname : 'default';
         this.registerFunc = registerFunc;
         this.registerFunc(funcArray);
     }
@@ -112,6 +112,9 @@ export function exportData(){
         type:this.type,
         style:this.style,
         styleId:this.styleId,
-        value:this.value
+        value:this.value,
+        propId:this.propId,
+        propName:this.propName,
+        propZname:this.propZname
     };
 }
