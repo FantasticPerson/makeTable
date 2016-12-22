@@ -91,7 +91,7 @@ export function insertComponent(type,styleArr,styleId){
     } else if(type == componentDropBox){
         this.componentArray.push(new DropBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentText){
-        this.componentArray.push(new TextMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+        // this.componentArray.push(new TextMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentCheckBox){
         this.componentArray.push(new CheckBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentRadioBox){
@@ -99,7 +99,9 @@ export function insertComponent(type,styleArr,styleId){
     } else {
         return;
     }
-    this.addNewHistory(operationTypes.ADD_ITEM,{obj:beforeTd});
+    if(type != componentText) {
+        this.addNewHistory(operationTypes.ADD_ITEM, {obj: beforeTd});
+    }
 }
 
 export function deleteComponent(id){
