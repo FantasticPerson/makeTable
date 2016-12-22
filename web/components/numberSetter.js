@@ -19,9 +19,11 @@ export default class NumberSetter extends Component{
         const {numberSetter} = this.refs;
         if(beNumber){
             if(!isNaN(Number(numberSetter.value))){
-                if(numberSetter.value != "" && !/^\s+$/.test(numberSetter.value)) {
+                if(numberSetter.value != "" ) {//&& !/\s/.test(numberSetter.value)
                     this.setState({value: Math.floor(numberSetter.value)});
                     numberSetter.value = Math.floor(numberSetter.value);
+                } else {
+                    numberSetter.value = this.state.value;
                 }
             } else {
                 numberSetter.value = this.state.value;
