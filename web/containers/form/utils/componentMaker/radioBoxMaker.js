@@ -30,16 +30,6 @@ export function getNode(index){
             this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
         }} onDoubleClick={(e)=>{
             e.stopPropagation();
-        }}/>,
-        <input type="input" key={index+0.1} style={{...style,borderWidth:'0',textAlign:'center'}} value={this.value} disabled="disabled"
-        onClick={(e)=>{
-            e.stopPropagation()
-        }} onContextMenu={(e)=>{
-            e.stopPropagation();
-            e.preventDefault();
-            this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
-        }} onDoubleClick={(e)=>{
-            e.stopPropagation();
-        }}/>
+        }}/>,this.value
     ]
 }
