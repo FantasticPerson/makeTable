@@ -41,6 +41,7 @@ export function cloneData(obj){
 
 export function htmlLint(htmlString){
     let tempStr = htmlString;
+    tempStr = tempStr.replace(/aria-toreplace/g,'');
     let arr = tempStr.match(/<\/?[^>]+>/g);
     let arr2 = [];
     let index = 0;

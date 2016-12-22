@@ -61,7 +61,7 @@ export default class TextStyleEditor extends Component{
     }
 
     render(){
-        const {style,pageX,pageY,propName,propId,type} = this.props.data;
+        const {style,pageX,pageY,propName,propId,type,propZname} = this.props.data;
         let height = type == componentText ? 384 : 364;
         let marginTop = window.innerHeight < height + pageY ? (window.innerHeight - height > 0 ? window.innerHeight - height : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
@@ -76,7 +76,7 @@ export default class TextStyleEditor extends Component{
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
                 {this.renderTextSelector()}
-                <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
+                <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId,propZname}}/>
                 <ComponentPositionStyleEditor ref="componentStylePicker" data={{style:style}}/>
                 <FontStyleEditor ref="fontStylePicker" data={{style:style}}/>
                 {this.renderBorderColor()}

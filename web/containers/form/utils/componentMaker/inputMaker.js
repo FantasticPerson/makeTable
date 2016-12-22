@@ -23,7 +23,7 @@ export function getNode(index){
     let cStyle2 = getStyleObj(cStyle,this.style);
     let resultStyle = {color:cStyle2.color,...cStyle2,textAlign:'left'};
     return (
-        <input name={this.propName} ref='input' id={this.propId} type="text" style={resultStyle} defaultValue={this.value}  key={index}
+        <input name={this.propName} aria-toreplacezname={this.propZname} ref='input' id={this.propId} type="text" style={resultStyle} defaultValue={this.value}  key={index}
                onClick={(e)=>{
                    e.stopPropagation();
                }} onContextMenu={(e)=>{

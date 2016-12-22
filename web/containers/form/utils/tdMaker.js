@@ -151,15 +151,16 @@ export function setStyle(styleArr,styleId){
 }
 
 export function onSetStyleConfirm(style,text,item,props){
+    let beforeTd = cloneData(this);
     if(this.value != text){
         this.value = text;
         if(!this.hasChanged && this.value != ''){
             this.hasChanged = true;
         }
     }
-    this.addNewHistory(operationTypes.SET_TD_STYLE,{id:this.id,propName:this.propName,propId:this.propId,style:cloneData(this.style)});
-    this.propName = props.name;
-    this.propId = props.id;
+    this.addNewHistory(operationTypes.SET_TD_STYLE,{obj:beforeTd});
+    // this.propName = props.name;
+    // this.propId = props.id;
     this.style = {...this.style,...style};
     this.afterUpdateStyle();
 }
@@ -231,7 +232,7 @@ export function getNode(tdIds,index=0){
             return item.getNode(index);
         });
         return (
-            <td name={this.propName} id={this.propId} colSpan={col} key={index} rowSpan={row} style={{...getStyle2}} onDoubleClick={(e)=>{
+            <td colSpan={col} key={index} rowSpan={row} style={{...getStyle2}} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();

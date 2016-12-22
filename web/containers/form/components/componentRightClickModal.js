@@ -32,6 +32,7 @@ export default class ComponentRightClickModal extends Component{
             item:data.cTarget,
             propName:data.propName,
             propId:data.propId,
+            propZname:data.propZname,
             onClose:this.onCloseModal.bind(this),
             onConfirm:data.onConfirm,
             textValue:data.value

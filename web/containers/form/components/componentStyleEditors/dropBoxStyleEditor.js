@@ -39,7 +39,7 @@ export default class DropBoxStyleEditor extends Component{
     }
 
     render(){
-        const {style,pageX,pageY,propName,propId} = this.props.data;
+        const {style,pageX,pageY,propName,propId,propZname} = this.props.data;
         let marginTop = window.innerHeight < 519 + pageY ? (window.innerHeight - 519 > 0 ? window.innerHeight - 519  : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
@@ -53,7 +53,7 @@ export default class DropBoxStyleEditor extends Component{
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
                 <OptionDataEditor ref="optionDataEditor1" data={{dataArray:getArrayCopy(style.dataArray ? style.dataArray : [])}}/>
-                <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
+                <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId,propZname}}/>
                 <ComponentPositionStyleEditor ref="positionEditor" data={{style:style}}/>
                 <FontStyleEditor ref="fontStyle1" data={{style:style}}/>
                 <BorderColorEditor ref="borderColorEditor" data={{style:style}}/>

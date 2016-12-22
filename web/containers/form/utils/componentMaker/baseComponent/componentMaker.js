@@ -14,6 +14,7 @@ export default class ComponentMaker extends Object{
         this.styleArr = styleArr;
         this.propId = ''+this.tdId+this.id;
         this.propName = 'default';
+        this.propZname = 'default';
         this.registerFunc = registerFunc;
         this.registerFunc(funcArray);
     }
@@ -44,12 +45,14 @@ export function goBack(data,isCancel=false){
             id: this.id,
             style: cloneData(this.style),
             propName: this.propName,
-            propId: this.propId
+            propId: this.propId,
+            propZname:this.propZname
         });
     }
-    const {style,propName,propId} = data.data;
+    const {style,propName,propId,propZname} = data.data;
     this.propName = propName;
     this.propId = propId;
+    this.propZname = propZname;
     this.style = style;
     this.afterUpdateStyle();
 }
@@ -61,6 +64,7 @@ export function onSetStyleConfirm(style,item,props,value){
         style: cloneData(this.style),
         propId: this.propId,
         propName: this.propName,
+        propZname:this.propZname,
         value:this.value
     });
     if(this.type == componentText || this.type == componentCheckBox || this.type == componentRadioBox){
@@ -69,6 +73,7 @@ export function onSetStyleConfirm(style,item,props,value){
     this.style = {...this.style,...style};
     this.propName = props.name;
     this.propId = props.id;
+    this.propZname = props.zname;
     this.afterUpdateStyle();
 }
 
@@ -95,7 +100,8 @@ export function onContextMenuShow(item,pageX,pageY){
         onDelete:this.onDelete,
         cTarget:item,
         propName:this.propName,
-        propId:this.propId
+        propId:this.propId,
+        propZname:this.propZname
     });
 }
 

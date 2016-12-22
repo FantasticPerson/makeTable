@@ -28,7 +28,7 @@ export function getNode(index){
     }
     let cStyle2 = getStyleObj(cStyle,this.style);
     return (
-        <select name={this.propName} id={this.propId} style={{...cStyle2,textAlign:'left'}} key={index} onClick={(e)=>{
+        <select name={this.propName} id={this.propId} aria-toreplacezname={this.propZname} style={{...cStyle2,textAlign:'left'}} key={index} onClick={(e)=>{
             e.stopPropagation()
         }} onContextMenu={(e)=>{
             e.stopPropagation();

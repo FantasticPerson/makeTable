@@ -37,7 +37,7 @@ export default class CheckBoxStyleEditor extends Component{
     }
 
     render(){
-        const {style,pageX,pageY,propName,propId,textValue} = this.props.data;
+        const {style,pageX,pageY,propName,propId,textValue,propZname} = this.props.data;
         let marginTop = window.innerHeight < 414 + pageY ? (window.innerHeight - 414 > 0 ? window.innerHeight - 414  : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
@@ -51,7 +51,7 @@ export default class CheckBoxStyleEditor extends Component{
                     <div className="abc-form-component-text-style-editor-text">{'设置文本样式'}</div>
                 </div>
                 <TextSetEditor ref="textPicker" data={{text:textValue,title:''}}/>
-                <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>
+                <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId,propZname}}/>
                 <ComponentPositionStyleEditor ref="positionEditor" data={{style:style}}/>
                 <FontStyleEditor ref="fontStyle1" data={{style:style}}/>
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
