@@ -33,6 +33,7 @@ export default class tdMaker extends Object{
         this.propName = 'default';
         this.propId = ''+this.id;
         this.hasChanged = false;
+        this.value='';
         this.onContextMenuShow = onContextMenuShow;
         this.onSetStyleConfirm = onSetStyleConfirm;
 
@@ -241,7 +242,7 @@ export function getNode(tdIds,index=0){
                     e.preventDefault();
                 }} onDrop={(e)=>{
                     this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                }}>{components}
+                }}>{this.value}{components}
             </td>
         )
     }
