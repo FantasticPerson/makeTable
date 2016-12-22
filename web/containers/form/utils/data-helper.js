@@ -70,14 +70,12 @@ export function htmlLint(htmlString){
     for(let i=0;i<arr2.length;i++){
         if(reg5.test(arr2[i])){
             isLastAdd = false;
-        }
-        else if(reg6.test(arr2[i])){
+        } else if(reg6.test(arr2[i])){
             if(isLastAdd) {
                 grade++;
             }
             isLastAdd = false;
-        }
-        else if(reg1.test(arr2[i])){
+        } else if(reg1.test(arr2[i])){
             grade = isLastAdd ? grade : grade-1;
             isLastAdd = false;
         } else if(reg3.test(arr2[i])){
@@ -103,6 +101,7 @@ export function htmlLint(htmlString){
         }
         return str;
     }
+    // return htmlString;
     return resultStr;
 }
 

@@ -221,13 +221,29 @@ class FormPage extends Component{
         if(tableObj) {
             const {formStyleId,formStyleMaxId,formStyleList} = this.props;
             this.setState({tableObj: tableObj});
+            let borderWidth = tableObj.getBorderWidth();
             setTimeout(function () {
                 let ll = tableObj.exportData();
                 ll.currentStyleId = formStyleId;
                 ll.formStyleMaxId = formStyleMaxId;
                 ll.formStyleList = formStyleList;
                 this.tableDataTosave = JSON.stringify(ll);
-                let blob = new Blob([getTableHtml((document.getElementsByTagName('table')[0]).outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
+                let tableNode = document.getElementsByTagName('table')[0];
+                let tds = tableNode.getElementsByTagName('td');
+                for(let i=0;i<tds.length;i++){
+                    const {width,height} = tds[i].style;
+                    const {clientWidth,clientHeight} = tds[i];
+                    console.log(width.slice(0,-2),height.slice(0,-2));
+                    if(width.slice(0,-2) < (Math.ceil(clientWidth) - borderWidth -2) ){
+                        tds[i].style.width = Math.ceil(clientWidth) - borderWidth -2 + 'px';
+                    }
+                    if(height.slice(0,-2) < (Math.ceil(clientHeight) - borderWidth -2)){
+                        tds[i].style.height = Math.ceil(tds[i].clientHeight) - borderWidth - 2 + 'px';
+
+                    }
+                }
+                let blob = new Blob([getTableHtml(tableNode.outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
+
                 saveAs(blob, 'form.html');
             }.bind(this), 20);
         }
@@ -251,6 +267,10 @@ class FormPage extends Component{
     }
 
     importDataFromModule(data){
+        const {tableObj} = this.state;
+        if(tableObj){
+
+        }
         const {currentStyleId,formStyleMaxId,formStyleList} = data;
         this.props.dispatch(updateStyleList(formStyleList));
         this.props.dispatch(updateCurrentStyleId(currentStyleId));
