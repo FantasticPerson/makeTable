@@ -92,10 +92,14 @@ export function htmlLint(htmlString){
         if(reg7.test(arr2[i])){
             resultStr += arr2[i];
         } else {
-            resultStr += '\r\n' + getTab(grade) + arr2[i];
             if(arr2[i-1] && (arr2[i-1].indexOf('<input type="radio"') >= 0  || arr2[i-1].indexOf('<input type="checkbox"') >= 0)){
-                resultStr += '</input>'
+                resultStr += (arr2[i]+'</input>')
+            } else {
+                resultStr += '\r\n' + getTab(grade) + arr2[i];
             }
+            // if(arr2[i-1] && (arr2[i-1].indexOf('<input type="radio"') >= 0  || arr2[i-1].indexOf('<input type="checkbox"') >= 0)){
+            //     resultStr += '</input>'
+            // }
         }
     }
     function getTab(num){
