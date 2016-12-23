@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ComponentMaker from './baseComponent/componentMaker'
 import {componentInput} from '../../const'
-import {getStyleObj,setItemStyle,cloneData,findItem} from '../data-helper'
+import {getStyleObj,findItem} from '../data-helper'
 
 export default class InputMaker extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
@@ -18,9 +18,6 @@ export default class InputMaker extends ComponentMaker{
 
 export function getNode(index){
     let cStyle = findItem(this.styleArr,'id',this.styleId);
-    // let cStyle = this.styleArr.find((item)=>{
-    //     return item.id == this.styleId;
-    // });
     let cStyle2 = getStyleObj(cStyle,this.style);
     let resultStyle = {color:cStyle2.color,...cStyle2,textAlign:'left'};
     return (

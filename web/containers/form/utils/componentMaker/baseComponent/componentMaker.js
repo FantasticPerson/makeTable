@@ -79,9 +79,6 @@ export function onSetStyleConfirm(style,item,props,value){
 
 export function onContextMenuShow(item,pageX,pageY){
     let cStyle = findItem(this.styleArr,'id',this.styleId);
-    // let cStyle = this.styleArr.find((item)=>{
-    //     return item.id == this.styleId;
-    // });
     let style1 = {
         color:cStyle.color,
         fontFamily:cStyle.fontFamily,

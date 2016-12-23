@@ -18,9 +18,6 @@ export default class RadioBoxMaker extends ComponentMaker{
 
 export function getNode(index){
     let cStyle = findItem(this.styleArr,'id',this.styleId);
-    // let cStyle = this.styleArr.find((item)=>{
-    //     return item.id == this.styleId;
-    // });
     let style = getStyleObj(cStyle,this.style);
     style.width = this.style.width1;
     style.height = this.style.height1;

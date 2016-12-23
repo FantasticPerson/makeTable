@@ -48,7 +48,6 @@ class FormPage extends Component{
         this.props.dispatch(updateStyleList(formDefaultStyle));
         this.props.dispatch(updateCurrentStyleId(formDefaultStyle[0].id));
         this.props.dispatch(updateMaxId(formDefaultStyle[0].id));
-        // this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL,{title:'la',content:'eeee'}));
     }
 
     clickSplit(){
@@ -112,7 +111,6 @@ class FormPage extends Component{
     }
 
     addNewHistory(type,data){
-        // let item = new HistoryItem(type,data);
         this.historyList.push(new HistoryItem(type,data));
         console.log(this.historyList);
     }

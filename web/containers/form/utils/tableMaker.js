@@ -589,9 +589,6 @@ export function deleteTd(id,isRow){
 
 export function getBorderWidth(){
     let style = findItem(this.styleArr,'id',this.styleId);
-    // let style = this.styleArr.find(function (item) {
-    //     return item.id == this.styleId;
-    // }.bind(this));
     if(style){
         return style.borderSize;
     }

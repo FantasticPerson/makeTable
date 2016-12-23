@@ -18,9 +18,6 @@ export default class DropBoxMaker extends ComponentMaker{
 
 export function getNode(index){
     let cStyle = findItem(this.styleArr,'id',this.styleId);
-    // let cStyle = this.styleArr.find((item)=>{
-    //     return item.id == this.styleId;
-    // });
     let options;
     if(this.style.dataArray){
         options = this.style.dataArray.map((item,index)=>{

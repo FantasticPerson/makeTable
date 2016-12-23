@@ -38,7 +38,6 @@ export default class ToolbarStyleItem extends Component{
                         width:'40px'
                     }}>字</div>
                 </div>
-                {/*<div className="abc-form-tool-bar-style-item-container-icon true-form-tool-bar-style-style-1"></div>*/}
                 <div className="abc-form-tool-bat-style-item-container-text">{data.name}</div>
             </div>
         )
