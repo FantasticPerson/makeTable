@@ -15,7 +15,7 @@ export default class NumberSetter extends Component{
     }
 
     onChange(e){
-        const {beNumber} = this.state;
+        const {beNumber,value} = this.state;
         const {numberSetter} = this.refs;
         if(beNumber){
             if(!isNaN(Number(numberSetter.value))){
@@ -23,10 +23,10 @@ export default class NumberSetter extends Component{
                     this.setState({value: Math.floor(numberSetter.value)});
                     numberSetter.value = Math.floor(numberSetter.value);
                 } else {
-                    numberSetter.value = this.state.value;
+                    numberSetter.value = value;
                 }
             } else {
-                numberSetter.value = this.state.value;
+                numberSetter.value = value;
             }
         } else {
             this.setState({value: numberSetter.value});

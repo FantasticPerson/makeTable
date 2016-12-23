@@ -16,6 +16,7 @@ export default class NumberPicker extends Component{
         }
         this.setValue();
     }
+
     onClickReduce(){
         const {number,min} = this.state;
         if(number > min){
