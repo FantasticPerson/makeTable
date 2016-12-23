@@ -9,7 +9,7 @@ import DropBoxMaker from './componentMaker/dropBoxMaker'
 import CheckBoxMaker from './componentMaker/checkBoxMaker'
 import RadioBoxMaker from './componentMaker/radioBoxMaker'
 
-import {getStyleObj,cloneData} from './data-helper'
+import {getStyleObj,cloneData,findItem} from './data-helper'
 import * as operationTypes from '../utils/history/operationType'
 import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox} from '../const'
 
@@ -105,9 +105,10 @@ export function insertComponent(type,styleArr,styleId){
 
 export function deleteComponent(id){
     let beforeTd = cloneData(this);
-    let component = this.componentArray.find((item)=>{
-        return item.id == id;
-    });
+    let component = findItem(this.componentArray,'id',id);
+    // let component = this.componentArray.find((item)=>{
+    //     return item.id == id;
+    // });
     if(component){
         this.componentArray.splice(this.componentArray.indexOf(component),1);
         this.addNewHistory(operationTypes.DEL_ITEM,{obj:beforeTd});
@@ -115,9 +116,10 @@ export function deleteComponent(id){
 }
 
 export function setComponentStyle(id,style){
-    let component = this.componentArray.find((item)=>{
-        return item.id == id;
-    });
+    let component = findItem(this.componentArray,'id',id);
+    // let component = this.componentArray.find((item)=>{
+    //     return item.id == id;
+    // });
     if(component){
         component.setStyle(style);
     }
@@ -166,9 +168,10 @@ export function onSetStyleConfirm(style,text,item,props){
 
 export function goBack(data,isCancel=false){
     const {id} = data.data;
-    let componentItem = this.componentArray.find((item)=>{
-        return item.id == id;
-    });
+    let componentItem = findItem(this.componentArray,'id',id);
+    // let componentItem = this.componentArray.find((item)=>{
+    //     return item.id == id;
+    // });
     if(componentItem){
         if(!isCancel){
             this.addNewCancelHistory(data.type,{id:this.id,style:cloneData(this.style)});
@@ -178,9 +181,10 @@ export function goBack(data,isCancel=false){
 }
 
 export function onContextMenuShow(item,pageX,pageY,component=null) {
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
+    let cStyle = findItem(this.styleArr,'id',this.styleId);
+    // let cStyle = this.styleArr.find((item)=>{
+    //     return item.id == this.styleId;
+    // });
     let style1 = {
         color:cStyle.color,
         fontFamily:cStyle.fontFamily,
@@ -212,9 +216,10 @@ export function onContextMenuShow(item,pageX,pageY,component=null) {
 
 export function getNode(tdIds,index=0){
     if(this.mockType == 0) {
-        let cStyle = this.styleArr.find((item)=>{
-            return item.id == this.styleId;
-        });
+        let cStyle = findItem(this.styleArr,'id',this.styleId);
+        // let cStyle = this.styleArr.find((item)=>{
+        //     return item.id == this.styleId;
+        // });
         const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix} = this.posInfo;
         let width = cCol / tCol * tWidth;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';

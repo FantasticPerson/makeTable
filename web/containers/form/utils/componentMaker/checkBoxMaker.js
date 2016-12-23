@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ComponentMaker from './baseComponent/componentMaker'
 import {componentCheckBox} from '../../const'
-import {getStyleObj} from '../data-helper'
+import {getStyleObj,findItem} from '../data-helper'
 
 export default class CheckBoxMaker extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
@@ -17,9 +17,10 @@ export default class CheckBoxMaker extends ComponentMaker{
 }
 
 export function getNode(index){
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
+    let cStyle = findItem(this.styleArr,'id',this.styleId);
+    // let cStyle = this.styleArr.find((item)=>{
+    //     return item.id == this.styleId;
+    // });
     let style = getStyleObj(cStyle,this.style);
     style.width = this.style.width1;
     style.height = this.style.height1;

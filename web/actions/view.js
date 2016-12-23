@@ -4,22 +4,12 @@
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
 import * as overLayNames from '../constants/OverLayNames'
+import {findItem} from '../containers/form/utils/data-helper'
 
 export function showOverLayByName(overLayName,data = null){
     return (dispatch,getState)=>{
         let list = getState().view.overLayList.map((item)=> {return item;});
-        //let item = list.find(function(item){return item.name == overLayName});
-        let item;
-        if(list.find){
-            item = list.find(function(item){return item.name == overLayName});
-        } else {
-            for(let i=0;i<list.length;i++){
-                if(list[i].name == overLayName){
-                    item = list[i];
-                    break;
-                }
-            }
-        }
+        let item = findItem(list,'name',overLayName);
         if(item){
             return;
         }
@@ -34,7 +24,7 @@ export function showOverLayByName(overLayName,data = null){
 export function removeOverLayByName(overLayName){
     return (dispatch,getState)=>{
         let list = getState().view.overLayList.map((name)=> {return name;});
-        let item = list.find(function(item){return item.name == overLayName});
+        let item = findItem(list,'name',overLayName);
         if(!item){
             return;
         }

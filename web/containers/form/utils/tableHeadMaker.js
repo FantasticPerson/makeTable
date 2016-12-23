@@ -2,7 +2,7 @@
  * Created by wdd on 2016/11/24.
  */
 import React,{Component,PropTypes} from 'react';
-import {getStyleObj} from './data-helper'
+import {getStyleObj,findItem} from './data-helper'
 import {componentTd} from '../const'
 
 export default class tableHeadMaker extends Object{
@@ -45,9 +45,10 @@ export function setStyle(styleArr){
 }
 
 export function onContextMenuShow(item,pageX,pageY) {
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
+    let cStyle = findItem(this.styleArr,'id',this.styleId);
+    // let cStyle = this.styleArr.find((item)=>{
+    //     return item.id == this.styleId;
+    // });
     let style1 = {
         color:cStyle.color,
         fontSize:cStyle.fontSize,
@@ -89,9 +90,10 @@ export function exportData(){
 }
 
 export function getNode(){
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
+    let cStyle = findItem(this.styleArr,'id',this.styleId);
+    // let cStyle = this.styleArr.find((item)=>{
+    //     return item.id == this.styleId;
+    // });
     let getStyle = getStyleObj(cStyle,this.style);
     if(this.style.fontStyleArray[0]){
         getStyle.fontWeight = 'bold';

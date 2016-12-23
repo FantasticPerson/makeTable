@@ -4,7 +4,7 @@
 import React,{Component,PropTypes} from 'react'
 import ComponentMaker from './baseComponent/componentMaker'
 import {componentTextArea} from '../../const'
-import {getStyleObj} from '../data-helper'
+import {getStyleObj,findItem} from '../data-helper'
 
 export default class TextAreaMaker extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
@@ -17,9 +17,10 @@ export default class TextAreaMaker extends ComponentMaker{
 }
 
 export function getNode(index){
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
+    let cStyle = findItem(this.styleArr,'id',this.styleId);
+    // let cStyle = this.styleArr.find((item)=>{
+    //     return item.id == this.styleId;
+    // });
     let cStyle2 = getStyleObj(cStyle,this.style);
     return (
         <textarea name={this.propName} id={this.propId} aria-toreplacezname={this.propZname} ref='textArea' style={{...cStyle2,textAlign:'left',resize:'none'}} defaultValue={this.value} key={index}

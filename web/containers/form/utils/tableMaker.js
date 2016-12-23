@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react';
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import * as operationTypes from './history/operationType'
-import {cloneDataArray,cloneData} from '../utils/data-helper'
+import {cloneDataArray,cloneData,findItem} from '../utils/data-helper'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
@@ -588,9 +588,10 @@ export function deleteTd(id,isRow){
 }
 
 export function getBorderWidth(){
-    let style = this.styleArr.find(function (item) {
-        return item.id == this.styleId;
-    }.bind(this));
+    let style = findItem(this.styleArr,'id',this.styleId);
+    // let style = this.styleArr.find(function (item) {
+    //     return item.id == this.styleId;
+    // }.bind(this));
     if(style){
         return style.borderSize;
     }

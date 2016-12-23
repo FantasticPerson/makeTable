@@ -1,7 +1,7 @@
 /**
  * Created by wdd on 2016/12/20.
  */
-import {cloneData} from '../../data-helper'
+import {cloneData,findItem} from '../../data-helper'
 import * as optionTypes from '../../history/operationType'
 import {componentText,componentCheckBox,componentRadioBox} from '../../../const'
 
@@ -78,9 +78,10 @@ export function onSetStyleConfirm(style,item,props,value){
 }
 
 export function onContextMenuShow(item,pageX,pageY){
-    let cStyle = this.styleArr.find((item)=>{
-        return item.id == this.styleId;
-    });
+    let cStyle = findItem(this.styleArr,'id',this.styleId);
+    // let cStyle = this.styleArr.find((item)=>{
+    //     return item.id == this.styleId;
+    // });
     let style1 = {
         color:cStyle.color,
         fontFamily:cStyle.fontFamily,
