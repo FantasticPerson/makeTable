@@ -165,21 +165,34 @@ class FormPage extends Component{
     }
 
     generateTable(num1, num2){
-        this.tdIds = [];
-        const {formStyleList,formStyleId,dispatch} = this.props;
-        let posInfo = {row:num1,col:num2,width:820,height:962};
-        let functionArray = {
-            onTdClick:this.onTdClick.bind(this),
-            onTdContext:this.onTdContext.bind(this),
-            onComponentDrop:this.onComponentDrop.bind(this),
-            onComponentContext:this.onComponentContext.bind(this),
-            afterUpdateStyle:this.afterUpdateStyle.bind(this),
-            onDeleteComponent:this.deleteComponent.bind(this),
-            addNewHistory:this.addNewHistory.bind(this),
-            addNewCancelHistory:this.addNewCancelHistory.bind(this)
-        };
-        let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
-        this.setState({tableObj:tableObj2});
+        let generateFunc = generate.bind(this);
+        const {tableObj} = this.state;
+        if(tableObj) {
+            this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL,{content:'继续会丢失当前的工作，确认继续吗？',cb:function(isTrue){
+                if(isTrue){
+                    generateFunc(num1,num2);
+                }
+            }.bind(this)}))
+        } else {
+            generateFunc(num1,num2);
+        }
+        function generate(num1, num2){
+            this.tdIds = [];
+            const {formStyleList,formStyleId,dispatch} = this.props;
+            let posInfo = {row:num1,col:num2,width:820,height:962};
+            let functionArray = {
+                onTdClick:this.onTdClick.bind(this),
+                onTdContext:this.onTdContext.bind(this),
+                onComponentDrop:this.onComponentDrop.bind(this),
+                onComponentContext:this.onComponentContext.bind(this),
+                afterUpdateStyle:this.afterUpdateStyle.bind(this),
+                onDeleteComponent:this.deleteComponent.bind(this),
+                addNewHistory:this.addNewHistory.bind(this),
+                addNewCancelHistory:this.addNewCancelHistory.bind(this)
+            };
+            let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
+            this.setState({tableObj:tableObj2});
+        }
     }
 
     onTdContext(data){
@@ -270,32 +283,17 @@ class FormPage extends Component{
 
     importDataFromModule(data){
         const {tableObj} = this.state;
+        let importDataFunc = importData.bind(this);
         if(tableObj){
             this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL,{content:'继续会丢失当前的工作，确认继续吗？',cb:function(isTrue){
                 if(isTrue){
-                    const {currentStyleId, formStyleMaxId, formStyleList} = data;
-                    this.props.dispatch(updateStyleList(formStyleList));
-                    this.props.dispatch(updateCurrentStyleId(currentStyleId));
-                    this.props.dispatch(updateMaxId(formStyleMaxId));
-                    setTimeout(function () {
-                        this.tdIds = [];
-                        const {formStyleList, dispatch} = this.props;
-                        let functionArray = {
-                            onTdClick: this.onTdClick.bind(this),
-                            onTdContext: this.onTdContext.bind(this),
-                            onComponentDrop: this.onComponentDrop.bind(this),
-                            onComponentContext: this.onComponentContext.bind(this),
-                            afterUpdateStyle: this.afterUpdateStyle.bind(this),
-                            onDeleteComponent: this.deleteComponent.bind(this),
-                            addNewHistory: this.addNewHistory.bind(this),
-                            addNewCancelHistory: this.addNewCancelHistory.bind(this)
-                        };
-                        let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, data);
-                        this.setState({tableObj: tableObj2, showModuleView: false});
-                    }.bind(this), 20);
+                    importDataFunc(data);
                 }
             }.bind(this)}))
         } else {
+            importDataFunc(data);
+        }
+        function importData(data){
             const {currentStyleId, formStyleMaxId, formStyleList} = data;
             this.props.dispatch(updateStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
@@ -321,38 +319,21 @@ class FormPage extends Component{
 
     importData(recoverData){
         const {tableObj} = this.state;
+        let importDataFunc = importData.bind(this);
         if(recoverData) {
             if (tableObj) {
                 this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL, {
                     content: '继续会丢失当前的工作，确认继续吗？', cb: function (isTrue) {
                         if (isTrue) {
-                            this.tableDataTosave = recoverData;
-                            let tableData = JSON.parse(recoverData);
-                            const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
-                            this.props.dispatch(updateStyleList(formStyleList));
-                            this.props.dispatch(updateCurrentStyleId(currentStyleId));
-                            this.props.dispatch(updateMaxId(formStyleMaxId));
-                            setTimeout(function () {
-                                this.tdIds = [];
-                                const {formStyleList, formStyleId, dispatch} = this.props;
-                                let functionArray = {
-                                    onTdClick: this.onTdClick.bind(this),
-                                    onTdContext: this.onTdContext.bind(this),
-                                    onComponentDrop: this.onComponentDrop.bind(this),
-                                    onComponentContext: this.onComponentContext.bind(this),
-                                    afterUpdateStyle: this.afterUpdateStyle.bind(this),
-                                    onDeleteComponent: this.deleteComponent.bind(this),
-                                    addNewHistory: this.addNewHistory.bind(this),
-                                    addNewCancelHistory: this.addNewCancelHistory.bind(this)
-                                };
-                                let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
-                                this.setState({tableObj: tableObj2});
-                            }.bind(this), 20);
+                            importDataFunc(recoverData);
                         }
                     }.bind(this)
                 }));
             }
         } else {
+            importDataFunc(recoverData);
+        }
+        function importData(recoverData){
             this.tableDataTosave = recoverData;
             let tableData = JSON.parse(recoverData);
             const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
