@@ -25,7 +25,7 @@ export function getNode(index){
     style.width = this.style.width1;
     style.height = this.style.height1;
     return [
-        <input type="radio" name={this.propName} id={this.propId} aria-toreplacezname={this.propZname} style={style} key={index} onClick={(e)=>{
+        <input type="radio" name={this.propName} value={this.propName} id={this.propId} aria-toreplacezname={this.propZname} style={style} key={index} onClick={(e)=>{
             e.stopPropagation()
         }} onContextMenu={(e)=>{
             e.stopPropagation();
