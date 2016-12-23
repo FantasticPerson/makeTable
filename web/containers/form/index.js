@@ -373,7 +373,6 @@ class FormPage extends Component{
             showModuleView:this.showModuleView.bind(this),
             addNewHistory:this.addNewHistory.bind(this),
             goBack:this.goBack.bind(this)
-
         };
         return(
             <div className="abc-form-container">

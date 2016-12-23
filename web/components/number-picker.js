@@ -38,14 +38,14 @@ export default class NumberPicker extends Component{
         if(!isNaN(Number(input.value))){
             if(input.value != "") {
                 if (input.value <= max && input.value >= min) {
-                    this.setState({number: Number(input.value)})
+                    this.setState({number: Math.floor(Number(input.value))});
+                    input.value = Math.floor(Number(input.value));
                 } else {
                     input.value = number;
                 }
             }
         } else {
-            input.value = this.state.number;
-            this.setState({number:Number(input.value)})
+            input.value = number;
         }
     }
 
