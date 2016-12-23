@@ -21,8 +21,10 @@ export function getNode(index){
         return item.id == this.styleId;
     });
     let style = getStyleObj(cStyle,this.style);
+    style.width = this.style.width1;
+    style.height = this.style.height1;
     return [
-        <input type="radio" name={this.propName} id={this.propId} aria-toreplacezname={this.propZname} style={{width:this.style.width1,height:this.style.height1}} key={index} onClick={(e)=>{
+        <input type="radio" name={this.propName} id={this.propId} aria-toreplacezname={this.propZname} style={style} key={index} onClick={(e)=>{
             e.stopPropagation()
         }} onContextMenu={(e)=>{
             e.stopPropagation();

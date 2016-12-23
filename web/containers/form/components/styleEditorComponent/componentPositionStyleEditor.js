@@ -11,12 +11,14 @@ export default class ComponentPositionStyleEditor extends Component{
     }
 
     getValue(){
-        const {numberSetter1,numberSetter2,numberPicker1,numberPicker2,numberSetter3,numberSetter4} = this.refs;
+        const {numberSetter1,numberSetter2,numberPicker1,numberPicker2,numberSetter3,numberSetter4,numberPicker3,numberPicker4} = this.refs;
         let result = {
             width:numberSetter1.getValue(),
             height:numberSetter2.getValue(),
             marginLeft:numberPicker1.getValue(),
-            marginTop:numberPicker2.getValue()
+            marginTop:numberPicker2.getValue(),
+            marginRight:numberPicker3.getValue(),
+            marginBottom:numberPicker4.getValue()
         };
         if(numberSetter3 && numberSetter4){
             return {
@@ -52,6 +54,10 @@ export default class ComponentPositionStyleEditor extends Component{
                 <div className="style-component-item-style">
                     <StyleEditorItemPicker ref="numberPicker1" type={editorNumberPicker} title="左间距" data={{size:style.marginLeft ? style.marginLeft : null}}/>
                     <StyleEditorItemPicker ref="numberPicker2" type={editorNumberPicker} title="上间距" data={{size:style.marginTop ? style.marginTop : null}}/>
+                </div>
+                <div className="style-component-item-style">
+                    <StyleEditorItemPicker ref="numberPicker3" type={editorNumberPicker} title="右间距" data={{size:style.marginRight ? style.marginRight : null}}/>
+                    <StyleEditorItemPicker ref="numberPicker4" type={editorNumberPicker} title="下间距" data={{size:style.marginBottom ? style.marginBottom : null}}/>
                 </div>
             </div>
         )

@@ -153,6 +153,12 @@ export function getStyleObj(obj1,obj2){
     if(pStyle.marginTop){
         pStyle.marginTop = pStyle.marginTop + 'px';
     }
+    if(pStyle.marginRight){
+        pStyle.marginRight = pStyle.marginRight + 'px';
+    }
+    if(pStyle.marginBottom){
+        pStyle.marginBottom = pStyle.marginBottom + 'px';
+    }
     if(pStyle.width){
         pStyle.width = pStyle.width + 'px';
     }
@@ -228,6 +234,8 @@ export function getStyleSet(style,styleObj){
     applyProp(styleObj,style,cStyle,'textAlign');
     applyProp1(styleObj,style,cStyle,'marginTop');
     applyProp1(styleObj,style,cStyle,'marginLeft');
+    applyProp1(styleObj,style,cStyle,'marginRight');
+    applyProp1(styleObj,style,cStyle,'marginBottom');
     applyPropArr(styleObj,style,cStyle,'fontStyleArray');
     applyPropArr1(styleObj,style,cStyle,'dataArray');
     return cStyle;

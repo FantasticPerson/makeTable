@@ -38,12 +38,12 @@ export default class CheckBoxStyleEditor extends Component{
 
     render(){
         const {style,pageX,pageY,propName,propId,textValue,propZname} = this.props.data;
-        let marginTop = window.innerHeight < 414 + pageY ? (window.innerHeight - 414 > 0 ? window.innerHeight - 414  : 0) : pageY;
+        let marginTop = window.innerHeight < 459 + pageY ? (window.innerHeight - 459 > 0 ? window.innerHeight - 459  : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
             <div className="abc-style-bg" style={{
                 width: '452px',
-                height: '410px',
+                height: '455px',
                 marginTop:marginTop,
                 marginLeft:marginLeft
             }}>
