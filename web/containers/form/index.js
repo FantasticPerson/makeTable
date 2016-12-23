@@ -329,9 +329,9 @@ class FormPage extends Component{
                         }
                     }.bind(this)
                 }));
+            } else {
+                importDataFunc(recoverData);
             }
-        } else {
-            importDataFunc(recoverData);
         }
         function importData(recoverData){
             this.tableDataTosave = recoverData;
