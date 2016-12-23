@@ -9,7 +9,8 @@ import DropBoxMaker from './componentMaker/dropBoxMaker'
 import CheckBoxMaker from './componentMaker/checkBoxMaker'
 import RadioBoxMaker from './componentMaker/radioBoxMaker'
 
-import {getStyleObj,cloneData,findItem} from './data-helper'
+import {getStyleObj,cloneData} from './data-helper'
+import {findItem} from '../../../utils/compatibaleApi'
 import * as operationTypes from '../utils/history/operationType'
 import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox} from '../const'
 

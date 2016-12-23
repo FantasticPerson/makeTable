@@ -6,7 +6,8 @@ import FontStyleEditor from './styleEditorComponent/fontStyleEditor'
 import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
 import TextSetEditor from './styleEditorComponent/textSetEditor'
 import {updateStyleList,updateMaxId} from '../../../actions/form'
-import {findItem,cloneDataArray} from '../utils/data-helper'
+import {cloneDataArray} from '../utils/data-helper'
+import {findItem} from '../../../utils/compatibaleApi'
 import * as operationTypes from '../utils/history/operationType'
 
 export default class ComponentStyleEditor extends Component{

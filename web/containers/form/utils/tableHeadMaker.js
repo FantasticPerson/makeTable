@@ -2,7 +2,8 @@
  * Created by wdd on 2016/11/24.
  */
 import React,{Component,PropTypes} from 'react';
-import {getStyleObj,findItem} from './data-helper'
+import {getStyleObj} from './data-helper'
+import {findItem} from '../../../utils/compatibaleApi'
 import {componentTd} from '../const'
 
 export default class tableHeadMaker extends Object{

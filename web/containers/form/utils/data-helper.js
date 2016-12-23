@@ -39,6 +39,10 @@ export function cloneData(obj){
     return clone(obj);
 }
 
+export function htmlLint2(htmlString){
+
+}
+
 export function htmlLint(htmlString){
     let tempStr = htmlString;
     tempStr = tempStr.replace(/aria-toreplace/g,'');
@@ -121,22 +125,6 @@ export function getStyleSingleObj(obj){
     style.fontWeight = obj.fontStyleArray[0] ? 'bold' : 'normal';
 
     return style;
-}
-
-export function findItem(arr,prop,value){
-    if(arr && arr.length > 0) {
-        if (arr.find) {
-            return arr.find(function (item) {
-                return item[prop] == value;
-            })
-        } else {
-            for (let i = 0; i < arr.length; i++) {
-                if (arr[i][prop] == value) {
-                    return arr[i];
-                }
-            }
-        }
-    }
 }
 
 export function getStyleObj(obj1,obj2){

@@ -1,9 +1,10 @@
 /**
  * Created by wdd on 2016/12/20.
  */
-import {cloneData,findItem} from '../../data-helper'
+import {cloneData} from '../../data-helper'
 import * as optionTypes from '../../history/operationType'
 import {componentText,componentCheckBox,componentRadioBox} from '../../../const'
+import {findItem} from '../../../../../utils/compatibaleApi'
 
 export default class ComponentMaker extends Object{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){

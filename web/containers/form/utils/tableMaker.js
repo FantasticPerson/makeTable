@@ -5,7 +5,8 @@ import React,{Component,PropTypes} from 'react';
 import tdMaker from './tdMaker'
 import tableHeadMaker from './tableHeadMaker'
 import * as operationTypes from './history/operationType'
-import {cloneDataArray,cloneData,findItem} from '../utils/data-helper'
+import {cloneDataArray,cloneData} from '../utils/data-helper'
+import {findItem} from '../../../utils/compatibaleApi'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {

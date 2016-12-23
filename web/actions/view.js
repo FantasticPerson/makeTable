@@ -4,7 +4,7 @@
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
 import * as overLayNames from '../constants/OverLayNames'
-import {findItem} from '../containers/form/utils/data-helper'
+import {findItem} from '../utils/compatibaleApi'
 
 export function showOverLayByName(overLayName,data = null){
     return (dispatch,getState)=>{

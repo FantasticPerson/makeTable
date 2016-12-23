@@ -4,7 +4,8 @@
 import React,{Component,PropTypes} from 'react'
 import ComponentMaker from './baseComponent/componentMaker'
 import {componentText} from '../../const'
-import {getStyleObj,findItem} from '../data-helper'
+import {getStyleObj} from '../data-helper'
+import {findItem} from '../../../../utils/compatibaleApi'
 
 export default class TextMaker1 extends ComponentMaker{
     constructor(id,tdId,styleArr,styleId,funcArray,recoverData){
