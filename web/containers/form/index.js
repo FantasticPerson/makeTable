@@ -113,11 +113,17 @@ class FormPage extends Component{
     }
 
     addNewHistory(type,data){
+        while(this.historyList.length >= 20){
+            this.historyList.shift();
+        }
         this.historyList.push(new HistoryItem(type,data));
         console.log(this.historyList);
     }
 
     addNewCancelHistory(type,data){
+        while(this.backHistoryList.length >= 20){
+            this.backHistoryList.shift();
+        }
         this.backHistoryList.push(new HistoryItem(type,data));
         console.log(this.backHistoryList);
     }
