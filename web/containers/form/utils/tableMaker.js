@@ -241,11 +241,16 @@ export function merge(tdArr){
             this.tds[j][i].mockType = 3;
         }
     }
-    console.log(this.checkIsValid());
+    if(!this.checkIsValid()){
+        this.tds = beforeTds;
+        alert('对不起，这样操作可能会导致表格显示异常');
+        return false;
+    } else {
+        this.setTdSize();
+        this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});
+        return true;
+    }
 
-    this.setTdSize();
-    this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});
-    return true;
 }
 
 export function split(id){
@@ -285,10 +290,15 @@ export function split(id){
         } else {
             return false;
         }
-        console.log(this.checkIsValid());
-        this.setTdSize();
-        this.addNewHistory(operationTypes.SPLIT_TDS,{tds:beforeData});
-        return true;
+        if(!this.checkIsValid()){
+            this.tds = beforeData;
+            alert('对不起，这样操作可能会导致表格显示异常');
+            return false;
+        } else {
+            this.setTdSize();
+            this.addNewHistory(operationTypes.SPLIT_TDS, {tds: beforeData});
+            return true;
+        }
     }
 }
 
@@ -312,11 +322,11 @@ export function checkIsValid(){
             return false;
         }
     }
-    for(let i=0;i<this.tds[0].length;i++){
+    for(let i=0;i<this.tds.length;i++){
         let minHeight = 1000;
         let maxHeight = -1;
-        for(let j=0;j<this.tds.length;j++){
-            let height = this.getItemWidth(this.tds[j][i]);
+        for(let j=0;j<this.tds[0].length;j++){
+            let height = this.getItemHeight(this.tds[i][j]);
             if(minHeight > height){
                 minHeight = height;
             }
