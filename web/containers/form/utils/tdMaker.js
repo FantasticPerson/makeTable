@@ -219,7 +219,7 @@ export function getNode(tdIds,index=0){
             return item.getNode(index);
         });
         return (
-            <td colSpan={col} key={index} rowSpan={row} style={{...getStyle2}} onDoubleClick={(e)=>{
+            <td colSpan={col} key={index} rowSpan={row} style={{...getStyle2,verticalAlign:'middle'}} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();

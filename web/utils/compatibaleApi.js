@@ -16,3 +16,11 @@ export function findItem(arr,prop,value){
         }
     }
 }
+
+export function getStrRepeat(str,times){
+    let result = '';
+    for(let i = 0;i<times;i++){
+        result += str;
+    }
+    return result;
+}

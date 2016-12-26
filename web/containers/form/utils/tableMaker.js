@@ -251,6 +251,7 @@ export function merge(tdArr){
             this.tds[j][i].mockType = 3;
         }
     }
+    console.log(checkIsValid());
 
     this.setTdSize();
     this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});
@@ -336,6 +337,7 @@ export function split(id){
         } else {
             return false;
         }
+        console.log(checkIsValid());
         this.setTdSize();
         this.addNewHistory(operationTypes.SPLIT_TDS,{tds:beforeData});
         return true;
