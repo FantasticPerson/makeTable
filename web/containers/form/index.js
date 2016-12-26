@@ -250,18 +250,16 @@ class FormPage extends Component{
                 this.tableDataTosave = JSON.stringify(ll);
                 let tableNode = document.getElementsByTagName('table')[0];
                 let tds = tableNode.getElementsByTagName('td');
-                for(let i=0;i<tds.length;i++){
-                    const {width,height} = tds[i].style;
+                let clientWidthArr = [];
+                let clientHeightArr = [];
+                for(let i=1;i<tds.length;i++){
                     const {clientWidth,clientHeight} = tds[i];
-                    if(width.slice(0,-2) < (Math.ceil(clientWidth) - borderWidth -2) ){
-                        tds[i].style.width = Math.ceil(clientWidth) - borderWidth -2 + 'px';
-                    } else if(width.slice(0,-2) > (Math.ceil(clientWidth)) ){
-                        tds[i].style.width =  Math.ceil(clientWidth) - borderWidth -2 + 'px';
-                    }
-                    if(height.slice(0,-2) < (Math.ceil(clientHeight) - borderWidth -2)){
-                        tds[i].style.height = Math.ceil(tds[i].clientHeight) - borderWidth - 2 + 'px';
-
-                    }
+                    clientWidthArr.push(clientWidth);
+                    clientHeightArr.push(clientHeight);
+                }
+                for(let i=0;i<clientWidthArr.length;i++){
+                    tds[i+1].style.width = (Math.ceil(clientWidthArr[i])  -2) + 'px';
+                    tds[i+1].style.height = (Math.ceil(clientHeightArr[i]) -2) + 'px';
                 }
                 let blob = new Blob([getTableHtml(tableNode.outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
 
@@ -306,6 +304,8 @@ class FormPage extends Component{
             this.props.dispatch(updateMaxId(formStyleMaxId));
             setTimeout(function () {
                 this.tdIds = [];
+                this.historyList = [];
+                this.backHistoryList = [];
                 const {formStyleList, dispatch} = this.props;
                 let functionArray = {
                     onTdClick: this.onTdClick.bind(this),
@@ -347,6 +347,8 @@ class FormPage extends Component{
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
             this.props.dispatch(updateMaxId(formStyleMaxId));
             setTimeout(function () {
+                this.backHistoryList = [];
+                this.historyList = [];
                 this.tdIds = [];
                 const {formStyleList, formStyleId, dispatch} = this.props;
                 let functionArray = {

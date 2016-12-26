@@ -205,7 +205,7 @@ export function getNode(tdIds,index=0){
     if(this.mockType == 0) {
         let cStyle = findItem(this.styleArr,'id',this.styleId);
         const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix} = this.posInfo;
-        let width = cCol / tCol * tWidth;
+        let width = (Math.ceil(tWidth/tCol) - 3) * cCol;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
         let row = (cRowFix || cCol == tCol) ? 1 : cRow;
@@ -214,7 +214,7 @@ export function getNode(tdIds,index=0){
         let getStyle = getStyleObj(cStyle,{...this.style});
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
-        getStyle2.width = getStyle2.width ? getStyle2.width : Math.ceil(width) - (getStyle2.borderSize+2)+'px';
+        getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
         const components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });

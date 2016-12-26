@@ -599,6 +599,7 @@ export function getBorderWidth(){
 }
 
 export function getNode(ids){
+    const {col} = this.posInfo;
     let trArr = [];
     this.tds.map((tdSub,index)=>{
         let tdArr2 = [];
@@ -614,7 +615,7 @@ export function getNode(ids){
     });
     let headerNode = this.header.getNode();
     const {width,height} = this.posInfo;
-    let style = {width:width+'px'};
+    let style = {width:Math.ceil(width/col) * col};
     style.border = '0';
     return (
         <div style={{
