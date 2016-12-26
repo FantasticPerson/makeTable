@@ -230,16 +230,6 @@ export function merge(tdArr){
     let minX = pointArr2[0][0][0],minY = pointArr2[0][0][1];
     let maxX = pointArr2[0][pointArr2[0].length-1][0],maxY = pointArr2[pointArr2.length-1][0][1];
 
-    let mockTypeArray = [];
-    for (let i = minY; i < maxY; i++) {
-        mockTypeArray.push([]);
-        for (let j = minX; j < maxX; j++) {
-            mockTypeArray[mockTypeArray.length - 1].push(this.tds[i][j].mockType);
-        }
-    }
-
-    console.log(mockTypeArray);
-
     for(let i = minX+1;i<maxX+1;i++){
         this.tds[minY][i].mockType = 1;
     }
@@ -251,11 +241,55 @@ export function merge(tdArr){
             this.tds[j][i].mockType = 3;
         }
     }
-    console.log(checkIsValid());
+    console.log(this.checkIsValid());
 
     this.setTdSize();
     this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});
     return true;
+}
+
+export function split(id){
+    let beforeData = cloneDataArray(this.tds);
+    let tdItem = this.getItemById(id);
+    if(tdItem){
+        const {x,y} = tdItem.posInfo;
+        if((this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >= 0) || (this.tds[y+1][x] && this.tds[y+1][x].mockType >=2)){
+            let xLength = 0,yLength =0;
+            if(this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >=0){
+                for(let i = x+1;i<this.tds[y].length;i++){
+                    if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
+                        this.tds[y][i].mockType = 0;
+                        xLength++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if(y < this.tds.length -1) {
+                if (this.tds[y + 1][x] && this.tds[y + 1][x].mockType >= 2) {
+                    for (let i = y + 1; i < this.tds.length; i++) {
+                        if (this.tds[i][x].mockType >= 2) {
+                            this.tds[i][x].mockType = 0;
+                            yLength++;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+            for(let i=0;i<xLength;i++){
+                for(let j=0;j<yLength;j++){
+                    this.tds[y+j+1][x+i+1].mockType = 0;
+                }
+            }
+        } else {
+            return false;
+        }
+        console.log(this.checkIsValid());
+        this.setTdSize();
+        this.addNewHistory(operationTypes.SPLIT_TDS,{tds:beforeData});
+        return true;
+    }
 }
 
 export function checkIsValid(){
@@ -298,50 +332,6 @@ export function checkIsValid(){
         }
     }
     return true;
-}
-
-export function split(id){
-    let beforeData = cloneDataArray(this.tds);
-    let tdItem = this.getItemById(id);
-    if(tdItem){
-        const {x,y} = tdItem.posInfo;
-        if((this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >= 0) || (this.tds[y+1][x] && this.tds[y+1][x].mockType >=2)){
-            let xLength = 0,yLength =0;
-            if(this.tds[y][x+1] && [1,3].indexOf(this.tds[y][x+1].mockType) >=0){
-                for(let i = x+1;i<this.tds[y].length;i++){
-                    if([1,3].indexOf(this.tds[y][i].mockType) >=0 ){
-                        this.tds[y][i].mockType = 0;
-                        xLength++;
-                    } else {
-                        break;
-                    }
-                }
-            }
-            if(y < this.tds.length -1) {
-                if (this.tds[y + 1][x] && this.tds[y + 1][x].mockType >= 2) {
-                    for (let i = y + 1; i < this.tds.length; i++) {
-                        if (this.tds[i][x].mockType >= 2) {
-                            this.tds[i][x].mockType = 0;
-                            yLength++;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-            }
-            for(let i=0;i<xLength;i++){
-                for(let j=0;j<yLength;j++){
-                    this.tds[y+j+1][x+i+1].mockType = 0;
-                }
-            }
-        } else {
-            return false;
-        }
-        console.log(checkIsValid());
-        this.setTdSize();
-        this.addNewHistory(operationTypes.SPLIT_TDS,{tds:beforeData});
-        return true;
-    }
 }
 
 export function goBack(item,isCancel=false){
