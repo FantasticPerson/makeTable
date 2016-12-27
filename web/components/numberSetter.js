@@ -52,7 +52,7 @@ export default class NumberSetter extends Component{
                 <input type="text" className="abc-number-picker-container-input" ref="numberSetter" onChange={(e)=>{
                     this.onChange(e);
                 }} defaultValue={
-                    number ? number : ''
+                    (number || number == 0) ? number : ''
                 } style={{width:'80px',height:'20px',border:'1px solid #ccc'}}/>
             </div>
         )

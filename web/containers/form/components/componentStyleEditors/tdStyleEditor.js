@@ -26,7 +26,11 @@ export default class TextStyleEditor extends Component{
             cStyle.showBorder = showBorder.getValue();
         }
         let value = textPicker ? textPicker.getValue() : '';
-        onConfirm(cStyle,value,item,itemInfoEditor ? itemInfoEditor.getValue() : {});
+        let values = itemInfoEditor ? itemInfoEditor.getValue() : {};
+        if(resultStyle.valueIndex){
+            values.valueIndex = resultStyle.valueIndex
+        }
+        onConfirm(cStyle,value,item,values);
         onClose();
     }
 
@@ -64,8 +68,8 @@ export default class TextStyleEditor extends Component{
     }
 
     render(){
-        const {style,textValue,item,pageX,pageY,propName,propId} = this.props.data;//312 357
-        let height = item.nodeData ? 265 : 309;
+        const {style,textValue,item,pageX,pageY,propName,propId,valueIndex} = this.props.data;//312 357
+        let height = item.nodeData ? 265 : 354;
         let marginTop = window.innerHeight < height+4 + pageY ? (window.innerHeight - height -4 > 0 ? window.innerHeight - height -4 : 0) : pageY+4;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
@@ -81,7 +85,7 @@ export default class TextStyleEditor extends Component{
                 {/*<TextSetEditor ref="textPicker" data={{text:textValue,title:''}}/>*/}
                 {this.renderTextPicker()}
                 {/*<ItemInfoEditor ref="itemInfoEditor" data={{propName,propId}}/>*/}
-                <TdPositionStyleEditor ref="tdPosPicker" data={{style:style}}/>
+                <TdPositionStyleEditor ref="tdPosPicker" data={{style:style,valueIndex:valueIndex,showPickIndex:(item.nodeData) ? false : true}}/>
                 {this.renderFontStyle()}
                 {/*<FontStyleEditor ref="fontPicker" data={{style:style}}/>*/}
                 {this.renderCheckBoxBorder()}

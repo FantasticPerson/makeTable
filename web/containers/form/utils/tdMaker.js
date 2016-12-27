@@ -27,6 +27,7 @@ export default class tdMaker extends Object{
         };
         this.mockType = recoverData ? recoverData.mockType : mockType;
         this.value = recoverData ? recoverData.value : '';
+        this.valueIndex = (recoverData && recoverData.hasOwnProperty('valueIndex')) ? recoverData.valueIndex : 0;
         this.componentId = recoverData ? recoverData.componentId : 0;
         this.dispatch = dispatch;
         this.styleId = styleId;
@@ -132,7 +133,8 @@ export function exportData(){
         style:this.style,
         componentId:this.componentId,
         posInfo:this.posInfo,
-        value:this.value
+        value:this.value,
+        valueIndex:this.valueIndex
     }
 }
 
@@ -154,6 +156,7 @@ export function onSetStyleConfirm(style,text,item,props){
             this.hasChanged = true;
         }
     }
+    this.valueIndex = props.valueIndex;
     this.addNewHistory(operationTypes.SET_TD_STYLE,{obj:beforeTd});
     this.style = {...this.style,...style};
     this.afterUpdateStyle();
@@ -190,7 +193,8 @@ export function onContextMenuShow(item,pageX,pageY,component=null) {
         onConfirm:this.onSetStyleConfirm.bind(this),
         cTarget:item,
         propName:this.propName,
-        propId:this.propId
+        propId:this.propId,
+        valueIndex:this.valueIndex
     };
     if(component && component.value){
         data.value = component.value;
@@ -215,9 +219,10 @@ export function getNode(tdIds,index=0){
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
-        const components = this.componentArray.map((item,index)=>{
+        let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
+        components.splice(this.valueIndex,0,this.value);
         return (
             <td colSpan={col} key={index} rowSpan={row} style={{...getStyle2,verticalAlign:'middle'}} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
@@ -232,7 +237,7 @@ export function getNode(tdIds,index=0){
                     e.preventDefault();
                 }} onDrop={(e)=>{
                     this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
-                }}>{this.value}{components}
+                }}>{components}
             </td>
         )
     }

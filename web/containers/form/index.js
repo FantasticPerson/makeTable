@@ -262,7 +262,6 @@ class FormPage extends Component{
                     tds[i+1].style.height = (Math.ceil(clientHeightArr[i]) -2) + 'px';
                 }
                 let blob = new Blob([getTableHtml(tableNode.outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
-
                 saveAs(blob, 'form.html');
             }.bind(this), 20);
         }

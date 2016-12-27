@@ -509,8 +509,8 @@ export function addTd(id,isRow,isBefore) {
                     this.tds[i][j].posInfo.y += 1;
                 }
             }
-            this.onTdClick(-1, true);
             this.addNewHistory(operationTypes.ADD_TDS,{tds:beforeTds});
+            this.onTdClick(-1, true);
         } else {
             let iWidth = this.getItemWidth(item);
             const {x,y} = item.posInfo;

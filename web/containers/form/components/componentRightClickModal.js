@@ -35,7 +35,8 @@ export default class ComponentRightClickModal extends Component{
             propZname:data.propZname,
             onClose:this.onCloseModal.bind(this),
             onConfirm:data.onConfirm,
-            textValue:data.value
+            textValue:data.value,
+            valueIndex:data.valueIndex
         };
         if(data.type == componentText || data.type == componentInput || data.type == componentTextArea){
             return <InputStyleEditor data={{onDelete:data.onDelete,...transferData}}/>
