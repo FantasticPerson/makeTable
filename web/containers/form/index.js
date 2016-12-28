@@ -292,7 +292,7 @@ class FormPage extends Component{
         }
         function importData(data){
             const {currentStyleId, formStyleList} = data;
-            this.props.dispatch(updateStyleList(formStyleList));
+            this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
             setTimeout(function () {
                 this.tdIds = [];
@@ -335,9 +335,8 @@ class FormPage extends Component{
             this.tableDataTosave = recoverData;
             let tableData = JSON.parse(recoverData);
             const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
-            this.props.dispatch(updateStyleList(formStyleList));
+            this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
-            this.props.dispatch(updateMaxId(formStyleMaxId));
             setTimeout(function () {
                 this.backHistoryList = [];
                 this.historyList = [];
