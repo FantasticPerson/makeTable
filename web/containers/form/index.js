@@ -9,7 +9,7 @@ import tableMaker from './utils/tableMaker'
 import {getTableHtml} from './utils/htmlLint'
 import {tableModuleArray} from './utils/tableModules'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
-import {updateCurrentStyleId,updateStyleList,updateMaxId,resetStyleList} from '../../actions/form'
+import {updateCurrentStyleId,resetStyleList} from '../../actions/form'
 import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
@@ -176,21 +176,24 @@ class FormPage extends Component{
             generateFunc(num1,num2);
         }
         function generate(num1, num2){
-            this.tdIds = [];
-            const {formStyleList,formStyleId,dispatch} = this.props;
-            let posInfo = {row:num1,col:num2,width:820,height:962};
-            let functionArray = {
-                onTdClick:this.onTdClick.bind(this),
-                onTdContext:this.onTdContext.bind(this),
-                onComponentDrop:this.onComponentDrop.bind(this),
-                onComponentContext:this.onComponentContext.bind(this),
-                afterUpdateStyle:this.afterUpdateStyle.bind(this),
-                onDeleteComponent:this.deleteComponent.bind(this),
-                addNewHistory:this.addNewHistory.bind(this),
-                addNewCancelHistory:this.addNewCancelHistory.bind(this)
-            };
-            let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
-            this.setState({tableObj:tableObj2});
+            this.setState({tableObj:null});
+            setTimeout(function () {
+                this.tdIds = [];
+                const {formStyleList,formStyleId,dispatch} = this.props;
+                let posInfo = {row:num1,col:num2,width:820,height:962};
+                let functionArray = {
+                    onTdClick:this.onTdClick.bind(this),
+                    onTdContext:this.onTdContext.bind(this),
+                    onComponentDrop:this.onComponentDrop.bind(this),
+                    onComponentContext:this.onComponentContext.bind(this),
+                    afterUpdateStyle:this.afterUpdateStyle.bind(this),
+                    onDeleteComponent:this.deleteComponent.bind(this),
+                    addNewHistory:this.addNewHistory.bind(this),
+                    addNewCancelHistory:this.addNewCancelHistory.bind(this)
+                };
+                let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
+                this.setState({tableObj:tableObj2});
+            }.bind(this),20);
         }
     }
 
@@ -294,6 +297,7 @@ class FormPage extends Component{
             const {currentStyleId, formStyleList} = data;
             this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            this.setState({tableObj:null});
             setTimeout(function () {
                 this.tdIds = [];
                 this.historyList = [];
@@ -337,6 +341,7 @@ class FormPage extends Component{
             const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
             this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            this.setState({tableObj:null});
             setTimeout(function () {
                 this.backHistoryList = [];
                 this.historyList = [];

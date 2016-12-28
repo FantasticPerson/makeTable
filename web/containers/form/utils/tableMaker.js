@@ -10,7 +10,6 @@ import {findItem} from '../../../utils/compatibaleApi'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
-        console.log(posInfo,functionArray,styleArr,styleId,dispatch,recoverData);
         super();
         if(!recoverData) {
             this.id = 0;
