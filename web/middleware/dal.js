@@ -2,74 +2,65 @@ import {ERROR_TYPES} from '../utils/AppError';
 import {myAssign} from '../utils/compatibaleApi'
 
 function createDAO(opts = {}, cb) {
-  let dao = Object.create(DAO.prototype);
-    myAssign(dao,opts);
-  // Object.assign(dao, opts);
-  dao.timestamp = Date.now();
-  dao.duration = 0;
-  dao.callback = cb;
-  return dao;
+    let dao = Object.create(DAO.prototype);
+    myAssign(dao, opts);
+    // Object.assign(dao, opts);
+    dao.timestamp = Date.now();
+    dao.duration = 0;
+    dao.callback = cb;
+    return dao;
 }
 
 export function createLocalOnlyDAO(opts = {}, cb) {
-  opts.accessType = AccessType.LOCAL_ONLY;
-  return createDAO(opts, cb);
+    opts.accessType = AccessType.LOCAL_ONLY;
+    return createDAO(opts, cb);
 }
 
 export function createRemoteOnlyDAO(opts = {}, cb) {
-  opts.accessType = AccessType.REMOTE_ONLY;
-  return createDAO(opts, cb);
+    opts.accessType = AccessType.REMOTE_ONLY;
+    return createDAO(opts, cb);
 }
 
 export function createAutoDAO(opts = {}, cb) {
-  opts.accessType = AccessType.AUTO;
-  return createDAO(opts, cb);
+    opts.accessType = AccessType.AUTO;
+    return createDAO(opts, cb);
 }
 
 export const AccessType = {
-  LOCAL_ONLY: 0x000001,
-  REMOTE_ONLY: 0x000010,
-  AUTO: 0x001000
+    LOCAL_ONLY: 0x000001,
+    REMOTE_ONLY: 0x000010,
+    AUTO: 0x001000
 };
 
 export let DAOProto = {
-  constructor: DAO,
+    constructor: DAO,
 
-  accessType: AccessType.AUTO,
+    accessType: AccessType.AUTO,
 
-  //inject with middleware runtime.
-  getState: undefined,
+    getState: undefined,
 
-  //read data from remote http or else, and then u also need update the local data.
-  //need pass by create
-  //function type or any type
-  fromRemote: undefined,
+    fromRemote: undefined,
 
-  syncRemoteToLocal: undefined,
+    syncRemoteToLocal: undefined,
 
-  //read data from local db or else
-  //need pass by create
-  //function type or any type
-  fromLocal: undefined,
+    fromLocal: undefined,
 
-  //internal callback
-  onStart: undefined,
-  onEnd: undefined,
-  //external callback
-  callback: undefined
+    onStart: undefined,
+
+    onEnd: undefined,
+
+    callback: undefined
 };
 
 function DAO() {
 }
 DAO.prototype = DAOProto;
 
-//middle ware
 export default ({dispatch,getState})=>next=>action=> {
     if (!(action instanceof DAO)) {
         return next(action);
     }
 
-    //store like api.
     action.getState = getState;
     action.dispatch = dispatch;
 
@@ -116,15 +107,12 @@ function executeDao(dao) {
         case AccessType.AUTO:
             return executeDaoWithAuto(dao);
             break;
-
         case AccessType.LOCAL_ONLY:
             return executeDaoWithLocalOnly(dao);
             break;
-
         case AccessType.REMOTE_ONLY:
             return executeDaoRemoteOnly(dao);
             break;
-
         default:
             throw new Error(`Invalid NetworkAccessType ${dao.accessType}`);
             break;
@@ -158,20 +146,20 @@ function executeDaoWithAuto(dao) {
 }
 
 function executeDaoWithLocalOnly(dao, val) {
-  return resolveProcessFn(dao, 'fromLocal', val);
+    return resolveProcessFn(dao, 'fromLocal', val);
 }
 
 function executeDaoRemoteOnly(dao) {
-  return resolveProcessFn(dao, 'fromRemote')
-      .then(val => {
-        return resolveProcessFn(dao, 'syncRemoteToLocal', val);
-      })
-      .then(val => {
-        return resolveProcessFn(dao, 'fromLocal', val);
-      }, err => {
-        filterRemoteError(err);
-        return err;
-      })
+    return resolveProcessFn(dao, 'fromRemote')
+        .then(val => {
+            return resolveProcessFn(dao, 'syncRemoteToLocal', val);
+        })
+        .then(val => {
+            return resolveProcessFn(dao, 'fromLocal', val);
+        }, err => {
+            filterRemoteError(err);
+            return err;
+        })
 }
 
 function resolveProcessFn(dao, fnName, val) {
