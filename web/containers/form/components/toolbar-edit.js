@@ -87,7 +87,7 @@ export default class ToolBarEdit extends Component{
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-edit-container-body-source"
-                         style={{backgroundColor:styleArr[cTool.indexOf(editSource) >= 0 ? 0 : 1].color1}}
+                         style={{backgroundColor:styleArr[cTool.indexOf(editSource) >= 0 ? 0 : 1].color1,display:'none'}}
                          onClick={()=>{this.onEditToolClick('source')}}>
                         <div className="true-form-edit-source-icon abc-form-tool-bar-edit-container-body-item-icon"></div>
                         <div className="abc-form-tool-bar-edit-container-body-item-text"
