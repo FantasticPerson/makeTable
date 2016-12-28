@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import FontStyleEditor from './styleEditorComponent/fontStyleEditor'
 import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
 import TextSetEditor from './styleEditorComponent/textSetEditor'
-import {updateStyleList,updateMaxId} from '../../../actions/form'
+import {addOrModifyStyle} from '../../../actions/form'
 import {cloneDataArray} from '../utils/data-helper'
 import {findItem} from '../../../utils/compatibaleApi'
 import * as operationTypes from '../utils/history/operationType'
@@ -18,47 +18,31 @@ export default class ComponentStyleEditor extends Component{
     onConformClick(){
         const {formStyle,onUpdateStyle,subName,onClickClose,addNewHistory} = this.props;
         const {namePicker,fontStyleEditor,borderStyleEditor} = this.refs;
-
-        let arr = [];
+        let style;
+        let beforeList = cloneDataArray(formStyle.list);
         if(subName == 'viewAdd'){
-            let beforeList = cloneDataArray(formStyle.list);
-            let style = {
+            style = {
                 name:namePicker.getValue(),
                 ...borderStyleEditor.getValue(),
                 ...fontStyleEditor.getValue(),
                 isDefault:false,
                 id:formStyle.maxId+1
             };
-            for(let i=0;i<formStyle.list.length;i++){
-                arr.push(formStyle.list[i]);
-            }
-            arr.push(style);
-            this.props.dispatch(updateMaxId(style.id));
             addNewHistory(operationTypes.ADD_STYLE,{list:beforeList});
 
         } else {
-            let beforeList = cloneDataArray(formStyle.list);
-            for (let i = 0; i < formStyle.list.length; i++) {
-                if (formStyle.list[i].id == formStyle.id) {
-                    let style = {
-                        name:namePicker.getValue(),
-                        ...borderStyleEditor.getValue(),
-                        ...fontStyleEditor.getValue(),
-                        isDefault:formStyle.list[i].isDefault,
-                        id:formStyle.id
-                    };
-                    arr.push(style);
-                } else {
-                    arr.push(formStyle.list[i]);
-                }
-            }
+            let styleOrigin = findItem(formStyle.list,'id',formStyle.id);
+            style = {
+                name: namePicker.getValue(),
+                ...borderStyleEditor.getValue(),
+                ...fontStyleEditor.getValue(),
+                isDefault: styleOrigin.isDefault,
+                id: formStyle.id
+            };
             addNewHistory(operationTypes.SET_STYLE,{list:beforeList});
         }
-        this.props.dispatch(updateStyleList(arr));
         onClickClose();
-        setTimeout(function(){
-            onUpdateStyle();
-        }.bind(this),20);
+        this.props.dispatch(addOrModifyStyle(style,onUpdateStyle));
     }
 
     onCancelClick(){

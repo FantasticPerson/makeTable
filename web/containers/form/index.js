@@ -6,11 +6,10 @@ import {connect} from 'react-redux';
 import * as overLayNames from '../../constants/OverLayNames'
 import ToolBar from './components/toolbar'
 import tableMaker from './utils/tableMaker'
-import {formDefaultStyle} from './const'
 import {getTableHtml} from './utils/htmlLint'
 import {tableModuleArray} from './utils/tableModules'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
-import {updateCurrentStyleId,updateStyleList,updateMaxId} from '../../actions/form'
+import {updateCurrentStyleId,updateStyleList,updateMaxId,resetStyleList} from '../../actions/form'
 import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
@@ -47,9 +46,6 @@ class FormPage extends Component{
 
     componentDidMount(){
         window.addEventListener('resize', this.handleResize.bind(this));
-        this.props.dispatch(updateStyleList(formDefaultStyle));
-        this.props.dispatch(updateCurrentStyleId(formDefaultStyle[0].id));
-        this.props.dispatch(updateMaxId(formDefaultStyle[0].id));
     }
 
     clickSplit(){
@@ -139,10 +135,7 @@ class FormPage extends Component{
                 return;
             }
             if (item.type == operationType.ADD_STYLE || item.type == operationType.SET_STYLE) {
-                this.props.dispatch(updateStyleList(item.data.list));
-                setTimeout(function(){
-                    this.afterUpdateStyle();
-                }.bind(this),20);
+                this.props.dispatch(resetStyleList(item.data.list,this.afterUpdateStyle.bind(this)));
                 return;
             }
             const {MERGE_TDS,SPLIT_TDS,ADD_TDS,DEL_TDS} = operationType;
@@ -262,6 +255,7 @@ class FormPage extends Component{
                     tds[i+1].style.height = (Math.ceil(clientHeightArr[i]) -2) + 'px';
                 }
                 let blob = new Blob([getTableHtml(tableNode.outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
+
                 saveAs(blob, 'form.html');
             }.bind(this), 20);
         }
@@ -297,10 +291,9 @@ class FormPage extends Component{
             importDataFunc(data);
         }
         function importData(data){
-            const {currentStyleId, formStyleMaxId, formStyleList} = data;
+            const {currentStyleId, formStyleList} = data;
             this.props.dispatch(updateStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
-            this.props.dispatch(updateMaxId(formStyleMaxId));
             setTimeout(function () {
                 this.tdIds = [];
                 this.historyList = [];

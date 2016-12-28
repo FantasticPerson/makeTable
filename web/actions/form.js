@@ -3,11 +3,56 @@
  */
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
+import {createAutoDAO,createLocalOnlyDAO} from '../middleware/dal'
+import StyleModel from '../models/Style'
+import {getMaxId} from '../containers/form/utils/data-helper'
 
-export function updateStyleList(styleList){
-    return ((dispatch)=>{
-        dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styleList))
-    })
+export function addOrModifyStyle(style,cb){
+    return createAutoDAO({
+        syncRemoteToLocal: () => {
+            return StyleModel.update(style);
+        },
+        fromLocal:()=>{
+            return StyleModel.getAll();
+        },
+        onEnd:function(styles){
+            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
+        }
+    },cb);
+}
+
+export function updateStyleList(styleList,cb,setCurrentId = false){
+    return createAutoDAO({
+        syncRemoteToLocal: () => {
+            return StyleModel.initAdd(styleList);
+        },
+        fromLocal:()=>{
+            return StyleModel.getAll();
+        },
+        onEnd:function(styles){
+            if(setCurrentId && styles.length > 0){
+                this.dispatch(updateCurrentStyleId(styles[0].id));
+            }
+            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
+        }
+    },cb);
+}
+
+export function resetStyleList(styleList,cb){
+    return createAutoDAO({
+        syncRemoteToLocal: () => {
+            return StyleModel.resetStyles(styleList);
+        },
+        fromLocal:()=>{
+            return StyleModel.getAll();
+        },
+        onEnd:function(styles){
+            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
+        }
+    },cb);
 }
 
 export function updateCurrentStyleId(id){

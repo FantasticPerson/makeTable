@@ -51,20 +51,16 @@ export default class TextStyleEditor extends Component{
 
     renderTextPicker(){
         const {item,textValue} = this.props.data;
-        // if(item.nodeData){
-            return (
-                <TextSetEditor ref="textPicker" data={{text:textValue,title:''}}/>
-            );
-        // }
+        return (
+            <TextSetEditor ref="textPicker" data={{text:textValue,title:''}}/>
+        );
     }
 
     renderFontStyle(){
         const {item,style} = this.props.data;
-        // if(item.nodeData){
-            return (
-                <FontStyleEditor ref="fontPicker" data={{style:style}}/>
-            );
-        // }
+        return (
+            <FontStyleEditor ref="fontPicker" data={{style:style}}/>
+        );
     }
 
     render(){

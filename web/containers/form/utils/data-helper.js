@@ -3,6 +3,19 @@
  */
 import clone from 'clone'
 
+export function getMaxId(styleArr){
+    if(styleArr.length > 0){
+        let maxId = -1;
+        for(let i= 0;i<styleArr.length;i++){
+            if(styleArr[i].id > maxId){
+                maxId = styleArr[i].id;
+            }
+        }
+        return maxId;
+    }
+    return 0;
+}
+
 export function checkArrayEqual(arr1,arr2){
     if(!arr1 || !arr2){
         return false

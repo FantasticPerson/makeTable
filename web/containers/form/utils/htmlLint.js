@@ -10,7 +10,7 @@ export function getTableHtml(tableString,recoverData){
     string += recoverData;
     string += "</div></html>";
 
-    return htmlLint2(string);
+    return htmlLint(string);
 }
 
 export function htmlLint2(htmlString){

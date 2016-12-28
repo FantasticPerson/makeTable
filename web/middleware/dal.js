@@ -63,96 +63,96 @@ DAO.prototype = DAOProto;
 
 //middle ware
 export default ({dispatch,getState})=>next=>action=> {
-  if (!(action instanceof DAO)) {
-    return next(action);
-  }
-
-  //store like api.
-  action.getState = getState;
-  action.dispatch = dispatch;
-
-  new Promise((resolve) => {
-    if (action.onStart) {
-      action.onStart();
+    if (!(action instanceof DAO)) {
+        return next(action);
     }
-    resolve();
-  }).then(()=> {
-    return executeDao(action)
-  }).then(
-      (val) => {
-        action.duration = Date.now() - action.timestamp;
-        if (__DEBUG__) {
-          console.log(`DAL: duration: ${action.duration}ms`);
-        }
 
-        if (action.onEnd) {
-          action.onEnd(val);
+    //store like api.
+    action.getState = getState;
+    action.dispatch = dispatch;
+
+    new Promise((resolve) => {
+        if (action.onStart) {
+            action.onStart();
         }
-        if (action.callback) {
-          action.callback(val);
+        resolve();
+    }).then(()=> {
+        return executeDao(action)
+    }).then(
+        (val) => {
+            action.duration = Date.now() - action.timestamp;
+            if (__DEBUG__) {
+                console.log(`DAL: duration: ${action.duration}ms`);
+            }
+
+            if (action.onEnd) {
+                action.onEnd(val);
+            }
+            if (action.callback) {
+                action.callback(null, val);
+            }
+        },
+        (err) => {
+            if (action.onEnd) {
+                action.onEnd(err);
+            }
+            if (action.callback) {
+                action.callback(err);
+            }
         }
-      },
-      (err) => {
-        if (action.onEnd) {
-          action.onEnd(err);
-        }
-        if (action.callback) {
-          action.callback(err);
-        }
-      }
-  ).catch((err) => {//the final error
-    console.error('final err in dal and no process ------------------------------------' + err);
-    setTimeout(()=> {
-      console.error(err);
-      throw err;
+    ).catch((err) => {//the final error
+        console.error('final err in dal and no process ------------------------------------' + err);
+        setTimeout(()=> {
+            console.error(err);
+            throw err;
+        });
     });
-  });
 }
 
 function executeDao(dao) {
-  switch (dao.accessType) {
-    case AccessType.AUTO:
-      return executeDaoWithAuto(dao);
-      break;
+    switch (dao.accessType) {
+        case AccessType.AUTO:
+            return executeDaoWithAuto(dao);
+            break;
 
-    case AccessType.LOCAL_ONLY:
-      return executeDaoWithLocalOnly(dao);
-      break;
+        case AccessType.LOCAL_ONLY:
+            return executeDaoWithLocalOnly(dao);
+            break;
 
-    case AccessType.REMOTE_ONLY:
-      return executeDaoRemoteOnly(dao);
-      break;
+        case AccessType.REMOTE_ONLY:
+            return executeDaoRemoteOnly(dao);
+            break;
 
-    default:
-      throw new Error(`Invalid NetworkAccessType ${dao.accessType}`);
-      break;
-  }
+        default:
+            throw new Error(`Invalid NetworkAccessType ${dao.accessType}`);
+            break;
+    }
 }
 
 function filterRemoteError(err) {
-  if (err.hasOwnProperty('type') &&
-      (err.type === ERROR_TYPES.http_status_unauth ||
-      err.type === ERROR_TYPES.http_status_api_notsupport_error)) {
-    throw err;
-  }
+    if (err.hasOwnProperty('type') &&
+        (err.type === ERROR_TYPES.http_status_unauth ||
+        err.type === ERROR_TYPES.http_status_api_notsupport_error)) {
+        throw err;
+    }
 }
 
 function executeDaoWithAuto(dao) {
-  if (navigator.onLine) {
-    return resolveProcessFn(dao, 'fromRemote')
-        .then(val => {
-          return resolveProcessFn(dao, 'syncRemoteToLocal', val);
-        })
-        .then(val => {
-          return resolveProcessFn(dao, 'fromLocal', val);
-        }, err => {
-          filterRemoteError(err);
-          return resolveProcessFn(dao, 'fromLocal');
-        })
+    if (navigator.onLine) {
+        return resolveProcessFn(dao, 'fromRemote')
+            .then(val => {
+                return resolveProcessFn(dao, 'syncRemoteToLocal', val);
+            })
+            .then(val => {
+                return resolveProcessFn(dao, 'fromLocal', val);
+            }, err => {
+                filterRemoteError(err);
+                return resolveProcessFn(dao, 'fromLocal');
+            })
 
-  } else {
-    return resolveProcessFn(dao, 'fromLocal');
-  }
+    } else {
+        return resolveProcessFn(dao, 'fromLocal');
+    }
 }
 
 function executeDaoWithLocalOnly(dao, val) {
@@ -173,13 +173,13 @@ function executeDaoRemoteOnly(dao) {
 }
 
 function resolveProcessFn(dao, fnName, val) {
-  let fn = dao[fnName];
+    let fn = dao[fnName];
 
-  if (fn === undefined) {
-    return Promise.resolve(val);
-  } else if (typeof fn === 'function') {
-    return Promise.resolve(dao[fnName](val));
-  } else {
-    return Promise.resolve(fn);
-  }
+    if (fn === undefined) {
+        return Promise.resolve(val);
+    } else if (typeof fn === 'function') {
+        return Promise.resolve(dao[fnName](val));
+    } else {
+        return Promise.resolve(fn);
+    }
 }
