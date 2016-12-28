@@ -44,7 +44,7 @@ export default class ToolbarStyle extends Component{
     renderStyleArr(){
         const {formStyle} = this.props;
         return formStyle.list.map((item,index)=>{
-            return (<ToolbarStyleItem data={item} key={index} cId={formStyle.id} onClick={this.onStyleItemClick.bind(this)}/>);
+            return (<ToolbarStyleItem data={item} key={index} cId={formStyle.id} index={index} onClick={this.onStyleItemClick.bind(this)}/>);
         })
     }
 
@@ -80,7 +80,16 @@ export default class ToolbarStyle extends Component{
                             <div className="abc-form-tool-bar-style-container-up-text-container-text">{'已保存的样式'}</div>
                         </div>
                         <div className="abc-form-tool-bar-style-container-up-styles">
-                            {this.renderStyleArr()}
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                width: '250px',
+                                height: '110px',
+                                marginTop: '5px',
+                                overflowX: 'auto'
+                            }}>
+                                {this.renderStyleArr()}
+                            </div>
                         </div>
                     </div>
                     <div className="abc-form-tool-bar-style-container-down">

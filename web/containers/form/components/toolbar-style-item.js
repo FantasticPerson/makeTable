@@ -17,14 +17,15 @@ export default class ToolbarStyleItem extends Component{
     }
 
     render(){
-        const {data,cId} = this.props;
+        const {data,cId,index} = this.props;
+        console.log('key',index)
         let bgColor = cId == data.id ? '#ECF6E7' : '#FFFFFF';
         return (
-            <div className="abc-form-tool-bar-style-item-container" style={{backgroundColor:bgColor}} onClick={()=>{this.onClick()}}>
+            <div className="abc-form-tool-bar-style-item-container" style={{backgroundColor:bgColor,marginLeft:index==0?'0':'5px'}} onClick={()=>{this.onClick()}}>
                 <div style={{
                     width: '50px',
                     height: '55px',
-                    marginLeft: '5px',
+                    marginLeft: '4px',
                     marginTop:'5px',
                     backgroundColor: 'white',
                     paddingTop: '10px',
