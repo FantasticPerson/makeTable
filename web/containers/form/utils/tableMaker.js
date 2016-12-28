@@ -10,6 +10,7 @@ import {findItem} from '../../../utils/compatibaleApi'
 
 export default class tableMaker extends Object {
     constructor(posInfo, functionArray, styleArr, styleId,dispatch,recoverData = null) {
+        console.log(posInfo,functionArray,styleArr,styleId,dispatch,recoverData);
         super();
         if(!recoverData) {
             this.id = 0;
@@ -535,6 +536,9 @@ export function addTd(id,isRow,isBefore) {
             this.addNewHistory(operationTypes.ADD_TDS,{tds:beforeTds});
             this.onTdClick(-1, true);
         }
+        if(this.tds[0]) {
+            this.header.setColSpan(this.tds[0].length);
+        }
     }
 }
 
@@ -586,6 +590,9 @@ export function deleteTd(id,isRow){
             }
             this.onTdClick(-1,true);
             this.addNewHistory(operationTypes.DEL_TDS,{tds:beforeTds});
+        }
+        if(this.tds[0]) {
+            this.header.setColSpan(this.tds[0].length);
         }
     }
 }

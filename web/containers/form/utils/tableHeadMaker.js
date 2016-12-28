@@ -22,6 +22,7 @@ export default class tableHeadMaker extends Object{
             this.getNode = getNode;
             this.setStyle = setStyle;
             this.exportData = exportData;
+            this.setColSpan = setColSpan;
         } else {
             this.styleArr = styleArr;
             this.styleId = recoverData.styleId;
@@ -35,10 +36,15 @@ export default class tableHeadMaker extends Object{
             this.getNode = getNode;
             this.setStyle = setStyle;
             this.exportData = exportData;
+            this.setColSpan = setColSpan;
         }
         this.propName = 'default';
         this.propId = ''+this.id;
     }
+}
+
+export function setColSpan(cols){
+    this.colSpan = cols;
 }
 
 export function setStyle(styleArr){
