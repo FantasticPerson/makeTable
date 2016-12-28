@@ -18,7 +18,7 @@ export default class CheckBoxStyleEditor extends Component{
         const {onConfirm,item,onClose,style} = this.props.data;
         const {fontStyle1,positionEditor,itemInfoEditor,textPicker} = this.refs;
         let cStyle = getStyleSet(style,{
-            ...fontStyle1.getValue(),
+            // ...fontStyle1.getValue(),
             ...positionEditor.getValue()
         });
         onConfirm(cStyle,item,itemInfoEditor.getValue(),textPicker.getValue());
@@ -38,12 +38,12 @@ export default class CheckBoxStyleEditor extends Component{
 
     render(){
         const {style,pageX,pageY,propName,propId,textValue,propZname} = this.props.data;
-        let marginTop = window.innerHeight < 459 + pageY ? (window.innerHeight - 459 > 0 ? window.innerHeight - 459  : 0) : pageY;
+        let marginTop = window.innerHeight < 319 + pageY ? (window.innerHeight - 319 > 0 ? window.innerHeight - 319  : 0) : pageY;
         let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
         return(
             <div className="abc-style-bg" style={{
                 width: '452px',
-                height: '455px',
+                height: '315px',
                 marginTop:marginTop,
                 marginLeft:marginLeft
             }}>
@@ -53,7 +53,7 @@ export default class CheckBoxStyleEditor extends Component{
                 <TextSetEditor ref="textPicker" data={{text:textValue,title:''}}/>
                 <ItemInfoEditor ref="itemInfoEditor" data={{propName,propId,propZname}}/>
                 <ComponentPositionStyleEditor ref="positionEditor" data={{style:style}}/>
-                <FontStyleEditor ref="fontStyle1" data={{style:style}}/>
+                {/*<FontStyleEditor ref="fontStyle1" data={{style:style}}/>*/}
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-component-text-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div className="abc-form-component-text-style-editor-cancel-btn" onClick={()=>{this.onCancelClick()}}>{'取消'}</div>

@@ -31,15 +31,15 @@ export default class ComponentPositionStyleEditor extends Component{
     }
 
     renderChooseBoxSize(){
-        const {width1,height1} = this.props.data.style;
-        if(width1 && height1) {
-            return (
-                <div className="style-component-item-style">
-                    <StyleEditorItemPicker ref="numberSetter3" type={editorNumberSetter} title="选择框宽" data={{number: width1}}/>
-                    <StyleEditorItemPicker ref="numberSetter4" type={editorNumberSetter} title="选择框高" data={{number: height1}}/>
-                </div>
-            )
-        }
+        // const {width1,height1} = this.props.data.style;
+        // if(width1 && height1) {
+        //     return (
+        //         <div className="style-component-item-style">
+        //             <StyleEditorItemPicker ref="numberSetter3" type={editorNumberSetter} title="选择框宽" data={{number: width1}}/>
+        //             <StyleEditorItemPicker ref="numberSetter4" type={editorNumberSetter} title="选择框高" data={{number: height1}}/>
+        //         </div>
+        //     )
+        // }
     }
 
     render(){
