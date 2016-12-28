@@ -18,14 +18,13 @@ export default class ToolbarStyleItem extends Component{
 
     render(){
         const {data,cId,index} = this.props;
-        console.log('key',index)
         let bgColor = cId == data.id ? '#ECF6E7' : '#FFFFFF';
         return (
             <div className="abc-form-tool-bar-style-item-container" style={{backgroundColor:bgColor,marginLeft:index==0?'0':'5px'}} onClick={()=>{this.onClick()}}>
                 <div style={{
                     width: '50px',
                     height: '55px',
-                    marginLeft: '4px',
+                    marginLeft: '5px',
                     marginTop:'5px',
                     backgroundColor: 'white',
                     paddingTop: '10px',
