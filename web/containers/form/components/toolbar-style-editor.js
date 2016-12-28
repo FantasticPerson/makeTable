@@ -5,7 +5,7 @@ import React,{Component,PropTypes} from 'react'
 import FontStyleEditor from './styleEditorComponent/fontStyleEditor'
 import BorderStyleEditor from './styleEditorComponent/borderStyleEditor'
 import TextSetEditor from './styleEditorComponent/textSetEditor'
-import {addOrModifyStyle} from '../../../actions/form'
+import {addOrModifyStyle,deleteStyle} from '../../../actions/form'
 import {cloneDataArray} from '../utils/data-helper'
 import {findItem} from '../../../utils/compatibaleApi'
 import * as operationTypes from '../utils/history/operationType'
@@ -50,6 +50,22 @@ export default class ComponentStyleEditor extends Component{
         onClickClose();
     }
 
+    onDeleteClick(){
+        const {formStyle,onClickClose,onUpdateStyle} = this.props;
+        onClickClose();
+        this.props.dispatch(deleteStyle(formStyle.id,onUpdateStyle));
+    }
+
+    renderDeleteBtn(){
+        const {subName,formStyle} = this.props;
+        let item = findItem(formStyle.list,'id',formStyle.id);
+        if(subName != 'viewAdd' && !item.isDefault){
+            return(
+                <div style={{marginLeft:'110px'}} onClick={()=>{this.onDeleteClick()}} className="abc-form-tool-bar-style-editor-cancel-btn">{'删除'}</div>
+            )
+        }
+    }
+
     render(){
         const {formStyle,subName} = this.props;
         let formStyleItem = {};
@@ -80,6 +96,7 @@ export default class ComponentStyleEditor extends Component{
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div onClick={()=>{this.onCancelClick()}} className="abc-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>
+                    {this.renderDeleteBtn()}
                 </div>
             </div>
         )

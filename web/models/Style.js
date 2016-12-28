@@ -55,6 +55,8 @@ Style.update = function(style){
 Style.delete = function(id){
     return Style.store.get(id)
         .then((result)=>{
-            return Style.store.delete(result);
+            return Style.store.delete(id);
+        },()=>{
+            return Promise.resolve()
         })
 };

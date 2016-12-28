@@ -40,6 +40,24 @@ export function updateStyleList(styleList,cb,setCurrentId = false){
     },cb);
 }
 
+export function deleteStyle(styleId,cb){
+    return createAutoDAO({
+        syncRemoteToLocal:()=>{
+            return StyleModel.delete(styleId);
+        },
+        fromLocal:()=>{
+            return StyleModel.getAll();
+        },
+        onEnd:function(styles){
+            if(styles.length > 0){
+                this.dispatch(updateCurrentStyleId(styles[0].id));
+            }
+            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
+        }
+    },cb);
+}
+
 export function resetStyleList(styleList,cb){
     return createAutoDAO({
         syncRemoteToLocal: () => {
