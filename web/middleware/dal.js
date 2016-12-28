@@ -1,8 +1,10 @@
 import {ERROR_TYPES} from '../utils/AppError';
+import {myAssign} from '../utils/compatibaleApi'
 
 function createDAO(opts = {}, cb) {
   let dao = Object.create(DAO.prototype);
-  Object.assign(dao, opts);
+    myAssign(dao,opts);
+  // Object.assign(dao, opts);
   dao.timestamp = Date.now();
   dao.duration = 0;
   dao.callback = cb;
