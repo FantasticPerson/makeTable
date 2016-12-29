@@ -113,7 +113,6 @@ class FormPage extends Component{
             this.historyList.shift();
         }
         this.historyList.push(new HistoryItem(type,data));
-        console.log(this.historyList);
     }
 
     addNewCancelHistory(type,data){
@@ -121,7 +120,6 @@ class FormPage extends Component{
             this.backHistoryList.shift();
         }
         this.backHistoryList.push(new HistoryItem(type,data));
-        console.log(this.backHistoryList);
     }
 
     goBack(){
