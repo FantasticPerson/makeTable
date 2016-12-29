@@ -59,6 +59,64 @@ export function registerFunc(functionArray){
     this.goBack = goBack;
     this.tdGoBack = tdGoBack;
     this.getBorderWidth = getBorderWidth;
+    this.setRowHeight = setRowHeight;
+    this.setColWidth = setColWidth;
+}
+
+export function setRowHeight(id,height2){
+    let item = this.getItemById(id);
+    if(item){
+        const {y} = item.posInfo;
+        let height1 = 0;
+        for(let i=0;i<this.tds[0].length;i++){
+            if(this.tds[y][i].mockType > 0){
+                return false;
+            }
+            let width = this.getItemWidth(this.tds[y][i]);
+            let height = this.getItemHeight(this.tds[y][i]);
+            if(i==0){
+                height1 = height;
+            } else {
+                if(height != height1){
+                    return false;
+                }
+            }
+            i = i + width-1;
+        }
+        for(let i=0;i<this.tds[0].length;i++){
+            if(this.tds[y][i].mockType == 0) {
+                this.tds[y][i].setCommonHeight(height2);
+            }
+        }
+    }
+}
+
+export function setColWidth(id,width2){
+    let item = this.getItemById(id);
+    if(item){
+        const {x} = item.posInfo;
+        let width = -1;
+        for(let i=0;i<this.tds.length;i++){
+            if(this.tds[i][x].mockType > 0){
+                return false;
+            }
+            let width1 = this.getItemWidth(this.tds[i][x]);
+            let height1 = this.getItemHeight(this.tds[i][x]);
+            if(i == 0){
+                width = width1;
+            } else {
+                if(width1 != width){
+                    return false;
+                }
+            }
+            i = i+height1-1;
+        }
+        for(let i=0;i<this.tds.length;i++){
+            if(this.tds[i][x].mockType == 0){
+                this.tds[i][x].setCommonWidth(width2);
+            }
+        }
+    }
 }
 
 export function initTds(recoverData){
@@ -100,9 +158,9 @@ export function createTd(x,y,recoverData){
     if(!recoverData) {
         const {row, col, width, height} = this.posInfo;
         let posInfo = {x: x, y: y, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
-        return new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch);
+        return new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch,this.setRowHeight.bind(this),this.setColWidth.bind(this));
     } else {
-        return new tdMaker(null,null,this.styleArr,this.styleId,null,functionArray,this.dispatch,recoverData);
+        return new tdMaker(null,null,this.styleArr,this.styleId,null,functionArray,this.dispatch,this.setRowHeight.bind(this),this.setColWidth.bind(this),recoverData);
     }
 }
 

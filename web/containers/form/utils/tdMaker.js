@@ -15,7 +15,7 @@ import * as operationTypes from '../utils/history/operationType'
 import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox} from '../const'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,recoverData) {
+    constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,setRowHeight,setColWidth,recoverData) {
         super();
         this.state = {choose: false};
         this.id = recoverData ? recoverData.id : id;
@@ -31,6 +31,8 @@ export default class tdMaker extends Object{
         this.componentId = recoverData ? recoverData.componentId : 0;
         this.dispatch = dispatch;
         this.styleId = styleId;
+        this.setRowHeight = setRowHeight;
+        this.setColWidth = setColWidth;
         this.componentArray = [];
         this.propName = 'default';
         this.propId = ''+this.id;
@@ -81,6 +83,8 @@ export function registerFunc(functionArray){
     this.deleteComponent = deleteComponent;
     this.exportData = exportData;
     this.goBack = goBack;
+    this.setCommonWidth = setCommonWidth;
+    this.setCommonHeight = setCommonHeight;
 }
 
 export function insertComponent(type,styleArr,styleId){
@@ -121,6 +125,14 @@ export function setComponentStyle(id,style){
     }
 }
 
+export function setCommonWidth(width){
+    this.style.width1 = width;
+}
+
+export function setCommonHeight(height){
+    this.style.height1 = height;
+}
+
 export function exportData(){
     let componentsData = this.componentArray.map((item)=>{
         return item.exportData();
@@ -159,6 +171,13 @@ export function onSetStyleConfirm(style,text,item,props){
     this.valueIndex = props.valueIndex;
     this.addNewHistory(operationTypes.SET_TD_STYLE,{obj:beforeTd});
     this.style = {...this.style,...style};
+    if(this.style.width1){
+        this.setColWidth(this.id,this.style.width1);
+    }
+    if(this.style.height1){
+        this.setRowHeight(this.id,this.style.height1);
+    }
+
     this.afterUpdateStyle();
 }
 
@@ -219,6 +238,8 @@ export function getNode(tdIds,index=0){
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
+        getStyle2.width = getStyle2.width1 ? getStyle2.width1 : getStyle2.width;
+        getStyle2.height = getStyle2.height1 ? getStyle2.height1 : getStyle2.height;
         let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });

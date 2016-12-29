@@ -11,10 +11,12 @@ export default class TdPositionStyleEditor extends Component{
     }
 
     getValue(){
-        const {numberSetter1,numberSetter2,dropBoxPicker,numberSetter3} = this.refs;
+        const {numberSetter1,numberSetter2,numberSetter5,numberSetter4,dropBoxPicker,numberSetter3} = this.refs;
         let value = {
             width:numberSetter1.getValue(),
             height:numberSetter2.getValue(),
+            width1:numberSetter4.getValue(),
+            height1:numberSetter5.getValue(),
             textAlign:dropBoxPicker.getValue()
         };
         if(numberSetter3){
@@ -44,6 +46,10 @@ export default class TdPositionStyleEditor extends Component{
                     <StyleEditorItem ref="numberSetter1" type={editorNumberSetter} title="宽度" data={{number:style.width ? style.width : null}}/>
                     <StyleEditorItem ref="numberSetter2" type={editorNumberSetter} title="高度" data={{number:style.height ? style.height : null}}/>
                     <StyleEditorItem ref="dropBoxPicker" type={editorDropBoxPicker} title="元素布局" data={{groupData:textAlignPosition,selectedValue:style.textAlign}}/>
+                </div>
+                <div className="style-component-item-style">
+                    <StyleEditorItem ref="numberSetter4" type={editorNumberSetter} title="整列宽度" data={{number:style.width1 ? style.width1 : null}}/>
+                    <StyleEditorItem ref="numberSetter5" type={editorNumberSetter} title="整行高度" data={{number:style.height1 ? style.height1 : null}}/>
                 </div>
                 {this.renderTextIndex()}
             </div>
