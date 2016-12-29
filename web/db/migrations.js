@@ -10,21 +10,6 @@ export default [
     {
         ver:1,
         stores: {
-            module: [
-                '!haha',
-                'id',
-                'content',
-                'borderColor',
-                'borderSize',
-                'color',
-                'fontSize',
-                'fontFamily',
-                'isDefault',
-                'name',
-                'id',
-                'fontStyleArray',
-                'textAlign'
-            ],
             style:[
                 'id',
                 'content',
@@ -38,6 +23,10 @@ export default [
                 'id',
                 'fontStyleArray',
                 'textAlign'
+            ],
+            tempModule:[
+                'id',
+                'data'
             ]
         }
     }

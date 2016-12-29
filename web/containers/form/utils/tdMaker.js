@@ -222,7 +222,7 @@ export function getNode(tdIds,index=0){
         let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        components.splice(this.valueIndex,0,this.value);
+        components.splice(this.valueIndex,0,this.value.replace(/ /g,String.fromCharCode(160)));
         return (
             <td colSpan={col} key={index} rowSpan={row} style={{...getStyle2,verticalAlign:'middle'}} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);

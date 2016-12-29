@@ -14,14 +14,14 @@ export const formDefaultStyle = [{
     textAlign:'center'
 }];
 
-export const fontFamilyList = [
+export const fontFamilyList = [//方正大标宋简体、方正大标宋_GBK、方正仿宋_GBK、方正黑体简体、方正楷体_GBK、方正小标宋_GBK、方正小标宋简体、
     {value:'SimHei',text:'黑体'},
     {value:'SimSun',text:'宋体'},
     {value:'NSimSun',text:'新宋体'},
     {value:'FangSong',text:'仿宋'},
     {value:'KaiTi',text:'楷体'},
     {value:'FangSong_GB2312',text:'仿宋_GB2312'},
-    {value:'KaiTi_GB2312',text:'楷体_GB2312'},
+    // {value:'KaiTi_GB2312',text:'楷体_GB2312'},
     {value:'Microsoft YaHei',text:'微软雅黑体'},
 ];
 

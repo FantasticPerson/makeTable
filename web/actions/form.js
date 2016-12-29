@@ -5,6 +5,7 @@ import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
 import {createAutoDAO,createLocalOnlyDAO} from '../middleware/dal'
 import StyleModel from '../models/Style'
+import TempModel from '../models/TempModule'
 import {getMaxId} from '../containers/form/utils/data-helper'
 
 export function addOrModifyStyle(style,cb){
@@ -82,5 +83,43 @@ export function updateCurrentStyleId(id){
 export function updateMaxId(id){
     return ((dispatch)=>{
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,id));
+    })
+}
+
+export function saveTempModule(id,data,cb){
+    return createAutoDAO({
+        syncRemoteToLocal:()=>{
+            return TempModel.save({id:id,data:data});
+        },
+        fromLocal:()=>{
+            return TempModel.get(id);
+        },
+        onEnd:function (tempModule) {
+
+        }
+    },cb);
+}
+
+export function deleteTempModule(id){
+    return createAutoDAO({
+        syncRemoteToLocal:()=>{
+            return TempModel.delete(id)
+        },
+        onEnd:function(){
+
+        }
+    })
+}
+
+export function getTempModule(id,cb){
+    return createAutoDAO({
+        fromLocal:()=>{
+            return TempModel.get(id);
+        },
+        onEnd:function(data = null){
+            if(data){
+                cb(data);
+            }
+        }
     })
 }

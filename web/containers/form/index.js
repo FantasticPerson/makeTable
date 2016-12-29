@@ -9,7 +9,7 @@ import tableMaker from './utils/tableMaker'
 import {getTableHtml} from './utils/htmlLint'
 import {tableModuleArray} from './utils/tableModules'
 import {showOverLayByName,removeOverLayByName} from '../../actions/view'
-import {updateCurrentStyleId,resetStyleList} from '../../actions/form'
+import {updateCurrentStyleId,resetStyleList,saveTempModule,deleteTempModule,getTempModule} from '../../actions/form'
 import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
@@ -45,6 +45,22 @@ class FormPage extends Component{
     }
 
     componentDidMount(){
+        this.props.dispatch(getTempModule(1,function(data){
+            const {formStyleList, dispatch} = this.props;
+            let tableObjData = data.data;
+            let functionArray = {
+                onTdClick: this.onTdClick.bind(this),
+                onTdContext: this.onTdContext.bind(this),
+                onComponentDrop: this.onComponentDrop.bind(this),
+                onComponentContext: this.onComponentContext.bind(this),
+                afterUpdateStyle: this.afterUpdateStyle.bind(this),
+                onDeleteComponent: this.deleteComponent.bind(this),
+                addNewHistory: this.addNewHistory.bind(this),
+                addNewCancelHistory: this.addNewCancelHistory.bind(this)
+            };
+            let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableObjData);
+            this.setState({tableObj: tableObj2, showModuleView: false});
+        }.bind(this)));
         window.addEventListener('resize', this.handleResize.bind(this));
     }
 
@@ -258,6 +274,8 @@ class FormPage extends Component{
                 let blob = new Blob([getTableHtml(tableNode.outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
 
                 saveAs(blob, 'form.html');
+                deleteTempModule(1);
+
             }.bind(this), 20);
         }
     }
@@ -361,6 +379,16 @@ class FormPage extends Component{
         }
     }
 
+    saveTempModule(){
+        const {tableObj} = this.state;
+        if(tableObj){
+            let exportData = tableObj.exportData();
+            this.props.dispatch(saveTempModule(1,exportData,function () {
+                alert('保存成功');
+            }));
+        }
+    }
+
     render(){
         const {height} = this.state;
         const {dispatch,formStyleList,formStyleId,formStyleMaxId} = this.props;
@@ -374,7 +402,8 @@ class FormPage extends Component{
             importData:this.importData.bind(this),
             showModuleView:this.showModuleView.bind(this),
             addNewHistory:this.addNewHistory.bind(this),
-            goBack:this.goBack.bind(this)
+            goBack:this.goBack.bind(this),
+            saveTempModule:this.saveTempModule.bind(this)
         };
         return(
             <div className="abc-form-container">
