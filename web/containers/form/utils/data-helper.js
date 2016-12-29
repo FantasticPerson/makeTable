@@ -91,14 +91,8 @@ export function getStyleObj(obj1,obj2){
     if(pStyle.width){
         pStyle.width = pStyle.width + 'px';
     }
-    if(pStyle.width1){
-        pStyle.width1 = pStyle.width1 + 'px';
-    }
     if(pStyle.height){
         pStyle.height = pStyle.height + 'px';
-    }
-    if(pStyle.height1){
-        pStyle.height1 = pStyle.height1 + 'px';
     }
     if(pStyle.showBorder){
         if(pStyle.showBorder[0]) {

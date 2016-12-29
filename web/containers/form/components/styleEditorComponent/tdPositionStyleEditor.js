@@ -48,8 +48,9 @@ export default class TdPositionStyleEditor extends Component{
                     <StyleEditorItem ref="dropBoxPicker" type={editorDropBoxPicker} title="元素布局" data={{groupData:textAlignPosition,selectedValue:style.textAlign}}/>
                 </div>
                 <div className="style-component-item-style">
-                    <StyleEditorItem ref="numberSetter4" type={editorNumberSetter} title="整列宽度" data={{number:style.width1 ? style.width1 : null}}/>
-                    <StyleEditorItem ref="numberSetter5" type={editorNumberSetter} title="整行高度" data={{number:style.height1 ? style.height1 : null}}/>
+                    <StyleEditorItem ref="numberSetter4" type={editorNumberSetter} title="整列宽度" data={{number:null}}/>
+                    <StyleEditorItem ref="numberSetter5" type={editorNumberSetter} title="整行高度" data={{number:null}}/>
+
                 </div>
                 {this.renderTextIndex()}
             </div>

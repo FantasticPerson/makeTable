@@ -126,11 +126,11 @@ export function setComponentStyle(id,style){
 }
 
 export function setCommonWidth(width){
-    this.style.width1 = width;
+    this.style.width = width;
 }
 
 export function setCommonHeight(height){
-    this.style.height1 = height;
+    this.style.height = height;
 }
 
 export function exportData(){
@@ -173,9 +173,11 @@ export function onSetStyleConfirm(style,text,item,props){
     this.style = {...this.style,...style};
     if(this.style.width1){
         this.setColWidth(this.id,this.style.width1);
+        this.style.width1 = null;
     }
     if(this.style.height1){
         this.setRowHeight(this.id,this.style.height1);
+        this.style.height1 = null;
     }
 
     this.afterUpdateStyle();
@@ -238,8 +240,7 @@ export function getNode(tdIds,index=0){
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
-        getStyle2.width = getStyle2.width1 ? getStyle2.width1 : getStyle2.width;
-        getStyle2.height = getStyle2.height1 ? getStyle2.height1 : getStyle2.height;
+        console.log(getStyle2.height);
         let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
