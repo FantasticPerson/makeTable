@@ -4,13 +4,11 @@
 import {getStrRepeat} from '../../../utils/compatibaleApi'
 
 export function getTableHtml(tableString,recoverData){
-
     let string = "<html> <head> <title>表单</title> <style>div {font-size:12px}table {border-spacing:0;border-collapse:collapse;margin:0 auto} input[type='text']:disabled {background-color:#FFF} textarea:disabled{background:#FFF} input[type='text'] {border:0;border-bottom:1px #cccccc dotted} input[type='checkbox']{margin:0;padding: 0;} input[type='radio']{margin:0;padding: 0;} body{margin:0} </style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head> <body> <div class=\"warp\" style=\"display: block\">";
     string += tableString;
     string += "<INPUT type='hidden' id='instanceId' name='instanceId' value=''><INPUT type='hidden' id='formId' name='formId' value=''><INPUT type='hidden' id='workFlowId' name='workFlowId' value=''><INPUT type='hidden' id='processId' name='processId' value=''></div> </body> <div class='recoverData' style='display: none'>";
     string += recoverData;
     string += "</div></html>";
-
     return htmlLint(string);
 }
 
@@ -114,6 +112,7 @@ export function htmlLint(htmlString){
     let reg5 = new RegExp(/<meta.+>/);
     let reg6 = new RegExp(/<input.+>/);
     let reg7 = new RegExp(/<\/textarea>/);
+    let hasBr = false;
     for(let i=0;i<arr.length;i++){
         let index2 = tempStr.indexOf(arr[i],index);
         if(index < index2){
@@ -131,9 +130,9 @@ export function htmlLint(htmlString){
     let grade = 0;
     let isLastAdd = false;
     for(let i=0;i<arr2.length;i++){
-        if(reg5.test(arr2[i]) || arr2[i] == '<br>'){
+        if(reg5.test(arr2[i])){
             isLastAdd = false;
-        } else if(reg6.test(arr2[i]) || arr2[i].indexOf('<INPUT') >= 0){
+        } else if(reg6.test(arr2[i]) || arr2[i].indexOf('<INPUT') >= 0 || arr2[i] == '<br>'){
             if(isLastAdd) {
                 grade++;
             }
