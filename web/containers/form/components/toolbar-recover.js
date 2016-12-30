@@ -30,7 +30,9 @@ export default class ToolbarRecover extends Component {
                         reader.onload=function(){
                             let text = reader.result;
                             let index = text.search(/<div class='recoverData' style='display: none'>/);
-                            let recoverData = text.slice(index+"<div class='recoverData' style='display: none'>".length,-("\r\n\t</div>\r\n</html>".length));
+                            let lastWords = text.match(/<\/div>\s+<\/html>/);
+                            let index2 = text.search(lastWords);
+                            let recoverData = text.slice(index+"<div class='recoverData' style='display: none'>".length,index2-1);
                             importData(recoverData);
                             onRecoverFinish();
                         };
