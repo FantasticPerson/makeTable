@@ -281,7 +281,6 @@ class FormPage extends Component{
 
                 saveAs(blob, 'form.html');
                 deleteTempModule(1);
-
             }.bind(this), 20);
         }
     }
@@ -337,7 +336,7 @@ class FormPage extends Component{
                 };
                 let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, data);
                 this.setState({tableObj: tableObj2, showModuleView: false});
-            }.bind(this), 50);
+            }.bind(this), 100);
         }
     }
 
@@ -381,7 +380,7 @@ class FormPage extends Component{
                 };
                 let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
                 this.setState({tableObj: tableObj2});
-            }.bind(this), 50);
+            }.bind(this), 100);
         }
     }
 
