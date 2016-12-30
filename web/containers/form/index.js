@@ -380,7 +380,7 @@ class FormPage extends Component{
                 };
                 let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
                 this.setState({tableObj: tableObj2});
-            }.bind(this), 100);
+            }.bind(this), 200);
         }
     }
 
