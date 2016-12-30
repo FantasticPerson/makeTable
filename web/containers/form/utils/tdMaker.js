@@ -251,8 +251,6 @@ export function getNode(tdIds,index=0){
             valueArr.splice(2*i-1,0,<br/>);
         }
         components.splice(this.valueIndex,0,valueArr);
-        console.log(this.styleId);
-        console.log(getStyle2);
         return (
             <td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
