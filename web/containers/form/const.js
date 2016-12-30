@@ -11,7 +11,8 @@ export const formDefaultStyle = [{
     name:'样式一',
     id:1,
     fontStyleArray:[false,false],
-    textAlign:'center'
+    textAlign:'center',
+    verticalAlign:'middle'
 }];
 
 export const fontFamilyList = [//方正大标宋简体、方正大标宋_GBK、方正仿宋_GBK、方正黑体简体、方正楷体_GBK、方正小标宋_GBK、方正小标宋简体、
@@ -29,6 +30,12 @@ export const textAlignPosition = [
     {value:'center',text:'居中'},
     {value:'right',text:'居右'},
     {value:'left',text:'居左'}
+];
+
+export const verticalAlignPosition = [
+    {value:'top',text:'居上'},
+    {value:'middle',text:'居中'},
+    {value:'bottom',text:'居下'}
 ];
 
 export const fontWeightValues = [

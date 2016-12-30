@@ -12,7 +12,7 @@ export default class CheckBoxMaker extends ComponentMaker{
         super(id,tdId,styleArr,styleId,funcArray,recoverData);
         this.type = componentCheckBox;
         this.value = recoverData ? recoverData.value:'编辑';
-        this.style = recoverData ? recoverData.style : {width1:13,height1:13,width:50,height:25};
+        this.style = recoverData ? recoverData.style : {width1:13,height1:13,width:13,height:13};
         this.getNode = getNode;
     }
 }
@@ -20,8 +20,8 @@ export default class CheckBoxMaker extends ComponentMaker{
 export function getNode(index){
     let cStyle = findItem(this.styleArr,'id',this.styleId);
     let style = getStyleObj(cStyle,this.style);
-    style.width = this.style.width1;
-    style.height = this.style.height1;
+    // style.width = this.style.width1;
+    // style.height = this.style.height1;
     return[
         <input type="checkbox" name={this.propName} value={this.value} id={this.propId} aria-toreplacezname={this.propZname} style={style} key={index} onClick={(e)=>{
              e.stopPropagation()

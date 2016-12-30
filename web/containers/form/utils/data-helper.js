@@ -73,7 +73,8 @@ export function getStyleObj(obj1,obj2){
         fontStyleArray:obj1.fontStyleArray,
         borderSize:obj1.borderSize,
         borderColor:obj1.borderColor,
-        textAlign:obj1.textAlign
+        textAlign:obj1.textAlign,
+        verticalAlign:obj1.verticalAlign
     };
     let pStyle = {...style,...obj2};
     if(pStyle.marginLeft){
@@ -91,9 +92,15 @@ export function getStyleObj(obj1,obj2){
     if(pStyle.width){
         pStyle.width = pStyle.width + 'px';
     }
+    // if(pStyle.width1){
+    //     pStyle.width1 = pStyle.width1 + 'px';
+    // }
     if(pStyle.height){
         pStyle.height = pStyle.height + 'px';
     }
+    // if(pStyle.height1){
+    //     pStyle.height1 = pStyle.height1 + 'px';
+    // }
     if(pStyle.showBorder){
         if(pStyle.showBorder[0]) {
             pStyle.borderTop = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
@@ -161,6 +168,7 @@ export function getStyleSet(style,styleObj){
     applyProp(styleObj,style,cStyle,'height');
     applyProp(styleObj,style,cStyle,'height1');
     applyProp(styleObj,style,cStyle,'textAlign');
+    applyProp(styleObj,style,cStyle,'verticalAlign');
     applyProp1(styleObj,style,cStyle,'marginTop');
     applyProp1(styleObj,style,cStyle,'marginLeft');
     applyProp1(styleObj,style,cStyle,'marginRight');

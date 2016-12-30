@@ -240,13 +240,12 @@ export function getNode(tdIds,index=0){
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
-        console.log(getStyle2.height);
         let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
         components.splice(this.valueIndex,0,this.value.replace(/ /g,String.fromCharCode(160)));
         return (
-            <td colSpan={col} key={index} rowSpan={row} style={{...getStyle2,verticalAlign:'middle'}} onDoubleClick={(e)=>{
+            <td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();

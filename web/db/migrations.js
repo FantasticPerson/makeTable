@@ -22,7 +22,8 @@ export default [
                 'name',
                 'id',
                 'fontStyleArray',
-                'textAlign'
+                'textAlign',
+                'verticalAlign'
             ],
             tempModule:[
                 'id',

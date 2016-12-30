@@ -46,20 +46,24 @@ class FormPage extends Component{
 
     componentDidMount(){
         this.props.dispatch(getTempModule(1,function(data){
-            const {formStyleList, dispatch} = this.props;
-            let tableObjData = data.data;
-            let functionArray = {
-                onTdClick: this.onTdClick.bind(this),
-                onTdContext: this.onTdContext.bind(this),
-                onComponentDrop: this.onComponentDrop.bind(this),
-                onComponentContext: this.onComponentContext.bind(this),
-                afterUpdateStyle: this.afterUpdateStyle.bind(this),
-                onDeleteComponent: this.deleteComponent.bind(this),
-                addNewHistory: this.addNewHistory.bind(this),
-                addNewCancelHistory: this.addNewCancelHistory.bind(this)
-            };
-            let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableObjData);
-            this.setState({tableObj: tableObj2, showModuleView: false});
+            const {currentStyleId, formStyleList} = data.data;
+            this.props.dispatch(resetStyleList(formStyleList));
+            this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            setTimeout(function(){
+                let tableObjData = data.data;
+                let functionArray = {
+                    onTdClick: this.onTdClick.bind(this),
+                    onTdContext: this.onTdContext.bind(this),
+                    onComponentDrop: this.onComponentDrop.bind(this),
+                    onComponentContext: this.onComponentContext.bind(this),
+                    afterUpdateStyle: this.afterUpdateStyle.bind(this),
+                    onDeleteComponent: this.deleteComponent.bind(this),
+                    addNewHistory: this.addNewHistory.bind(this),
+                    addNewCancelHistory: this.addNewCancelHistory.bind(this)
+                };
+                let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, this.props.dispatch, tableObjData);
+                this.setState({tableObj: tableObj2, showModuleView: false});
+            }.bind(this),50);
         }.bind(this)));
         window.addEventListener('resize', this.handleResize.bind(this));
     }
@@ -99,9 +103,11 @@ class FormPage extends Component{
     afterUpdateStyle(){
         const {tableObj} = this.state;
         if(tableObj){
-            const {formStyleList,formStyleId} = this.props;
-            tableObj.setStyle(formStyleList,formStyleId);
-            this.setState({tableObj: tableObj})
+            setTimeout(function(){
+                const {formStyleList,formStyleId} = this.props;
+                tableObj.setStyle(formStyleList,formStyleId);
+                this.setState({tableObj: tableObj})
+            }.bind(this),50);
         }
     }
 
@@ -331,7 +337,7 @@ class FormPage extends Component{
                 };
                 let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, data);
                 this.setState({tableObj: tableObj2, showModuleView: false});
-            }.bind(this), 20);
+            }.bind(this), 50);
         }
     }
 
@@ -354,7 +360,7 @@ class FormPage extends Component{
         function importData(recoverData){
             this.tableDataTosave = recoverData;
             let tableData = JSON.parse(recoverData);
-            const {currentStyleId, formStyleMaxId, formStyleList} = tableData;
+            const {currentStyleId, formStyleList} = tableData;
             this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
             this.setState({tableObj:null});
@@ -362,7 +368,7 @@ class FormPage extends Component{
                 this.backHistoryList = [];
                 this.historyList = [];
                 this.tdIds = [];
-                const {formStyleList, formStyleId, dispatch} = this.props;
+                const {formStyleList, dispatch} = this.props;
                 let functionArray = {
                     onTdClick: this.onTdClick.bind(this),
                     onTdContext: this.onTdContext.bind(this),
@@ -375,14 +381,17 @@ class FormPage extends Component{
                 };
                 let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
                 this.setState({tableObj: tableObj2});
-            }.bind(this), 20);
+            }.bind(this), 50);
         }
     }
 
     saveTempModule(){
         const {tableObj} = this.state;
+        const {formStyleList,formStyleId,formStyleMaxId} = this.props;
         if(tableObj){
             let exportData = tableObj.exportData();
+            exportData.currentStyleId = formStyleId;
+            exportData.formStyleList = formStyleList;
             this.props.dispatch(saveTempModule(1,exportData,function () {
                 alert('保存成功');
             }));
