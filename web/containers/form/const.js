@@ -24,6 +24,13 @@ export const fontFamilyList = [//方正大标宋简体、方正大标宋_GBK、�
     {value:'FangSong_GB2312',text:'仿宋_GB2312'},
     // {value:'KaiTi_GB2312',text:'楷体_GB2312'},
     {value:'Microsoft YaHei',text:'微软雅黑体'},
+    {value:'方正大标宋简体',text:'正大标宋简体'},
+    {value:'方正大标宋_GBK',text:'方正大标宋_GBK'},
+    {value:'方正仿宋_GBK',text:'方正仿宋_GBK'},
+    {value:'方正黑体简体',text:'方正黑体简体'},
+    {value:'方正楷体_GBK',text:'方正楷体_GBK'},
+    {value:'方正小标宋_GBK',text:'方正小标宋_GBK'},
+    {value:'方正小标宋简体',text:'方正小标宋简体'}
 ];
 
 export const textAlignPosition = [
