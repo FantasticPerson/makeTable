@@ -316,27 +316,29 @@ class FormPage extends Component{
         }
         function importData(data){
             const {currentStyleId, formStyleList} = data;
-            this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            this.props.dispatch(resetStyleList(formStyleList,generate2.bind(this)));
             this.setState({tableObj:null});
-            setTimeout(function () {
-                this.tdIds = [];
-                this.historyList = [];
-                this.backHistoryList = [];
-                const {formStyleList, dispatch} = this.props;
-                let functionArray = {
-                    onTdClick: this.onTdClick.bind(this),
-                    onTdContext: this.onTdContext.bind(this),
-                    onComponentDrop: this.onComponentDrop.bind(this),
-                    onComponentContext: this.onComponentContext.bind(this),
-                    afterUpdateStyle: this.afterUpdateStyle.bind(this),
-                    onDeleteComponent: this.deleteComponent.bind(this),
-                    addNewHistory: this.addNewHistory.bind(this),
-                    addNewCancelHistory: this.addNewCancelHistory.bind(this)
-                };
-                let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, data);
-                this.setState({tableObj: tableObj2, showModuleView: false});
-            }.bind(this), 100);
+            function generate2() {
+                setTimeout(function () {
+                    this.tdIds = [];
+                    this.historyList = [];
+                    this.backHistoryList = [];
+                    const {formStyleList, dispatch} = this.props;
+                    let functionArray = {
+                        onTdClick: this.onTdClick.bind(this),
+                        onTdContext: this.onTdContext.bind(this),
+                        onComponentDrop: this.onComponentDrop.bind(this),
+                        onComponentContext: this.onComponentContext.bind(this),
+                        afterUpdateStyle: this.afterUpdateStyle.bind(this),
+                        onDeleteComponent: this.deleteComponent.bind(this),
+                        addNewHistory: this.addNewHistory.bind(this),
+                        addNewCancelHistory: this.addNewCancelHistory.bind(this)
+                    };
+                    let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, data);
+                    this.setState({tableObj: tableObj2, showModuleView: false});
+                }.bind(this), 50);
+            }
         }
     }
 
@@ -360,27 +362,29 @@ class FormPage extends Component{
             this.tableDataTosave = recoverData;
             let tableData = JSON.parse(recoverData);
             const {currentStyleId, formStyleList} = tableData;
-            this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
+            this.props.dispatch(resetStyleList(formStyleList,generate.bind(this)));
             this.setState({tableObj:null});
-            setTimeout(function () {
-                this.backHistoryList = [];
-                this.historyList = [];
-                this.tdIds = [];
-                const {formStyleList, dispatch} = this.props;
-                let functionArray = {
-                    onTdClick: this.onTdClick.bind(this),
-                    onTdContext: this.onTdContext.bind(this),
-                    onComponentDrop: this.onComponentDrop.bind(this),
-                    onComponentContext: this.onComponentContext.bind(this),
-                    afterUpdateStyle: this.afterUpdateStyle.bind(this),
-                    onDeleteComponent: this.deleteComponent.bind(this),
-                    addNewHistory: this.addNewHistory.bind(this),
-                    addNewCancelHistory: this.addNewCancelHistory.bind(this)
-                };
-                let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
-                this.setState({tableObj: tableObj2});
-            }.bind(this), 100);
+            function generate() {
+                setTimeout(function () {
+                    this.backHistoryList = [];
+                    this.historyList = [];
+                    this.tdIds = [];
+                    const {formStyleList, dispatch} = this.props;
+                    let functionArray = {
+                        onTdClick: this.onTdClick.bind(this),
+                        onTdContext: this.onTdContext.bind(this),
+                        onComponentDrop: this.onComponentDrop.bind(this),
+                        onComponentContext: this.onComponentContext.bind(this),
+                        afterUpdateStyle: this.afterUpdateStyle.bind(this),
+                        onDeleteComponent: this.deleteComponent.bind(this),
+                        addNewHistory: this.addNewHistory.bind(this),
+                        addNewCancelHistory: this.addNewCancelHistory.bind(this)
+                    };
+                    let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, dispatch, tableData);
+                    this.setState({tableObj: tableObj2});
+                }.bind(this), 50);
+            }
         }
     }
 
