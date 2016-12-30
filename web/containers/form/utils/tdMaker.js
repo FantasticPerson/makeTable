@@ -30,7 +30,7 @@ export default class tdMaker extends Object{
         this.valueIndex = (recoverData && recoverData.hasOwnProperty('valueIndex')) ? recoverData.valueIndex : 0;
         this.componentId = recoverData ? recoverData.componentId : 0;
         this.dispatch = dispatch;
-        this.styleId = styleId;
+        this.styleId = recoverData? recoverData.styleId :styleId;
         this.setRowHeight = setRowHeight;
         this.setColWidth = setColWidth;
         this.componentArray = [];
@@ -251,6 +251,8 @@ export function getNode(tdIds,index=0){
             valueArr.splice(2*i-1,0,<br/>);
         }
         components.splice(this.valueIndex,0,valueArr);
+        console.log(this.styleId);
+        console.log(getStyle2);
         return (
             <td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);
