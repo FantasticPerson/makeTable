@@ -243,7 +243,13 @@ export function getNode(tdIds,index=0){
         let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });
-        components.splice(this.valueIndex,0,this.value.replace(/ /g,String.fromCharCode(160)));
+        let valueArr = this.value.replace(/ /g,String.fromCharCode(160)).split(/\n/);
+        let valueLength = valueArr.length;
+        for(let i=1;i<valueLength;i++){
+            valueArr.splice(2*i-1,0,<br/>);
+        }
+        components.splice(this.valueIndex,0,valueArr);
+        console.log(components);
         return (
             <td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);

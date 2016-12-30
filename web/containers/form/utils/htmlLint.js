@@ -130,7 +130,7 @@ export function htmlLint(htmlString){
     let grade = 0;
     let isLastAdd = false;
     for(let i=0;i<arr2.length;i++){
-        if(reg5.test(arr2[i])){
+        if(reg5.test(arr2[i]) || arr2[i] == '<br>'){
             isLastAdd = false;
         } else if(reg6.test(arr2[i]) || arr2[i].indexOf('<INPUT') >= 0){
             if(isLastAdd) {
