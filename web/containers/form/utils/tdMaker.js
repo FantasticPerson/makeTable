@@ -173,13 +173,12 @@ export function onSetStyleConfirm(style,text,item,props){
     this.style = {...this.style,...style};
     if(this.style.width1){
         this.setColWidth(this.id,this.style.width1);
-        this.style.width1 = null;
     }
+    delete this.style.width1;
     if(this.style.height1){
         this.setRowHeight(this.id,this.style.height1);
-        this.style.height1 = null;
     }
-
+    delete this.style.height1;
     this.afterUpdateStyle();
 }
 
@@ -241,6 +240,8 @@ export function getNode(tdIds,index=0){
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
+        delete getStyle2.width1;
+        delete getStyle2.height1;
         let components = this.componentArray.map((item,index)=>{
             return item.getNode(index);
         });

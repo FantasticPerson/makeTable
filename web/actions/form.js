@@ -3,7 +3,7 @@
  */
 import * as actionHelper from '../utils/action-helper'
 import * as ActionTypes from '../constants/ActionTypes'
-import {createAutoDAO,createLocalOnlyDAO} from '../middleware/dal'
+import {createAutoDAO} from '../middleware/dal'
 import StyleModel from '../models/Style'
 import TempModel from '../models/TempModule'
 import {getMaxId} from '../containers/form/utils/data-helper'
@@ -17,7 +17,7 @@ export function addOrModifyStyle(style,cb){
             return StyleModel.getAll();
         },
         onEnd:function(styles){
-            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,getMaxId(styles)));
             this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
         }
     },cb);
@@ -35,7 +35,7 @@ export function updateStyleList(styleList,cb,setCurrentId = false){
             if(setCurrentId && styles.length > 0){
                 this.dispatch(updateCurrentStyleId(styles[0].id));
             }
-            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,getMaxId(styles)));
             this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
         }
     },cb);
@@ -53,7 +53,7 @@ export function deleteStyle(styleId,cb){
             if(styles.length > 0){
                 this.dispatch(updateCurrentStyleId(styles[0].id));
             }
-            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,getMaxId(styles)));
             this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
         }
     },cb);
@@ -68,7 +68,7 @@ export function resetStyleList(styleList,cb){
             return StyleModel.getAll();
         },
         onEnd:function(styles){
-            this.dispatch(updateMaxId(getMaxId(styles)));
+            this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,getMaxId(styles)));
             this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
         }
     },cb);
@@ -77,12 +77,6 @@ export function resetStyleList(styleList,cb){
 export function updateCurrentStyleId(id){
     return ((dispatch)=>{
         dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_current_style_id,id))
-    })
-}
-
-export function updateMaxId(id){
-    return ((dispatch)=>{
-        dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,id));
     })
 }
 

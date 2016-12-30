@@ -37,12 +37,12 @@ Style.resetStyles = function (styleList) {
             return itemsToDelete
         })
         .then((itemsToDelete)=>{
-            Promise.all(itemsToDelete.map((item)=>{
+            return Promise.all(itemsToDelete.map((item)=>{
                 return Style.store.delete(item.id);
             }))
         })
-        .then(()=>{
-            Promise.all(styleList.map((item)=>{
+        .then((arr)=>{
+            return Promise.all(styleList.map((item)=>{
                 return Style.store.put(item);
             }))
         })
