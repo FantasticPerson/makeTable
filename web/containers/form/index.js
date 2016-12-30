@@ -402,10 +402,10 @@ class FormPage extends Component{
     }
 
     render(){
-        const {height} = this.state;
+        const {height,showModuleView} = this.state;
         const {dispatch,formStyleList,formStyleId,formStyleMaxId} = this.props;
         let formStyle = {list:formStyleList,id:formStyleId,maxId:formStyleMaxId};
-        let toolBarData = {formStyle:formStyle,dispatch:dispatch,style:{position:'absolute'}};
+        let toolBarData = {formStyle:formStyle,dispatch:dispatch,showModuleView2:showModuleView,style:{position:'absolute'}};
         toolBarData = {
             ...toolBarData,
             afterUpdateStyle:this.afterUpdateStyle.bind(this),
