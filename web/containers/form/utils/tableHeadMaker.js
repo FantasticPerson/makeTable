@@ -58,7 +58,8 @@ export function onContextMenuShow(item,pageX,pageY) {
         fontSize:cStyle.fontSize,
         fontFamily:cStyle.fontFamily,
         fontStyle:cStyle.fontStyle,
-        textAlign:cStyle.textAlign
+        textAlign:cStyle.textAlign,
+        verticalAlign:cStyle.verticalAlign
     };
     this.onComponentContext({
         type:componentTd,

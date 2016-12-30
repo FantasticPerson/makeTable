@@ -201,7 +201,8 @@ export function onContextMenuShow(item,pageX,pageY,component=null) {
         fontFamily:cStyle.fontFamily,
         fontSize:cStyle.fontSize,
         fontStyleArray:cStyle.fontStyleArray,
-        textAlign:cStyle.textAlign
+        textAlign:cStyle.textAlign,
+        verticalAlign:cStyle.verticalAlign
     };
     let data = {
         type:componentTd,
@@ -249,7 +250,6 @@ export function getNode(tdIds,index=0){
             valueArr.splice(2*i-1,0,<br/>);
         }
         components.splice(this.valueIndex,0,valueArr);
-        console.log(components);
         return (
             <td colSpan={col} key={index} rowSpan={row} style={getStyle2} onDoubleClick={(e)=>{
                     this.onTdClick(this.id);

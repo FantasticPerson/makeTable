@@ -21,7 +21,7 @@ export default class TextSetEditor extends Component{
         return (
             <div style={{backgroundColor:'#FFF'}}>
                 <div className="style-component-item-style">
-                    <StyleEditorItemPicker ref="textPicker" type={editorTextAreaPicker} title="内容编辑" data={{text:defaultText}}/>
+                    <StyleEditorItemPicker ref="textPicker" type={editorTextPicker} title="内容编辑" data={{text:defaultText}}/>
                 </div>
             </div>
         )

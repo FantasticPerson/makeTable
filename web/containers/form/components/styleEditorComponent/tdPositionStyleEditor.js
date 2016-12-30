@@ -46,7 +46,6 @@ export default class TdPositionStyleEditor extends Component{
                 <div className="style-component-item-style">
                     <StyleEditorItem ref="numberSetter1" type={editorNumberSetter} title="宽度" data={{number:style.width ? style.width : null}}/>
                     <StyleEditorItem ref="numberSetter2" type={editorNumberSetter} title="高度" data={{number:style.height ? style.height : null}}/>
-                    <StyleEditorItem ref="dropBoxPicker" type={editorDropBoxPicker} title="元素布局" data={{groupData:textAlignPosition,selectedValue:style.textAlign}}/>
                 </div>
                 <div className="style-component-item-style">
                     <StyleEditorItem ref="numberSetter4" type={editorNumberSetter} title="整列宽度" data={{number:null}}/>
@@ -55,7 +54,7 @@ export default class TdPositionStyleEditor extends Component{
                 </div>
                 <div className="style-component-item-style">
                     <StyleEditorItem ref="dropBoxPicker" type={editorDropBoxPicker} title="水平布局" data={{groupData:textAlignPosition,selectedValue:style.textAlign}}/>
-                    <StyleEditorItem ref="dropBoxPicker1" type={editorDropBoxPicker} title="垂直布局" data={{groupData:verticalAlignPosition,selectedValue:style.textAlign}}/>
+                    <StyleEditorItem ref="dropBoxPicker1" type={editorDropBoxPicker} title="垂直布局" data={{groupData:verticalAlignPosition,selectedValue:style.verticalAlign}}/>
                 </div>
                 {this.renderTextIndex()}
             </div>
