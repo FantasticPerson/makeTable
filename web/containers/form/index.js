@@ -257,7 +257,6 @@ class FormPage extends Component{
         if(tableObj) {
             const {formStyleId,formStyleMaxId,formStyleList} = this.props;
             this.setState({tableObj: tableObj});
-            let borderWidth = tableObj.getBorderWidth();
             setTimeout(function () {
                 let ll = tableObj.exportData();
                 ll.currentStyleId = formStyleId;
@@ -277,9 +276,12 @@ class FormPage extends Component{
                     tds[i+1].style.width = (Math.ceil(clientWidthArr[i])  -2) + 'px';
                     tds[i+1].style.height = (Math.ceil(clientHeightArr[i]) -2) + 'px';
                 }
-                let blob = new Blob([getTableHtml(tableNode.outerHTML,this.tableDataTosave)], { type: 'text/plain;charset=utf-8' });
-
-                saveAs(blob, 'form.html');
+                if(window.true_form_exportData_outer){
+                    window.true_form_exportData_outer(getTableHtml(tableNode.outerHTML,this.tableDataTosave));
+                } else {
+                    let blob = new Blob([getTableHtml(tableNode.outerHTML, this.tableDataTosave)], {type: 'text/plain;charset=utf-8'});
+                    saveAs(blob, 'form.html');
+                }
                 deleteTempModule(1);
             }.bind(this), 20);
         }
