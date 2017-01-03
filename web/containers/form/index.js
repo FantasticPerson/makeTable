@@ -276,8 +276,9 @@ class FormPage extends Component{
                     tds[i+1].style.width = (Math.ceil(clientWidthArr[i])  -2) + 'px';
                     tds[i+1].style.height = (Math.ceil(clientHeightArr[i]) -2) + 'px';
                 }
-                if(window.true_form_exportData_outer){
-                    window.true_form_exportData_outer(getTableHtml(tableNode.outerHTML,this.tableDataTosave));
+
+                if(window['true_form_exportData_outer']){
+                    window['true_form_exportData_outer'](getTableHtml(tableNode.outerHTML,this.tableDataTosave));
                 } else {
                     let blob = new Blob([getTableHtml(tableNode.outerHTML, this.tableDataTosave)], {type: 'text/plain;charset=utf-8'});
                     saveAs(blob, 'form.html');
