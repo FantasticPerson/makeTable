@@ -45,6 +45,14 @@ class FormPage extends Component{
     }
 
     componentDidMount(){
+        window['import_data_outer'] = function(str){
+            let text = str;
+            let index = text.search(/<div class='recoverData' style='display: none'>/);
+            let lastWords = text.match(/<\/div>\s+<\/html>/);
+            let index2 = text.search(lastWords);
+            let recoverData = text.slice(index+"<div class='recoverData' style='display: none'>".length,index2-1);
+            this.importData(recoverData).bind(this);
+        }.bind(this);
         this.props.dispatch(getTempModule(1,function(data){
             const {currentStyleId, formStyleList} = data.data;
             this.props.dispatch(resetStyleList(formStyleList));
