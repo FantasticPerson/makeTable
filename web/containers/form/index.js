@@ -75,6 +75,8 @@ class FormPage extends Component{
             }.bind(this),50);
         }.bind(this)));
         window.addEventListener('resize', this.handleResize.bind(this));
+        window.dispatchEvent(new Event('true_form_ready'));
+
     }
 
     clickSplit(){
