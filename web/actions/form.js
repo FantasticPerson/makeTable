@@ -97,10 +97,9 @@ export function saveTempModule(id,data,cb){
 export function deleteTempModule(id){
     return createAutoDAO({
         syncRemoteToLocal:()=>{
-            return TempModel.delete(id)
+            return TempModel.delete(id);
         },
         onEnd:function(){
-
         }
     })
 }

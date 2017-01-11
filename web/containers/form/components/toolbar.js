@@ -95,7 +95,7 @@ export default class ToolBar extends Component{
                                 {'取消撤销'}
                             </div>
                         </div>
-                        <div className="true-form-save-icon-container" style={{marginLeft:'20px'}} onClick={(e)=>{saveTempModule()}}>
+                        <div className="true-form-save-icon-container" style={{marginLeft:'20px',display:'none'}} onClick={(e)=>{saveTempModule()}}>
                             <div className="true-form-save-icon" style={{width:'14px',height:'14px'}} ></div>
                             <div className="abc-form-tool-bar-container-left-item-text"
                                  style={{color:'#000000'}}>

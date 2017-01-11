@@ -57,6 +57,7 @@
 }
 
 .true-form-tool-tip:hover span{
+  opacity 0
   background-color: #fff;
   border: 1px solid #eee;
   box-shadow: -1px 1px 4px 0 rgba(0,0,0,0.2);
@@ -68,4 +69,22 @@
   line-height: 30px;
   margin-left: 90px;
   margin-top: 5px;
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-fill-mode: forwards ;
+  animation-fill-mode: forwards ;
+  -webkit-animation-delay:1s;  /**延迟动画**/
+  animation-delay:1s;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0
+  }
 }

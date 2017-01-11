@@ -36,7 +36,8 @@ class FormPage extends Component{
             this.tdIds = [];
         }
         const {tableObj} = this.state;
-        this.setState({tableObj: tableObj});
+        // this.setState({tableObj: tableObj});
+        this.updateTable(tableObj);
     }
 
     handleResize(){
@@ -76,7 +77,13 @@ class FormPage extends Component{
         }.bind(this)));
         window.addEventListener('resize', this.handleResize.bind(this));
         window.dispatchEvent(new Event('true_form_ready'));
+    }
 
+    updateTable(tableObj){
+        this.setState({tableObj:tableObj});
+        setTimeout(function () {
+            this.saveTempModule(true);
+        }.bind(this),100)
     }
 
     clickSplit(){
@@ -85,7 +92,8 @@ class FormPage extends Component{
             const {tableObj} = this.state;
             if (tableObj) {
                 tableObj.split(this.tdIds[0]);
-                this.setState({tableObj: tableObj})
+                // this.setState({tableObj: tableObj})
+                this.updateTable(tableObj);
             }
             this.tdIds = [];
         } else {
@@ -97,7 +105,8 @@ class FormPage extends Component{
         const {tableObj} = this.state;
         if(tableObj){
             tableObj.deleteComponent(tdId,componentId);
-            this.setState({tableObj: tableObj});
+            this.updateTable(tableObj);
+            // this.setState({tableObj: tableObj});
         }
     }
 
@@ -107,17 +116,23 @@ class FormPage extends Component{
         const {formStyleList,formStyleId} = this.props;
         if(tableObj){
             tableObj.insertComponent(tdId,componentType,formStyleList,formStyleId);
-            this.setState({tableObj: tableObj});
+            this.updateTable(tableObj);
+            // this.setState({tableObj: tableObj});
         }
     }
 
     afterUpdateStyle(){
+        console.log('after update style');
         const {tableObj} = this.state;
         if(tableObj){
             setTimeout(function(){
                 const {formStyleList,formStyleId} = this.props;
                 tableObj.setStyle(formStyleList,formStyleId);
-                this.setState({tableObj: tableObj})
+                this.updateTable(tableObj);
+                // this.setState({tableObj: tableObj});
+                //setTimeout(function () {
+                //    this.saveTempModule(true);
+                //}.bind(this),100)
             }.bind(this),50);
         }
     }
@@ -130,7 +145,8 @@ class FormPage extends Component{
                 let isSuccess = tableObj.merge(this.tdIds);
                 console.log('isSuccess',isSuccess);
                 if(isSuccess) {
-                    this.setState({tableObj: tableObj});
+                    // this.setState({tableObj: tableObj});
+                    this.updateTable(tableObj);
                 } else {
 
                 }
@@ -223,7 +239,11 @@ class FormPage extends Component{
                     addNewCancelHistory:this.addNewCancelHistory.bind(this)
                 };
                 let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
-                this.setState({tableObj:tableObj2});
+                // this.setState({tableObj:tableObj2});
+                this.updateTable(tableObj2)
+                //setTimeout(function () {
+                //    this.saveTempModule(true);
+                //}.bind(this),100)
             }.bind(this),20);
         }
     }
@@ -294,7 +314,7 @@ class FormPage extends Component{
                     let blob = new Blob([getTableHtml(tableNode.outerHTML, this.tableDataTosave)], {type: 'text/plain;charset=utf-8'});
                     saveAs(blob, 'form.html');
                 }
-                deleteTempModule(1);
+                this.props.dispatch(deleteTempModule(1));
             }.bind(this), 20);
         }
     }
@@ -402,7 +422,7 @@ class FormPage extends Component{
         }
     }
 
-    saveTempModule(){
+    saveTempModule(autoSave = false){
         const {tableObj} = this.state;
         const {formStyleList,formStyleId,formStyleMaxId} = this.props;
         if(tableObj){
@@ -410,7 +430,9 @@ class FormPage extends Component{
             exportData.currentStyleId = formStyleId;
             exportData.formStyleList = formStyleList;
             this.props.dispatch(saveTempModule(1,exportData,function () {
-                alert('保存成功');
+                if(!autoSave) {
+                    alert('保存成功');
+                }
             }));
         }
     }

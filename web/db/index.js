@@ -27,7 +27,6 @@ export default ()=>{
 }
 
 function migrationVersion(migration, app_db) {
-    //ver
     if(isNaN(migration.ver)) {
         throw new Error('migrations ver is not number!');
     }
@@ -37,16 +36,14 @@ function migrationVersion(migration, app_db) {
         throw new Error('migrations stores is null!');
     }
 
-    //format.
     let newStore = {};
     Object.keys(stores).forEach(storeName => {
         newStore[storeName] = filterStoreIndex(stores[storeName]).join(',');
     });
 
-    let dexieVersionInst = app_db.version(1);
+    let dexieVersionInst = app_db.version(migration.ver);
     dexieVersionInst.stores(newStore);
 
-    //upgrade
     if(!migration.upgrade || typeof migration.upgrade !== 'function') {
         dexieVersionInst.upgrade(migration.upgrade);
     }

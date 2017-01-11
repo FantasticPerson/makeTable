@@ -40,7 +40,6 @@ export default class ComponentPicker extends Component{
                             <div className="true-form-tool-bar-component-check-box"></div>
                             <span>{'单选框'}</span>
                         </div>
-
                     </div>
                     <div className="true-form-tool-bar-component-body-line-3">
                         <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'textArea')}}>
