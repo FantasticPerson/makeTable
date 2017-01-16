@@ -10,6 +10,11 @@ export default class ComponentPicker extends Component{
 
     onDragStart(e,text){
         e.dataTransfer.setData('text/plain',text);
+        e.currentTarget.getElementsByTagName('span')[0].style.display='none';
+    }
+
+    onDragEnd(e){
+        e.currentTarget.getElementsByTagName('span')[0].style.display='block';
     }
 
     render(){
@@ -22,32 +27,44 @@ export default class ComponentPicker extends Component{
                 </div>
                 <div className="true-form-tool-bar-component-body-container">
                     <div className="true-form-tool-bar-component-body-line-1">
-                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'text')}}>
-                            <div className="true-for-tool-bar-component-text"></div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'text')}}
+                        onDragEnd={(e)=>{
+                            this.onDragEnd(e);
+                        }}>
+                            <div className="true-for-tool-bar-component-text" style={{marginLeft:'18.5px',marginTop:'13.5px'}}></div>
                             <span>{'纯文本'}</span>
                         </div>
-                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'input')}}>
-                            <div className="true-form-tool-bar-component-input"></div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'input')}}
+                            onDragEnd={e=>{this.onDragEnd(e)}}
+                        >
+                            <div className="true-form-tool-bar-component-input" style={{marginLeft:'17px',marginTop:'12px'}}></div>
                             <span>{'输入框'}</span>
                         </div>
                     </div>
                     <div className="true-form-tool-bar-component-body-line-2">
-                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'radioBox')}}>
-                            <div className="true-form-tool-bar-component-radio"></div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{
+                            this.onDragStart(e,'radioBox')
+                        }} onDragEnd={
+                            e=>{this.onDragEnd(e)}
+                        }>
+                            <div className="true-form-tool-bar-component-radio" style={{marginLeft:'16px',marginTop:'11px'}}></div>
                             <span>{'复选框'}</span>
                         </div>
-                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'checkBox')}}>
-                            <div className="true-form-tool-bar-component-check-box"></div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'checkBox')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-check-box" style={{marginLeft:'17px',marginTop:'12px'}}></div>
                             <span>{'单选框'}</span>
                         </div>
                     </div>
                     <div className="true-form-tool-bar-component-body-line-3">
-                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'textArea')}}>
-                            <div className="true-form-tool-bar-component-text-area"></div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'textArea')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-text-area" style={{marginLeft:'15px',marginTop:'14px'}}></div>
                             <span>{'输入区域'}</span>
                         </div>
-                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'dropBox')}}>
-                            <div className="true-form-tool-bar-component-drop-down"></div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'dropBox')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-drop-down" style={{marginLeft:'17px',marginTop:'12px'}}></div>
                             <span>{'下拉框'}</span>
                         </div>
                     </div>

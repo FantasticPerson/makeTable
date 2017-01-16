@@ -88,7 +88,7 @@ export default class ToolBar extends Component{
                                 {'撤销'}
                             </div>
                         </div>
-                        <div className="true-form-save-icon-container" style={{display:'none'}} onClick={(e)=>{exportData()}}>
+                        <div className="true-form-save-icon-container" style={{}} onClick={(e)=>{goBack(true)}}>
                             <div className="true-form-save-icon" style={{width:'14px',height:'14px'}} ></div>
                             <div className="abc-form-tool-bar-container-left-item-text"
                                  style={{color:'#000000'}}>

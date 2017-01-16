@@ -14,6 +14,7 @@ import HistoryItem from './utils/history/historyItem'
 import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
 import * as operationType from './utils/history/operationType'
+import {cloneDataArray} from './utils/data-helper'
 
 class FormPage extends Component{
     constructor(){
@@ -156,31 +157,41 @@ class FormPage extends Component{
         }
     }
 
-    addNewHistory(type,data){
+    addNewHistory(type,data,isClearCancelHistory=true){
         while(this.historyList.length >= 20){
             this.historyList.shift();
         }
         this.historyList.push(new HistoryItem(type,data));
+        if(isClearCancelHistory){
+            this.backHistoryList = [];
+        }
     }
 
     addNewCancelHistory(type,data){
-        while(this.backHistoryList.length >= 20){
-            this.backHistoryList.shift();
-        }
         this.backHistoryList.push(new HistoryItem(type,data));
     }
 
-    goBack(){
-        let item = this.historyList.pop();
+    goBack(isCancel = false){
+        const {formStyleList,formStyleId} = this.props;
+        let item =  isCancel?this.backHistoryList.pop() : this.historyList.pop();
+        console.log(item);
         if(item) {
             if (item.type == operationType.CHOOSE_STYLE) {
+                if(!isCancel){
+                    this.addNewCancelHistory(operationType.CHOOSE_STYLE,{styleId: formStyleId});
+                } else {
+                    this.addNewHistory(operationType.CHOOSE_STYLE,{styleId:formStyleList},false)
+                }
                 this.props.dispatch(updateCurrentStyleId(item.data.styleId));
-                setTimeout(function () {
-                    this.afterUpdateStyle();
-                }.bind(this), 20);
+                this.afterUpdateStyle();
                 return;
             }
             if (item.type == operationType.ADD_STYLE || item.type == operationType.SET_STYLE) {
+                if(!isCancel){
+                    this.addNewCancelHistory(item.type,{list:cloneDataArray(formStyleList)});
+                } else {
+                    this.addNewHistory(item.type,{list:cloneDataArray(formStyleList)},false);
+                }
                 this.props.dispatch(resetStyleList(item.data.list,this.afterUpdateStyle.bind(this)));
                 return;
             }
@@ -188,7 +199,7 @@ class FormPage extends Component{
             if([MERGE_TDS,SPLIT_TDS,ADD_TDS,DEL_TDS].indexOf(item.type) >= 0){
                 const {tableObj} = this.state;
                 if(tableObj){
-                    tableObj.goBack(item);
+                    tableObj.goBack(item,isCancel);
                 }
                 this.afterUpdateStyle();
                 return;
@@ -197,7 +208,7 @@ class FormPage extends Component{
             if([SET_TD_STYLE,ADD_ITEM,DEL_ITEM,ITEM_SET_STYLE].indexOf(item.type) >= 0){
                 const {tableObj} = this.state;
                 if(tableObj){
-                    tableObj.tdGoBack(item);
+                    tableObj.tdGoBack(item,isCancel);
                 }
                 this.afterUpdateStyle();
             }
@@ -210,6 +221,8 @@ class FormPage extends Component{
     }
 
     generateTable(num1, num2){
+        this.historyList = [];
+        this.backHistoryList = [];
         let generateFunc = generate.bind(this);
         const {tableObj} = this.state;
         if(tableObj) {
@@ -239,7 +252,7 @@ class FormPage extends Component{
                 };
                 let tableObj2 = new tableMaker(posInfo,functionArray,formStyleList,formStyleId,dispatch);
                 // this.setState({tableObj:tableObj2});
-                this.updateTable(tableObj2)
+                this.updateTable(tableObj2);
                 //setTimeout(function () {
                 //    this.saveTempModule(true);
                 //}.bind(this),100)
@@ -336,6 +349,8 @@ class FormPage extends Component{
     }
 
     importDataFromModule(data){
+        this.historyList = [];
+        this.backHistoryList = [];
         const {tableObj} = this.state;
         let importDataFunc = importData.bind(this);
         if(tableObj){
@@ -376,6 +391,8 @@ class FormPage extends Component{
     }
 
     importData(recoverData){
+        this.historyList = [];
+        this.backHistoryList = [];
         const {tableObj} = this.state;
         let importDataFunc = importData.bind(this);
         if(recoverData) {

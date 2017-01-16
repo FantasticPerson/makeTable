@@ -308,7 +308,6 @@ export function merge(tdArr){
         this.addNewHistory(operationTypes.MERGE_TDS,{tds:beforeTds});
         return true;
     }
-
 }
 
 export function split(id){
@@ -403,9 +402,11 @@ export function checkIsValid(){
 }
 
 export function goBack(item,isCancel=false){
+    let beforeTds = cloneDataArray(this.tds);
     if(!isCancel) {
-        let beforeTds = cloneDataArray(this.tds);
         this.addNewCancelHistory(item.type, {tds: beforeTds});
+    } else {
+        this.addNewHistory(item.type,{tds:beforeTds},false);
     }
     this.tds = item.data.tds;
 }
@@ -413,16 +414,18 @@ export function goBack(item,isCancel=false){
 export function tdGoBack(data,isCancel=false){
     if(data.type != operationTypes.ITEM_SET_STYLE) {
         const {x, y} = data.data.obj.posInfo;
+        let beforeTd = cloneData(this.tds[y][x]);
         if(!isCancel) {
-            let beforeTd = cloneData(this.tds[y][x]);
             this.addNewCancelHistory(data.type, {obj: beforeTd});
+        } else {
+            this.addNewHistory(data.type,{obj:beforeTd},false);
         }
         this.tds[y][x] = data.data.obj;
     } else {
         const {tdId,id} = data.data;
         let item = this.getItemById(tdId);
         if(item){
-            item.goBack(data);
+            item.goBack(data,isCancel);
         }
     }
 }

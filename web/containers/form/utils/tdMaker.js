@@ -186,10 +186,7 @@ export function goBack(data,isCancel=false){
     const {id} = data.data;
     let componentItem = findItem(this.componentArray,'id',id);
     if(componentItem){
-        if(!isCancel){
-            this.addNewCancelHistory(data.type,{id:this.id,style:cloneData(this.style)});
-        }
-        componentItem.goBack(data);
+        componentItem.goBack(data,isCancel);
     }
 }
 

@@ -49,6 +49,15 @@ export function goBack(data,isCancel=false){
             propId: this.propId,
             propZname:this.propZname
         });
+    } else {
+        this.addHistoryItem(optionTypes.ITEM_SET_STYLE, {
+            tdId: this.tdId,
+            id: this.id,
+            style: cloneData(this.style),
+            propName: this.propName,
+            propId: this.propId,
+            propZname:this.propZname
+        },false);
     }
     const {style,propName,propId,propZname} = data.data;
     this.propName = propName;
