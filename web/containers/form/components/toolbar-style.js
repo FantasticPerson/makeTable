@@ -42,10 +42,15 @@ export default class ToolbarStyle extends Component{
     }
 
     renderStyleArr(){
-        const {formStyle} = this.props;
+        const {formStyle,afterUpdateStyle} = this.props;
         return formStyle.list.map((item,index)=>{
-            return (<ToolbarStyleItem data={item} key={index} cId={formStyle.id} index={index} onClick={this.onStyleItemClick.bind(this)}/>);
+            return (<ToolbarStyleItem data={item} deleteStyleItem={this.deleteStyleItem.bind(this)} dispatch={this.props.dispatch} key={index} cId={formStyle.id} index={index} onClick={this.onStyleItemClick.bind(this)}/>);
         })
+    }
+
+    deleteStyleItem(id){
+        const {afterUpdateStyle} = this.props;
+        this.props.dispatch(formAction.deleteStyle(id,afterUpdateStyle));
     }
 
     onCloseStyleEditor(){

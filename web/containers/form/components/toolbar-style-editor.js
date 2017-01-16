@@ -96,7 +96,7 @@ export default class ComponentStyleEditor extends Component{
                 <div style={{marginTop:'10px',marginBottom:'10px'}}>
                     <div className="abc-form-tool-bar-style-editor-confirm-btn" onClick={()=>{this.onConformClick()}}>{'确认'}</div>
                     <div onClick={()=>{this.onCancelClick()}} className="abc-form-tool-bar-style-editor-cancel-btn">{'取消'}</div>
-                    {this.renderDeleteBtn()}
+                    {/*{this.renderDeleteBtn()}*/}
                 </div>
             </div>
         )

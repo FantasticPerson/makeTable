@@ -3,6 +3,8 @@
  */
 import React,{Component,PropTypes} from 'react'
 import {getStyleSingleObj} from '../utils/data-helper'
+import {showOverLayByName} from '../../../actions/view'
+import * as OverLayNames from '../../../constants/OverLayNames'
 
 export default class ToolbarStyleItem extends Component{
     constructor(){
@@ -17,10 +19,25 @@ export default class ToolbarStyleItem extends Component{
     }
 
     render(){
-        const {data,cId,index} = this.props;
+        const {data,cId,index,deleteStyleItem} = this.props;
         let bgColor = cId == data.id ? '#ECF6E7' : '#FFFFFF';
         return (
-            <div className="abc-form-tool-bar-style-item-container" style={{backgroundColor:bgColor,marginLeft:index==0?'0':'5px'}} onClick={()=>{this.onClick()}}>
+            <div className="abc-form-tool-bar-style-item-container" style={{backgroundColor:bgColor,marginLeft:index==0?'0':'5px'}} onClick={
+                ()=>{
+                    this.onClick()
+                }} onContextMenu={(e)=>{
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if(cId != data.id && !data.isDefault) {
+                        this.props.dispatch(showOverLayByName(OverLayNames.FROM_STYLE_DELETE_MODAL,{
+                            id:data.id,
+                            pageX:e.pageX,
+                            pageY:e.pageY,
+                            deleteStyleItem:deleteStyleItem
+                        }));
+                        {/*console.log('context Menu');*/}
+                    }
+            }}>
                 <div style={{
                     width: '50px',
                     height: '55px',

@@ -122,7 +122,6 @@ class FormPage extends Component{
     }
 
     afterUpdateStyle(){
-        console.log('after update style');
         const {tableObj} = this.state;
         if(tableObj){
             setTimeout(function(){

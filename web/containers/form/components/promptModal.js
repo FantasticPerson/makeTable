@@ -13,7 +13,6 @@ export default class PromptModal extends BaseModal{
 
     render(){
         const {title,content,cb} = this.props.data;
-        console.log(this.props);
         return (
             <BaseModal>
                 <div className="abc-prompt-container">
