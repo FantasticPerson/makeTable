@@ -89,10 +89,10 @@ export default class ToolBar extends Component{
                             </div>
                         </div>
                         <div className="true-form-save-icon-container" style={{}} onClick={(e)=>{goBack(true)}}>
-                            <div className="true-form-save-icon" style={{width:'14px',height:'14px'}} ></div>
+                            <div className="true-form-edit-undo-icon" style={{marginLeft:'20px',width:'14px',height:'14px',transform:'rotateY(180deg)'}} ></div>
                             <div className="abc-form-tool-bar-container-left-item-text"
                                  style={{color:'#000000'}}>
-                                {'取消撤销'}
+                                {'还原'}
                             </div>
                         </div>
                         <div className="true-form-save-icon-container" style={{marginLeft:'20px',display:'none'}} onClick={(e)=>{saveTempModule()}}>
