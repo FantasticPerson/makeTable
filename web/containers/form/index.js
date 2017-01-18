@@ -357,6 +357,9 @@ class FormPage extends Component{
             this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL,{content:'继续会丢失当前的工作，确认继续吗？',cb:function(isTrue){
                 if(isTrue){
                     importDataFunc(data);
+                } else {
+                    const {tableObj} = this.state;
+                    this.setState({tableObj: tableObj});
                 }
             }.bind(this)}))
         } else {
@@ -401,6 +404,9 @@ class FormPage extends Component{
                     content: '继续会丢失当前的工作，确认继续吗？', cb: function (isTrue) {
                         if (isTrue) {
                             importDataFunc(recoverData);
+                        } else {
+                            const {tableObj} = this.state;
+                            this.setState({tableObj: tableObj});
                         }
                     }.bind(this)
                 }));
