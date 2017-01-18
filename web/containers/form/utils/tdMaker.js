@@ -152,11 +152,11 @@ export function exportData(){
 
 export function setStyle(styleArr,styleId){
     this.styleArr = styleArr;
-    if(!this.hasChanged){
-        this.styleId = styleId;
-    }
+    // if(!this.hasChanged){
+    this.styleId = styleId;
+    // }
     for(let i=0;i<this.componentArray.length;i++){
-        this.componentArray[i].setStyle(styleArr);
+        this.componentArray[i].setStyle(styleArr,styleId);
     }
 }
 

@@ -16,16 +16,16 @@ export default class ToolbarStyle extends Component{
     }
 
     componentDidMount(){
-        window.addEventListener('resize', this.handleResize.bind(this));
+        window.addEventListener('resize', this.toolbarStylehandleResize.bind(this));
         const {innerWidth} = window;
         this.setState({marginLeft:innerWidth-486});
     }
 
     componentWillUnmount(){
-        window.removeEventListener('resize',this.handleResize);
+        window.removeEventListener('resize',this.toolbarStylehandleResize);
     }
 
-    handleResize(){
+    toolbarStylehandleResize(){
         const {innerWidth} = window;
         this.setState({marginLeft:innerWidth-486});
     }

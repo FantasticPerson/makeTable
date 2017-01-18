@@ -35,8 +35,9 @@ export function registerFunc(funcArray){
     this.exportData = exportData;
 }
 
-export function setStyle(styleArr){
+export function setStyle(styleArr,styleId){
     this.styleArr = styleArr;
+    this.styleId = styleId;
 }
 
 export function goBack(data,isCancel=false){

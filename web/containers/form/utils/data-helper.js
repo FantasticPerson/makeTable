@@ -66,6 +66,9 @@ export function getStyleSingleObj(obj){
 }
 
 export function getStyleObj(obj1,obj2){
+    if(!obj1 || !obj1.color){
+        console.log('llll')
+    }
     let style = {
         color:obj1.color,
         fontFamily:obj1.fontFamily,
