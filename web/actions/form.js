@@ -50,9 +50,9 @@ export function deleteStyle(styleId,cb){
             return StyleModel.getAll();
         },
         onEnd:function(styles){
-            if(styles.length > 0){
-                this.dispatch(updateCurrentStyleId(styles[0].id));
-            }
+            // if(styles.length > 0){
+            //     this.dispatch(updateCurrentStyleId(styles[0].id));
+            // }
             this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_max_id,getMaxId(styles)));
             this.dispatch(actionHelper.createPayloadAction(ActionTypes.update_form_style_list,styles));
         }
