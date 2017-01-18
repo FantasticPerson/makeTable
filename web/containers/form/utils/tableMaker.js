@@ -192,7 +192,7 @@ export function setStyle(styleArr,styleId){
             this.tds[i][j].setStyle(styleArr,styleId);
         }
     }
-    this.header.setStyle(styleArr);
+    this.header.setStyle(styleArr,styleId);
 }
 
 export function exportData(){

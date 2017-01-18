@@ -47,8 +47,9 @@ export function setColSpan(cols){
     this.colSpan = cols;
 }
 
-export function setStyle(styleArr){
+export function setStyle(styleArr,styleId){
     this.styleArr = styleArr;
+    this.styleId = styleId;
 }
 
 export function onContextMenuShow(item,pageX,pageY) {
