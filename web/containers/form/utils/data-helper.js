@@ -177,7 +177,7 @@ export function getStyleSet(style,styleObj){
     applyProp1(styleObj,style,cStyle,'marginRight');
     applyProp1(styleObj,style,cStyle,'marginBottom');
     applyPropArr(styleObj,style,cStyle,'fontStyleArray');
-    applyPropArr1(styleObj,style,cStyle,'dataArray');
+    applyPropArr(styleObj,style,cStyle,'dataArray');
     return cStyle;
 }
 
