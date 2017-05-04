@@ -67,8 +67,8 @@ export default class TextStyleEditor extends Component{
     render(){
         const {style,textValue,item,pageX,pageY,propName,propId,valueIndex} = this.props.data;//312 357
         let height = item.nodeData ? 380 : 470;
-        let marginTop = window.innerHeight - 40 < height+4 + pageY ? (window.innerHeight - 40 - height -4 > 0 ? window.innerHeight - 40 - height -4 : 0) : pageY+4;
-        let marginLeft = window.innerWidth < 456 + pageX ? (window.innerWidth-456>0?window.innerWidth-456:0) : pageX;
+        let marginTop = window.innerHeight - 40 < height+4 + pageY ? window.innerHeight - 40 - height -4 : pageY+4;
+        let marginLeft = window.innerWidth < 456 + pageX ? window.innerWidth-456 : pageX;
         return(
             <div className="abc-style-bg" style={{
                 width: '452px',
