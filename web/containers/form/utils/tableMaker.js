@@ -59,6 +59,7 @@ export function registerFunc(functionArray){
     this.goBack = goBack;
     this.tdGoBack = tdGoBack;
     this.getBorderWidth = getBorderWidth;
+    this.getBorderColor = getBorderColor;
     this.setRowHeight = setRowHeight;
     this.setColWidth = setColWidth;
 }
@@ -665,6 +666,14 @@ export function getBorderWidth(){
     return 0;
 }
 
+export function getBorderColor(){
+    let style = findItem(this.styleArr,'id',this.styleId);
+    if(style){
+        return style.borderColor;
+    }
+    return null;
+}
+
 export function getNode(ids){
     const {col} = this.posInfo;
     let trArr = [];
@@ -684,6 +693,7 @@ export function getNode(ids){
     const {width,height} = this.posInfo;
     let style = {width:Math.ceil(width/col) * col};
     style.border = '0';
+    style.borderColor = this.getBorderColor();
     return (
         <div style={{
             marginTop: '10px',

@@ -149,19 +149,18 @@ export function webpackConfig(options) {
                     comments:false
                 }
             }),
-            new DefinePlugin({
-                    'process.env': {
-                        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-                    }
+            DEV_CONST.APP_DEBUG ? null : new webpack.DefinePlugin({
+                'process.env': {
+                    NODE_ENV: JSON.stringify('production') //定义生产环境
                 }
-            ),
+            }),
             new webpack.optimize.OccurenceOrderPlugin(),
             new ExtractTextPlugin(`[name]-bundle-[[contenthash]].css`, {
                 allChunks: true
             }),
             new HtmlWebpackPlugin(Object.assign({
                 template: DEV_CONST.SRC_WEB_HTML_MAIN_FILE,
-                filename: `./${DEV_CONST.OUTPUT_WEB_HTML_MAIN_FILE}`,
+                    filename: `./${DEV_CONST.OUTPUT_WEB_HTML_MAIN_FILE}`,
                 excludeChunks: DEV_CONST.SRC_WEB_HTML_BOOTUP_FILE
             }, htmlWebpackPluginConfig(options))),
         ].filter(function (item) {
