@@ -573,6 +573,7 @@ export function addTd(id,isRow,isBefore) {
             }
             this.addNewHistory(operationTypes.ADD_TDS,{tds:beforeTds});
             this.onTdClick(-1, true);
+            this.posInfo.row = this.posInfo.row+1;
         } else {
             let iWidth = this.getItemWidth(item);
             const {x,y} = item.posInfo;
@@ -596,9 +597,11 @@ export function addTd(id,isRow,isBefore) {
             }
             this.addNewHistory(operationTypes.ADD_TDS,{tds:beforeTds});
             this.onTdClick(-1, true);
+            this.posInfo.col = this.posInfo.col+1;
         }
         if(this.tds[0]) {
             this.header.setColSpan(this.tds[0].length);
+            // this.posInfo.col = this.tds[0].length;
         }
     }
 }
@@ -630,6 +633,7 @@ export function deleteTd(id,isRow){
             }
             this.onTdClick(-1, true);
             this.addNewHistory(operationTypes.DEL_TDS,{tds:beforeTds});
+            this.posInfo.row = this.posInfo.row-1;
         } else {
             let iWidth = this.getItemWidth(item);
             const {x,y} = item.posInfo;
@@ -651,9 +655,11 @@ export function deleteTd(id,isRow){
             }
             this.onTdClick(-1,true);
             this.addNewHistory(operationTypes.DEL_TDS,{tds:beforeTds});
+            this.posInfo.col = this.posInfo.col-1;
         }
         if(this.tds[0]) {
             this.header.setColSpan(this.tds[0].length);
+            // this.posInfo.col = this.tds[0].length;
         }
     }
 }
@@ -694,6 +700,7 @@ export function getNode(ids){
     let style = {width:Math.ceil(width/col) * col};
     style.border = '0';
     style.borderColor = this.getBorderColor();
+    style.boxSizing = "border-box";
     return (
         <div style={{
             marginTop: '10px',

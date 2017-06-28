@@ -66,9 +66,6 @@ export function getStyleSingleObj(obj){
 }
 
 export function getStyleObj(obj1,obj2){
-    if(!obj1 || !obj1.color){
-        console.log('llll')
-    }
     let style = {
         color:obj1.color,
         fontFamily:obj1.fontFamily,
@@ -95,34 +92,33 @@ export function getStyleObj(obj1,obj2){
     if(pStyle.width){
         pStyle.width = pStyle.width + 'px';
     }
-    // if(pStyle.width1){
-    //     pStyle.width1 = pStyle.width1 + 'px';
-    // }
     if(pStyle.height){
         pStyle.height = pStyle.height + 'px';
     }
-    // if(pStyle.height1){
-    //     pStyle.height1 = pStyle.height1 + 'px';
-    // }
+    pStyle.borderWidths = [1,1,1,1];
     if(pStyle.showBorder){
         if(pStyle.showBorder[0]) {
             pStyle.borderTop = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
         } else {
+            pStyle.borderWidths[0] = 0;
             pStyle.borderTopColor = "#FFF";
         }
         if(pStyle.showBorder[1]) {
             pStyle.borderBottom = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
         } else {
+            pStyle.borderWidths[1] = 0;
             style.borderBottomColor = "#FFF";
         }
         if(pStyle.showBorder[2]) {
             pStyle.borderLeft = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
         } else{
+            pStyle.borderWidths[2] = 0;
             style.borderLeftColor = "#FFF";
         }
         if(pStyle.showBorder[3]) {
             pStyle.borderRight = pStyle.borderSize + 'px solid ' + pStyle.borderColor;
         }else {
+            pStyle.borderWidths[3] = 0;
             pStyle.borderRightColor = "#FFF";
         }
     }

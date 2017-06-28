@@ -7,7 +7,7 @@ import {HuePicker,AlphaPicker,Twitter} from 'react-color'
 export default class ColorPicker1 extends Component{
     constructor(){
         super();
-        this.colorArr = ["#000000","#FF0000","#FF7F00","#FFFF00","#00FF00","#00FFFF","#0000FF","#A020F0"];
+        this.colorArr = ["#000000","#FF0000","#FF7F00","#FFFF00","#00B150","#00FFFF","#0000FF","#A020F0"];
         this.state = {color:'#red'}
     }
 

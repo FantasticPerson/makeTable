@@ -80,7 +80,7 @@ export default class ComponentStyleEditor extends Component{
             <div style={{
                 position: 'absolute',
                 marginLeft: '25px',
-                marginTop: '240px',
+                marginTop: '180px',
                 backgroundColor: '#FFF',
                 border: '1px solid #eee',
                 width: '452px',

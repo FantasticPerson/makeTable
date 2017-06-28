@@ -311,13 +311,13 @@ class FormPage extends Component{
                 let clientWidthArr = [];
                 let clientHeightArr = [];
                 for(let i=1;i<tds.length;i++){
-                    const {clientWidth,clientHeight} = tds[i];
-                    clientWidthArr.push(clientWidth);
-                    clientHeightArr.push(clientHeight);
+                    const {offsetWidth,offsetHeight} = tds[i];
+                    clientWidthArr.push(offsetWidth);
+                    clientHeightArr.push(offsetHeight);
                 }
                 for(let i=0;i<clientWidthArr.length;i++){
-                    tds[i+1].style.width = (Math.ceil(clientWidthArr[i])  -2) + 'px';
-                    tds[i+1].style.height = (Math.ceil(clientHeightArr[i]) -2) + 'px';
+                    tds[i+1].style.width = (Math.ceil(clientWidthArr[i])) + 'px';
+                    tds[i+1].style.height = (Math.ceil(clientHeightArr[i])) + 'px';
                 }
 
                 if(window['true_form_exportData_outer']){
