@@ -226,7 +226,7 @@ export function onContextMenuShow(item,pageX,pageY,component=null) {
 export function getNode(tdIds,index=0){
     if(this.mockType == 0) {
         let cStyle = findItem(this.styleArr,'id',this.styleId);
-        const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix} = this.posInfo;
+        const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix,x,y} = this.posInfo;
         let width = (Math.ceil(tWidth/tCol)) * cCol;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
         let col = tRow == cRow ? 1 : cCol;
@@ -237,6 +237,15 @@ export function getNode(tdIds,index=0){
         style.width = getStyle.width ? getStyle.width : style.width;
         let getStyle2 = {...getStyleObj(cStyle,this.style),...style};
         getStyle2.width = getStyle2.width ? getStyle2.width :width+'px';
+        getStyle2.borderWidth = '1px';
+        if(x == tCol){
+            getStyle2.width = '1px';
+            getStyle2.borderWidth = '0px'
+        }
+        if(y == tRow){
+            getStyle2.height = '1px';
+            getStyle2.borderWidth = '0px'
+        }
         getStyle2.boxSizing = "border-box";
         delete getStyle2.width1;
         delete getStyle2.height1;
@@ -251,9 +260,15 @@ export function getNode(tdIds,index=0){
         components.splice(this.valueIndex,0,valueArr);
         return (
             <td colSpan={col} key={index} rowSpan={row} style={getStyle2} data-borders={getStyle2.borderWidths} onDoubleClick={(e)=>{
+                    if(x == tCol || y == tRow){
+                        return;
+                    }
                     this.onTdClick(this.id);
                 }} onContextMenu={(e)=>{
                     e.preventDefault();
+                    if(x == tCol || y == tRow){
+                        return;
+                    }
                     if (bgColor == '#eeeeee') {
                         this.onTdContext({pageX: e.pageX, pageY: e.pageY,id:this.id,deleteTd:this.deleteTd,addTd:this.addTd});
                     } else {
@@ -261,8 +276,14 @@ export function getNode(tdIds,index=0){
                     }
                 }} onDragOver={(e)=>{
                     e.preventDefault();
+                    if(x == tCol || y == tRow){
+                        return;
+                    }
                 }} onDrop={(e)=>{
                     this.onComponentDrop(this.id,e.dataTransfer.getData("text/plain"));
+                    if(x == tCol || y == tRow){
+                        return;
+                    }
                 }}>{components}
             </td>
         )

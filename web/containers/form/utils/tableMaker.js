@@ -136,6 +136,18 @@ export function initTds(recoverData){
                 return this.createTd(null,null,item2);
             }))
         });
+        
+    }
+    if(tdArr[0].length < col+1){
+        for(let i=0;i<tdArr.length;i++){
+            tdArr[i][tdArr[i].length] = this.createTd(tdArr[i].length,i);
+        }
+        let xNum = tdArr[0].length;
+        let yNum = tdArr.length;
+        tdArr.push([]);
+        for(let i=0;i<xNum;i++){
+            tdArr[yNum][i] = this.createTd(i,yNum,null);
+        }
     }
     let headData = recoverData ? recoverData.header : null;
     let styleId = headData ? headData.styleId : this.styleId;
@@ -495,10 +507,10 @@ export function setTdSize(){
                 minHeight = minHeight > cHeight ? cHeight : minHeight;
                 totalXLength += cWidth;
                 this.tds[i][j].posInfo.cCol = cWidth;
-                this.tds[i][j].posInfo.tCol = xLength;
+                this.tds[i][j].posInfo.tCol = xLength-1;
                 this.tds[i][j].posInfo.cRow = cHeight;
                 this.tds[i][j].posInfo.cRowFix = false;
-                this.tds[i][j].posInfo.tRow = yLength;
+                this.tds[i][j].posInfo.tRow = yLength-1;
                 arrTds.push(this.tds[i][j]);
             }
         }
@@ -603,6 +615,7 @@ export function addTd(id,isRow,isBefore) {
             this.header.setColSpan(this.tds[0].length);
             // this.posInfo.col = this.tds[0].length;
         }
+        this.setTdSize();
     }
 }
 
@@ -661,6 +674,7 @@ export function deleteTd(id,isRow){
             this.header.setColSpan(this.tds[0].length);
             // this.posInfo.col = this.tds[0].length;
         }
+        this.setTdSize();
     }
 }
 
@@ -681,7 +695,7 @@ export function getBorderColor(){
 }
 
 export function getNode(ids){
-    const {col} = this.posInfo;
+    const {col,row} = this.posInfo;
     let trArr = [];
     this.tds.map((tdSub,index)=>{
         let tdArr2 = [];
@@ -697,11 +711,11 @@ export function getNode(ids){
     });
     let headerNode = this.header.getNode();
     const {width,height} = this.posInfo;
-    let style = {width:Math.ceil(width/col) * col};
+    let style = {width:Math.ceil(width/col) * col+3,height:Math.ceil(height/row)*row+3};
     style.border = '0';
     style.borderColor = this.getBorderColor();
     style.boxSizing = "border-box";
-    return (
+    return ( 
         <div style={{
             marginTop: '10px',
             overflow: 'auto',

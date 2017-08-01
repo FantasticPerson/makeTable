@@ -2,7 +2,7 @@
  * Created by wdd on 2016/12/10.
  */
 import React,{Component,PropTypes} from 'react'
-import {editorTextPicker,editorTextAreaPicker} from '../../const'
+import {editorTextPicker} from '../../const'
 import StyleEditorItemPicker from './itemPicker/styleEditorItemPicker'
 
 export default class TextSetEditor extends Component{
@@ -21,7 +21,9 @@ export default class TextSetEditor extends Component{
         return (
             <div style={{backgroundColor:'#FFF'}}>
                 <div className="style-component-item-style">
-                    <StyleEditorItemPicker ref="textPicker" type={editorTextPicker} title="内容编辑" data={{text:defaultText}}/>
+                    <StyleEditorItemPicker ref="textPicker"
+                                           type={editorTextPicker} title="内容编辑"
+                                           data={{text:defaultText}}/>
                 </div>
             </div>
         )
