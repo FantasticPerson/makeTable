@@ -62,6 +62,7 @@ export function registerFunc(functionArray){
     this.getBorderColor = getBorderColor;
     this.setRowHeight = setRowHeight;
     this.setColWidth = setColWidth;
+    this.checkCanInsert = checkCanInsert;
 }
 
 export function setRowHeight(id,height2){
@@ -553,31 +554,21 @@ export function addTd(id,isRow,isBefore) {
     let beforeTds = cloneDataArray(this.tds);
     let item = this.getItemById(id);
     if(item){
+        if(!this.checkCanInsert(item,isRow,isBefore)){
+            return;
+        }
+        const {x,y} = item.posInfo;
         if(isRow){
             let length = this.tds[0].length;
             let iHeight = this.getItemHeight(item);
-            const {x,y} = item.posInfo;
-            let tdArr = this.tds[y];
+            
             let i = 0;
-            while(i<tdArr.length){
-                let item = tdArr[i];
-                let width1 = this.getItemWidth(item,true);
-                let height1 = this.getItemHeight(item,true);
-                if(height1 != iHeight){
-                    return false;
-                }
-                i += width1;
-            }
-            if(!isBefore) {
-                this.tds.splice(y + 1, 0, []);
-            } else {
-                this.tds.splice(y,0,[]);
-            }
-            let insertY = isBefore ? y : y+1;
+            let insertY = isBefore ? y : y+iHeight;
+            let startY = isBefore ? y+1 : y+iHeight+1;
+            this.tds.splice(insertY,0,[]);
             for (let i = 0; i < length; i++) {
                 this.tds[insertY][i] = this.createTd(i, insertY, null);
             }
-            let startY = isBefore ? y+1 : y+2;
             for (let i = startY; i < this.tds.length; i++) {
                 for (let j = 0; j < this.tds[i].length; j++) {
                     this.tds[i][j].posInfo.y += 1;
@@ -588,19 +579,9 @@ export function addTd(id,isRow,isBefore) {
             this.posInfo.row = this.posInfo.row+1;
         } else {
             let iWidth = this.getItemWidth(item);
-            const {x,y} = item.posInfo;
             let i=0;
-            while (i<this.tds.length){
-                let item = this.tds[i][x];
-                let width1 = this.getItemWidth(item);
-                let height1 = this.getItemHeight(item);
-                if(iWidth != width1){
-                    return false;
-                }
-                i += height1;
-            }
-            let insertX = isBefore ? x : x+1;
-            let startX = isBefore ? x+1 : x+2;
+            let insertX = isBefore ? x : x+iWidth;
+            let startX = isBefore ? x+1 : x+iWidth+1;
             for(let i=0;i<this.tds.length;i++){
                 this.tds[i].splice(insertX,0,this.createTd(insertX, i, null));
                 for(let j=startX;j<this.tds[i].length;j++){
@@ -613,11 +594,41 @@ export function addTd(id,isRow,isBefore) {
         }
         if(this.tds[0]) {
             this.header.setColSpan(this.tds[0].length);
-            // this.posInfo.col = this.tds[0].length;
         }
         this.setTdSize();
     }
 }
+
+export function checkCanInsert(item,row,isBefore){
+    const {x,y} = item.posInfo;
+    let width = this.getItemWidth(item);
+    let height = this.getItemHeight(item);
+    let startY , startX;
+    if(row){
+        startX = 0;
+        startY = isBefore ? y : y+height;
+        while(startX < this.tds[startY].length){
+            if(this.tds[startY][startX].mockType == 0){
+                startX += this.getItemWidth(this.tds[startY][startX]);
+            } else {
+                return false;
+            }
+        }
+    } else {
+        startX = isBefore ? x : x+width;
+        startY = 0;
+        while(startY < this.tds.length){
+            if(this.tds[startY][startX].mockType == 0){
+                startY += this.getItemHeight(this.tds[startY][startX]);
+            } else {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 
 export function deleteTd(id,isRow){
     let beforeTds = cloneDataArray(this.tds);
