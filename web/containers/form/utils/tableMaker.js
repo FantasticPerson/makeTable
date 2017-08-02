@@ -21,6 +21,15 @@ export default class tableMaker extends Object {
             this.styleId = recoverData.styleId;
             this.styleArr = styleArr;
             this.posInfo = recoverData.posInfo;
+
+            let tds1 = recoverData.tds[0];
+            if(tds1[tds1.length-1].placeHolder){
+                this.posInfo.row = recoverData.tds.length-1;
+                this.posInfo.col = tds1.length-1;
+            } else {
+                this.posInfo.row = recoverData.tds.length;
+                this.posInfo.col = tds1.length;
+            }
         }
         this.dispatch = dispatch;
         this.registerFunc = registerFunc;
@@ -137,17 +146,16 @@ export function initTds(recoverData){
                 return this.createTd(null,null,item2);
             }))
         });
-        
     }
     if(tdArr[0].length < col+1){
         for(let i=0;i<tdArr.length;i++){
-            tdArr[i][tdArr[i].length] = this.createTd(tdArr[i].length,i);
+            tdArr[i][tdArr[i].length] = this.createTd(tdArr[i].length,i,null,true);
         }
         let xNum = tdArr[0].length;
         let yNum = tdArr.length;
         tdArr.push([]);
         for(let i=0;i<xNum;i++){
-            tdArr[yNum][i] = this.createTd(i,yNum,null);
+            tdArr[yNum][i] = this.createTd(i,yNum,null,true);
         }
     }
     let headData = recoverData ? recoverData.header : null;
@@ -156,7 +164,7 @@ export function initTds(recoverData){
     this.tds = tdArr;
 }
 
-export function createTd(x,y,recoverData){
+export function createTd(x,y,recoverData,isPlaceHolder=false){
     let functionArray = {
         onTdClick: this.onTdClick,
         onTdContext: this.onTdContext,
@@ -172,9 +180,11 @@ export function createTd(x,y,recoverData){
     if(!recoverData) {
         const {row, col, width, height} = this.posInfo;
         let posInfo = {x: x, y: y, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
-        return new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch,this.setRowHeight.bind(this),this.setColWidth.bind(this));
+        return new tdMaker(posInfo, this.id++, this.styleArr, this.styleId, 0, functionArray, this.dispatch,this.setRowHeight.bind(this),this.setColWidth.bind(this),null,isPlaceHolder);
     } else {
-        return new tdMaker(null,null,this.styleArr,this.styleId,null,functionArray,this.dispatch,this.setRowHeight.bind(this),this.setColWidth.bind(this),recoverData);
+        const {row, col, width, height} = this.posInfo;
+        let posInfo = {x: x, y: y, cCol: 1, tCol: col, cRow: 1, tRow: row, tWidth: width, tHeight: height};
+        return new tdMaker(posInfo,null,this.styleArr,this.styleId,null,functionArray,this.dispatch,this.setRowHeight.bind(this),this.setColWidth.bind(this),recoverData,isPlaceHolder);
     }
 }
 

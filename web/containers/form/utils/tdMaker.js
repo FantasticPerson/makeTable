@@ -15,11 +15,16 @@ import * as operationTypes from '../utils/history/operationType'
 import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox} from '../const'
 
 export default class tdMaker extends Object{
-    constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,setRowHeight,setColWidth,recoverData) {
+    constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,setRowHeight,setColWidth,recoverData,isPlaceHolder=false) {
         super();
         this.state = {choose: false};
         this.id = recoverData ? recoverData.id : id;
         this.posInfo = recoverData ? recoverData.posInfo : posInfo;
+        if(posInfo){
+            this.posInfo.tCol = posInfo.tCol;
+            this.posInfo.tRow = posInfo.tRow;
+        }
+        this.placeHolder = (recoverData && recoverData.hasOwnProperty('placeHolder')) ?  recoverData.placeHolder : isPlaceHolder;
         this.styleArr = styleArr;
         this.style = recoverData ? recoverData.style : {
             height: 60,
@@ -146,7 +151,9 @@ export function exportData(){
         componentId:this.componentId,
         posInfo:this.posInfo,
         value:this.value,
-        valueIndex:this.valueIndex
+        valueIndex:this.valueIndex,
+        placeHolder:this.placeHolder
+
     }
 }
 
@@ -229,8 +236,8 @@ export function getNode(tdIds,index=0){
         const {cCol,tCol,cRow,tRow,tWidth,tHeight,cRowFix,x,y} = this.posInfo;
         let width = (Math.ceil(tWidth/tCol)) * cCol;
         let bgColor = tdIds.indexOf(this.id)>= 0 ? '#eeeeee' : '#ffffff';
-        let col = tRow == cRow ? 1 : cCol;
-        let row = (cRowFix || cCol == tCol) ? 1 : cRow;
+        let col = cCol;
+        let row = cRow;
         let style = {};
         style.backgroundColor = bgColor;
         let getStyle = getStyleObj(cStyle,{...this.style});
