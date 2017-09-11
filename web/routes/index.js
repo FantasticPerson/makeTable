@@ -26,7 +26,6 @@ const index = {
     indexRoute: {
         onEnter: (nextState, replace)=>replace('/formPage')
     }
-
 };
 
 export default index;

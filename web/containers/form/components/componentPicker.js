@@ -68,6 +68,42 @@ export default class ComponentPicker extends Component{
                             <span>{'下拉框'}</span>
                         </div>
                     </div>
+                    <div className="true-form-tool-bar-component-body-line-3">
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'common-words')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-common-word" style={{marginLeft:'15px',marginTop:'14px'}}></div>
+                            <span>{'常用语'}</span>
+                        </div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'date')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-canlender" style={{marginLeft:'17px',marginTop:'12px'}}></div>
+                            <span>{'日期'}</span>
+                        </div>
+                    </div>
+                    <div className="true-form-tool-bar-component-body-line-3">
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'location')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-location" style={{marginLeft:'15px',marginTop:'14px'}}></div>
+                            <span>{'位置'}</span>
+                        </div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'picture')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-picture" style={{marginLeft:'17px',marginTop:'12px'}}></div>
+                            <span>{'图片'}</span>
+                        </div>
+                    </div>
+                    <div className="true-form-tool-bar-component-body-line-3">
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'audio')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-audio" style={{marginLeft:'15px',marginTop:'14px'}}></div>
+                            <span>{'声音'}</span>
+                        </div>
+                        <div className="true-form-tool-bar-component-outer true-form-tool-tip" draggable="true" onDragStart={(e)=>{this.onDragStart(e,'video')}}
+                        onDragEnd={e=>{this.onDragEnd(e)}}>
+                            <div className="true-form-tool-bar-component-video" style={{marginLeft:'17px',marginTop:'12px'}}></div>
+                            <span>{'视频'}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

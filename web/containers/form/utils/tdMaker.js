@@ -8,11 +8,18 @@ import InputMaker from './componentMaker/inputMaker'
 import DropBoxMaker from './componentMaker/dropBoxMaker'
 import CheckBoxMaker from './componentMaker/checkBoxMaker'
 import RadioBoxMaker from './componentMaker/radioBoxMaker'
+import CommonWords from './componentMaker/commonWords'
+import AudioUploader from './componentMaker/audioUploader'
+import VideoUploader from './componentMaker/videoUploader'
+import PictureUploader from './componentMaker/picUploader'
+import DatePlugin from './componentMaker/datePlugin'
+import LocateLocation from './componentMaker/getLocation'
 
 import {getStyleObj,cloneData} from './data-helper'
 import {findItem} from '../../../utils/compatibaleApi'
 import * as operationTypes from '../utils/history/operationType'
-import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox} from '../const'
+import {componentInput,componentTextArea,componentDropBox,componentTd,componentText,componentCheckBox,componentRadioBox
+,componentLocation,componentPicture,componentCommonWords,componentDate,componentAudio,componentVideo} from '../const'
 
 export default class tdMaker extends Object{
     constructor(posInfo,id,styleArr,styleId,mockType,functionArray,dispatch,setRowHeight,setColWidth,recoverData,isPlaceHolder=false) {
@@ -63,6 +70,18 @@ export default class tdMaker extends Object{
                     this.componentArray.push(new CheckBoxMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
                 } else if(item.type == componentRadioBox){
                     this.componentArray.push(new RadioBoxMaker(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentCommonWords){
+                    this.componentArray.push(new CommonWords(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentAudio){
+                    this.componentArray.push(new AudioUploader(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentDate){
+                    this.componentArray.push(new DatePlugin(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));            
+                } else if(item.type == componentLocation){
+                    this.componentArray.push(new LocateLocation(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentPicture){
+                    this.componentArray.push(new PictureUploader(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));
+                } else if(item.type == componentVideo){
+                    this.componentArray.push(new VideoUploader(null, this.id, this.styleArr, null, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}, item));                    
                 }
             })
         }
@@ -93,6 +112,7 @@ export function registerFunc(functionArray){
 }
 
 export function insertComponent(type,styleArr,styleId){
+    console.log(type);
     let beforeTd = cloneData(this);
     if(type == componentInput){
         this.componentArray.push(new InputMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
@@ -106,6 +126,18 @@ export function insertComponent(type,styleArr,styleId){
         this.componentArray.push(new CheckBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
     } else if(type == componentRadioBox){
         this.componentArray.push(new RadioBoxMaker(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+    } else if (type == componentLocation) {
+        this.componentArray.push(new LocateLocation(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}));
+    } else if (type == componentPicture) {
+        this.componentArray.push(new PictureUploader(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}))        
+    } else if (type == componentCommonWords) {
+        this.componentArray.push(new CommonWords(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}))
+    } else if (type == componentDate) {
+        this.componentArray.push(new DatePlugin(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}))        
+    } else if (type == componentAudio) {
+        this.componentArray.push(new AudioUploader(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}))        
+    } else if (type == componentVideo) {
+        this.componentArray.push(new VideoUploader(this.componentId++, this.id, this.styleArr, styleId, {onComponentClick:this.onComponentContext, onDelete:this.onDeleteComponent,afterUpdateStyle:this.afterUpdateStyle,addHistoryItem:this.addNewHistory,addNewCancelHistory:this.addNewCancelHistory}))        
     } else {
         return;
     }
@@ -247,9 +279,11 @@ export function getNode(tdIds,index=0){
         getStyle2.borderWidth = '1px';
         if(x == tCol){
             getStyle2.width = '1px';
+            getStyle2.height = '';
             getStyle2.borderWidth = '0px'
         }
         if(y == tRow){
+            getStyle2.width = '';
             getStyle2.height = '1px';
             getStyle2.borderWidth = '0px'
         }

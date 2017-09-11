@@ -9,7 +9,8 @@ import TdStyleEditor from './componentStyleEditors/tdStyleEditor'
 import InputStyleEditor from './componentStyleEditors/inputStyleEditor'
 import DropBoxStyleEditor from './componentStyleEditors/dropBoxStyleEditor'
 import CheckBoxStyleEditor from './componentStyleEditors/checkBoxStyleEditor'
-import {componentText,componentTextArea,componentInput,componentDropBox,componentTd,componentRadioBox,componentCheckBox} from '../const'
+import {componentText,componentTextArea,componentInput,componentDropBox,componentTd,componentRadioBox,componentCheckBox,componentCommonWords
+,componentAudio,componentVideo,componentPicture,componentDate,componentLocation} from '../const'
 
 export default class ComponentRightClickModal extends Component{
     constructor(){
@@ -38,9 +39,11 @@ export default class ComponentRightClickModal extends Component{
             textValue:data.value,
             valueIndex:data.valueIndex
         };
-        if(data.type == componentText || data.type == componentInput || data.type == componentTextArea){
+        if(data.type == componentText || data.type == componentInput || data.type == componentTextArea
+            || data.type == componentAudio || data.type == componentVideo || 
+            data.type == componentPicture || data.type ==  componentDate ||data.type == componentLocation){
             return <InputStyleEditor data={{onDelete:data.onDelete,...transferData}}/>
-        } else if(data.type == componentDropBox){
+        } else if(data.type == componentDropBox || data.type == componentCommonWords ){
             return <DropBoxStyleEditor data={{onDelete:data.onDelete,...transferData}}/>
         } else if(data.type == componentTd){
             return <TdStyleEditor data={transferData}/>
