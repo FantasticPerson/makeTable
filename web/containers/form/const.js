@@ -83,6 +83,13 @@ export const componentDropBox = 'dropBox';
 export const componentCheckBox = 'checkBox';
 export const componentRadioBox = 'radioBox';
 export const componentTd = 'td';
+export const componentLocation = 'location';
+export const componentPicture = 'picture';
+export const componentCommonWords = 'common-words';
+export const componentDate = 'date';
+export const componentAudio = 'audio';
+export const componentVideo = 'video';
+//componentLocation,componentPicture,componentCommonWords,componentDate,componentAudio,componentVideo
 
 export const editorNumberPicker = 'numberPicker';
 export const editorNumberSetter = 'numberSetter';

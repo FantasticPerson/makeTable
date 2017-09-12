@@ -15,6 +15,7 @@ import ModuleContainer from './components/module/moduleContainer'
 import saveAs from 'save-as'
 import * as operationType from './utils/history/operationType'
 import {cloneDataArray} from './utils/data-helper'
+// import {tableModuleArray} from './utils/tableModules'
 
 class FormPage extends Component{
     constructor(){
@@ -56,7 +57,7 @@ class FormPage extends Component{
             let recoverData = text.slice(index+"<div class='recoverData' style='display: none'>".length,index2-1);
             importDataFunc(recoverData);
         }.bind(this);
-        this.props.dispatch(getTempModule(1,function(data){
+        /*this.props.dispatch(getTempModule(1,function(data){
             const {currentStyleId, formStyleList} = data.data;
             this.props.dispatch(resetStyleList(formStyleList));
             this.props.dispatch(updateCurrentStyleId(currentStyleId));
@@ -75,7 +76,9 @@ class FormPage extends Component{
                 let tableObj2 = new tableMaker(null, functionArray, formStyleList, null, this.props.dispatch, tableObjData);
                 this.setState({tableObj: tableObj2, showModuleView: false});
             }.bind(this),50);
-        }.bind(this)));
+        }.bind(this)));*/
+        let moduleData = tableModuleArray[tableModuleArray.length-1];
+        this.importDataFromModule(moduleData,false);
         window.addEventListener('resize', this.handleResize.bind(this));
         window.dispatchEvent(new Event('true_form_ready'));
     }
@@ -348,12 +351,12 @@ class FormPage extends Component{
         }
     }
 
-    importDataFromModule(data){
+    importDataFromModule(data,showAlert=true){
         this.historyList = [];
         this.backHistoryList = [];
         const {tableObj} = this.state;
         let importDataFunc = importData.bind(this);
-        if(tableObj){
+        if(tableObj &&　showAlert){
             this.props.dispatch(showOverLayByName(overLayNames.PROMPT_MODAL,{content:'继续会丢失当前的工作，确认继续吗？',cb:function(isTrue){
                 if(isTrue){
                     importDataFunc(data);

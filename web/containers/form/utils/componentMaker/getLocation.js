@@ -13,7 +13,7 @@ export default class locateLocation extends ComponentMaker{
         super(id,tdId,styleArr,styleId,funcArray,recoverData);
         this.type = componentLocation;
         this.value = recoverData ? recoverData.value:'';
-        this.style = recoverData ? recoverData.style : {width1:13,height1:13,width:180,height:90};
+        this.style = recoverData ? recoverData.style : {width1:13,height1:13,width:720,height:30};
         this.getNode = getNode;
         this.getLocation = getLocation;
 
@@ -70,7 +70,7 @@ export function getNode(index){
             this.onContextMenuShow(e.currentTarget,e.pageX,e.pageY);
         }}>
                 <div className="true-form-tool-bar-component-location-btn" style={{display: "inline-block"}}></div>
-                {this.value+'；当前时间：'+cTime}
+                {'江苏省 南京市 江东北路176号'+'；当前时间：'+cTime}
             </div>
         )
     }

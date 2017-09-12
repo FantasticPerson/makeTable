@@ -10,7 +10,7 @@ export default class CommonWords extends ComponentMaker{
         super(id,tdId,styleArr,styleId,funcArray,recoverData);
         this.type = componentCommonWords;
         this.value = '';
-        this.style = recoverData ? recoverData.style : {dataArray: [], width: 80, height: 42};
+        this.style = recoverData ? recoverData.style : {dataArray: ['同意','不同意'], width: 80, height: 42};
         this.getNode = getNode;
     }
 }
